@@ -2,17 +2,13 @@ import axios from "axios";
 
 const instanceAxios = axios.create({
     withCredentials: true,
-    baseURL: "https://localhost:44378/api",
+    baseURL: "https://localhost:44395",
 })
 
-export type ResultType = {
+export type ResponseType<D = {}> = {
+    result: D,
     succeeded: boolean,
     errorMessage: string
-}
-
-export type ResponseType<D = {}> = {
-    data: D,
-    result: ResultType | null
 }
 
 export default instanceAxios;
