@@ -9,7 +9,6 @@ export type InitialStateType = {
     pageSize: number
     pageNumber: number
     totalBookCount: number | null
-    currentPage: number
     books: Array<Book>,
     currentBook: Book
 }
@@ -18,20 +17,19 @@ let initialState: InitialStateType = {
     pageSize: 5,
     pageNumber: 1,
     totalBookCount: 0,
-    currentPage: 1,
     books: [] as Array<Book>,
     currentBook: {} as Book,
 }
 
-const UPDATE_CURRENT_PAGE = "UPDATE_CURRENT_PAGE";
+const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
 const SET_BOOKS_DATA = "SET_BOOKS_DATA";
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case UPDATE_CURRENT_PAGE:
+        case UPDATE_PAGE_NUMBER:
             return {
                 ...state,
-                currentPage: action.newCurrentPage
+                pageNumber: action.newPageNumber
             }
         case SET_BOOKS_DATA:
             return {
@@ -43,11 +41,11 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
     }
 }
 
-type UpdateCurrentPageType = {
-    type: typeof UPDATE_CURRENT_PAGE, newCurrentPage: number
+type UpdatePageNumberType = {
+    type: typeof UPDATE_PAGE_NUMBER, newPageNumber: number
 }
-export const updateCurrentPage = (newCurrentPage: number): UpdateCurrentPageType => ({
-    type: UPDATE_CURRENT_PAGE, newCurrentPage: newCurrentPage
+export const updateCurrentPage = (newPageNumber: number): UpdatePageNumberType => ({
+    type: UPDATE_PAGE_NUMBER, newPageNumber: newPageNumber
 })
 
 type SetBooksDataType = {
@@ -57,16 +55,17 @@ export const setBooksDataType = (books: Array<Book>): SetBooksDataType => ({
     type: SET_BOOKS_DATA, books: books
 })
 
-type ActionsTypes = UpdateCurrentPageType | SetBooksDataType;
+type ActionsTypes = UpdatePageNumberType | SetBooksDataType;
+type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
-export const getBooksRequestThunkCreator = (currentPage: number, pageSize: number): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>) => {
-        let skip = calculateSkip(currentPage, pageSize);
-        let respnse = await bookApi.getBooks(skip, pageSize);
-        dispatch(setBooksDataType(respnse.data))
+export const getBooksRequestThunkCreator = (): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        let state = getState().book;
+        let skip = calculateSkip(state.pageNumber, state.pageSize);
+        let respnse = await bookApi.getBooks(skip, state.pageSize);
+        dispatch(setBooksDataType(respnse.result))
     }
 }
-
 
 export default bookReducer;
