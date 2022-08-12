@@ -3,7 +3,7 @@ import thunkMiddleware from "redux-thunk"
 import bookReducer from './book-reducer'
 
 let rootReducer = combineReducers({
-    book: bookReducer
+    bookStore: bookReducer
 });
 
 type RootReducer = typeof rootReducer
