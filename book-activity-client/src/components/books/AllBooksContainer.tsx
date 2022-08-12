@@ -4,22 +4,22 @@ import { connect } from "react-redux";
 import { getBooksRequestThunkCreator } from "../../redux/book-reducer";
 import { getBooks, getPageNumber, getPageSize } from "../../redux/book-selectors";
 import { AppStoreType } from "../../redux/redux-store";
-import Books from "./Books";
-import { Book } from "../../types/bookType";
+import AllBooks from "./AllBooks";
+import { BookType } from "../../types/bookType";
 
-const BooksContainer: React.FC<PropsType> = (props) => {
+const AllBooksContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {
         props.getBooks();
-    })
+    }, [])
     return (
-        <Books {...props}></Books>
+        <AllBooks {...props}></AllBooks>
     );
 }
 
 type MapStateToPropsType = {
     pageNumber: number,
     pageSize: number,
-    books: Array<Book>
+    books: Array<BookType>
 }
 
 type MapDispatchToPropsType = {
@@ -40,4 +40,4 @@ const mapDispatchToProps = {
 
 export default compose<React.ComponentType>(
     connect<MapStateToPropsType, MapDispatchToPropsType, null, AppStoreType>(mapStateToProps, mapDispatchToProps)
-)(BooksContainer);
+)(AllBooksContainer);

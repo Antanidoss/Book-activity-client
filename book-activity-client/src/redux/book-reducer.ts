@@ -1,4 +1,4 @@
-import { Book } from '../types/bookType'
+import { BookType } from '../types/bookType'
 import { AppStoreType } from './redux-store'
 import { ThunkAction } from 'redux-thunk'
 import { Dispatch } from "redux";
@@ -9,16 +9,16 @@ export type InitialStateType = {
     pageSize: number
     pageNumber: number
     totalBookCount: number | null
-    books: Array<Book>,
-    currentBook: Book
+    books: Array<BookType>,
+    currentBook: BookType
 }
 
 let initialState: InitialStateType = {
     pageSize: 5,
     pageNumber: 1,
     totalBookCount: 0,
-    books: [] as Array<Book>,
-    currentBook: {} as Book,
+    books: [] as Array<BookType>,
+    currentBook: {} as BookType,
 }
 
 const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
@@ -49,9 +49,9 @@ export const updateCurrentPage = (newPageNumber: number): UpdatePageNumberType =
 })
 
 type SetBooksDataType = {
-    type: typeof SET_BOOKS_DATA, books: Array<Book>
+    type: typeof SET_BOOKS_DATA, books: Array<BookType>
 }
-export const setBooksDataType = (books: Array<Book>): SetBooksDataType => ({
+export const setBooksDataType = (books: Array<BookType>): SetBooksDataType => ({
     type: SET_BOOKS_DATA, books: books
 })
 
@@ -61,7 +61,7 @@ type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const getBooksRequestThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let state = getState().book;
+        let state = getState().bookStore;
         let skip = calculateSkip(state.pageNumber, state.pageSize);
         let respnse = await bookApi.getBooks(skip, state.pageSize);
         dispatch(setBooksDataType(respnse.result))

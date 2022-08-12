@@ -2,3 +2,9 @@ body {
     padding: 0;
     margin: 0;
 }
+
+.site-layout-content {
+    min-height: 100%;
+    padding: 24px;
+    background: #fff;
+  }
