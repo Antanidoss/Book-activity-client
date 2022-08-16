@@ -5,25 +5,10 @@ import AllBooksContainer from './components/books/AllBooksContainer'
 import { Link, Route, Routes } from 'react-router-dom'
 import { Layout } from 'antd';
 import { NotificationOutlined } from '@ant-design/icons';
+import { siderStyles, bookActivityFontStyles } from './MainStyles';
 
 const App: React.FC = () => {
     const { Sider, Content, Header } = Layout;
-
-    const siderStyles: CSSProperties = {
-        overflow: "auto",
-        height: "100vh",
-        position: "fixed",
-        left: 0,
-        top: 0,
-        bottom: 0
-    }
-
-    const bookActivityFontStyles: CSSProperties = {
-        display: "inline",
-        fontFamily: "Pacifico, cursive",
-        fontSize: "30px",
-        color: "white"
-    }
 
     return (
         <>

@@ -16,7 +16,7 @@ const Navbar = () => {
                 <Link to="#">USER NAME</Link>
             </Menu.Item>
             <Menu.Item key={2} icon={React.createElement(BookOutlined)}>
-                <Link to="#">MY ACTIVE BOOKS</Link>
+                <Link to="#">ACTIVE BOOKS</Link>
             </Menu.Item>
             <Menu.Item key={3} icon={React.createElement(BookOutlined)}>
                 <Link to={"/books"}>BOOKS</Link>
