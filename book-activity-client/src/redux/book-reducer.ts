@@ -1,9 +1,9 @@
-import { BookType } from '../types/bookType'
-import { AppStoreType } from './redux-store'
-import { ThunkAction } from 'redux-thunk'
+import { BookType } from '../types/bookType';
+import { AppStoreType } from './redux-store';
+import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
 import { bookApi } from '../api/bookApi';
-import { calculateSkip } from '../pagination/pagination'
+import { calculateSkip } from '../pagination/pagination';
 
 export type InitialStateType = {
     pageSize: number

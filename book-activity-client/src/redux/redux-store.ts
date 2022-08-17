@@ -1,9 +1,11 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunkMiddleware from "redux-thunk"
 import bookReducer from './book-reducer'
+import userReducer from "./user-reducer";
 
 let rootReducer = combineReducers({
-    bookStore: bookReducer
+    bookStore: bookReducer,
+    userStore: userReducer
 });
 
 type RootReducer = typeof rootReducer
