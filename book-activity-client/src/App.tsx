@@ -1,11 +1,12 @@
 import './App.css';
-import React, { CSSProperties } from 'react'
-import Navbar from './components/navbar/Navbar'
+import React from 'react'
 import AllBooksContainer from './components/books/AllBooksContainer'
 import { Link, Route, Routes } from 'react-router-dom'
 import { Layout } from 'antd';
 import { NotificationOutlined } from '@ant-design/icons';
 import { siderStyles, bookActivityFontStyles } from './MainStyles';
+import NavbarContainer from './components/navbar/NavbarContainer';
+import LoginContainer from './components/account/login/LoginContainer';
 
 const App: React.FC = () => {
     const { Sider, Content, Header } = Layout;
@@ -15,9 +16,9 @@ const App: React.FC = () => {
             <link rel="preconnect" href="https://fonts.googleapis.com"></link>
             <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"></link>
 
-            <Layout hasSider>
+            <Layout hasSider style={{minHeight: "100%"}}>
                 <Sider style={siderStyles}>
-                    <Navbar></Navbar>
+                    <NavbarContainer></NavbarContainer>
                 </Sider>
 
                 <Layout style={{ marginLeft: "200px" }}>
@@ -32,6 +33,9 @@ const App: React.FC = () => {
                     <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
                         <Routes>
                             <Route path="/books" element={<AllBooksContainer />}></Route>
+                        </Routes>
+                        <Routes>
+                            <Route path="/login" element={<LoginContainer />}></Route>
                         </Routes>
                     </Content>
                 </Layout>

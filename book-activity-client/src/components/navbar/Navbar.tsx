@@ -1,20 +1,23 @@
 import React from 'react';
-import classes from './Navbar.module.css'
 import { Link } from 'react-router-dom'
 import { Menu } from "antd";
 import {
     UserOutlined,
     BarChartOutlined,
     TeamOutlined,
-    BookOutlined
+    BookOutlined,
+    LoginOutlined
 } from "@ant-design/icons";
+import { PropsType } from '../navbar/NavbarContainer';
 
-const Navbar = () => {
+const Navbar: React.FC<PropsType> = (props) => {
     return (
         <Menu theme="dark" mode="inline" style={{ alignContent: 'center' }}>
-            <Menu.Item key={1} icon={React.createElement(UserOutlined)} style={{ marginTop: "64px" }}>
-                <Link to="#">USER NAME</Link>
-            </Menu.Item>
+            {
+                props.isAuthenticated
+                    ? <Menu.Item key={1} icon={React.createElement(UserOutlined)} style={{ marginTop: "64px" }}><Link to="#">{props.userName}</Link></Menu.Item>
+                    : <Menu.Item key={1} icon={React.createElement(LoginOutlined)} style={{ marginTop: "64px" }}><Link to="/login">LOGIN</Link></Menu.Item>
+            }
             <Menu.Item key={2} icon={React.createElement(BookOutlined)}>
                 <Link to="#">ACTIVE BOOKS</Link>
             </Menu.Item>
