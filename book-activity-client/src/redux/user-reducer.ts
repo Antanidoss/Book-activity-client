@@ -15,6 +15,7 @@ let initialState: InitialStateType = {
 }
 
 const SET_CURRENT_USER_DATA = "SET_CURRENT_USER_DATA";
+const SET_AUTHENTICATED_STATUS = "SET_AUTHENTICATED_STATUS";
 
 const userReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -26,27 +27,43 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     name: action.name
                 }
             }
+            case SET_AUTHENTICATED_STATUS:
+                return {
+                    ...state,
+                    isAuthenticated: action.isAuthenticated
+                }
             default:
                 return state;
     }
 }
 
-type SetCurrentUserDataType = {
-    type: typeof SET_CURRENT_USER_DATA, name: string, email: string
+type SetAuthenticatedStatus = {
+    type: typeof SET_AUTHENTICATED_STATUS, isAuthenticated: boolean
 }
+
+export const setAuthenticatedStatus = (isAuthenticated: boolean): SetAuthenticatedStatus => ({
+    type: SET_AUTHENTICATED_STATUS, isAuthenticated: isAuthenticated
+})
 
 export const setCurrentUserData = (userName: string, email: string): SetCurrentUserDataType => ({
     type: SET_CURRENT_USER_DATA, name: userName, email: email
 })
 
-type ActionsTypes = SetCurrentUserDataType;
+type SetCurrentUserDataType = {
+    type: typeof SET_CURRENT_USER_DATA, name: string, email: string
+}
+
+type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatus;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const authRequestThunkCreator = (email: string, paswword: string, rememberMe: boolean): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         let response = await userApi.auth(email, paswword, rememberMe);
-        dispatch(setCurrentUserData(response.result.userName, response.result.email));
+        if (response.success) {
+            dispatch(setAuthenticatedStatus(true));
+            dispatch(setCurrentUserData(response.result.userName, response.result.email));
+        }
     }
 }
 
