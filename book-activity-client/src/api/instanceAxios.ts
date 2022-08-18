@@ -7,7 +7,7 @@ const instanceAxios = axios.create({
 
 export type ResponseType<D = {}> = {
     result: D,
-    succeeded: boolean,
+    success: boolean,
     errorMessage: string
 }
 

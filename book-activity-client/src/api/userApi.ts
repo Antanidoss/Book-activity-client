@@ -9,7 +9,7 @@ type AuthUserResponseType = {
 
 export const userApi = {
     auth(email: string, password: string, rememberMe: boolean) {
-        return instanceAxios.post<ResponseType<AuthUserResponseType>>("/appUser/authentication", { email, password, rememberMe })
+        return instanceAxios.post<ResponseType<AuthUserResponseType>>("/user/authentication", { email, password, rememberMe })
             .then(r => r.data)
     }
 }
