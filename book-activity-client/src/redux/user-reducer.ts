@@ -67,4 +67,14 @@ export const authRequestThunkCreator = (email: string, paswword: string, remembe
     }
 }
 
+export const getCurrentUserRequestThunkCreator = (): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        let response = await userApi.getCurrentUser();
+        if (response.success) {
+            dispatch(setAuthenticatedStatus(true));
+            dispatch(setCurrentUserData(response.result.userName, response.result.email));
+        }
+    }
+}
+
 export default userReducer;
