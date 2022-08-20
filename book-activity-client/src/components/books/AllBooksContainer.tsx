@@ -11,9 +11,7 @@ const AllBooksContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {
         props.getBooks();
     }, [])
-    return (
-        <AllBooks {...props}></AllBooks>
-    );
+    return <AllBooks {...props}></AllBooks>
 }
 
 type MapStateToPropsType = {
