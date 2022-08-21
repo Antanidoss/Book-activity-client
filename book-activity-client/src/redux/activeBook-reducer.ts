@@ -4,6 +4,7 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
 import { activeBookApi } from '../api/activeBookApi';
 import { ActiveBook } from '../types/activeBookType';
+import { calculateSkip } from '../pagination/pagination';
 
 export type InitialStateType = {
     pageSize: number
@@ -20,6 +21,7 @@ let initialState: InitialStateType = {
 }
 
 const ADD_ACTIVE_BOOK = "ADD_ACTIVE_BOOK";
+const SET_ACTIVE_BOOKS = "SET_ACTIVE_BOOKS";
 
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
@@ -35,6 +37,11 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                 ...state,
                 activeBooks: state.activeBooks.concat(activeBook)
             }
+            case SET_ACTIVE_BOOKS:
+                return {
+                    ...state,
+                    activeBooks: actions.activeBooks
+                }
         default:
             return state;
     }
@@ -48,7 +55,15 @@ const addActiveBook = (id: string, numberPagesRead: number, totalNumberPages: nu
     type: ADD_ACTIVE_BOOK, id: id, numberPagesRead: numberPagesRead, totalNumberPages: totalNumberPages, bookId: bookId
 })
 
-type ActionsTypes = AddActiveBookType;
+type SetActiveBooksType = {
+    type: typeof SET_ACTIVE_BOOKS, activeBooks: Array<ActiveBook>
+}
+
+const setActiveBooks = (activeBooks: Array<ActiveBook>): SetActiveBooksType => ({
+    type: SET_ACTIVE_BOOKS, activeBooks: activeBooks
+})
+
+type ActionsTypes = AddActiveBookType | SetActiveBooksType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -56,6 +71,15 @@ export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalN
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         let response = await activeBookApi.addActiveBook(totalNumberPages, numberPagesRead, bookId);
         dispatch(addActiveBook("", numberPagesRead, totalNumberPages, bookId))
+    }
+}
+
+export const getActiveBooksByCurrentUserThunkCreator = (): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const state = getState().activeBookStore;
+        let skip = calculateSkip(state.pageNumber, state.pageSize);
+        let response = await activeBookApi.getActiveBooksByCurrentUser(skip, state.pageSize);
+        dispatch(setActiveBooks(response.result));
     }
 }
 

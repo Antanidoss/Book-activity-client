@@ -1,12 +1,11 @@
 import React from "react"
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export const withAuthRedirect = (Component: React.ComponentType<any>) => {
     function RedirectComponent<P extends { isAuthenticated: boolean }>(props: P) {
-        let navigate = useNavigate();
 
         if (!props.isAuthenticated)
-            return navigate("/login");
+            return <Navigate to="/login"></Navigate>;
 
         return <Component { ...props }></Component>
     }
