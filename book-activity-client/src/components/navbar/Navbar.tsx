@@ -19,7 +19,7 @@ const Navbar: React.FC<PropsType> = (props) => {
                     : <Menu.Item key={1} icon={React.createElement(LoginOutlined)} style={{ marginTop: "64px" }}><Link to="/login">LOGIN</Link></Menu.Item>
             }
             <Menu.Item key={2} icon={React.createElement(BookOutlined)}>
-                <Link to="#">ACTIVE BOOKS</Link>
+                <Link to="/activeBooks">ACTIVE BOOKS</Link>
             </Menu.Item>
             <Menu.Item key={3} icon={React.createElement(BookOutlined)}>
                 <Link to={"/books"}>BOOKS</Link>

@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { initializeThunkCreator } from './redux/app-reducer';
 import { getInitialized } from './redux/app-selectors';
+import AllCurUserActiveBooksContainer from './components/activeBook/AllCurUserActiveBooksContainer';
 
 const App: React.FC<PropsType> = (props) => {
     const { Sider, Content, Header } = Layout;
@@ -46,6 +47,9 @@ const App: React.FC<PropsType> = (props) => {
                         </Routes>
                         <Routes>
                             <Route path="/login" element={<LoginContainer />}></Route>
+                        </Routes>
+                        <Routes>
+                            <Route path="/activeBooks" element={<AllCurUserActiveBooksContainer />}></Route>
                         </Routes>
                     </Content>
                 </Layout>
