@@ -29,12 +29,9 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
       footer={[
         <Button key="back" onClick={handleCancel}>
           Cancel
-        </Button>,
-        <Button key="submit" type="primary">
-          Submit
-        </Button>,
+        </Button>
       ]}>
-      <Form onFinish={handleOk}>
+      <Form id="addActiveBookForm" onFinish={handleOk}>
         <Form.Item
           label="Total number pages"
           name="totalNumberPages"
@@ -47,6 +44,9 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
           rules={[{ required: true, message: "Please input number pages read!" }]}>
           <Input />
         </Form.Item>
+        <Button key="submit" type="primary" htmlType="submit">
+          Submit
+        </Button>
       </Form>
     </Modal>
   </>

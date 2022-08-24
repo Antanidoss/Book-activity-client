@@ -1,4 +1,3 @@
-import { BookType } from '../types/bookType';
 import { AppStoreType } from './redux-store';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
@@ -30,29 +29,30 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                 id: actions.id,
                 numberPagesRead: actions.numberPagesRead,
                 totalNumberPages: actions.totalNumberPages,
-                bookId: actions.bookId
+                bookId: actions.bookId,
+                imageData: actions.imageData
             }
 
             return {
                 ...state,
                 activeBooks: state.activeBooks.concat(activeBook)
             }
-            case SET_ACTIVE_BOOKS:
-                return {
-                    ...state,
-                    activeBooks: actions.activeBooks
-                }
+        case SET_ACTIVE_BOOKS:
+            return {
+                ...state,
+                activeBooks: actions.activeBooks
+            }
         default:
             return state;
     }
 }
 
 type AddActiveBookType = {
-    type: typeof ADD_ACTIVE_BOOK, id: string, numberPagesRead: number, totalNumberPages: number, bookId: string
+    type: typeof ADD_ACTIVE_BOOK, id: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer
 }
 
-const addActiveBook = (id: string, numberPagesRead: number, totalNumberPages: number, bookId: string): AddActiveBookType => ({
-    type: ADD_ACTIVE_BOOK, id: id, numberPagesRead: numberPagesRead, totalNumberPages: totalNumberPages, bookId: bookId
+const addActiveBook = (id: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer): AddActiveBookType => ({
+    type: ADD_ACTIVE_BOOK, id: id, numberPagesRead: numberPagesRead, totalNumberPages: totalNumberPages, bookId: bookId, imageData: imageData
 })
 
 type SetActiveBooksType = {
@@ -70,7 +70,12 @@ type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalNumberPages: number, bookId: string): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         let response = await activeBookApi.addActiveBook(totalNumberPages, numberPagesRead, bookId);
-        dispatch(addActiveBook("", numberPagesRead, totalNumberPages, bookId))
+        if (response.success) {
+            const state = getState().activeBookStore;
+            const skip = calculateSkip(state.pageNumber, state.pageSize);
+            const getActiveBookResponse = await activeBookApi.getActiveBooksByCurrentUser(skip, state.pageSize);
+            getActiveBookResponse.result.forEach(a => dispatch(addActiveBook(a.id, a.numberPagesRead, a.totalNumberPages, a.bookId, a.imageData)))
+        }
     }
 }
 
