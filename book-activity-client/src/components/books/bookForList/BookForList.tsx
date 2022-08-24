@@ -7,10 +7,6 @@ import { bookMain, bookTitle } from './BookForListStyles';
 import AddActiveBookContainer, { OwnProps } from '../../activeBook/addActiveBook/AddActiveBookContainer';
 
 const Book: React.FC<BookType> = (props) => {
-    let ownProps: OwnProps = {
-        bookId: props.id
-    }
-
     return (
         <Col span={6}>
             <Col span={24} style={bookMain}>
