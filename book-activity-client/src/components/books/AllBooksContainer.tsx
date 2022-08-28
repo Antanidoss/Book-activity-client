@@ -7,7 +7,7 @@ import { AppStoreType } from "../../redux/redux-store";
 import AllBooks from "./AllBooks";
 import { BookType } from "../../types/bookType";
 
-const AllBooksContainer: React.FC<PropsType> = (props) => {
+const AllBooksContainer: React.FC<PropsType> = (props, bookId: string) => {
     useEffect(() => {
         props.getBooks();
     }, [])
