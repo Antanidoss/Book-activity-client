@@ -4,7 +4,7 @@ import { Col } from 'antd'
 import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
 import { bookMain, bookTitle } from './BookForListStyles';
-import AddActiveBookContainer, { OwnProps } from '../../activeBook/addActiveBook/AddActiveBookContainer';
+import AddActiveBookContainer from '../../activeBook/addActiveBook/AddActiveBookContainer';
 
 const Book: React.FC<BookType> = (props) => {
     return (
@@ -19,7 +19,7 @@ const Book: React.FC<BookType> = (props) => {
                     </Col>
                 </Link>
                 <Col span={12} style={{ top: "60px" }}>
-                    <AddActiveBookContainer />
+                    <AddActiveBookContainer bookId={props.id} />
                 </Col>
             </Col>
         </Col>
