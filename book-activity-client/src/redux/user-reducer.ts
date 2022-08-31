@@ -23,6 +23,7 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 currentUser: {
+                    id: action.id,
                     email: action.email,
                     name: action.name
                 }
@@ -45,12 +46,12 @@ export const setAuthenticatedStatus = (isAuthenticated: boolean): SetAuthenticat
     type: SET_AUTHENTICATED_STATUS, isAuthenticated: isAuthenticated
 })
 
-export const setCurrentUserData = (userName: string, email: string): SetCurrentUserDataType => ({
-    type: SET_CURRENT_USER_DATA, name: userName, email: email
+export const setCurrentUserData = (id: string, userName: string, email: string): SetCurrentUserDataType => ({
+    type: SET_CURRENT_USER_DATA, id: id, name: userName, email: email
 })
 
 type SetCurrentUserDataType = {
-    type: typeof SET_CURRENT_USER_DATA, name: string, email: string
+    type: typeof SET_CURRENT_USER_DATA, id: string, name: string, email: string
 }
 
 type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatus;
@@ -62,7 +63,8 @@ export const authRequestThunkCreator = (email: string, paswword: string, remembe
         let response = await userApi.auth(email, paswword, rememberMe);
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
-            dispatch(setCurrentUserData(response.result.userName, response.result.email));
+            let result = response.result;
+            dispatch(setCurrentUserData(result.userId, result.userName, result.email));
         }
     }
 }
@@ -72,7 +74,8 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
         let response = await userApi.getCurrentUser();
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
-            dispatch(setCurrentUserData(response.result.userName, response.result.email));
+            let result = response.result;
+            dispatch(setCurrentUserData(result.userId, result.userName, result.email));
         }
     }
 }

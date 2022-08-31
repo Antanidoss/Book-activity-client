@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookType } from '../../../types/bookType';
-import { Col } from 'antd'
+import { Button, Col } from 'antd'
 import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
 import { bookMain, bookTitle } from './BookForListStyles';
@@ -19,7 +19,11 @@ const Book: React.FC<BookType> = (props) => {
                     </Col>
                 </Link>
                 <Col span={12} style={{ top: "60px" }}>
-                    <AddActiveBookContainer bookId={props.id} />
+                    {
+                        props.isActiveBook
+                            ? <Button type="primary">Is active</Button>
+                            : <AddActiveBookContainer bookId={props.id} /> 
+                    }
                 </Col>
             </Col>
         </Col>

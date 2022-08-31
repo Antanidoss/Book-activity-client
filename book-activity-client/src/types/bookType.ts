@@ -2,5 +2,6 @@ export type BookType = {
 	id: string,
 	title: string,
 	description: string,
-	imageData: ArrayBuffer
+	imageData: ArrayBuffer,
+	isActiveBook: boolean
 }
