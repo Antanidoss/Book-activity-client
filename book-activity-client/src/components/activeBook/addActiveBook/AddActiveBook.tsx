@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Modal, Input } from 'antd';
+import { Button, Form, Modal, Input, message } from 'antd';
 import { PropsType } from './AddActiveBookContainer';
 
 const AddActiveBook: React.FC<PropsType> = (props) => {
@@ -15,8 +15,10 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   };
 
   const handleOk = (addActiveBookType: AddActiveBookType) => {
-    props.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, props.bookId);
-    setIsModalVisible(false);
+    props.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, props.bookId)
+      .then(message.success("The book has been successfully added to active", 6))
+      
+      setIsModalVisible(false);
   };
 
   const handleCancel = () => {

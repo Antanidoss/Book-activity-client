@@ -2,12 +2,14 @@ import instanceAxios from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 
 type AuthUserResponseType = {
+    userId: string,
     userName: string,
     email: string,
     token: string
 }
 
 type CurrentUserType = {
+    userId: string,
     userName: string,
     email: string,
     token: string
