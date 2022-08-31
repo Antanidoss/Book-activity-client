@@ -8,7 +8,7 @@ import AddActiveBookContainer from '../../activeBook/addActiveBook/AddActiveBook
 
 const Book: React.FC<BookType> = (props) => {
     return (
-        <Col span={6}>
+        <Col span={5}>
             <Col span={24} style={bookMain}>
                 <Link to={"#"} style={{ color: "black" }}>
                     <Col span={24} style={bookTitle}>{props.title}</Col>

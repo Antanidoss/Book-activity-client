@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
@@ -10,6 +10,9 @@ import { ActiveBook } from '../../types/activeBookType';
 import AllCurUserActiveBooks from './AllCurUserActiveBooks';
 
 const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
+    useEffect(() => {
+        props.getActiveBooks();
+    },[])
     return <AllCurUserActiveBooks {...props} />
 }
 
