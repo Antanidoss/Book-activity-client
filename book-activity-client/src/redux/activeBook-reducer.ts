@@ -26,6 +26,7 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
     switch (actions.type) {
         case ADD_ACTIVE_BOOK:
             let activeBook: ActiveBook = {
+                bookName: actions.bookName,
                 id: actions.id,
                 numberPagesRead: actions.numberPagesRead,
                 totalNumberPages: actions.totalNumberPages,
@@ -48,11 +49,11 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
 }
 
 type AddActiveBookType = {
-    type: typeof ADD_ACTIVE_BOOK, id: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer
+    type: typeof ADD_ACTIVE_BOOK, id: string, bookName: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer
 }
 
-const addActiveBook = (id: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer): AddActiveBookType => ({
-    type: ADD_ACTIVE_BOOK, id: id, numberPagesRead: numberPagesRead, totalNumberPages: totalNumberPages, bookId: bookId, imageData: imageData
+const addActiveBook = (id: string, bookName: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer): AddActiveBookType => ({
+    type: ADD_ACTIVE_BOOK, id: id, bookName: bookName, numberPagesRead: numberPagesRead, totalNumberPages: totalNumberPages, bookId: bookId, imageData: imageData
 })
 
 type SetActiveBooksType = {
@@ -74,7 +75,7 @@ export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalN
             const state = getState().activeBookStore;
             const skip = calculateSkip(state.pageNumber, state.pageSize);
             const getActiveBookResponse = await activeBookApi.getActiveBooksByCurrentUser(skip, state.pageSize);
-            getActiveBookResponse.result.forEach(a => dispatch(addActiveBook(a.id, a.numberPagesRead, a.totalNumberPages, a.bookId, a.imageData)))
+            getActiveBookResponse.result.forEach(a => dispatch(addActiveBook(a.id, a.bookName, a.numberPagesRead, a.totalNumberPages, a.bookId, a.imageData)))
         }
     }
 }
