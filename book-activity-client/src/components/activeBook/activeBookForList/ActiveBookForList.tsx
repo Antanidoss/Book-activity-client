@@ -1,8 +1,9 @@
-import { Button, Col, Progress, Row } from "antd";
+import { Col, Progress, Row } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import { ActiveBook } from "../../../types/activeBookType";
 import { bookMain, bookTitle } from "../../books/bookForList/BookForListStyles";
+import UpdateActiveBookContainer from "../updateActiveBook/UpdateActiveBookContainer";
 
 const ActiveBookForList: React.FC<ActiveBook> = (props) => {
     let progressPercent: number =  Math.round(props.numberPagesRead /props.totalNumberPages * 100);
@@ -23,7 +24,7 @@ const ActiveBookForList: React.FC<ActiveBook> = (props) => {
                         <Progress percent={progressPercent}  />
                     </Col>
                     <Col span={4}>
-                        <Button shape="round" type="primary">Edit</Button>
+                        <UpdateActiveBookContainer activeBookId={props.id} />
                     </Col>
                 </Row>
             </Col>

@@ -21,6 +21,7 @@ let initialState: InitialStateType = {
 
 const ADD_ACTIVE_BOOK = "ADD_ACTIVE_BOOK";
 const SET_ACTIVE_BOOKS = "SET_ACTIVE_BOOKS";
+const UPDATE_ACTIVE_BOOK = "UPDATE_ACTIVE_BOOK";
 
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
@@ -43,6 +44,14 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                 ...state,
                 activeBooks: actions.activeBooks
             }
+            case UPDATE_ACTIVE_BOOK:
+                let updateActiveBookIndex = state.activeBooks.findIndex((a) => a.id == actions.activeBookId);
+                state.activeBooks[updateActiveBookIndex].numberPagesRead = actions.numberPagesRead;
+
+                return {
+                    ...state,
+                    activeBooks: state.activeBooks
+                }
         default:
             return state;
     }
@@ -51,7 +60,6 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
 type AddActiveBookType = {
     type: typeof ADD_ACTIVE_BOOK, id: string, bookName: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer
 }
-
 const addActiveBook = (id: string, bookName: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer): AddActiveBookType => ({
     type: ADD_ACTIVE_BOOK, id: id, bookName: bookName, numberPagesRead: numberPagesRead, totalNumberPages: totalNumberPages, bookId: bookId, imageData: imageData
 })
@@ -59,12 +67,18 @@ const addActiveBook = (id: string, bookName: string, numberPagesRead: number, to
 type SetActiveBooksType = {
     type: typeof SET_ACTIVE_BOOKS, activeBooks: Array<ActiveBook>
 }
-
 const setActiveBooks = (activeBooks: Array<ActiveBook>): SetActiveBooksType => ({
     type: SET_ACTIVE_BOOKS, activeBooks: activeBooks
 })
 
-type ActionsTypes = AddActiveBookType | SetActiveBooksType;
+type UpdateActiveBookType = {
+    type: typeof UPDATE_ACTIVE_BOOK, activeBookId: string, numberPagesRead: number
+}
+const updateActiveBook = (activeBookId: string, numberPagesRead: number): UpdateActiveBookType => ({
+    type: UPDATE_ACTIVE_BOOK, activeBookId: activeBookId, numberPagesRead: numberPagesRead 
+})
+
+type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -88,5 +102,12 @@ export const getActiveBooksByCurrentUserThunkCreator = (): ThunkType => {
         dispatch(setActiveBooks(response.result));
     }
 }
+
+export const updateActiveBookThunkCreator = (activeBookId: string, numberPagesRead: number): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        let response = await activeBookApi.updateActiveBook(activeBookId, numberPagesRead);
+        dispatch(updateActiveBook(activeBookId, numberPagesRead));
+    }
+} 
 
 export default activeBookReducer;
