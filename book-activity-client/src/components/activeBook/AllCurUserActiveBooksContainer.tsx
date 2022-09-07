@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { getActiveBooksByCurrentUserThunkCreator } from '../../redux/activeBook-reducer';
+import { getActiveBooksByCurrentUserThunkCreator, removeActiveBookThunkCreator } from '../../redux/activeBook-reducer';
 import { getActiveBooks } from '../../redux/activeBook-selectors';
 import { AppStoreType } from '../../redux/redux-store';
 import { getIsAuthenticated } from '../../redux/user-selectors';
@@ -12,16 +12,18 @@ import AllCurUserActiveBooks from './AllCurUserActiveBooks';
 const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {
         props.getActiveBooks();
-    }, [props.activeBooks])
+    })
     return <AllCurUserActiveBooks {...props} />
 }
 
 type MapDispatchToPropsType = {
-    getActiveBooks: typeof getActiveBooksByCurrentUserThunkCreator
+    getActiveBooks: typeof getActiveBooksByCurrentUserThunkCreator,
+    removeActiveBook: typeof removeActiveBookThunkCreator
 }
 
 const mapDispatchToProps = {
-    getActiveBooks: getActiveBooksByCurrentUserThunkCreator
+    getActiveBooks: getActiveBooksByCurrentUserThunkCreator,
+    removeActiveBook: removeActiveBookThunkCreator
 }
 
 type MapStateToPropsType = {

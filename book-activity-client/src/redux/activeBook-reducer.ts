@@ -22,6 +22,7 @@ let initialState: InitialStateType = {
 const ADD_ACTIVE_BOOK = "ADD_ACTIVE_BOOK";
 const SET_ACTIVE_BOOKS = "SET_ACTIVE_BOOKS";
 const UPDATE_ACTIVE_BOOK = "UPDATE_ACTIVE_BOOK";
+const REMOVE_ACTIVE_BOOK = "REMOVE_ACTIVE_BOOK";
 
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
@@ -52,6 +53,12 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                     ...state,
                     activeBooks: state.activeBooks
                 }
+                case REMOVE_ACTIVE_BOOK:
+                    state.activeBooks.splice(state.activeBooks.findIndex(a => a.id == actions.activeBookId), 1);
+
+                    return {
+                        ...state
+                    }
         default:
             return state;
     }
@@ -78,7 +85,14 @@ const updateActiveBook = (activeBookId: string, numberPagesRead: number): Update
     type: UPDATE_ACTIVE_BOOK, activeBookId: activeBookId, numberPagesRead: numberPagesRead 
 })
 
-type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType;
+type RemoveActiveBookType = {
+    type: typeof REMOVE_ACTIVE_BOOK, activeBookId: string
+}
+const removeActiveBook = (activeBookId: string): RemoveActiveBookType => ({
+    type: REMOVE_ACTIVE_BOOK, activeBookId: activeBookId
+})
+
+type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType | RemoveActiveBookType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -105,9 +119,16 @@ export const getActiveBooksByCurrentUserThunkCreator = (): ThunkType => {
 
 export const updateActiveBookThunkCreator = (activeBookId: string, numberPagesRead: number): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let response = await activeBookApi.updateActiveBook(activeBookId, numberPagesRead);
+        await activeBookApi.updateActiveBook(activeBookId, numberPagesRead);
         dispatch(updateActiveBook(activeBookId, numberPagesRead));
     }
 } 
+
+export const removeActiveBookThunkCreator = (activeBookId: string): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        await activeBookApi.removeActiveBook(activeBookId);
+        dispatch(removeActiveBook(activeBookId))
+    }
+}
 
 export default activeBookReducer;
