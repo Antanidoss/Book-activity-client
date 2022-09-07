@@ -12,7 +12,7 @@ import AllCurUserActiveBooks from './AllCurUserActiveBooks';
 const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {
         props.getActiveBooks();
-    },[])
+    }, [props.activeBooks])
     return <AllCurUserActiveBooks {...props} />
 }
 
