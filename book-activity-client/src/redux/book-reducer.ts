@@ -23,6 +23,7 @@ let initialState: InitialStateType = {
 
 const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
 const SET_BOOKS_DATA = "SET_BOOKS_DATA";
+const SET_ACTIVE_BOOK_STATUS = "SET_ACTIVE_BOOK_STATUS";
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -36,6 +37,20 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 ...state,
                 books: action.books
             }
+            case SET_ACTIVE_BOOK_STATUS:
+                return {
+                    ...state,
+                    books: state.books.map(b => {
+                        if (b.id == action.bookId){
+                            return {
+                                ...b,
+                                isActiveBook: true
+                            }
+                        }
+
+                        return b;
+                    })
+                }
         default:
             return state;
     }
@@ -55,7 +70,14 @@ export const setBooksDataType = (books: Array<BookType>): SetBooksDataType => ({
     type: SET_BOOKS_DATA, books: books
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksDataType;
+type SetActiveBookStatusType = {
+    type: typeof SET_ACTIVE_BOOK_STATUS, bookId: string
+}
+export const setActiveBookStatus = (bookId: string): SetActiveBookStatusType => ({
+    type: SET_ACTIVE_BOOK_STATUS, bookId: bookId
+}) 
+
+type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 

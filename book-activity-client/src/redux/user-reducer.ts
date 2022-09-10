@@ -66,6 +66,9 @@ export const authRequestThunkCreator = (email: string, paswword: string, remembe
             let result = response.result;
             dispatch(setCurrentUserData(result.userId, result.userName, result.email));
         }
+        else {
+            // Отправка сообщение на офрму
+        }
     }
 }
 

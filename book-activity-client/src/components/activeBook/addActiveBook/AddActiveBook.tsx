@@ -17,6 +17,7 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   const handleOk = (addActiveBookType: AddActiveBookType) => {
     props.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, props.bookId)
       .then(message.success("The book has been successfully added to active", 6))
+      .then(_ => props.setActiveBookStatus(props.bookId))
       
       setIsModalVisible(false);
   };

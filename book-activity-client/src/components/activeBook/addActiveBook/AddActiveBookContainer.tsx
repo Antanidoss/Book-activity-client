@@ -4,6 +4,7 @@ import { addActiveBookRequestThunkCreator } from "../../../redux/activeBook-redu
 import { AppStoreType } from '../../../redux/redux-store'
 import AddActiveBook from './AddActiveBook'
 import { InferableComponentEnhancerWithProps } from 'react-redux'
+import { setActiveBookStatus } from '../../../redux/book-reducer'
 
 const AddActiveBookContainer: React.FC<PropsType> = (props) => {
     return <AddActiveBook {...props}/>
@@ -14,11 +15,13 @@ export type OwnPropsType = {
 }
 
 type MapDispatchToPropsType = {
-    addActiveBook: typeof addActiveBookRequestThunkCreator
+    addActiveBook: typeof addActiveBookRequestThunkCreator,
+    setActiveBookStatus: typeof setActiveBookStatus
 }
 
 const mapDispatchToProps = {
-    addActiveBook: addActiveBookRequestThunkCreator
+    addActiveBook: addActiveBookRequestThunkCreator,
+    setActiveBookStatus: (bookId: string) => setActiveBookStatus(bookId)
 }
 
 type MapStateToPropsType = {
