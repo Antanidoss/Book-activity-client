@@ -46,18 +46,24 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                 activeBooks: actions.activeBooks
             }
             case UPDATE_ACTIVE_BOOK:
-                let updateActiveBookIndex = state.activeBooks.findIndex((a) => a.id == actions.activeBookId);
-                state.activeBooks[updateActiveBookIndex].numberPagesRead = actions.numberPagesRead;
 
                 return {
                     ...state,
-                    activeBooks: state.activeBooks
+                    activeBooks: state.activeBooks.map(a => {
+                        if (a.id == actions.activeBookId){
+                            return {
+                                ...a,
+                                numberPagesRead: actions.numberPagesRead
+                            }
+                        }
+
+                        return a;
+                    })
                 }
                 case REMOVE_ACTIVE_BOOK:
-                    state.activeBooks.splice(state.activeBooks.findIndex(a => a.id == actions.activeBookId), 1);
-
                     return {
-                        ...state
+                        ...state,
+                        activeBooks: state.activeBooks.filter(a => a.id != actions.activeBookId)
                     }
         default:
             return state;
@@ -100,6 +106,7 @@ export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalN
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         let response = await activeBookApi.addActiveBook(totalNumberPages, numberPagesRead, bookId);
         if (response.success) {
+            //Нужно возвращать id активной книги
             const state = getState().activeBookStore;
             const skip = calculateSkip(state.pageNumber, state.pageSize);
             const getActiveBookResponse = await activeBookApi.getActiveBooksByCurrentUser(skip, state.pageSize);

@@ -12,7 +12,7 @@ import AllCurUserActiveBooks from './AllCurUserActiveBooks';
 const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {
         props.getActiveBooks();
-    })
+    }, [])
     return <AllCurUserActiveBooks {...props} />
 }
 
@@ -23,7 +23,7 @@ type MapDispatchToPropsType = {
 
 const mapDispatchToProps = {
     getActiveBooks: getActiveBooksByCurrentUserThunkCreator,
-    removeActiveBook: removeActiveBookThunkCreator
+    removeActiveBook: removeActiveBookThunkCreator,
 }
 
 type MapStateToPropsType = {

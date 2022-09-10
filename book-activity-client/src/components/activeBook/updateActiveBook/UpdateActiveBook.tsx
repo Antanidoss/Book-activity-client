@@ -8,6 +8,7 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
     }
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [numberPagesRead, setNumberPagesRead] = useState(props.numberPagesRead);
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -17,6 +18,7 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
         props.updateActiveBook(props.activeBookId, updateActiveBookType.numberPagesRead)
             .then(message.success("The active book has been successfully updated", 6))
 
+        setNumberPagesRead(updateActiveBookType.numberPagesRead)
         setIsModalVisible(false);
     };
 
@@ -37,7 +39,7 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
                     label="Total number pages"
                     name="numberPagesRead"
                     rules={[{ required: true, message: "Please input number pages read!" }]}>
-                    <Input />
+                    <Input value={numberPagesRead} />
                 </Form.Item>
                 <Button key="submit" type="primary" htmlType="submit">
                     Submit

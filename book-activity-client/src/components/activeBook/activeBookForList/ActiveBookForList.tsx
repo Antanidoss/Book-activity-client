@@ -1,13 +1,12 @@
 import { Button, Col, message, Progress, Row } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
-import { ActiveBook } from "../../../types/activeBookType";
 import { bookMain, bookTitle } from "../../books/bookForList/BookForListStyles";
 import UpdateActiveBookContainer from "../updateActiveBook/UpdateActiveBookContainer";
 import {
     DeleteOutlined
 } from "@ant-design/icons";
-import { removeActiveBookThunkCreator } from "../../../redux/activeBook-reducer";
+import { PropsType } from "./ActiveBookForListContainer";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const onClickRemoveActiveBook = () => {
@@ -33,7 +32,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 </Col>
                 <Row>
                     <Col span={4} style={{ marginTop: "20px" }}>
-                        <UpdateActiveBookContainer activeBookId={props.activeBook.id} />
+                        <UpdateActiveBookContainer numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} />
                     </Col>
                     <Col span={4} style={{ marginTop: "20px" }}>
                         <Button shape="round" type="primary" icon={React.createElement(DeleteOutlined)} onClick={onClickRemoveActiveBook} />
@@ -42,11 +41,6 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
             </Col>
         </Col>
     )
-}
-
-export type PropsType = { 
-    activeBook: ActiveBook,
-    removeActiveBook: typeof removeActiveBookThunkCreator
 }
 
 export default ActiveBookForList;

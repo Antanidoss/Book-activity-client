@@ -1,38 +1,38 @@
 import React from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
-import { updateActiveBookThunkCreator } from '../../../redux/activeBook-reducer';
+import { removeActiveBookThunkCreator } from '../../../redux/activeBook-reducer';
 import { AppStoreType } from '../../../redux/redux-store';
-import UpdateActiveBook from './UpdateActiveBook';
+import { ActiveBook } from '../../../types/activeBookType';
+import ActiveBookForList from './ActiveBookForList';
 
-const UpdateActiveBookContainer: React.FC<PropsType> = (props) => {
-    return <UpdateActiveBook {...props} />
+const ActiveBookForListContainer: React.FC<PropsType> = (props) => {
+    return (
+        <ActiveBookForList {...props} />
+    )
 }
 
 type MapDispatchToPropsType = {
-    updateActiveBook: typeof updateActiveBookThunkCreator,
+    removeActiveBook: typeof removeActiveBookThunkCreator,
 }
 
-const mapDispatchToProps = {
-    updateActiveBook: updateActiveBookThunkCreator,
+const mapDispatchToProps =  {
+    removeActiveBook: removeActiveBookThunkCreator,
 }
 
 type MapStateToPropsType = {
-    activeBookId: string,
-    numberPagesRead: number
+    activeBook: ActiveBook
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
-    activeBookId: ownProps.activeBookId,
-    numberPagesRead: ownProps.numberPagesRead
+    activeBook: ownProps.activeBook
 })
 
 type OwnPropsType = {
-    activeBookId: string,
-    numberPagesRead: number
+    activeBook: ActiveBook,
 }
 
 type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 
-export default connectStore(UpdateActiveBookContainer)
+export default connectStore(ActiveBookForListContainer)

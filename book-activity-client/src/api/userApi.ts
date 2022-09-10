@@ -19,7 +19,9 @@ export const userApi = {
     auth(email: string, password: string, rememberMe: boolean) {
         return instanceAxios.post<ResponseType<AuthUserResponseType>>("/user/authentication", { email, password, rememberMe })
             .then(r => {
-                localStorage.setItem("Authorization", r.data.result.token);
+                if (r.data.result != null)
+                    localStorage.setItem("Authorization", r.data.result.token);
+                    
                 return r.data;
             })
     },
