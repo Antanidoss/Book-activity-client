@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { getActiveBooksByCurrentUserThunkCreator, removeActiveBookThunkCreator } from '../../redux/activeBook-reducer';
-import { getActiveBooks } from '../../redux/activeBook-selectors';
+import { getActiveBooks, getPageNumber, getTotalActiveBookCount } from '../../redux/activeBook-selectors';
 import { AppStoreType } from '../../redux/redux-store';
 import { getIsAuthenticated } from '../../redux/user-selectors';
 import { ActiveBook } from '../../types/activeBookType';
@@ -28,12 +28,16 @@ const mapDispatchToProps = {
 
 type MapStateToPropsType = {
     activeBooks: Array<ActiveBook>,
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
+    pageNumber: number,
+    totalActiveBookCount: number
 }
 
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     activeBooks: getActiveBooks(state),
-    isAuthenticated: getIsAuthenticated(state)
+    isAuthenticated: getIsAuthenticated(state),
+    pageNumber: getPageNumber(state),
+    totalActiveBookCount: getTotalActiveBookCount(state)
 })
 
 export type PropsType = MapStateToPropsType & MapDispatchToPropsType;

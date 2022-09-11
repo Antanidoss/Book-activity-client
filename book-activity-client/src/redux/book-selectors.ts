@@ -11,3 +11,7 @@ export const getPageSize = (state: AppStoreType) => {
 export const getBooks = (state: AppStoreType) => {
     return state.bookStore.books;
 }
+
+export const getTotalBookCount = (state: AppStoreType) => {
+    return state.bookStore.totalBookCount;
+}
