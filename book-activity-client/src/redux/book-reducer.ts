@@ -8,7 +8,7 @@ import { calculateSkip } from '../pagination/pagination';
 export type InitialStateType = {
     pageSize: number
     pageNumber: number
-    totalBookCount: number | null
+    totalBookCount: number
     books: Array<BookType>,
     currentBook: BookType
 }
@@ -35,7 +35,8 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
         case SET_BOOKS_DATA:
             return {
                 ...state,
-                books: action.books
+                books: action.books,
+                totalBookCount: action.books.length
             }
             case SET_ACTIVE_BOOK_STATUS:
                 return {

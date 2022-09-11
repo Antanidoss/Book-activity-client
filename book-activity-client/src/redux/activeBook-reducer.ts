@@ -8,14 +8,14 @@ import { calculateSkip } from '../pagination/pagination';
 export type InitialStateType = {
     pageSize: number
     pageNumber: number
-    totalBookCount: number | null
+    totalActiveBookCount: number
     activeBooks: Array<ActiveBook>,
 }
 
 let initialState: InitialStateType = {
     pageSize: 5,
     pageNumber: 1,
-    totalBookCount: 0,
+    totalActiveBookCount: 0,
     activeBooks: [] as Array<ActiveBook>,
 }
 
@@ -43,7 +43,8 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
         case SET_ACTIVE_BOOKS:
             return {
                 ...state,
-                activeBooks: actions.activeBooks
+                activeBooks: actions.activeBooks,
+                totalActiveBookCount: actions.activeBooks.length
             }
             case UPDATE_ACTIVE_BOOK:
 
