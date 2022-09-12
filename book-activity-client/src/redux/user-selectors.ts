@@ -7,3 +7,7 @@ export const getUserName = (state: AppStoreType) => {
 export const getIsAuthenticated = (state: AppStoreType) => {
     return state.userStore.isAuthenticated;
 }
+
+export const getAvatarImage = (state: AppStoreType) => {
+    return state.userStore.currentUser?.avatarImage ?? null;
+}

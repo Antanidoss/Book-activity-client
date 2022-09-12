@@ -5,14 +5,16 @@ type AuthUserResponseType = {
     userId: string,
     userName: string,
     email: string,
-    token: string
+    token: string,
+    avatarImage: ArrayBuffer
 }
 
 type CurrentUserType = {
     userId: string,
     userName: string,
     email: string,
-    token: string
+    token: string,
+    avatarImage: ArrayBuffer
 }
 
 export const userApi = {

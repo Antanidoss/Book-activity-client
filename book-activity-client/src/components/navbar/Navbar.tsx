@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { Menu } from "antd";
+import { Avatar, Menu, Image } from "antd";
 import {
     UserOutlined,
     BarChartOutlined,
@@ -15,7 +15,11 @@ const Navbar: React.FC<PropsType> = (props) => {
         <Menu theme="dark" mode="inline" style={{ alignContent: 'center' }}>
             {
                 props.isAuthenticated
-                    ? <Menu.Item key={1} icon={React.createElement(UserOutlined)} style={{ marginTop: "64px" }}><Link to="#">{props.userName}</Link></Menu.Item>
+                    ? <Menu.SubMenu key={1} style={{ marginTop: "64px" }} title={props.userName}
+                        icon={props.avatarImage == null ? <UserOutlined /> : <Avatar><Image width={"32px"} src={("data:image/png;base64," + props.avatarImage)} /></Avatar>}>
+                        <Menu.Item>Profile</Menu.Item>
+                        <Menu.Item>Administration</Menu.Item>
+                    </Menu.SubMenu>
                     : <Menu.Item key={1} icon={React.createElement(LoginOutlined)} style={{ marginTop: "64px" }}><Link to="/login">LOGIN</Link></Menu.Item>
             }
             <Menu.Item key={2} icon={React.createElement(BookOutlined)}>

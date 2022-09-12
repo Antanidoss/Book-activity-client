@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import { compose } from 'redux';
 import { AppStoreType } from '../../redux/redux-store';
-import { getIsAuthenticated, getUserName } from '../../redux/user-selectors';
+import { getAvatarImage, getIsAuthenticated, getUserName } from '../../redux/user-selectors';
 import Navbar from './Navbar';
 
 const NavbarContainer: React.FC<PropsType> = (props) => {
@@ -11,12 +11,14 @@ const NavbarContainer: React.FC<PropsType> = (props) => {
 
 type MapStateToPropsType = {
     isAuthenticated: boolean,
-    userName: string | undefined
+    userName: string | undefined,
+    avatarImage: ArrayBuffer | null
 }
 
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     isAuthenticated: getIsAuthenticated(state),
-    userName: getUserName(state)
+    userName: getUserName(state),
+    avatarImage: getAvatarImage(state)
 })
 
 export type PropsType = MapStateToPropsType;
