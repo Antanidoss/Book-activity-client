@@ -6,7 +6,7 @@ import { userApi } from "../api/userApi";
 
 export type InitialStateType = {
     currentUser: UserType | null,
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
 }
 
 let initialState: InitialStateType = {
@@ -25,7 +25,8 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 currentUser: {
                     id: action.id,
                     email: action.email,
-                    name: action.name
+                    name: action.name,
+                    avatarImage: action.avatarImage
                 }
             }
             case SET_AUTHENTICATED_STATUS:
@@ -41,18 +42,16 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
 type SetAuthenticatedStatus = {
     type: typeof SET_AUTHENTICATED_STATUS, isAuthenticated: boolean
 }
-
 export const setAuthenticatedStatus = (isAuthenticated: boolean): SetAuthenticatedStatus => ({
     type: SET_AUTHENTICATED_STATUS, isAuthenticated: isAuthenticated
 })
 
-export const setCurrentUserData = (id: string, userName: string, email: string): SetCurrentUserDataType => ({
-    type: SET_CURRENT_USER_DATA, id: id, name: userName, email: email
-})
-
 type SetCurrentUserDataType = {
-    type: typeof SET_CURRENT_USER_DATA, id: string, name: string, email: string
+    type: typeof SET_CURRENT_USER_DATA, id: string, name: string, email: string, avatarImage: ArrayBuffer
 }
+export const setCurrentUserData = (id: string, userName: string, email: string, avatarImage: ArrayBuffer): SetCurrentUserDataType => ({
+    type: SET_CURRENT_USER_DATA, id: id, name: userName, email: email, avatarImage: avatarImage
+})
 
 type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatus;
 type GetStateType = () => AppStoreType;
@@ -64,7 +63,7 @@ export const authRequestThunkCreator = (email: string, paswword: string, remembe
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             let result = response.result;
-            dispatch(setCurrentUserData(result.userId, result.userName, result.email));
+            dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
         }
         else {
             // Отправка сообщение на офрму
@@ -78,7 +77,7 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             let result = response.result;
-            dispatch(setCurrentUserData(result.userId, result.userName, result.email));
+            dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
         }
     }
 }
