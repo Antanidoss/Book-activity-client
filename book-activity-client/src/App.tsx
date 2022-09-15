@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { initializeThunkCreator } from './redux/app-reducer';
 import { getInitialized } from './redux/app-selectors';
 import AllCurUserActiveBooksContainer from './components/activeBook/AllCurUserActiveBooksContainer';
+import AdministartionMain from './components/administration/AdministartionMain';
 
 const App: React.FC<PropsType> = (props) => {
     const { Sider, Content, Header } = Layout;
@@ -41,7 +42,7 @@ const App: React.FC<PropsType> = (props) => {
                             </Link>
                         </div>
                     </Header>
-                    <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+                    <Content style={{ overflow: "initial" }}>
                         <Routes>
                             <Route path="/books" element={<AllBooksContainer />}></Route>
                         </Routes>
@@ -50,6 +51,9 @@ const App: React.FC<PropsType> = (props) => {
                         </Routes>
                         <Routes>
                             <Route path="/activeBooks" element={<AllCurUserActiveBooksContainer />}></Route>
+                        </Routes>
+                        <Routes>
+                            <Route path="/administration" element={<AdministartionMain />}></Route>
                         </Routes>
                     </Content>
                 </Layout>

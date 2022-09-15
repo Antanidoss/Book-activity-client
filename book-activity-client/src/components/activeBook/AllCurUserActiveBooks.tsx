@@ -10,7 +10,7 @@ const AllCurUserActiveBooks: React.FC<PropsType> = (props) => {
     else {
         return (
             <>
-                <Row gutter={[24, 16]}>
+                <Row style={{margin: "24px 16px 0"}} gutter={[24, 16]}>
                     {props.activeBooks.map(a => <ActiveBookForListContainer key={a.id} activeBook={a} />)}
                 </Row>
 
