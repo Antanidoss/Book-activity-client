@@ -14,7 +14,7 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
     setIsModalVisible(true);
   };
 
-  const handleOk = (addActiveBookType: AddActiveBookType) => {
+  const handleSubmit = (addActiveBookType: AddActiveBookType) => {
     props.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, props.bookId)
       .then(message.success("The book has been successfully added to active", 6))
       .then(_ => props.setActiveBookStatus(props.bookId))
@@ -34,7 +34,7 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
           Cancel
         </Button>
       ]}>
-      <Form id="addActiveBookForm" onFinish={handleOk}>
+      <Form id="addActiveBookForm" onFinish={handleSubmit}>
         <Form.Item
           label="Total number pages"
           name="totalNumberPages"

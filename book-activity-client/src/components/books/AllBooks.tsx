@@ -7,7 +7,7 @@ const AllBooks: React.FC<PropsType> = (props) => {
     let books = props.books.map(b => <Book key={b.id} {...b}></Book>)
     return (
         <>
-            <Row style={{margin: "24px 16px 0"}} gutter={[24, 16]}>
+            <Row style={{margin: "0px"}} gutter={[24, 16]}>
                 {books}
             </Row>
 
