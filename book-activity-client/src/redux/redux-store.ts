@@ -5,12 +5,14 @@ import appReducer from "./app-reducer";
 import bookReducer from './book-reducer'
 import userReducer from "./user-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
+import authorReducer from "./author-reducer";
 
 let rootReducer = combineReducers({
     bookStore: bookReducer,
     userStore: userReducer,
     appStore: appReducer,
-    activeBookStore: activeBookReducer
+    activeBookStore: activeBookReducer,
+    authorStore: authorReducer
 });
 
 type RootReducer = typeof rootReducer
