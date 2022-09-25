@@ -15,3 +15,7 @@ export const getBooks = (state: AppStoreType) => {
 export const getTotalBookCount = (state: AppStoreType) => {
     return state.bookStore.totalBookCount;
 }
+
+export const getBookById = (state: AppStoreType, id: string) => {
+    return state.bookStore.books.find(b => b.id == id)
+}

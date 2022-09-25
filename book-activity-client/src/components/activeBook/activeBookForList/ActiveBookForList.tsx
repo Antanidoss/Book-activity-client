@@ -20,11 +20,11 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
         <Col style={{marginLeft: "20px", marginTop: "20px"}} span={5}>
             <Col span={24} style={bookMain}>
                 <Link to={"#"} style={{ color: "black" }}>
-                    <Col span={24} style={bookTitle}>{props.activeBook.bookName}</Col>
+                    <Col span={24} style={bookTitle}>{props.activeBook.book.title}</Col>
                 </Link>
                 <Link to={"#"} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
-                        <img height={250} style={{ width: "50%" }} src={"data:image/png;base64," + props.activeBook.imageData} />
+                        <img height={250} style={{ width: "50%" }} src={"data:image/png;base64," + props.activeBook.book.imageData} />
                     </Col>
                 </Link>
                 <Col span={24}>
