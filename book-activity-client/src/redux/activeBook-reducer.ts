@@ -4,6 +4,8 @@ import { Dispatch } from "redux";
 import { activeBookApi } from '../api/activeBookApi';
 import { ActiveBook } from '../types/activeBookType';
 import { calculateSkip } from '../pagination/pagination';
+import { getBookById } from './book-selectors';
+import { BookType } from '../types/bookType';
 
 export type InitialStateType = {
     pageSize: number
@@ -28,12 +30,10 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
     switch (actions.type) {
         case ADD_ACTIVE_BOOK:
             let activeBook: ActiveBook = {
-                bookName: actions.bookName,
                 id: actions.id,
                 numberPagesRead: actions.numberPagesRead,
                 totalNumberPages: actions.totalNumberPages,
-                bookId: actions.bookId,
-                imageData: actions.imageData
+                book: actions.book
             }
 
             return {
@@ -72,10 +72,10 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
 }
 
 type AddActiveBookType = {
-    type: typeof ADD_ACTIVE_BOOK, id: string, bookName: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer
+    type: typeof ADD_ACTIVE_BOOK, id: string, numberPagesRead: number, totalNumberPages: number, book: BookType
 }
-const addActiveBook = (id: string, bookName: string, numberPagesRead: number, totalNumberPages: number, bookId: string, imageData: ArrayBuffer): AddActiveBookType => ({
-    type: ADD_ACTIVE_BOOK, id: id, bookName: bookName, numberPagesRead: numberPagesRead, totalNumberPages: totalNumberPages, bookId: bookId, imageData: imageData
+const addActiveBook = (id: string, numberPagesRead: number, totalNumberPages: number, book: BookType): AddActiveBookType => ({
+    type: ADD_ACTIVE_BOOK, id: id, numberPagesRead: numberPagesRead, totalNumberPages: totalNumberPages, book: book
 })
 
 type SetActiveBooksType = {
@@ -107,11 +107,8 @@ export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalN
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         let response = await activeBookApi.addActiveBook(totalNumberPages, numberPagesRead, bookId);
         if (response.success) {
-            //Нужно возвращать id активной книги
-            const state = getState().activeBookStore;
-            const skip = calculateSkip(state.pageNumber, state.pageSize);
-            const getActiveBookResponse = await activeBookApi.getActiveBooksByCurrentUser(skip, state.pageSize);
-            getActiveBookResponse.result.forEach(a => dispatch(addActiveBook(a.id, a.bookName, a.numberPagesRead, a.totalNumberPages, a.bookId, a.imageData)))
+            var book = getBookById(getState(), bookId);
+            dispatch(addActiveBook(response.result, numberPagesRead, totalNumberPages, book as BookType))
         }
     }
 }
