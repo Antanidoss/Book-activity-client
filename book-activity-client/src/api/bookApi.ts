@@ -18,7 +18,6 @@ export const bookApi = {
             .then(res =>  res.data)
     },
     addBook(addBookModel: AddBookModelType) {
-        addBookModel.authorIds = new Array<string>('0d0e9ca2-3730-48b1-9740-1941db861e38');
         instanceAxios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization") as string;
 
         var formData = new FormData();
