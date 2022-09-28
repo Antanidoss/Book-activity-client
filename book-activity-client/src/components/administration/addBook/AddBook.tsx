@@ -1,14 +1,26 @@
 import { Button, Col, Form, Input, message, Row, Upload } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useState } from 'react';
-import { AddBookModelType } from '../../../api/bookApi';
 import { PropsType } from './AddBookContainer';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
+import DebounceSelect, {PropsType as SelectProps} from '../../../common/DebounceSelect';
+import { DefaultOptionType } from 'antd/lib/select';
 
 const AddBook: React.FC<PropsType> = (props) => {
+    type AddBookModelType = {
+        title: string,
+        description: string,
+        image: UploadChangeParam<UploadFile>,
+        authors: Array<DefaultOptionType>
+    }
+
     const handleSubmit = (addBookModel: AddBookModelType) => {
-        props.addBook(addBookModel);
+        const authorIds = addBookModel.authors.map(o => {
+            return o.value as string
+        })
+
+        props.addBook({...addBookModel, authorIds: authorIds});
     }
 
     const [loading, setLoading] = useState(false);
@@ -58,6 +70,23 @@ const AddBook: React.FC<PropsType> = (props) => {
         </div>
     );
 
+    const selectProps: SelectProps = {
+        fetchOptions: props.getAuthors, 
+        debounceTimeout: 800,
+        rules: [{ required: true, message: "Please select authors!" }],
+        fieldName: "authors",
+        fieldLabel: "Authors",
+        transformToOptions(items) {
+            return items.map(a => {
+                var authorFullName = `${a.surname} ${a.firstName} ${a.patronymic}`;
+                return {
+                    value: a.id,
+                    label: authorFullName
+                };
+            })
+        }
+    }
+
     return (
         <Col span={20} style={{ margin: "0px auto" }}>
             <Form onFinish={handleSubmit}>
@@ -70,7 +99,7 @@ const AddBook: React.FC<PropsType> = (props) => {
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col span={11} style={{ marginLeft: "20px" }}>
+                    <Col span={11} style={{ marginLeft: "200px" }}>
                         <Form.Item
                             label="Description"
                             name="description"
@@ -79,33 +108,40 @@ const AddBook: React.FC<PropsType> = (props) => {
                         </Form.Item>
                     </Col>
                 </Row>
-                <Form.Item
-                    label="Image"
-                    name="image"
-                    rules={[{ required: true, message: "Please upload image!" }]}>
-                    <Upload
-                        listType="picture-card"
-                        showUploadList={false}
-                        beforeUpload={beforeUpload}
-                        onChange={handleChange}
-                        customRequest={({ file, onSuccess }) => {
-                            setTimeout(() => {
-                                onSuccess?.("ok");
-                            }, 0);
-                        }}                    >
-                        {imageUrl ? (
-                            <img
-                                src={imageUrl}
-                                style={{
-                                    width: '100%',
-                                }}
-                            />
-                        ) : (
-                            uploadButton
-                        )}
-                    </Upload>
-                </Form.Item>
-                <Button style={{ marginLeft: "40%" }} key="submit" type="primary" htmlType="submit">
+                <Row style={{marginTop: "70px"}}>
+                    <Col span={8}>
+                        <DebounceSelect {...selectProps} />
+                    </Col>
+                    <Col span={8} style={{ marginLeft: "200px" }}>
+                        <Form.Item
+                            label="Image"
+                            name="image"
+                            rules={[{ required: true, message: "Please upload image!" }]}>
+                            <Upload
+                                listType="picture-card"
+                                showUploadList={false}
+                                beforeUpload={beforeUpload}
+                                onChange={handleChange}
+                                customRequest={({ file, onSuccess }) => {
+                                    setTimeout(() => {
+                                        onSuccess?.("ok");
+                                    }, 0);
+                                }}                    >
+                                {imageUrl ? (
+                                    <img
+                                        src={imageUrl}
+                                        style={{
+                                            width: '100%',
+                                        }}
+                                    />
+                                ) : (
+                                    uploadButton
+                                )}
+                            </Upload>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Button style={{ marginTop: "50px", marginLeft: "40%" }} key="submit" type="primary" htmlType="submit">
                     Submit
                 </Button>
             </Form>

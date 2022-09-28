@@ -12,7 +12,8 @@ let initialState: InitialStateType = {
     authors: []
 }
 
-const ADD_AUTHOR = 'ADD_AUTHOR';
+const ADD_AUTHOR = "ADD_AUTHOR";
+const SET_AUTHORS = "SET_AUTHORS"
 
 const authorReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -28,6 +29,11 @@ const authorReducer = (state = initialState, action: ActionsTypes): InitialState
                 ...state,
                 authors: state.authors.concat(author)
             }
+        case SET_AUTHORS:
+            return {
+                ...state,
+                authors: action.authors
+            }
         default:
             return state
     }
@@ -40,7 +46,14 @@ export const addAuthor = (id: string, firstName: string, surname: string, patron
     type: ADD_AUTHOR, id: id, firstName: firstName, surname: surname, patronymic: patronymic
 })
 
-type ActionsTypes = AddAuthorType;
+type SetAuthors = {
+    type: typeof SET_AUTHORS, authors: Array<AuthorType>
+}
+export const setAuthors = (authors: Array<AuthorType>): SetAuthors => ({
+    type: SET_AUTHORS, authors: authors
+})
+
+type ActionsTypes = AddAuthorType | SetAuthors;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 type GetStateType = () => AppStoreType;
 
@@ -49,6 +62,26 @@ export const addAuthorRequestThunkCreator = (firstName: string, surname: string,
         let response = await authorApi.addAuthor(firstName, surname, patronymic);
         if (response.success) {
             dispatch(addAuthor(response.result, firstName, surname, patronymic));
+        }
+    }
+}
+
+export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<Promise<Array<AuthorType>>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        let response = await authorApi.getAuthorsByName(name, 5);
+        if (response.success) {
+            dispatch(setAuthors(response.result));
+        }
+
+        return getState().authorStore.authors;
+    }
+}
+
+export const getAllAuthorsRequestThunkCreator = (): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        let response = await authorApi.getAllAuthors();
+        if (response.success) {
+            dispatch(setAuthors(response.result));
         }
     }
 }

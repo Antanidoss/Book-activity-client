@@ -1,24 +1,39 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { addBookRequestThunkCreator } from '../../../redux/book-reducer';
+import { getAuthorsByNameRequestThunkCreator } from '../../../redux/author-reducer';
 import { AppStoreType } from '../../../redux/redux-store';
 import AddBook from './AddBook';
+import { AuthorType } from '../../../types/authorType';
+import { getAuthors } from '../../../redux/author-slectors';
 
 const AddBookContainer: React.FC<PropsType> = (props) => {
     return <AddBook {...props} />
 }
 
 type MapDispatchToPropsType = {
-    addBook: typeof addBookRequestThunkCreator
+    addBook: typeof addBookRequestThunkCreator,
+    getAuthors: typeof getAuthorsByNameRequestThunkCreator
 }
 
-const mapDispatchToProps = ({
-    addBook: addBookRequestThunkCreator
+const mapDispatchToProps: MapDispatchToPropsType = {
+    addBook: addBookRequestThunkCreator,
+    getAuthors: getAuthorsByNameRequestThunkCreator
+}
+
+type MapStateToPropsType = {
+    authors: Array<AuthorType>
+}
+
+const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
+    authors: getAuthors(state)
 })
 
-export type PropsType = MapDispatchToPropsType
 
-export default compose<React.ComponentType>(
-    connect<null, MapDispatchToPropsType, null, AppStoreType>(null, mapDispatchToProps)
-)(AddBookContainer);
+type OwnPropsType = {}
+
+type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
+export type PropsType = ExtractConnectType<typeof connectStore>
+
+export default connectStore(AddBookContainer)
