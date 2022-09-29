@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { PropsType } from './AddBookContainer';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
-import DebounceSelect, {PropsType as SelectProps} from '../../../common/DebounceSelect';
+import DebounceSelect, { PropsType as SelectProps } from '../../../common/DebounceSelect';
 import { DefaultOptionType } from 'antd/lib/select';
 
 const AddBook: React.FC<PropsType> = (props) => {
@@ -20,7 +20,10 @@ const AddBook: React.FC<PropsType> = (props) => {
             return o.value as string
         })
 
-        props.addBook({...addBookModel, authorIds: authorIds});
+        props.addBook({ ...addBookModel, authorIds: authorIds })
+            .then(isSuccess => {
+                isSuccess ? message.success("Book added.", 6) : message.error("Failed to add book. Try again.", 6);
+            });
     }
 
     const [loading, setLoading] = useState(false);
@@ -71,7 +74,7 @@ const AddBook: React.FC<PropsType> = (props) => {
     );
 
     const selectProps: SelectProps = {
-        fetchOptions: props.getAuthors, 
+        fetchOptions: props.getAuthors,
         debounceTimeout: 800,
         rules: [{ required: true, message: "Please select authors!" }],
         fieldName: "authors",
@@ -108,7 +111,7 @@ const AddBook: React.FC<PropsType> = (props) => {
                         </Form.Item>
                     </Col>
                 </Row>
-                <Row style={{marginTop: "70px"}}>
+                <Row style={{ marginTop: "70px" }}>
                     <Col span={8}>
                         <DebounceSelect {...selectProps} />
                     </Col>

@@ -10,8 +10,10 @@ import { PropsType } from "./ActiveBookForListContainer";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const onClickRemoveActiveBook = () => {
-        props.removeActiveBook(props.activeBook.id);
-        message.success("The book has been successfully removed", 6);
+        props.removeActiveBook(props.activeBook.id)
+            .then(isSuccess => {
+                isSuccess ?  message.success("The book has been successfully removed.", 6) : message.error("Failed to delete active workbook. Try again.", 6)
+        });
     }
 
     let progressPercent: number = Math.round(props.activeBook.numberPagesRead / props.activeBook.totalNumberPages * 100);

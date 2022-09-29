@@ -1,6 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { connect, InferableComponentEnhancerWithProps } from 'react-redux'
 import { addAuthorRequestThunkCreator } from '../../../redux/author-reducer'
 import { AppStoreType } from '../../../redux/redux-store'
 import AddAuthor from './AddAuthor'
@@ -17,8 +16,8 @@ const mapDispatchToProps = ({
     addAuthor: addAuthorRequestThunkCreator
 })
 
-export type PropsType = MapDispatchToPropsType
+type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T;
+const connectStore = connect<unknown, MapDispatchToPropsType, unknown, AppStoreType>(null, mapDispatchToProps);
+export type PropsType = ExtractConnectType<typeof connectStore>;
 
-export default compose<React.ComponentType>(
-    connect<null, MapDispatchToPropsType, null, AppStoreType>(null, mapDispatchToProps)
-)(AddAuthorContainer);
+export default connectStore(AddAuthorContainer);

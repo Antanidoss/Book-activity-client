@@ -29,11 +29,8 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     authors: getAuthors(state)
 })
 
+type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T;
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);
+export type PropsType = ExtractConnectType<typeof connectStore>;
 
-type OwnPropsType = {}
-
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
-const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
-export type PropsType = ExtractConnectType<typeof connectStore>
-
-export default connectStore(AddBookContainer)
+export default connectStore(AddBookContainer);

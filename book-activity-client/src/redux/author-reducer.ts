@@ -57,12 +57,15 @@ type ActionsTypes = AddAuthorType | SetAuthors;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 type GetStateType = () => AppStoreType;
 
-export const addAuthorRequestThunkCreator = (firstName: string, surname: string, patronymic: string): ThunkType => {
+export const addAuthorRequestThunkCreator = (firstName: string, surname: string, patronymic: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         let response = await authorApi.addAuthor(firstName, surname, patronymic);
         if (response.success) {
             dispatch(addAuthor(response.result, firstName, surname, patronymic));
+            return true;
         }
+
+        return false;
     }
 }
 
