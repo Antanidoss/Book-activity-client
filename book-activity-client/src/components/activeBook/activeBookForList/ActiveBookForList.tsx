@@ -24,7 +24,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 </Link>
                 <Link to={"#"} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
-                        <img height={250} style={{ width: "50%" }} src={"data:image/png;base64," + props.activeBook.book.imageData} />
+                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + props.activeBook.book.imageData} />
                     </Col>
                 </Link>
                 <Col span={24}>

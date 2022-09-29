@@ -27,7 +27,7 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   };
 
   return <>
-    <Button type="primary" onClick={showModal}>Make active</Button>
+    <Button shape="round" type="primary" onClick={showModal}>Make active</Button>
     <Modal title="Add active book" visible={isModalVisible} onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
