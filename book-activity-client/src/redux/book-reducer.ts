@@ -99,14 +99,15 @@ export const getBooksRequestThunkCreator = (): ThunkType => {
     }
 }
 
-export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): ThunkType => {
+export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        await bookApi.addBook(addBookModel)
-            .then(r => {
-                if (r.status == 200) {
-                    dispatch(addBook(addBookModel))
-                }
-            })
+        var response = await bookApi.addBook(addBookModel);
+        if (response.status == 200) {
+            dispatch(addBook(addBookModel))
+            return true;
+        }
+
+        return false;
     }
 }
 

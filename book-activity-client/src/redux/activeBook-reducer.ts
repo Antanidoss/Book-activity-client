@@ -6,6 +6,8 @@ import { ActiveBook } from '../types/activeBookType';
 import { calculateSkip } from '../pagination/pagination';
 import { getBookById } from './book-selectors';
 import { BookType } from '../types/bookType';
+import { ok } from 'assert';
+import { STATUS_CODES } from 'http';
 
 export type InitialStateType = {
     pageSize: number
@@ -103,13 +105,16 @@ type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookTyp
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
-export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalNumberPages: number, bookId: string): ThunkType => {
+export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalNumberPages: number, bookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         let response = await activeBookApi.addActiveBook(totalNumberPages, numberPagesRead, bookId);
         if (response.success) {
             var book = getBookById(getState(), bookId);
             dispatch(addActiveBook(response.result, numberPagesRead, totalNumberPages, book as BookType))
+            return true;
         }
+
+        return false;
     }
 }
 
@@ -129,10 +134,15 @@ export const updateActiveBookThunkCreator = (activeBookId: string, numberPagesRe
     }
 } 
 
-export const removeActiveBookThunkCreator = (activeBookId: string): ThunkType => {
+export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        await activeBookApi.removeActiveBook(activeBookId);
-        dispatch(removeActiveBook(activeBookId))
+        const response = await activeBookApi.removeActiveBook(activeBookId);
+        if (response.status === 200){
+            dispatch(removeActiveBook(activeBookId))
+            return true;
+        }
+
+        return false;
     }
 }
 

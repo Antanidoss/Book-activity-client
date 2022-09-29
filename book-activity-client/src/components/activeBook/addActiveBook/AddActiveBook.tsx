@@ -16,8 +16,10 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
 
   const handleSubmit = (addActiveBookType: AddActiveBookType) => {
     props.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, props.bookId)
-      .then(message.success("The book has been successfully added to active", 6))
-      .then(_ => props.setActiveBookStatus(props.bookId))
+      .then(isSuccess => {
+        isSuccess ? message.success("The book has been successfully added to active", 6) : message.error("Failed to make the book active", 6);
+        props.setActiveBookStatus(props.bookId);
+      });
       
       setIsModalVisible(false);
   };
