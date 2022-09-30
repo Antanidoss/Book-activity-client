@@ -42,7 +42,6 @@ const AddBook: React.FC<PropsType> = (props) => {
             message.error('You can only upload JPG/PNG file!');
         }
 
-
         return isJpgOrPng;
     };
 
@@ -66,8 +65,7 @@ const AddBook: React.FC<PropsType> = (props) => {
             <div
                 style={{
                     marginTop: 8,
-                }}
-            >
+                }}>
                 Upload
             </div>
         </div>

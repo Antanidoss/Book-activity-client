@@ -15,7 +15,7 @@ export const activeBookApi = {
     },
     getActiveBooksByCurrentUser(skip: number, take: number) {
         instanceAxios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization") as string;
-        return instanceAxios.get<ResponseType<Array<ActiveBook>>>(`/activeBook/getActiveBooksByCurrentUser?${skip}&${take}`)
+        return instanceAxios.get<ResponseType<Array<ActiveBook>>>(`/activeBook/getActiveBooksByCurrentUser/${skip}/${take}`)
             .then(res => res.data)
     },
     removeActiveBook(activeBookId: string) {
