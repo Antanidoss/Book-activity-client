@@ -4,7 +4,7 @@ import { PropsType } from './LoginContainer';
 import { useNavigate } from "react-router-dom";
 
 const Login: React.FC<PropsType> = (props) => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (props.isAuthenticated) {

@@ -11,7 +11,7 @@ import {
 
 const Book: React.FC<BookType> = (props) => {
     return (
-        <Col style={{marginLeft: "20px", marginTop: "20px"}} span={5}>
+        <Col style={{marginTop: "20px"}} span={5}>
             <Col span={24} style={bookMain}>
                 <Link to={"#"} style={{ color: "black" }}>
                     <Col span={24} style={bookTitle}>{props.title}</Col>

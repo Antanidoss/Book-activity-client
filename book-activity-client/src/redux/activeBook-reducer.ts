@@ -8,6 +8,7 @@ import { getBookById } from './book-selectors';
 import { BookType } from '../types/bookType';
 import { ok } from 'assert';
 import { STATUS_CODES } from 'http';
+import { isBadStatusCode } from '../api/instanceAxios';
 
 export type InitialStateType = {
     pageSize: number
@@ -16,7 +17,7 @@ export type InitialStateType = {
     activeBooks: Array<ActiveBook>,
 }
 
-let initialState: InitialStateType = {
+const initialState: InitialStateType = {
     pageSize: 8,
     pageNumber: 1,
     totalActiveBookCount: 0,
@@ -31,7 +32,7 @@ const REMOVE_ACTIVE_BOOK = "REMOVE_ACTIVE_BOOK";
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
         case ADD_ACTIVE_BOOK:
-            let activeBook: ActiveBook = {
+            const activeBook: ActiveBook = {
                 id: actions.id,
                 numberPagesRead: actions.numberPagesRead,
                 totalNumberPages: actions.totalNumberPages,
@@ -107,7 +108,7 @@ type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalNumberPages: number, bookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let response = await activeBookApi.addActiveBook(totalNumberPages, numberPagesRead, bookId);
+        const response = await activeBookApi.addActiveBook(totalNumberPages, numberPagesRead, bookId);
         if (response.success) {
             var book = getBookById(getState(), bookId);
             dispatch(addActiveBook(response.result, numberPagesRead, totalNumberPages, book as BookType))
@@ -121,8 +122,8 @@ export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalN
 export const getActiveBooksByCurrentUserThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const state = getState().activeBookStore;
-        let skip = calculateSkip(state.pageNumber, state.pageSize);
-        let response = await activeBookApi.getActiveBooksByCurrentUser(skip, state.pageSize);
+        const skip = calculateSkip(state.pageNumber, state.pageSize);
+        const response = await activeBookApi.getActiveBooksByCurrentUser(skip, state.pageSize);
         dispatch(setActiveBooks(response.result));
     }
 }
@@ -137,7 +138,7 @@ export const updateActiveBookThunkCreator = (activeBookId: string, numberPagesRe
 export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await activeBookApi.removeActiveBook(activeBookId);
-        if (response.status === 200){
+        if (!isBadStatusCode(response.status)){
             dispatch(removeActiveBook(activeBookId))
             return true;
         }

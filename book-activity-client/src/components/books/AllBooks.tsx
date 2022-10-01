@@ -4,10 +4,10 @@ import { PropsType } from "./AllBooksContainer";
 import Book from "./bookForList/BookForList";
 
 const AllBooks: React.FC<PropsType> = (props) => {
-    let books = props.books.map(b => <Book key={b.id} {...b}></Book>)
+    const books = props.books.map(b => <Book key={b.id} {...b}></Book>)
     return (
         <>
-            <Row justify="space-around" style={{margin: "0px"}} gutter={[24, 16]}>
+            <Row justify="space-around" gutter={[24, 16]}>
                 {books}
             </Row>
 
