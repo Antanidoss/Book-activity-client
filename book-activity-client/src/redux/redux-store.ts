@@ -7,7 +7,7 @@ import userReducer from "./user-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import authorReducer from "./author-reducer";
 
-let rootReducer = combineReducers({
+const rootReducer = combineReducers({
     bookStore: bookReducer,
     userStore: userReducer,
     appStore: appReducer,
@@ -19,7 +19,7 @@ type RootReducer = typeof rootReducer
 
 export type AppStoreType = ReturnType<RootReducer>;
 
-let store = createStore(rootReducer,
+const store = createStore(rootReducer,
   composeWithDevTools(
     applyMiddleware(thunkMiddleware)
 ))

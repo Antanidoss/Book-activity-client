@@ -1,13 +1,13 @@
 import { CSSProperties } from 'react'
 
-export let bookMain: CSSProperties = {
+export const bookMain: CSSProperties = {
     border: "3px solid rgb(8 68 124)",
-    borderRadius: "15px", padding: "20px",
+    borderRadius: "15px",
     height: "500px",
     backgroundColor: "white",
 }
 
-export let bookTitle: CSSProperties = {
+export const bookTitle: CSSProperties = {
     textAlign: "center",
     paddingBottom: "20px",
     fontSize: "18px",

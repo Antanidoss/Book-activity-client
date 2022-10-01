@@ -8,7 +8,7 @@ export type InitialStateType = {
     authors: Array<AuthorType>
 }
 
-let initialState: InitialStateType = {
+const initialState: InitialStateType = {
     authors: []
 }
 
@@ -18,7 +18,7 @@ const SET_AUTHORS = "SET_AUTHORS"
 const authorReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case ADD_AUTHOR:
-            let author: AuthorType = {
+            const author: AuthorType = {
                 id: action.id,
                 firstName: action.firstName,
                 surname: action.surname,
@@ -59,7 +59,7 @@ type GetStateType = () => AppStoreType;
 
 export const addAuthorRequestThunkCreator = (firstName: string, surname: string, patronymic: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let response = await authorApi.addAuthor(firstName, surname, patronymic);
+        const response = await authorApi.addAuthor(firstName, surname, patronymic);
         if (response.success) {
             dispatch(addAuthor(response.result, firstName, surname, patronymic));
             return true;
@@ -71,7 +71,7 @@ export const addAuthorRequestThunkCreator = (firstName: string, surname: string,
 
 export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<Promise<Array<AuthorType>>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let response = await authorApi.getAuthorsByName(name, 5);
+        const response = await authorApi.getAuthorsByName(name, 5);
         if (response.success) {
             dispatch(setAuthors(response.result));
         }
@@ -82,7 +82,7 @@ export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<P
 
 export const getAllAuthorsRequestThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let response = await authorApi.getAllAuthors();
+        const response = await authorApi.getAllAuthors();
         if (response.success) {
             dispatch(setAuthors(response.result));
         }

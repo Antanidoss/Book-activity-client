@@ -9,7 +9,7 @@ export type InitialStateType = {
     isAuthenticated: boolean,
 }
 
-let initialState: InitialStateType = {
+const initialState: InitialStateType = {
     currentUser: null,
     isAuthenticated: false
 }
@@ -59,10 +59,10 @@ type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const authRequestThunkCreator = (email: string, paswword: string, rememberMe: boolean): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let response = await userApi.auth(email, paswword, rememberMe);
+        const response = await userApi.auth(email, paswword, rememberMe);
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
-            let result = response.result;
+            const result = response.result;
             dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
         }
         else {
@@ -73,10 +73,10 @@ export const authRequestThunkCreator = (email: string, paswword: string, remembe
 
 export const getCurrentUserRequestThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let response = await userApi.getCurrentUser();
+        const response = await userApi.getCurrentUser();
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
-            let result = response.result;
+            const result = response.result;
             dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
         }
     }

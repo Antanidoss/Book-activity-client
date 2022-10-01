@@ -7,7 +7,7 @@ export type InitialStateType = {
     initialized: boolean
 }
 
-let initialState: InitialStateType = {
+const initialState: InitialStateType = {
     initialized: false
 }
 

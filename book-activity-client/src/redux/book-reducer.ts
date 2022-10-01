@@ -4,6 +4,7 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
 import { AddBookModelType, bookApi } from '../api/bookApi';
 import { calculateSkip } from '../pagination/pagination';
+import { isBadStatusCode } from '../api/instanceAxios';
 
 export type InitialStateType = {
     pageSize: number
@@ -13,7 +14,7 @@ export type InitialStateType = {
     currentBook: BookType
 }
 
-let initialState: InitialStateType = {
+const initialState: InitialStateType = {
     pageSize: 8,
     pageNumber: 1,
     totalBookCount: 0,
@@ -92,17 +93,17 @@ type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const getBooksRequestThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        let state = getState().bookStore;
-        let skip = calculateSkip(state.pageNumber, state.pageSize);
-        let respnse = await bookApi.getBooks(skip, state.pageSize);
+        const state = getState().bookStore;
+        const skip = calculateSkip(state.pageNumber, state.pageSize);
+        const respnse = await bookApi.getBooks(skip, state.pageSize);
         dispatch(setBooksDataType(respnse.result))
     }
 }
 
 export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        var response = await bookApi.addBook(addBookModel);
-        if (response.status == 200) {
+        const response = await bookApi.addBook(addBookModel);
+        if (!isBadStatusCode(response.status)) {
             dispatch(addBook(addBookModel))
             return true;
         }
