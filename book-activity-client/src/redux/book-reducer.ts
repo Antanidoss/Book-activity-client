@@ -26,6 +26,7 @@ const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
 const SET_BOOKS_DATA = "SET_BOOKS_DATA";
 const SET_ACTIVE_BOOK_STATUS = "SET_ACTIVE_BOOK_STATUS";
 const ADD_BOOK = "ADD_BOOK";
+const UPDATE_BOOK_RATING = "UPDATE_BOOK_RATING";
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -54,6 +55,20 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     return b;
                 })
             }
+            case UPDATE_BOOK_RATING:
+                return {
+                    ...state,
+                books: state.books.map(b => {
+                    if (b.id == action.bookId) {
+                        return {
+                            ...b,
+                            isActiveBook: true
+                        }
+                    }
+
+                    return b;
+                })
+                }
         default:
             return state;
     }
@@ -87,7 +102,14 @@ export const addBook = (addBookModel: AddBookModelType): AddBookType => ({
     type: ADD_BOOK, addBookModel: addBookModel
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | AddBookType;
+type UpdateBookRatingType = {
+    type: typeof UPDATE_BOOK_RATING, grade: number, bookId: string
+}
+export const updateBookRating = (grade: number, bookId: string) => ({
+    type: typeof UPDATE_BOOK_RATING, grade: grade, bookId: bookId
+})
+
+type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | AddBookType | UpdateBookRatingType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
