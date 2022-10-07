@@ -1,5 +1,7 @@
+import { BookOpinionType } from "./bookOpinion"
+
 export type BookRatingType = {
-    bookOpinions: Array<BookRatingType>,
-    bookId: string,
+    id: string,
+    bookOpinions: Array<BookOpinionType>,
     averageRating: number
 }
