@@ -7,6 +7,7 @@ import {
     DeleteOutlined
 } from "@ant-design/icons";
 import { PropsType } from "./ActiveBookForListContainer";
+import AddBookOpinionContainer from "../addBookOpinion/AddBookOpinionContainer";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const onClickRemoveActiveBook = () => {
@@ -38,6 +39,9 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                     </Col>
                     <Col span={4} style={{ marginLeft: "20px", marginTop: "20px" }}>
                         <Button shape="round" type="primary" icon={React.createElement(DeleteOutlined)} onClick={onClickRemoveActiveBook} />
+                    </Col>
+                    <Col span={4} style={{ marginLeft: "20px", marginTop: "20px" }}>
+                        <AddBookOpinionContainer bookId={props.activeBook.book.id} />
                     </Col>
                 </Row>
             </Col>

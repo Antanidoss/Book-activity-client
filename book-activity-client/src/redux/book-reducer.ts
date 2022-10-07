@@ -5,6 +5,7 @@ import { Dispatch } from "redux";
 import { AddBookModelType, bookApi } from '../api/bookApi';
 import { calculateSkip } from '../pagination/pagination';
 import { isBadStatusCode } from '../api/instanceAxios';
+import { bookRatingApi } from '../api/bookRatingApi';
 
 export type InitialStateType = {
     pageSize: number
@@ -59,10 +60,13 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 return {
                     ...state,
                 books: state.books.map(b => {
-                    if (b.id == action.bookId) {
+                    if (b.bookRating.id == action.bookRatingId) {
                         return {
                             ...b,
-                            isActiveBook: true
+                            bookRating: {
+                                ...b.bookRating,
+                                bookOpinions: b.bookRating.bookOpinions.concat({grade: action.grade, description: action.description})
+                            }
                         }
                     }
 
@@ -103,10 +107,10 @@ export const addBook = (addBookModel: AddBookModelType): AddBookType => ({
 })
 
 type UpdateBookRatingType = {
-    type: typeof UPDATE_BOOK_RATING, grade: number, bookId: string
+    type: typeof UPDATE_BOOK_RATING, grade: number, bookRatingId: string, description: string
 }
-export const updateBookRating = (grade: number, bookId: string) => ({
-    type: typeof UPDATE_BOOK_RATING, grade: grade, bookId: bookId
+export const updateBookRating = (grade: number, bookRatingId: string, description: string): UpdateBookRatingType => ({
+    type: UPDATE_BOOK_RATING, grade: grade, bookRatingId: bookRatingId, description: description
 })
 
 type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | AddBookType | UpdateBookRatingType;
@@ -127,6 +131,18 @@ export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): Thun
         const response = await bookApi.addBook(addBookModel);
         if (!isBadStatusCode(response.status)) {
             dispatch(addBook(addBookModel))
+            return true;
+        }
+
+        return false;
+    }
+}
+
+export const updateBookRatingRequestThunkCreator = (bookRatingId: string, grade: number, description: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await bookRatingApi.update(bookRatingId, grade, description);
+        if (!isBadStatusCode(response.status)) {
+            dispatch(updateBookRating(grade, bookRatingId, description));
             return true;
         }
 
