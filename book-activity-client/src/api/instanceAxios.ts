@@ -5,6 +5,8 @@ const instanceAxios = axios.create({
     baseURL: "https://localhost:44395",
 })
 
+instanceAxios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization") as string;
+
 export type ResponseType<D = {}> = {
     result: D,
     success: boolean,

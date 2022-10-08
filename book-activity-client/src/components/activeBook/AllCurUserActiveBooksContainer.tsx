@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import { Spin } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
@@ -10,10 +11,14 @@ import { ActiveBook } from '../../types/activeBookType';
 import AllCurUserActiveBooks from './AllCurUserActiveBooks';
 
 const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         props.getActiveBooks();
+        setLoading(false);
     }, [])
-    return <AllCurUserActiveBooks {...props} />
+
+    return loading ? <div style={{textAlign: "center", marginTop: "30%"}}><Spin size="large" spinning={loading} /></div> : <AllCurUserActiveBooks {...props} />
 }
 
 type MapDispatchToPropsType = {

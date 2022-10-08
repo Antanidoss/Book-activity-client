@@ -16,7 +16,7 @@ const Navbar: React.FC<PropsType> = (props) => {
             {
                 props.isAuthenticated
                     ? <Menu.SubMenu key={1} style={{ marginTop: "64px" }} title={props.userName}
-                        icon={props.avatarImage == null ? <UserOutlined /> : <Avatar><Image width={"32px"} src={("data:image/png;base64," + props.avatarImage)} /></Avatar>}>
+                        icon={props.avatarImage?.byteLength ? <Avatar><Image width={"32px"} src={("data:image/png;base64," + props.avatarImage)} /></Avatar> : <UserOutlined />}>
                         <Menu.Item>Profile</Menu.Item>
                         <Menu.Item><Link to="/administration">Administration</Link></Menu.Item>
                     </Menu.SubMenu>
