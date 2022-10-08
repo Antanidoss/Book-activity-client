@@ -13,13 +13,10 @@ export type AddBookModelType = {
 
 export const bookApi = {
     getBooks(skip: number, take: number) {
-        instanceAxios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization") as string;
         return instanceAxios.get<ResponseType<Array<BookType>>>(`/book/get?skip=${skip}&take=${take}`)
             .then(res =>  res.data)
     },
     addBook(addBookModel: AddBookModelType) {
-        instanceAxios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization") as string;
-
         var formData = new FormData();
         formData.append("title", addBookModel.title);
         formData.append("description", addBookModel.description);

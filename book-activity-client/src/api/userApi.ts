@@ -28,7 +28,6 @@ export const userApi = {
             })
     },
     getCurrentUser() {
-        instanceAxios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization") as string;
         return instanceAxios.get<ResponseType<CurrentUserType>>("/user/getCurrentUser")
             .then(r => {
                 localStorage.setItem("Authorization", r.data.result.token);
