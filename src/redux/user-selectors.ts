@@ -11,3 +11,7 @@ export const getIsAuthenticated = (state: AppStoreType) => {
 export const getAvatarImage = (state: AppStoreType) => {
     return state.userStore.currentUser?.avatarImage ?? null;
 }
+
+export const getUserId = (state: AppStoreType) => {
+    return state.userStore.currentUser?.id;
+}

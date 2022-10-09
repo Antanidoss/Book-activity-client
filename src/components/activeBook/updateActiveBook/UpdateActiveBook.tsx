@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Modal } from "antd";
+import { Button, Form, Input, InputNumber, message, Modal } from "antd";
 import React, { useState } from "react";
 import { PropsType } from "./UpdateActiveBookContainer";
 
@@ -36,10 +36,10 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
             ]}>
             <Form id="updateActiveBookForm" onFinish={handleOk}>
                 <Form.Item
-                    label="Total number pages"
+                    label="Number of pages read"
                     name="numberPagesRead"
                     rules={[{ required: true, message: "Please input number pages read!" }]}>
-                    <Input value={numberPagesRead} />
+                    <InputNumber defaultValue={numberPagesRead} min={0} max={props.totalNumberPages} />
                 </Form.Item>
                 <Button key="submit" type="primary" htmlType="submit">
                     Submit

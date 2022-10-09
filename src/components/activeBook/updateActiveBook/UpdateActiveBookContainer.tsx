@@ -18,17 +18,21 @@ const mapDispatchToProps = {
 
 type MapStateToPropsType = {
     activeBookId: string,
-    numberPagesRead: number
+    numberPagesRead: number,
+    totalNumberPages: number
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
     activeBookId: ownProps.activeBookId,
-    numberPagesRead: ownProps.numberPagesRead
+    numberPagesRead: ownProps.numberPagesRead,
+    totalNumberPages: ownProps.totalNumberPages
+
 })
 
 type OwnPropsType = {
     activeBookId: string,
-    numberPagesRead: number
+    numberPagesRead: number,
+    totalNumberPages: number
 }
 
 type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T

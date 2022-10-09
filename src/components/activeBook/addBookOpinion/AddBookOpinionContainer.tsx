@@ -3,6 +3,9 @@ import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { updateBookRatingRequestThunkCreator } from "../../../redux/book-reducer";
 import { getBookById } from "../../../redux/book-selectors";
 import { AppStoreType } from "../../../redux/redux-store";
+import { getUserId } from "../../../redux/user-selectors";
+import { BookOpinionType } from "../../../types/bookOpinion";
+import { BookRatingType } from "../../../types/bookRating";
 import AddBookOpinion from "./AddBookOpinion";
 
 const AddBookOpinionContainer: React.FC<PropsType> = (props) => {
@@ -19,13 +22,25 @@ const mapDispatchToProps =  {
 
 type MapStateToPropsType = {
     bookId: string,
-    bookRatingId: string
+    bookRatingId: string,
+    userHasOpinion: boolean,
+    userId: string,
+    bookOpinion: BookOpinionType | null
 }
 
-const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
-    bookId: ownProps.bookId,
-    bookRatingId: getBookById(state, ownProps.bookId)?.bookRating.id as string
-})
+const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => {
+    const curUserId = getUserId(state) as string;
+    const bookRating = getBookById(state, ownProps.bookId)?.bookRating as BookRatingType;
+    const bookOpinion = bookRating?.bookOpinions.find(o => o.userId == curUserId) as BookOpinionType;
+
+    return {
+        bookId: ownProps.bookId,
+        bookRatingId: bookRating.id as string,
+        userHasOpinion: bookOpinion !== null,
+        bookOpinion: bookOpinion,
+        userId: curUserId
+    }
+}
 
 type OwnPropsType = {
     bookId: string,

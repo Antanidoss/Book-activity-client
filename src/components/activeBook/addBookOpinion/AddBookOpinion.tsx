@@ -12,7 +12,7 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
     }
 
     const handleOk = (addOpinion: AddOpinionType) => {
-        props.updateRating(props.bookRatingId, addOpinion.grade, addOpinion.description)
+        props.updateRating(props.bookRatingId, addOpinion.grade, addOpinion.description, props.userId)
             .then(isSuccess => {
                 return isSuccess ? message.success("Review added.", 6) : message.success("Failed to add review. Try again.", 6)
             })
@@ -30,7 +30,7 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
 
     return (
         <>
-            <Button shape="round" type="primary" onClick={showModal}>Add a review</Button>
+            <Button shape="round" type="primary" onClick={showModal}>{props.userHasOpinion ? "Look review" : "Add a review"}</Button>
             <Modal title="Add active book" visible={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="back" onClick={handleCancel}>
@@ -42,16 +42,20 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
                         label="Description"
                         name="description"
                         rules={[{ required: true, message: "Please input number pages read!" }]}>
-                        <TextArea />
+                        <TextArea defaultValue={props.bookOpinion?.description} disabled={props.userHasOpinion} />
                     </Form.Item>
                     <Form.Item
                         label="Grade"
                         name="grade">
-                        <Rate allowHalf />
+                        <Rate defaultValue={props.bookOpinion?.grade} disabled={props.userHasOpinion} allowHalf />
                     </Form.Item>
-                    <Button key="submit" type="primary" htmlType="submit">
-                        Submit
-                    </Button>
+                    {
+                        props.userHasOpinion
+                            ? null
+                            : <Button key="submit" type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                    }
                 </Form>
             </Modal>
         </>
