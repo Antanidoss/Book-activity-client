@@ -35,7 +35,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 </Col>
                 <Row>
                     <Col span={4} style={{ marginTop: "20px" }}>
-                        <UpdateActiveBookContainer numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} />
+                        <UpdateActiveBookContainer totalNumberPages={props.activeBook.totalNumberPages} numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} />
                     </Col>
                     <Col span={4} style={{ marginLeft: "20px", marginTop: "20px" }}>
                         <Button shape="round" type="primary" icon={React.createElement(DeleteOutlined)} onClick={onClickRemoveActiveBook} />

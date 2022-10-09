@@ -65,7 +65,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                             ...b,
                             bookRating: {
                                 ...b.bookRating,
-                                bookOpinions: b.bookRating.bookOpinions.concat({grade: action.grade, description: action.description})
+                                bookOpinions: b.bookRating.bookOpinions.concat({grade: action.grade, description: action.description, userId: action.userId})
                             }
                         }
                     }
@@ -107,10 +107,10 @@ export const addBook = (addBookModel: AddBookModelType): AddBookType => ({
 })
 
 type UpdateBookRatingType = {
-    type: typeof UPDATE_BOOK_RATING, grade: number, bookRatingId: string, description: string
+    type: typeof UPDATE_BOOK_RATING, grade: number, bookRatingId: string, description: string, userId: string
 }
-export const updateBookRating = (grade: number, bookRatingId: string, description: string): UpdateBookRatingType => ({
-    type: UPDATE_BOOK_RATING, grade: grade, bookRatingId: bookRatingId, description: description
+export const updateBookRating = (grade: number, bookRatingId: string, description: string, userId: string): UpdateBookRatingType => ({
+    type: UPDATE_BOOK_RATING, grade: grade, bookRatingId: bookRatingId, description: description, userId: userId
 })
 
 type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | AddBookType | UpdateBookRatingType;
@@ -138,11 +138,11 @@ export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): Thun
     }
 }
 
-export const updateBookRatingRequestThunkCreator = (bookRatingId: string, grade: number, description: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+export const updateBookRatingRequestThunkCreator = (bookRatingId: string, grade: number, description: string, userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookRatingApi.update(bookRatingId, grade, description);
         if (!isBadStatusCode(response.status)) {
-            dispatch(updateBookRating(grade, bookRatingId, description));
+            dispatch(updateBookRating(grade, bookRatingId, description, userId));
             return true;
         }
 

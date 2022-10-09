@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookType } from '../../../types/bookType';
-import { Button, Col, Rate, Row } from 'antd'
+import { Button, Col, Rate, Row, Statistic } from 'antd'
 import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
 import { bookMain, bookTitle } from './BookForListStyles';
@@ -21,15 +21,18 @@ const Book: React.FC<BookType> = (props) => {
                         <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + props.imageData} />
                     </Col>
                 </Link>
-                <Row>
-                    <Col span={12} style={{ left: "10px", top: "60px" }}>
+                <Col span={24} style={{top: "40px"}}>
+                    <Statistic prefix="Users rated:" style={{float: "right", marginRight: "12px"}} valueStyle={{fontSize: "15px"}} value={props.bookRating.bookOpinions.length} />
+                </Col>
+                <Row style={{marginTop: "55px"}}>
+                    <Col span={12} style={{ left: "10px"}}>
                         {
                             props.isActiveBook
                                 ? <Button shape="round" type="primary" icon={React.createElement(CheckOutlined)}>Is active</Button>
                                 : <AddActiveBookContainer bookId={props.id} />
                         }
                     </Col>
-                    <Col span={12} style={{ top: "55px" }}>
+                    <Col span={12}>
                         <Rate style={{ float: "right", marginRight: "15px" }} value={props.bookRating.averageRating} disabled allowHalf></Rate>
                     </Col>
                 </Row>

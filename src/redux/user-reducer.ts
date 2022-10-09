@@ -63,7 +63,7 @@ export const authRequestThunkCreator = (email: string, paswword: string, remembe
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
-            dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
+            dispatch(setCurrentUserData(result.id, result.userName, result.email, result.avatarImage));
         }
         else {
             // Отправка сообщение на офрму
@@ -77,7 +77,7 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
-            dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
+            dispatch(setCurrentUserData(result.id, result.userName, result.email, result.avatarImage));
         }
     }
 }
