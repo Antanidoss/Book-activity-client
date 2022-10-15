@@ -1,9 +1,11 @@
-import { Form, Input, Checkbox, Button } from 'antd';
-import React, { useEffect } from 'react';
-import { PropsType } from './LoginContainer';
+import { Button, Checkbox, Form, Input, UploadFile } from "antd";
+import { UploadChangeParam } from "antd/lib/upload";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import UploadImage from "../../common/UploadImage";
+import { PropsType } from "./RegistrationContainer";
 
-const Login: React.FC<PropsType> = (props) => {
+const Registration: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,14 +14,15 @@ const Login: React.FC<PropsType> = (props) => {
         }
     }, [props.isAuthenticated]);
 
-    type LoginDataType = {
+    type RegisterDataType = {
+        userName: string,
         email: string,
         password: string,
-        rememberMe: boolean
+        avatarImage: UploadChangeParam<UploadFile>
     }
 
-    const onFinish = (values: LoginDataType) => {
-        props.auth(values.email, values.password, values.rememberMe);
+    const onFinish = (values: RegisterDataType) => {
+        props.registration(values.userName, values.email, values.password, values.avatarImage);
     };
 
     return (
@@ -31,7 +34,14 @@ const Login: React.FC<PropsType> = (props) => {
             onFinish={onFinish}>
             <Form.Item
                 wrapperCol={{ offset: 11, span: 10, }}>
-                <div style={{ fontFamily: "Pacifico, cursive", fontSize: "30px" }}>Authorization</div>
+                <div style={{ fontFamily: "Pacifico, cursive", fontSize: "30px" }}>Registration</div>
+            </Form.Item>
+
+            <Form.Item
+                label="Name"
+                name="userName"
+                rules={[{ required: true, message: "Please input your name!" }]}>
+                <Input />
             </Form.Item>
 
             <Form.Item
@@ -48,25 +58,20 @@ const Login: React.FC<PropsType> = (props) => {
                 <Input.Password />
             </Form.Item>
 
-            <Form.Item
-                name="rememberMe"
-                valuePropName="checked"
-                label="Remember me"
-                labelCol={{sm: {offset: 11}}}>
-                <Checkbox></Checkbox>
-            </Form.Item>
+            <UploadImage fieldLabel="Avatar image" fieldName="avatarImage" rules={undefined} uploadListType="picture-card" />
 
-            <Form.Item wrapperCol={{ offset: 10, span: 4 }}>
+            <Form.Item
+                wrapperCol={{ offset: 10, span: 4 }}>
                 <Button type="primary" htmlType="submit" shape="round" block>
-                    Login
+                    Register
                 </Button>
             </Form.Item>
-
+            
             <Form.Item style={{textAlign: "center"}} wrapperCol={{ span: 24 }}>
-                <Link to="/registration">Registration</Link>
+                <Link to="/login">Login</Link>
             </Form.Item>
         </Form>
     )
 }
 
-export default Login;
+export default Registration;

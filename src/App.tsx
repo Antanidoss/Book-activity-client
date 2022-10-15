@@ -14,6 +14,7 @@ import { initializeThunkCreator } from './redux/app-reducer';
 import { getInitialized } from './redux/app-selectors';
 import AllCurUserActiveBooksContainer from './components/activeBook/AllCurUserActiveBooksContainer';
 import AdministartionMain from './components/administration/AdministartionMain';
+import RegistrationContainer from './components/account/registration/RegistrationContainer';
 
 const App: React.FC<PropsType> = (props) => {
     const { Sider, Content, Header } = Layout;
@@ -48,6 +49,9 @@ const App: React.FC<PropsType> = (props) => {
                         </Routes>
                         <Routes>
                             <Route path="/login" element={<LoginContainer />}></Route>
+                        </Routes>
+                        <Routes>
+                            <Route path="/registration" element={<RegistrationContainer />}></Route>
                         </Routes>
                         <Routes>
                             <Route path="/activeBooks" element={<AllCurUserActiveBooksContainer />}></Route>

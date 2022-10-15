@@ -14,7 +14,7 @@ export type ResponseType<D = {}> = {
 }
 
 export const isBadStatusCode = (status: number) => {
-    return status > 202;
+    return status > 204;
 }
 
 export default instanceAxios;
