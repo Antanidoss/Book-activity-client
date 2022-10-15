@@ -3,6 +3,8 @@ import { ThunkAction } from 'redux-thunk';
 import { AppStoreType } from './redux-store';
 import { Dispatch } from "redux";
 import { userApi } from "../api/userApi";
+import { UploadChangeParam, UploadFile } from "antd/lib/upload";
+import { isBadStatusCode } from "../api/instanceAxios";
 
 export type InitialStateType = {
     currentUser: UserType | null,
@@ -57,9 +59,9 @@ type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatus;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
-export const authRequestThunkCreator = (email: string, paswword: string, rememberMe: boolean): ThunkType => {
+export const authRequestThunkCreator = (email: string, password: string, rememberMe: boolean): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await userApi.auth(email, paswword, rememberMe);
+        const response = await userApi.auth(email, password, rememberMe);
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
@@ -74,10 +76,21 @@ export const authRequestThunkCreator = (email: string, paswword: string, remembe
 export const getCurrentUserRequestThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.getCurrentUser();
-        if (response.success) {
+        if (response.success && response.result !== null) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
             dispatch(setCurrentUserData(result.id, result.userName, result.email, result.avatarImage));
+        }
+    }
+}
+
+export const registrationUserRequestThunkCreator = (userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile>): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await userApi.addUser(userName, email, password, avatarImage);
+        if (!isBadStatusCode(response.status)) {
+            const authResponse = await userApi.auth(email, password, true);
+            dispatch(setAuthenticatedStatus(true));
+            dispatch(setCurrentUserData(authResponse.result.id, authResponse.result.userName, authResponse.result.email, authResponse.result.avatarImage));
         }
     }
 }
