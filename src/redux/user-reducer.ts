@@ -18,6 +18,7 @@ const initialState: InitialStateType = {
 
 const SET_CURRENT_USER_DATA = "SET_CURRENT_USER_DATA";
 const SET_AUTHENTICATED_STATUS = "SET_AUTHENTICATED_STATUS";
+const UPDATE_USER = "UPDATE_USER";
 
 const userReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -36,15 +37,25 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     ...state,
                     isAuthenticated: action.isAuthenticated
                 }
+                case UPDATE_USER:
+                    return {
+                        ...state,
+                        currentUser: {
+                            id: state.currentUser?.id as string,
+                            email: state.currentUser?.email as string,
+                            name: action.userName,
+                            avatarImage: action.avatarImage
+                        }
+                    }
             default:
                 return state;
     }
 }
 
-type SetAuthenticatedStatus = {
+type SetAuthenticatedStatusType = {
     type: typeof SET_AUTHENTICATED_STATUS, isAuthenticated: boolean
 }
-export const setAuthenticatedStatus = (isAuthenticated: boolean): SetAuthenticatedStatus => ({
+export const setAuthenticatedStatus = (isAuthenticated: boolean): SetAuthenticatedStatusType => ({
     type: SET_AUTHENTICATED_STATUS, isAuthenticated: isAuthenticated
 })
 
@@ -55,7 +66,14 @@ export const setCurrentUserData = (id: string, userName: string, email: string, 
     type: SET_CURRENT_USER_DATA, id: id, name: userName, email: email, avatarImage: avatarImage
 })
 
-type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatus;
+type UpdateUserType = {
+    type: typeof UPDATE_USER, userName: string, avatarImage: ArrayBuffer | null
+}
+export const updateUser = (userName: string, avatarImage: ArrayBuffer): UpdateUserType => ({
+    type: UPDATE_USER, userName: userName, avatarImage: avatarImage
+})
+
+type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -91,6 +109,15 @@ export const registrationUserRequestThunkCreator = (userName: string, email: str
             const authResponse = await userApi.auth(email, password, true);
             dispatch(setAuthenticatedStatus(true));
             dispatch(setCurrentUserData(authResponse.result.id, authResponse.result.userName, authResponse.result.email, authResponse.result.avatarImage));
+        }
+    }
+}
+
+export const updateUserRequestThunkCreator = (userId: string, userName: string, avatarImage: UploadChangeParam<UploadFile>): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await userApi.updateUser(userId, userName, avatarImage);
+        if (!isBadStatusCode(response.status)) {
+            dispatch(updateUser(userName, await (avatarImage.file.originFileObj as Blob).arrayBuffer()));
         }
     }
 }

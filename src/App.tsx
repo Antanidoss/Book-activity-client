@@ -15,6 +15,7 @@ import { getInitialized } from './redux/app-selectors';
 import AllCurUserActiveBooksContainer from './components/activeBook/AllCurUserActiveBooksContainer';
 import AdministartionMain from './components/administration/AdministartionMain';
 import RegistrationContainer from './components/account/registration/RegistrationContainer';
+import ProfileContainer from './components/account/profile/ProfileContainer';
 
 const App: React.FC<PropsType> = (props) => {
     const { Sider, Content, Header } = Layout;
@@ -43,7 +44,7 @@ const App: React.FC<PropsType> = (props) => {
                             </Link>
                         </div>
                     </Header>
-                    <Content style={{ overflow: "initial" }}>
+                    <Content style={{ overflow: "initial", height:"95vh"}}>
                         <Routes>
                             <Route path="/books" element={<AllBooksContainer />}></Route>
                         </Routes>
@@ -58,6 +59,9 @@ const App: React.FC<PropsType> = (props) => {
                         </Routes>
                         <Routes>
                             <Route path="/administration" element={<AdministartionMain />}></Route>
+                        </Routes>
+                        <Routes>
+                            <Route path="/profile" element={<ProfileContainer />}></Route>
                         </Routes>
                     </Content>
                 </Layout>

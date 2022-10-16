@@ -15,3 +15,7 @@ export const getAvatarImage = (state: AppStoreType) => {
 export const getUserId = (state: AppStoreType) => {
     return state.userStore.currentUser?.id;
 }
+
+export const getCurUser = (state: AppStoreType) => {
+    return state.userStore.currentUser;
+}
