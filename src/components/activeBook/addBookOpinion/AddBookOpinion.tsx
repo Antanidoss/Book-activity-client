@@ -37,17 +37,17 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
                         Cancel
                     </Button>
                 ]}>
-                <Form id="updateActiveBookForm" onFinish={handleOk}>
+                <Form onFinish={handleOk} initialValues={{description: props.bookOpinion?.description, grade: props.bookOpinion?.grade }}>
                     <Form.Item
                         label="Description"
                         name="description"
                         rules={[{ required: true, message: "Please input number pages read!" }]}>
-                        <TextArea defaultValue={props.bookOpinion?.description} disabled={props.userHasOpinion} />
+                        <TextArea rows={10} disabled={props.userHasOpinion} />
                     </Form.Item>
                     <Form.Item
                         label="Grade"
                         name="grade">
-                        <Rate defaultValue={props.bookOpinion?.grade} disabled={props.userHasOpinion} allowHalf />
+                        <Rate allowHalf disabled={props.userHasOpinion} />
                     </Form.Item>
                     {
                         props.userHasOpinion

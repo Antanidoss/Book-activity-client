@@ -47,5 +47,13 @@ export const userApi = {
         formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
 
         return instanceAxios.post("/user/add", formData)
+    },
+    updateUser(userId: string, userName: string, avatarImage: UploadChangeParam<UploadFile>) {
+        var formData = new FormData();
+        formData.append("userId", userId);
+        formData.append("name", userName);
+        formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
+
+        return instanceAxios.post("/user/update", formData)
     }
 }
