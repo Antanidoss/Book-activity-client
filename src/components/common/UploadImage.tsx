@@ -1,4 +1,4 @@
-import { message, Upload } from "antd";
+import { ColProps, message, Upload } from "antd";
 import { RcFile, UploadChangeParam, UploadFile, UploadListType } from "antd/lib/upload/interface";
 import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
@@ -45,16 +45,17 @@ const UploadImage: React.FC<PropsType> = (props) => {
                 style={{
                     marginTop: 8,
                 }}>
-                Upload
+                {props.uploadButtonTitle === undefined ? "Upload" : props.uploadButtonTitle}
             </div>
         </div>
     );
 
     return (
         <Form.Item
-            name={props.fieldName}
             label={props.fieldLabel}
-            rules={props.rules}>
+            name={props.fieldName}
+            rules={props.rules}
+            >
             <Upload
                 listType={props.uploadListType}
                 showUploadList={false}
@@ -83,8 +84,10 @@ const UploadImage: React.FC<PropsType> = (props) => {
 export type PropsType = {
     uploadListType: UploadListType
     fieldName: string,
-    fieldLabel: string,
-    rules: Rule[] | undefined
+    fieldLabel?: string,
+    rules?: Rule[],
+    wrapperCol?: ColProps,
+    uploadButtonTitle?: string
 }
 
 export default UploadImage;
