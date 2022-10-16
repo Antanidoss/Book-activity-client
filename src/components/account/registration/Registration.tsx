@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, UploadFile } from "antd";
+import { Button, Checkbox, Col, Form, Input, Row, UploadFile } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,7 +29,7 @@ const Registration: React.FC<PropsType> = (props) => {
         <Form
             initialValues={{ rememberMe: true }}
             labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
+            wrapperCol={{ span: 9 }}
             style={{ marginTop: "15%" }}
             onFinish={onFinish}>
             <Form.Item
@@ -44,21 +44,25 @@ const Registration: React.FC<PropsType> = (props) => {
                 <Input />
             </Form.Item>
 
-            <Form.Item
-                label="Email"
-                name="email"
-                rules={[{ required: true, message: "Please input your email!" }]}>
-                <Input />
-            </Form.Item>
-
-            <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}>
-                <Input.Password />
-            </Form.Item>
-
-            <UploadImage fieldLabel="Avatar image" fieldName="avatarImage" rules={undefined} uploadListType="picture-card" />
+            <Row>
+                <Col sm={12} offset={4}>
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[{ required: true, message: "Please input your email!" }]}>
+                        <Input style={{ width: '170%' }} />
+                    </Form.Item>
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: 'Please input your password!' }]}>
+                        <Input.Password style={{ width: '170%' }} />
+                    </Form.Item>
+                </Col>
+                <Col span={2}>
+                    <UploadImage wrapperCol={{ offset: 10, span: 4 }} fieldName="avatarImage" uploadButtonTitle="Upload avatar" uploadListType="picture-card" />
+                </Col>
+            </Row>
 
             <Form.Item
                 wrapperCol={{ offset: 10, span: 4 }}>
@@ -66,8 +70,8 @@ const Registration: React.FC<PropsType> = (props) => {
                     Register
                 </Button>
             </Form.Item>
-            
-            <Form.Item style={{textAlign: "center"}} wrapperCol={{ span: 24 }}>
+
+            <Form.Item style={{ textAlign: "center" }} wrapperCol={{ span: 24 }}>
                 <Link to="/login">Login</Link>
             </Form.Item>
         </Form>
