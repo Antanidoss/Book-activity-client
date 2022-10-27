@@ -6,13 +6,11 @@ import BookFilterContainer from "./bookFilter/BookFilterContainer";
 
 const AllBooks: React.FC<PropsType> = (props) => {
     if (!props.books.length) {
-        return <Empty />
+        return <Empty description="Can't find books" />
     }
 
     return (
         <>
-            <BookFilterContainer />
-
             <Row justify="space-around" gutter={[24, 16]} style={{marginRight: "0px"}}>
                 {props.books.map(b => <Book key={b.id} {...b}></Book>)}
             </Row>

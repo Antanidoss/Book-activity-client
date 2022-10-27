@@ -1,4 +1,4 @@
-import { BookOpinionType } from "./bookOpinion"
+import { BookOpinionType } from "./bookOpinionType"
 
 export type BookRatingType = {
     id: string,

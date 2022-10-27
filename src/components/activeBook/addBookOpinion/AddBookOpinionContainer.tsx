@@ -4,8 +4,8 @@ import { updateBookRatingRequestThunkCreator } from "../../../redux/book-reducer
 import { getBookById } from "../../../redux/book-selectors";
 import { AppStoreType } from "../../../redux/redux-store";
 import { getUserId } from "../../../redux/user-selectors";
-import { BookOpinionType } from "../../../types/bookOpinion";
-import { BookRatingType } from "../../../types/bookRating";
+import { BookOpinionType } from "../../../types/bookOpinionType";
+import { BookRatingType } from "../../../types/bookRatingType";
 import AddBookOpinion from "./AddBookOpinion";
 
 const AddBookOpinionContainer: React.FC<PropsType> = (props) => {

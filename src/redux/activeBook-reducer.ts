@@ -3,7 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
 import { activeBookApi } from '../api/activeBookApi';
 import { ActiveBook } from '../types/activeBookType';
-import { calculateSkip } from '../pagination/pagination';
+import { calculateSkip } from '../types/paginationType';
 import { getBookById } from './book-selectors';
 import { BookType } from '../types/bookType';
 import { ok } from 'assert';
