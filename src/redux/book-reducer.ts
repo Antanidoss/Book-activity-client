@@ -3,9 +3,10 @@ import { AppStoreType } from './redux-store';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
 import { AddBookModelType, bookApi } from '../api/bookApi';
-import { calculateSkip } from '../pagination/pagination';
+import { calculateSkip } from '../types/paginationType';
 import { isBadStatusCode } from '../api/instanceAxios';
 import { bookRatingApi } from '../api/bookRatingApi';
+import { BookFilterType } from '../types/bookFilterType';
 
 export type InitialStateType = {
     pageSize: number
@@ -56,23 +57,23 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     return b;
                 })
             }
-            case UPDATE_BOOK_RATING:
-                return {
-                    ...state,
+        case UPDATE_BOOK_RATING:
+            return {
+                ...state,
                 books: state.books.map(b => {
                     if (b.bookRating.id == action.bookRatingId) {
                         return {
                             ...b,
                             bookRating: {
                                 ...b.bookRating,
-                                bookOpinions: b.bookRating.bookOpinions.concat({grade: action.grade, description: action.description, userId: action.userId})
+                                bookOpinions: b.bookRating.bookOpinions.concat({ grade: action.grade, description: action.description, userId: action.userId })
                             }
                         }
                     }
 
                     return b;
                 })
-                }
+            }
         default:
             return state;
     }
@@ -88,7 +89,7 @@ export const updateCurrentPage = (newPageNumber: number): UpdatePageNumberType =
 type SetBooksDataType = {
     type: typeof SET_BOOKS_DATA, books: Array<BookType>
 }
-export const setBooksDataType = (books: Array<BookType>): SetBooksDataType => ({
+export const setBooksData = (books: Array<BookType>): SetBooksDataType => ({
     type: SET_BOOKS_DATA, books: books
 })
 
@@ -117,14 +118,30 @@ type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatu
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
-export const getBooksRequestThunkCreator = (): ThunkType => {
+export const getBooksByFilter = (bookFilterModel?: BookFilterType): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const state = getState().bookStore;
         const skip = calculateSkip(state.pageNumber, state.pageSize);
-        const respnse = await bookApi.getBooks(skip, state.pageSize);
-        dispatch(setBooksDataType(respnse.result))
+        if (bookFilterModel === undefined) {
+            bookFilterModel = {
+                averageRatingFrom: 0,
+                averageRatingTo: 5,
+                skip: skip,
+                take: state.pageSize
+            }
+        }
+        else {
+            bookFilterModel.skip = skip;
+            bookFilterModel.take = state.pageSize;
+        }
+
+        const response = await bookApi.getBooksByFilter(bookFilterModel);
+        if (response.success) {
+            dispatch(setBooksData(response.result))
+        }
     }
 }
+
 
 export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
