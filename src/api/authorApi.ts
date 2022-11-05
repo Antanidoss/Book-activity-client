@@ -11,8 +11,4 @@ export const authorApi = {
         return instanceAxios.get<ResponseType<Array<AuthorType>>>(`/author/getByName?name=${name}&take=${take}`)
             .then(r => r.data);
     },
-    getAllAuthors() {
-        return instanceAxios.get<ResponseType<Array<AuthorType>>>('/author/getAll')
-            .then(r => r.data);
-    }
 }
