@@ -80,13 +80,4 @@ export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<P
     }
 }
 
-export const getAllAuthorsRequestThunkCreator = (): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await authorApi.getAllAuthors();
-        if (response.success) {
-            dispatch(setAuthors(response.result));
-        }
-    }
-}
-
 export default authorReducer;

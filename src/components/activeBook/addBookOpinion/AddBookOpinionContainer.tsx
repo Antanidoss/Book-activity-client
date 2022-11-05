@@ -25,7 +25,7 @@ type MapStateToPropsType = {
     bookRatingId: string,
     userHasOpinion: boolean,
     userId: string,
-    bookOpinion: BookOpinionType | null
+    bookOpinion: BookOpinionType | undefined
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => {
@@ -36,7 +36,7 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
     return {
         bookId: ownProps.bookId,
         bookRatingId: bookRating.id as string,
-        userHasOpinion: bookOpinion !== null,
+        userHasOpinion: bookOpinion !== undefined,
         bookOpinion: bookOpinion,
         userId: curUserId
     }
