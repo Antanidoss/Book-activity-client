@@ -6,22 +6,24 @@ import { AddBookModelType, bookApi } from '../api/bookApi';
 import { calculateSkip } from '../types/paginationType';
 import { isBadStatusCode } from '../api/instanceAxios';
 import { bookRatingApi } from '../api/bookRatingApi';
-import { BookFilterType } from '../types/bookFilterType';
+import { BookFilterType, BookFilterTypeDefault } from '../types/bookFilterType';
 
 export type InitialStateType = {
     pageSize: number
     pageNumber: number
     totalBookCount: number
     books: Array<BookType>,
-    currentBook: BookType
+    currentBook: BookType,
+    bookFilter: BookFilterType
 }
 
 const initialState: InitialStateType = {
-    pageSize: 8,
+    pageSize: 12,
     pageNumber: 1,
     totalBookCount: 0,
     books: [] as Array<BookType>,
     currentBook: {} as BookType,
+    bookFilter: BookFilterTypeDefault
 }
 
 const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
@@ -29,6 +31,8 @@ const SET_BOOKS_DATA = "SET_BOOKS_DATA";
 const SET_ACTIVE_BOOK_STATUS = "SET_ACTIVE_BOOK_STATUS";
 const ADD_BOOK = "ADD_BOOK";
 const UPDATE_BOOK_RATING = "UPDATE_BOOK_RATING";
+const UPDATE_TOTAL_BOOK_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
+const UPDATE_BOOK_FILTER = "UPDATE_BOOK_FILTER";
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -41,7 +45,6 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 books: action.books,
-                totalBookCount: action.books.length
             }
         case SET_ACTIVE_BOOK_STATUS:
             return {
@@ -73,6 +76,20 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
 
                     return b;
                 })
+            }
+        case UPDATE_TOTAL_BOOK_COUNT:
+            return {
+                ...state,
+                totalBookCount: action.totalBookCount
+            }
+        case UPDATE_BOOK_FILTER:
+            return {
+                ...state,
+                bookFilter: {
+                    bookTitle: action.bookFilter.bookTitle,
+                    averageRatingFrom: action.bookFilter.averageRatingFrom,
+                    averageRatingTo: action.bookFilter.averageRatingTo,
+                }
             }
         default:
             return state;
@@ -114,34 +131,35 @@ export const updateBookRating = (grade: number, bookRatingId: string, descriptio
     type: UPDATE_BOOK_RATING, grade: grade, bookRatingId: bookRatingId, description: description, userId: userId
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | AddBookType | UpdateBookRatingType;
+type UpdateTotalBookCountType = {
+    type: typeof UPDATE_TOTAL_BOOK_COUNT, totalBookCount: number
+}
+export const updateTotalBookCountType = (totalBookCount: number): UpdateTotalBookCountType => ({
+    type: UPDATE_TOTAL_BOOK_COUNT, totalBookCount: totalBookCount
+})
+
+type UpdateBookFilterType = {
+    type: typeof UPDATE_BOOK_FILTER, bookFilter: BookFilterType
+}
+export const updateBookFilter = (bookFilter: BookFilterType): UpdateBookFilterType => ({
+    type: UPDATE_BOOK_FILTER, bookFilter: bookFilter
+})
+
+type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | AddBookType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
-export const getBooksByFilter = (bookFilterModel?: BookFilterType): ThunkType => {
+export const getBooksByFilter = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const state = getState().bookStore;
-        const skip = calculateSkip(state.pageNumber, state.pageSize);
-        if (bookFilterModel === undefined) {
-            bookFilterModel = {
-                averageRatingFrom: 0,
-                averageRatingTo: 5,
-                skip: skip,
-                take: state.pageSize
-            }
-        }
-        else {
-            bookFilterModel.skip = skip;
-            bookFilterModel.take = state.pageSize;
-        }
-
-        const response = await bookApi.getBooksByFilter(bookFilterModel);
+        const bookState = getState().bookStore;
+        const skip = calculateSkip(bookState.pageNumber, bookState.pageSize);
+        const response = await bookApi.getBooksByFilter(bookState.bookFilter, skip, bookState.pageSize);
         if (response.success) {
-            dispatch(setBooksData(response.result))
+            dispatch(setBooksData(response.result.entities))
+            dispatch(updateTotalBookCountType(response.result.totalCount))
         }
     }
 }
-
 
 export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {

@@ -2,7 +2,7 @@ import { Empty, Pagination, Row } from "antd";
 import React from "react";
 import { PropsType } from "./AllBooksContainer";
 import Book from "./bookForList/BookForList";
-import BookFilterContainer from "./bookFilter/BookFilterContainer";
+import BookPaginationContainer from "./bookPagination/BookPaginationContainer";
 
 const AllBooks: React.FC<PropsType> = (props) => {
     if (!props.books.length) {
@@ -15,7 +15,7 @@ const AllBooks: React.FC<PropsType> = (props) => {
                 {props.books.map(b => <Book key={b.id} {...b}></Book>)}
             </Row>
 
-            <Pagination style={{display: "flex", justifyContent: "center", marginTop: "100px"}} current={props.pageNumber} total={props.totalBookCount} />
+            <BookPaginationContainer />
         </>
     );
 }

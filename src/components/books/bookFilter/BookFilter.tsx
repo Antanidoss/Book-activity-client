@@ -21,7 +21,8 @@ const BookFilter: React.FC<PropsType> = (props) => {
     };
 
     const onFinish = (bookFilterModel: BookFilterType) => {
-        props.getBooksByFilter(bookFilterModel);
+        props.updateBookFilter(bookFilterModel);
+        props.getBooksByFilter();
         onClose();
     };
 
@@ -40,7 +41,7 @@ const BookFilter: React.FC<PropsType> = (props) => {
                 onFinish={onFinish}
                 style={{ marginTop: "50px" }}
                 wrapperCol={{ span: 16, offset: 4 }}
-                initialValues={{ averageRatingFrom: 0, averageRatingTo: 5 }}>
+                initialValues={{ bookTitle: props.bookFilter.bookTitle, averageRatingFrom: props.bookFilter.averageRatingFrom, averageRatingTo: props.bookFilter.averageRatingTo }}>
                 <Form.Item
                     wrapperCol={{ offset: 11, span: 10, }}>
                     <div style={{ fontFamily: "Pacifico, cursive", fontSize: "30px" }}>Filter</div>
