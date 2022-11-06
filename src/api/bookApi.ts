@@ -12,10 +12,21 @@ export type AddBookModelType = {
     authorIds: Array<string>
 }
 
+type GetBooksByFilterResult = {
+    entities: Array<BookType>,
+    totalCount: number
+}
+
 export const bookApi = {
-    getBooksByFilter(filterModel: BookFilterType) {
-        return instanceAxios.get<ResponseType<Array<BookType>>>("/book/getByFilter", {
-            params: filterModel
+    getBooksByFilter(filterModel: BookFilterType, skip: number, take: number) {
+        return instanceAxios.get<ResponseType<GetBooksByFilterResult>>("/book/getByFilter", {
+            params: {
+                bookTitle: filterModel.bookTitle,
+                averageRatingFrom: filterModel.averageRatingFrom,
+                averageRatingTo: filterModel.averageRatingTo,
+                skip,
+                take
+            }
         }).then(res => res.data)
     },
     addBook(addBookModel: AddBookModelType) {
