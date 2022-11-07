@@ -44,7 +44,7 @@ const App: React.FC<PropsType> = (props) => {
                             </Link>
                         </div>
                     </Header>
-                    <Content style={{ overflow: "initial", height:"95vh"}}>
+                    <Content style={{ overflow: "initial", minHeight: "95vh"}}>
                         <Routes>
                             <Route path="/books" element={<AllBooksContainer />}></Route>
                         </Routes>
