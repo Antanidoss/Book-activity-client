@@ -5,21 +5,12 @@ import {
 } from "@ant-design/icons";
 
 const CustomDrawer: React.FC<PropsType> = (props) => {
-    if (props.open) {
-        document.body.style.overflow = 'hidden';
-    }
-    const onCloseDrawer = () => {
-        if (props.onClose !== undefined) {
-            props.onClose();
-        }
-
-        document.body.style.overflow = '';
-    }
+    document.body.style.overflow = props.open ? 'hidden' : '';
 
     return (
         <Drawer {...props} style={{ height: "98%", top: "64px" }}>
             <div style={{ display: "flex", flex: "0", alignItems: "center", padding: "16px 24px", lineHeight: "22px" }}>
-                <button onClick={onCloseDrawer} type="button" aria-label="Close" className="ant-drawer-close" style={{ fontSize: "20px" }}><CloseOutlined /></button>
+                <button onClick={props.onClose} type="button" aria-label="Close" className="ant-drawer-close" style={{ fontSize: "20px" }}><CloseOutlined /></button>
             </div>
             {props.children}
         </Drawer>
