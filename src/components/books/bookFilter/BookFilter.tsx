@@ -3,7 +3,7 @@ import { PropsType } from "./BookFilterContainer";
 import {
     FilterOutlined
 } from "@ant-design/icons";
-import { Button, Col, Form, InputNumber, Row } from "antd";
+import { Affix, Button, Col, Form, InputNumber, Row } from "antd";
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
@@ -22,14 +22,17 @@ const BookFilter: React.FC<PropsType> = (props) => {
     };
 
     const onFinish = (bookFilterModel: BookFilterType) => {
+        props.updateCurrentPage(1);
         props.updateBookFilter(bookFilterModel);
         props.getBooksByFilter();
         onClose();
     };
 
     return <>
-        <Col style={{ height: "50px" }} span={24}>
-            <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>Filter</Button>
+        <Col style={{ height: "50px" }} span={3}>
+            <Affix offsetTop={1}>
+                <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>Filter</Button>
+            </Affix>
         </Col>
 
         <CustomDrawer
