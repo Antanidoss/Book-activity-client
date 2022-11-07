@@ -8,6 +8,7 @@ import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
 import { BookFilterType } from "../../../types/bookFilterType";
+import CustomDrawer from "../../common/CustomDrawer";
 
 const BookFilter: React.FC<PropsType> = (props) => {
     const [open, setOpen] = useState(false);
@@ -31,7 +32,7 @@ const BookFilter: React.FC<PropsType> = (props) => {
             <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>Filter</Button>
         </Col>
 
-        <Drawer
+        <CustomDrawer
             open={open}
             direction="right"
             onClose={onClose}
@@ -83,7 +84,7 @@ const BookFilter: React.FC<PropsType> = (props) => {
                     </Button>
                 </Form.Item>
             </Form>
-        </Drawer>
+        </CustomDrawer>
     </>
 }
 
