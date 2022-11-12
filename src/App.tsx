@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { initializeThunkCreator } from './redux/app-reducer';
 import { getInitialized } from './redux/app-selectors';
-import AllCurUserActiveBooksContainer from './components/activeBook/AllCurUserActiveBooksContainer';
+import AllCurUserActiveBooksContainer from './components/activeBook/AllActiveBooksCurUserContainer';
 import AdministartionMain from './components/administration/AdministartionMain';
 import RegistrationContainer from './components/account/registration/RegistrationContainer';
 import ProfileContainer from './components/account/profile/ProfileContainer';

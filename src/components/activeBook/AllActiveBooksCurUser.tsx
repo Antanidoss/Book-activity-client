@@ -1,7 +1,7 @@
 import { Empty, Pagination, Row } from 'antd';
 import React from 'react'
 import ActiveBookForListContainer from './activeBookForList/ActiveBookForListContainer';
-import { PropsType } from './AllCurUserActiveBooksContainer'
+import { PropsType } from './AllActiveBooksCurUserContainer'
 
 const AllCurUserActiveBooks: React.FC<PropsType> = (props) => {
     if (!props.activeBooks.length) {

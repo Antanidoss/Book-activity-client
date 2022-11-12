@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { getActiveBooksByCurrentUserThunkCreator, removeActiveBookThunkCreator } from '../../redux/activeBook-reducer';
@@ -8,17 +8,16 @@ import { getActiveBooks, getPageNumber, getTotalActiveBookCount } from '../../re
 import { AppStoreType } from '../../redux/redux-store';
 import { getIsAuthenticated } from '../../redux/user-selectors';
 import { ActiveBook } from '../../types/activeBookType';
-import AllCurUserActiveBooks from './AllCurUserActiveBooks';
+import AllCurUserActiveBooks from './AllActiveBooksCurUser';
 
 const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        props.getActiveBooks();
-        setLoading(false);
+        props.getActiveBooks().then(() => setLoading(false));
     }, [])
 
-    return loading ? <div style={{textAlign: "center", marginTop: "30%"}}><Spin size="large" spinning={loading} /></div> : <AllCurUserActiveBooks {...props} />
+    return loading ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div> : <AllCurUserActiveBooks {...props} />
 }
 
 type MapDispatchToPropsType = {
@@ -45,9 +44,12 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     totalActiveBookCount: getTotalActiveBookCount(state)
 })
 
-export type PropsType = MapStateToPropsType & MapDispatchToPropsType;
+type OwnPropsType = {
 
-export default compose<React.ComponentType>(
-    connect<MapStateToPropsType, MapDispatchToPropsType, null, AppStoreType>(mapStateToProps, mapDispatchToProps),
-    withAuthRedirect
-)(AllCurUserActiveBooksContainer)
+}
+
+type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
+export type PropsType = ExtractConnectType<typeof connectStore>
+
+export default compose<React.ComponentType>(connectStore, withAuthRedirect)(AllCurUserActiveBooksContainer);

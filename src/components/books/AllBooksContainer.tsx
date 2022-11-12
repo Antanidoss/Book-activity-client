@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { compose } from "redux";
-import { connect } from "react-redux";
+import { connect, InferableComponentEnhancerWithProps } from "react-redux";
 import { getBooksByFilter } from "../../redux/book-reducer";
 import { getBooks, getPageNumber, getPageSize, getTotalBookCount } from "../../redux/book-selectors";
 import { AppStoreType } from "../../redux/redux-store";
@@ -13,12 +12,11 @@ const AllBooksContainer: React.FC<PropsType> = (props, bookId: string) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        props.getBooks();
-        setLoading(false);
+        props.getBooks().then(() => setLoading(false));
     }, [])
 
     if (loading) {
-        return <div style={{ textAlign: "center", marginTop: "30%" }}><Spin size="large" spinning={loading} /></div>
+        return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
     }
 
     return (
@@ -41,8 +39,6 @@ type MapDispatchToPropsType = {
     getBooks: typeof getBooksByFilter
 }
 
-export type PropsType = MapStateToPropsType & MapDispatchToPropsType;
-
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     pageNumber: getPageNumber(state),
     pageSize: getPageSize(state),
@@ -54,6 +50,12 @@ const mapDispatchToProps = {
     getBooks: getBooksByFilter
 }
 
-export default compose<React.ComponentType>(
-    connect<MapStateToPropsType, MapDispatchToPropsType, null, AppStoreType>(mapStateToProps, mapDispatchToProps)
-)(AllBooksContainer);
+type OwnPropsType = {
+
+}
+
+type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
+export type PropsType = ExtractConnectType<typeof connectStore>
+
+export default connectStore(AllBooksContainer)
