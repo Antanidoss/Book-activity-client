@@ -2,6 +2,10 @@ import { Button, Form, message, Modal, Rate } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useState } from "react";
 import { PropsType } from "./AddBookOpinionContainer";
+import {
+    CommentOutlined
+} from "@ant-design/icons";
+import ResizableButton from "../../common/ResizableButton";
 
 const AddBookOpinion: React.FC<PropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -30,7 +34,7 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
 
     return (
         <>
-            <Button shape="round" type="primary" onClick={showModal}>{props.userHasOpinion ? "Look review" : "Add a review"}</Button>
+            <ResizableButton icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize={props.userHasOpinion ? "Look review" : "Add a review"}/>
             <Modal title="Add active book" visible={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="back" onClick={handleCancel}>

@@ -1,6 +1,10 @@
 import { Button, Form, Input, InputNumber, message, Modal } from "antd";
 import React, { useState } from "react";
 import { PropsType } from "./UpdateActiveBookContainer";
+import {
+    EditOutlined
+} from "@ant-design/icons";
+import ResizableButton from "../../common/ResizableButton";
 
 const UpdateActiveBook: React.FC<PropsType> = (props) => {
     type UpdateActiveBookType = {
@@ -27,7 +31,7 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
     };
 
     return <>
-        <Button onClick={showModal} shape="round" type="primary">Edit</Button>
+        <ResizableButton onClick={showModal} shape="round" type="primary" icon={React.createElement(EditOutlined)} titleOnResize={"Edit"}/>
         <Modal title="Add active book" visible={isModalVisible} onCancel={handleCancel}
             footer={[
                 <Button key="back" onClick={handleCancel}>
