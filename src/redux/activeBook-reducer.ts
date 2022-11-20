@@ -6,9 +6,9 @@ import { ActiveBook } from '../types/activeBookType';
 import { calculateSkip } from '../types/paginationType';
 import { getBookById } from './book-selectors';
 import { BookType } from '../types/bookType';
-import { ok } from 'assert';
-import { STATUS_CODES } from 'http';
 import { isBadStatusCode } from '../api/instanceAxios';
+import { NoteColor } from '../types/bookNoteType';
+import { bookNoteApi } from '../api/bookNoteApi';
 
 export type InitialStateType = {
     pageSize: number
@@ -28,6 +28,7 @@ const ADD_ACTIVE_BOOK = "ADD_ACTIVE_BOOK";
 const SET_ACTIVE_BOOKS = "SET_ACTIVE_BOOKS";
 const UPDATE_ACTIVE_BOOK = "UPDATE_ACTIVE_BOOK";
 const REMOVE_ACTIVE_BOOK = "REMOVE_ACTIVE_BOOK";
+const ADD_BOOK_NOTE = "ADD_BOOK_NOTE";
 
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
@@ -102,7 +103,14 @@ const removeActiveBook = (activeBookId: string): RemoveActiveBookType => ({
     type: REMOVE_ACTIVE_BOOK, activeBookId: activeBookId
 })
 
-type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType | RemoveActiveBookType;
+type AddBookNoteType = {
+    type: typeof ADD_BOOK_NOTE, activeBookId: string, note: string, noteColor: NoteColor
+}
+const addBookNote = (activeBookId: string, note: string, noteColor: NoteColor): AddBookNoteType => ({
+    type: ADD_BOOK_NOTE, activeBookId: activeBookId, note: note, noteColor: noteColor
+})
+
+type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType | RemoveActiveBookType | AddBookNoteType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -140,6 +148,18 @@ export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<
         const response = await activeBookApi.removeActiveBook(activeBookId);
         if (!isBadStatusCode(response.status)){
             dispatch(removeActiveBook(activeBookId))
+            return true;
+        }
+
+        return false;
+    }
+}
+
+export const addBookNoteThunkCreator = (activeBookId: string, note: string, noteColor: NoteColor): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await bookNoteApi.addBookNote(activeBookId, note, noteColor);
+        if (!isBadStatusCode(response.status)){
+            dispatch(addBookNote(activeBookId, note, noteColor))
             return true;
         }
 
