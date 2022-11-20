@@ -44,10 +44,10 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={18} style={{ marginTop: "20px" }}>
+                    <Col span={18} style={{ marginTop: "10px" }}>
                         <AddBookOpinionContainer bookId={props.activeBook.book.id} />
                     </Col>
-                    <Col span={4} style={{ marginTop: "20px" }}>
+                    <Col span={4} style={{ marginTop: "10px" }}>
                         <AddBookNoteContainer activeBookId={props.activeBook.id} />
                     </Col>
                 </Row>
