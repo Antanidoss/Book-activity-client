@@ -31,7 +31,7 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
     };
 
     return <>
-        <ResizableButton onClick={showModal} shape="round" type="primary" icon={React.createElement(EditOutlined)} titleOnResize={"Edit"}/>
+        <ResizableButton style={{marginLeft: "40px"}} onClick={showModal} shape="round" type="primary" icon={React.createElement(EditOutlined)} titleOnResize={"Edit"}/>
         <Modal title="Add active book" visible={isModalVisible} onCancel={handleCancel}
             footer={[
                 <Button key="back" onClick={handleCancel}>

@@ -1,5 +1,10 @@
 export type BookNoteType = {
     id: string,
     note: string,
-    color: 'white' | 'blue'
+    color: NoteColor 
 }
+
+export enum NoteColor {
+    White,
+    Blue
+}; 

@@ -9,6 +9,7 @@ import {
 import { PropsType } from "./ActiveBookForListContainer";
 import AddBookOpinionContainer from "../addBookOpinion/AddBookOpinionContainer";
 import ResizableButton from "../../common/ResizableButton";
+import AddBookNoteContainer from "../addBookNote/AddBookNoteContainer";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const onClickRemoveActiveBook = () => {
@@ -35,14 +36,19 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                     <Progress percent={progressPercent} />
                 </Col>
                 <Row>
-                    <Col span={4} style={{ marginLeft: "10px", marginTop: "20px" }}>
+                    <Col span={18} style={{ marginTop: "20px" }}>
                         <UpdateActiveBookContainer totalNumberPages={props.activeBook.totalNumberPages} numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} />
                     </Col>
-                    <Col span={4} style={{ marginLeft: "20px", marginTop: "20px" }}>
+                    <Col span={4} style={{ marginTop: "20px" }}>
                         <ResizableButton shape="round" type="primary" icon={React.createElement(DeleteOutlined)} onClick={onClickRemoveActiveBook} titleOnResize={"Delete"} />
                     </Col>
-                    <Col span={4} style={{ marginLeft: "32px", marginTop: "20px" }}>
+                </Row>
+                <Row>
+                    <Col span={18} style={{ marginTop: "20px" }}>
                         <AddBookOpinionContainer bookId={props.activeBook.book.id} />
+                    </Col>
+                    <Col span={4} style={{ marginTop: "20px" }}>
+                        <AddBookNoteContainer activeBookId={props.activeBook.id} />
                     </Col>
                 </Row>
             </Col>

@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 
 const ResizableButton: React.FC<PropsType> = (props) => {
     const [curButtonTitle, setResizeText] = useState("");
@@ -23,7 +23,8 @@ const ResizableButton: React.FC<PropsType> = (props) => {
             onMouseLeave={clearTitle}
             onClick={props.onClick}
             shape={props.shape}
-            icon={props.icon}>{curButtonTitle}</Button>
+            icon={props.icon}
+            style={props.style}>{curButtonTitle}</Button>
     )
 }
 
@@ -33,6 +34,7 @@ type PropsType = {
     type: "default" | "primary" | "ghost" | "dashed" | "link" | "text",
     icon: React.ReactNode,
     titleOnResize: string
+    style?: CSSProperties
 }
 
 export default ResizableButton;
