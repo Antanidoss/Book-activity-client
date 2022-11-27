@@ -18,11 +18,11 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
         setIsModalVisible(true);
     };
 
-    const handleOk = (updateActiveBookType: UpdateActiveBookType) => {
-        props.updateActiveBook(props.activeBookId, updateActiveBookType.numberPagesRead)
-            .then(message.success("The active book has been successfully updated", 6))
+    const handleOk = (updateActiveBook: UpdateActiveBookType) => {
+        props.updateActiveBook(props.activeBookId, updateActiveBook.numberPagesRead)
+            .then(message.success("The active book has been successfully updated", 6));
 
-        setNumberPagesRead(updateActiveBookType.numberPagesRead)
+        setNumberPagesRead(updateActiveBook.numberPagesRead);
         setIsModalVisible(false);
     };
 

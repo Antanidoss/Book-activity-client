@@ -16,6 +16,7 @@ import AllCurUserActiveBooksContainer from './components/activeBook/AllActiveBoo
 import AdministartionMain from './components/administration/AdministartionMain';
 import RegistrationContainer from './components/account/registration/RegistrationContainer';
 import ProfileContainer from './components/account/profile/ProfileContainer';
+import ActiveBooksStatisticForCurUserContainer from './components/activeBooksStatistic/ActiveBooksStatisticForCurUser/ActiveBooksStatisticForCurUserContainer';
 
 const App: React.FC<PropsType> = (props) => {
     const { Sider, Content, Header } = Layout;
@@ -62,6 +63,9 @@ const App: React.FC<PropsType> = (props) => {
                         </Routes>
                         <Routes>
                             <Route path="/profile" element={<ProfileContainer />}></Route>
+                        </Routes>
+                        <Routes>
+                            <Route path="/statistic" element={<ActiveBooksStatisticForCurUserContainer />}></Route>
                         </Routes>
                     </Content>
                 </Layout>

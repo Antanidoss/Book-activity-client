@@ -6,13 +6,15 @@ import bookReducer from './book-reducer'
 import userReducer from "./user-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import authorReducer from "./author-reducer";
+import activeBooksStatisticReducer from "./activeBooksStatistic-reducer";
 
 const rootReducer = combineReducers({
     bookStore: bookReducer,
     userStore: userReducer,
     appStore: appReducer,
     activeBookStore: activeBookReducer,
-    authorStore: authorReducer
+    authorStore: authorReducer,
+    activeBooksStatisticStore: activeBooksStatisticReducer
 });
 
 type RootReducer = typeof rootReducer
