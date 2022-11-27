@@ -30,7 +30,7 @@ const Navbar: React.FC<PropsType> = (props) => {
                 <Link to={"/books"}>BOOKS</Link>
             </Menu.Item>
             <Menu.Item key="/statistics" icon={React.createElement(BarChartOutlined)}>
-                <Link to="#">STATISTICS</Link>
+                <Link to="/statistic">STATISTICS</Link>
             </Menu.Item>
             <Menu.Item key="/friends" icon={React.createElement(TeamOutlined)}>
                 <Link to={"#"}>FRIENDS</Link>
