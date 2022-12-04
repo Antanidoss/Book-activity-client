@@ -4,7 +4,6 @@ import {
     FilterOutlined
 } from "@ant-design/icons";
 import { Affix, Button, Col, Form, InputNumber, Row } from "antd";
-import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
 import { BookFilterType } from "../../../types/bookFilterType";
@@ -46,18 +45,15 @@ const BookFilter: React.FC<PropsType> = (props) => {
                 style={{ marginTop: "50px" }}
                 wrapperCol={{ span: 16, offset: 4 }}
                 initialValues={{ bookTitle: props.bookFilter.bookTitle, averageRatingFrom: props.bookFilter.averageRatingFrom, averageRatingTo: props.bookFilter.averageRatingTo }}>
-                <Form.Item
-                    wrapperCol={{ offset: 11, span: 10, }}>
+                <Form.Item wrapperCol={{ offset: 11, span: 10, }}>
                     <div style={{ fontFamily: "Pacifico, cursive", fontSize: "30px" }}>Filter</div>
                 </Form.Item>
 
-                <Form.Item
-                    name="bookTitle">
+                <Form.Item name="bookTitle">
                     <Search placeholder="input book title" />
                 </Form.Item>
 
-                <Form.Item
-                    wrapperCol={{ offset: 11, span: 10, }}>
+                <Form.Item wrapperCol={{ offset: 11, span: 10, }}>
                     <div style={{ fontSize: "20px" }}>Rating</div>
                 </Form.Item>
 
@@ -71,17 +67,13 @@ const BookFilter: React.FC<PropsType> = (props) => {
                     </Col>
 
                     <Col>
-                        <Form.Item
-                            label="to"
-                            name="averageRatingTo">
+                        <Form.Item label="to" name="averageRatingTo">
                             <InputNumber min={0} max={5} />
                         </Form.Item>
                     </Col>
                 </Row>
 
-                <Form.Item
-                    style={{ marginTop: "50px" }}
-                    wrapperCol={{ offset: 10, span: 4 }}>
+                <Form.Item style={{ marginTop: "50px" }} wrapperCol={{ offset: 10, span: 4 }}>
                     <Button type="primary" htmlType="submit" shape="round" block>
                         Search
                     </Button>

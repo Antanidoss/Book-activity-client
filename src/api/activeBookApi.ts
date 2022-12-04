@@ -1,6 +1,22 @@
-import { ActiveBook } from "../types/activeBookType";
+import { ActiveBookFilterType } from "../types/api/activeBookFilterType";
 import instanceAxios from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
+import { PaginationType } from "../types/api/paginationType";
+import { FilterResultType } from "../types/api/filterResultType";
+
+export type ActiveBookByFilter = {
+    id: string,
+    totalNumberPages: number,
+    numberPagesRead: number,
+    bookTitle: string,
+    bookId: string,
+    imageData: ArrayBuffer,
+    notes?: Array<{
+        id: string,
+        note: string,
+        noteColor: number
+    }>
+}
 
 export const activeBookApi = {
     addActiveBook(totalNumberPages: number, numberPagesRead: number, bookId: string) {
@@ -11,9 +27,16 @@ export const activeBookApi = {
         return instanceAxios.put<ResponseType>("activeBook/updateNumberPagesRead", { activeBookId, numberPagesRead })
             .then(res => res.data)
     },
-    getActiveBooksByCurrentUser(skip: number, take: number) {
-        return instanceAxios.get<ResponseType<Array<ActiveBook>>>(`/activeBook/getActiveBooksByCurrentUser/${skip}/${take}`)
-            .then(res => res.data)
+    getActiveBooksByFilter(filterModel: ActiveBookFilterType, pagination: PaginationType) {
+        return instanceAxios.get<ResponseType<FilterResultType<ActiveBookByFilter>>>(`/activeBook/getActiveBooksByFilter`, {
+            params: {
+                bookTitle: filterModel.bookTitle,
+                withFullRead: filterModel.withFullRead,
+                sortBy: filterModel.sortBy,
+                skip: pagination.skip,
+                take: pagination.take
+            }
+        }).then(res => res.data)
     },
     removeActiveBook(activeBookId: string) {
         return instanceAxios.delete(`/activeBook/remove?activeBookId=${activeBookId}`);

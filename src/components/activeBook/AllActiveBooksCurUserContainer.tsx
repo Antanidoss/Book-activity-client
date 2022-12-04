@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { getActiveBooksByCurrentUserThunkCreator, removeActiveBookThunkCreator } from '../../redux/activeBook-reducer';
+import { getActiveBooksByFilterThunkCreator, removeActiveBookThunkCreator } from '../../redux/activeBook-reducer';
 import { getActiveBooks, getPageNumber, getTotalActiveBookCount } from '../../redux/activeBook-selectors';
 import { AppStoreType } from '../../redux/redux-store';
 import { getIsAuthenticated } from '../../redux/user-selectors';
@@ -21,12 +21,12 @@ const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
 }
 
 type MapDispatchToPropsType = {
-    getActiveBooks: typeof getActiveBooksByCurrentUserThunkCreator,
+    getActiveBooks: typeof getActiveBooksByFilterThunkCreator,
     removeActiveBook: typeof removeActiveBookThunkCreator
 }
 
 const mapDispatchToProps = {
-    getActiveBooks: getActiveBooksByCurrentUserThunkCreator,
+    getActiveBooks: getActiveBooksByFilterThunkCreator,
     removeActiveBook: removeActiveBookThunkCreator,
 }
 

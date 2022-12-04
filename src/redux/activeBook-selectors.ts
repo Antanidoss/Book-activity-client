@@ -11,3 +11,7 @@ export const getPageNumber = (state: AppStoreType) => {
 export const getTotalActiveBookCount = (state: AppStoreType) => {
     return state.activeBookStore.totalActiveBookCount;
 }
+
+export const getFilter = (state: AppStoreType) => {
+    return state.activeBookStore.filter;
+}
