@@ -25,11 +25,11 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
         <Col style={{marginTop: "20px"}} span={5}>
             <Col span={24} style={bookMain}>
                 <Link to={"#"} style={{ color: "black" }}>
-                    <Col span={24} style={bookTitle}>{props.activeBook.book.title}</Col>
+                    <Col span={24} style={bookTitle}>{props.activeBook.bookTitle}</Col>
                 </Link>
                 <Link to={"#"} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
-                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + props.activeBook.book.imageData} />
+                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + props.activeBook.imageData} />
                     </Col>
                 </Link>
                 <Col span={24}>
@@ -45,7 +45,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 </Row>
                 <Row>
                     <Col span={18} style={{ marginTop: "10px" }}>
-                        <AddBookOpinionContainer bookId={props.activeBook.book.id} />
+                        <AddBookOpinionContainer bookId={props.activeBook.bookId} />
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>
                         <AddBookNoteContainer activeBookId={props.activeBook.id} />

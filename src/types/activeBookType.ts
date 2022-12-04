@@ -1,10 +1,11 @@
 import { BookNoteType } from "./bookNoteType"
-import { BookType } from "./bookType"
 
 export type ActiveBook = {
     id: string,
     totalNumberPages: number,
     numberPagesRead: number,
-    book: BookType
+    bookId: string,
+    bookTitle: string,
+    imageData: ArrayBuffer,
     notes?: Array<BookNoteType>
 }

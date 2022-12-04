@@ -3,18 +3,20 @@ import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
 import { activeBookApi } from '../api/activeBookApi';
 import { ActiveBook } from '../types/activeBookType';
-import { calculateSkip } from '../types/paginationType';
+import { calculateSkip, PaginationType } from '../types/api/paginationType';
 import { getBookById } from './book-selectors';
 import { BookType } from '../types/bookType';
 import { isBadStatusCode } from '../api/instanceAxios';
-import { NoteColor } from '../types/bookNoteType';
+import { BookNoteType, NoteColor } from '../types/bookNoteType';
 import { bookNoteApi } from '../api/bookNoteApi';
+import { ActiveBookFilterType } from '../types/api/activeBookFilterType';
 
 export type InitialStateType = {
     pageSize: number
     pageNumber: number
     totalActiveBookCount: number
     activeBooks: Array<ActiveBook>,
+    filter: ActiveBookFilterType
 }
 
 const initialState: InitialStateType = {
@@ -22,6 +24,7 @@ const initialState: InitialStateType = {
     pageNumber: 1,
     totalActiveBookCount: 0,
     activeBooks: [] as Array<ActiveBook>,
+    filter: { sortBy: 1, withFullRead: true }
 }
 
 const ADD_ACTIVE_BOOK = "ADD_ACTIVE_BOOK";
@@ -29,6 +32,8 @@ const SET_ACTIVE_BOOKS = "SET_ACTIVE_BOOKS";
 const UPDATE_ACTIVE_BOOK = "UPDATE_ACTIVE_BOOK";
 const REMOVE_ACTIVE_BOOK = "REMOVE_ACTIVE_BOOK";
 const ADD_BOOK_NOTE = "ADD_BOOK_NOTE";
+const UPDATE_FILTER = "UPDATE_FILTER"
+const UPDATE_CURRENT_PAGE_NUMBER = "UPDATE_CURRENT_PAGE_NUMBER";
 
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
@@ -37,7 +42,9 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                 id: actions.id,
                 numberPagesRead: actions.numberPagesRead,
                 totalNumberPages: actions.totalNumberPages,
-                book: actions.book
+                bookId: actions.book.id,
+                bookTitle: actions.book.title,
+                imageData: actions.book.imageData
             }
 
             return {
@@ -50,26 +57,36 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                 activeBooks: actions.activeBooks,
                 totalActiveBookCount: actions.activeBooks.length
             }
-            case UPDATE_ACTIVE_BOOK:
+        case UPDATE_ACTIVE_BOOK:
 
-                return {
-                    ...state,
-                    activeBooks: state.activeBooks.map(a => {
-                        if (a.id == actions.activeBookId){
-                            return {
-                                ...a,
-                                numberPagesRead: actions.numberPagesRead
-                            }
+            return {
+                ...state,
+                activeBooks: state.activeBooks.map(a => {
+                    if (a.id == actions.activeBookId) {
+                        return {
+                            ...a,
+                            numberPagesRead: actions.numberPagesRead
                         }
-
-                        return a;
-                    })
-                }
-                case REMOVE_ACTIVE_BOOK:
-                    return {
-                        ...state,
-                        activeBooks: state.activeBooks.filter(a => a.id != actions.activeBookId)
                     }
+
+                    return a;
+                })
+            }
+        case REMOVE_ACTIVE_BOOK:
+            return {
+                ...state,
+                activeBooks: state.activeBooks.filter(a => a.id != actions.activeBookId)
+            }
+        case UPDATE_FILTER:
+            return {
+                ...state,
+                filter: actions.filter
+            }
+        case UPDATE_CURRENT_PAGE_NUMBER:
+            return {
+                ...state,
+                pageNumber: actions.pageNumber
+            }
         default:
             return state;
     }
@@ -93,7 +110,7 @@ type UpdateActiveBookType = {
     type: typeof UPDATE_ACTIVE_BOOK, activeBookId: string, numberPagesRead: number
 }
 const updateActiveBook = (activeBookId: string, numberPagesRead: number): UpdateActiveBookType => ({
-    type: UPDATE_ACTIVE_BOOK, activeBookId: activeBookId, numberPagesRead: numberPagesRead 
+    type: UPDATE_ACTIVE_BOOK, activeBookId: activeBookId, numberPagesRead: numberPagesRead
 })
 
 type RemoveActiveBookType = {
@@ -110,7 +127,21 @@ const addBookNote = (activeBookId: string, note: string, noteColor: NoteColor): 
     type: ADD_BOOK_NOTE, activeBookId: activeBookId, note: note, noteColor: noteColor
 })
 
-type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType | RemoveActiveBookType | AddBookNoteType;
+type UpdateFilterType = {
+    type: typeof UPDATE_FILTER, filter: ActiveBookFilterType
+}
+export const updateFilter = (filter: ActiveBookFilterType): UpdateFilterType => ({
+    type: UPDATE_FILTER, filter: filter
+})
+
+type UpdateCurrentPageNumberType = {
+    type: typeof UPDATE_CURRENT_PAGE_NUMBER, pageNumber: number
+}
+export const updateCurrentPageNumber = (pageNumber: number) => ({
+    type: UPDATE_CURRENT_PAGE_NUMBER, pageNumber: pageNumber
+})
+
+type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType | RemoveActiveBookType | AddBookNoteType | UpdateFilterType | UpdateCurrentPageNumberType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -127,12 +158,26 @@ export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalN
     }
 }
 
-export const getActiveBooksByCurrentUserThunkCreator = (): ThunkType => {
+export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const state = getState().activeBookStore;
         const skip = calculateSkip(state.pageNumber, state.pageSize);
-        const response = await activeBookApi.getActiveBooksByCurrentUser(skip, state.pageSize);
-        dispatch(setActiveBooks(response.result));
+        const pagination: PaginationType = { skip: skip, take: state.pageSize };
+        const response = await activeBookApi.getActiveBooksByFilter(state.filter, pagination);
+
+        const activeBooks = response.result.entities.map(a => {
+            return {
+                id: a.id,
+                bookId: a.bookId,
+                bookTitle: a.bookTitle,
+                imageData: a.imageData,
+                totalNumberPages: a.totalNumberPages,
+                numberPagesRead: a.numberPagesRead,
+                notes: a.notes?.map(n => { return { id: n.id, note: n.note, color: n.noteColor } })
+            }
+        });
+
+        dispatch(setActiveBooks(activeBooks));
     }
 }
 
@@ -141,12 +186,12 @@ export const updateActiveBookThunkCreator = (activeBookId: string, numberPagesRe
         await activeBookApi.updateActiveBook(activeBookId, numberPagesRead);
         dispatch(updateActiveBook(activeBookId, numberPagesRead));
     }
-} 
+}
 
 export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await activeBookApi.removeActiveBook(activeBookId);
-        if (!isBadStatusCode(response.status)){
+        if (!isBadStatusCode(response.status)) {
             dispatch(removeActiveBook(activeBookId))
             return true;
         }
@@ -158,7 +203,7 @@ export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<
 export const addBookNoteThunkCreator = (activeBookId: string, note: string, noteColor: NoteColor): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookNoteApi.addBookNote(activeBookId, note, noteColor);
-        if (!isBadStatusCode(response.status)){
+        if (!isBadStatusCode(response.status)) {
             dispatch(addBookNote(activeBookId, note, noteColor))
             return true;
         }

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { connect, InferableComponentEnhancerWithProps } from "react-redux";
 import { compose } from "redux";
 import { withAuthRedirect } from "../../../hoc/withAuthRedirect";
-import { getActiveBooksByCurrentUserThunkCreator } from "../../../redux/activeBook-reducer";
 import { getActiveBooksStatisticThunkCreator } from "../../../redux/activeBooksStatistic-reducer";
 import { getCurUserStatistics } from "../../../redux/activeBooksStatistic-selectors";
 import { AppStoreType } from "../../../redux/redux-store";

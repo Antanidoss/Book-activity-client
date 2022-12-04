@@ -8,7 +8,7 @@ import { BookType } from "../../types/bookType";
 import { Spin } from "antd";
 import BookFilterContainer from "./bookFilter/BookFilterContainer";
 
-const AllBooksContainer: React.FC<PropsType> = (props, bookId: string) => {
+const AllBooksContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

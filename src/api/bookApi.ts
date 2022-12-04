@@ -4,6 +4,7 @@ import { BookType } from '../types/bookType';
 import { UploadFile } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
 import { BookFilterType } from "../types/bookFilterType";
+import { FilterResultType } from "../types/api/filterResultType";
 
 export type AddBookModelType = {
     title: string,
@@ -12,14 +13,9 @@ export type AddBookModelType = {
     authorIds: Array<string>
 }
 
-type GetBooksByFilterResult = {
-    entities: Array<BookType>,
-    totalCount: number
-}
-
 export const bookApi = {
     getBooksByFilter(filterModel: BookFilterType, skip: number, take: number) {
-        return instanceAxios.get<ResponseType<GetBooksByFilterResult>>("/book/getByFilter", {
+        return instanceAxios.get<ResponseType<FilterResultType<BookType>>>("/book/getByFilter", {
             params: {
                 bookTitle: filterModel.bookTitle,
                 averageRatingFrom: filterModel.averageRatingFrom,
