@@ -34,6 +34,7 @@ const REMOVE_ACTIVE_BOOK = "REMOVE_ACTIVE_BOOK";
 const ADD_BOOK_NOTE = "ADD_BOOK_NOTE";
 const UPDATE_FILTER = "UPDATE_FILTER"
 const UPDATE_CURRENT_PAGE_NUMBER = "UPDATE_CURRENT_PAGE_NUMBER";
+const UPDATE_TOTAL_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
 
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
@@ -86,6 +87,11 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
             return {
                 ...state,
                 pageNumber: actions.pageNumber
+            }
+        case UPDATE_TOTAL_COUNT:
+            return {
+                ...state,
+                totalActiveBookCount: actions.totalCount
             }
         default:
             return state;
@@ -141,7 +147,14 @@ export const updateCurrentPageNumber = (pageNumber: number) => ({
     type: UPDATE_CURRENT_PAGE_NUMBER, pageNumber: pageNumber
 })
 
-type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType | RemoveActiveBookType | AddBookNoteType | UpdateFilterType | UpdateCurrentPageNumberType;
+type UpdateTotalCountType = {
+    type: typeof UPDATE_TOTAL_COUNT, totalCount: number
+}
+export const updateTotalCount = (totalCount: number): UpdateTotalCountType => ({
+    type: UPDATE_TOTAL_COUNT, totalCount: totalCount
+})
+
+type ActionsTypes = AddActiveBookType | SetActiveBooksType | UpdateActiveBookType | RemoveActiveBookType | AddBookNoteType | UpdateFilterType | UpdateCurrentPageNumberType | UpdateTotalCountType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -178,6 +191,7 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
         });
 
         dispatch(setActiveBooks(activeBooks));
+        dispatch(updateTotalCount(response.result.totalCount));
     }
 }
 
