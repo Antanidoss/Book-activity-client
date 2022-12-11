@@ -29,11 +29,11 @@ const Navbar: React.FC<PropsType> = (props) => {
             <Menu.Item key="/books" icon={React.createElement(BookOutlined)}>
                 <Link to={"/books"}>BOOKS</Link>
             </Menu.Item>
-            <Menu.Item key="/statistics" icon={React.createElement(BarChartOutlined)}>
+            <Menu.Item key="/statistic" icon={React.createElement(BarChartOutlined)}>
                 <Link to="/statistic">STATISTICS</Link>
             </Menu.Item>
-            <Menu.Item key="/friends" icon={React.createElement(TeamOutlined)}>
-                <Link to={"#"}>FRIENDS</Link>
+            <Menu.Item key="/users" icon={React.createElement(TeamOutlined)}>
+                <Link to={"/users"}>OTHER READERS</Link>
             </Menu.Item>
         </Menu>
     )

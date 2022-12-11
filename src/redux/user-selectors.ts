@@ -19,3 +19,7 @@ export const getUserId = (state: AppStoreType) => {
 export const getCurUser = (state: AppStoreType) => {
     return state.userStore.currentUser;
 }
+
+export const getUsers = (state: AppStoreType) => {
+    return state.userStore.users;
+}
