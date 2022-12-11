@@ -1,4 +1,7 @@
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
+import { FilterResultType } from "../types/api/filterResultType";
+import { UserFilterResultType } from "../types/api/userFilterResultType";
+import { UserFilterType } from "../types/api/userFilterType";
 import instanceAxios from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 
@@ -55,5 +58,14 @@ export const userApi = {
         formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
 
         return instanceAxios.post("/user/update", formData)
+    },
+    getUsersByFilter(filter: UserFilterType, skip: number, take: number) {
+        return instanceAxios.get<FilterResultType<UserFilterResultType>>("/user/getUsersByFilter", {
+            params: {
+                name: filter.name,
+                skip,
+                take
+            }
+        }).then(res => res.data)
     }
 }

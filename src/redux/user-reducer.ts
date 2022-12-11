@@ -5,20 +5,33 @@ import { Dispatch } from "redux";
 import { userApi } from "../api/userApi";
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
 import { isBadStatusCode } from "../api/instanceAxios";
+import { UserFilterType } from "../types/api/userFilterType";
+import { calculateSkip } from "../types/api/paginationType";
 
 export type InitialStateType = {
     currentUser: UserType | null,
     isAuthenticated: boolean,
+    pageNumber: number,
+    totalUserCount: number,
+    pageSize: number,
+    userFilter: UserFilterType,
+    users: Array<UserType>
 }
 
 const initialState: InitialStateType = {
     currentUser: null,
-    isAuthenticated: false
+    isAuthenticated: false,
+    pageNumber: 1,
+    totalUserCount: 0,
+    pageSize: 12,
+    userFilter: { name: null },
+    users: [] as Array<UserType>
 }
 
 const SET_CURRENT_USER_DATA = "SET_CURRENT_USER_DATA";
 const SET_AUTHENTICATED_STATUS = "SET_AUTHENTICATED_STATUS";
 const UPDATE_USER = "UPDATE_USER";
+const SET_USERS = "SET_USERS";
 
 const userReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -32,23 +45,28 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     avatarImage: action.avatarImage
                 }
             }
-            case SET_AUTHENTICATED_STATUS:
-                return {
-                    ...state,
-                    isAuthenticated: action.isAuthenticated
+        case SET_AUTHENTICATED_STATUS:
+            return {
+                ...state,
+                isAuthenticated: action.isAuthenticated
+            }
+        case UPDATE_USER:
+            return {
+                ...state,
+                currentUser: {
+                    id: state.currentUser?.id as string,
+                    email: state.currentUser?.email as string,
+                    name: action.userName,
+                    avatarImage: action.avatarImage
                 }
-                case UPDATE_USER:
-                    return {
-                        ...state,
-                        currentUser: {
-                            id: state.currentUser?.id as string,
-                            email: state.currentUser?.email as string,
-                            name: action.userName,
-                            avatarImage: action.avatarImage
-                        }
-                    }
-            default:
-                return state;
+            }
+        case SET_USERS:
+            return {
+                ...state,
+                users: action.users
+            }
+        default:
+            return state;
     }
 }
 
@@ -73,7 +91,14 @@ export const updateUser = (userName: string, avatarImage: ArrayBuffer): UpdateUs
     type: UPDATE_USER, userName: userName, avatarImage: avatarImage
 })
 
-type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType;
+type SetUsersType = {
+    type: typeof SET_USERS, users: Array<UserType>
+}
+export const setUsers = (users: Array<UserType>): SetUsersType => ({
+    type: SET_USERS, users: users
+})
+
+type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -119,6 +144,24 @@ export const updateUserRequestThunkCreator = (userId: string, userName: string, 
         if (!isBadStatusCode(response.status)) {
             dispatch(updateUser(userName, await (avatarImage.file.originFileObj as Blob).arrayBuffer()));
         }
+    }
+}
+
+export const getUsersByFilterThunkCreator = (): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const state = getState().userStore;
+        const skip = calculateSkip(state.pageNumber, state.pageSize);
+        const response = await userApi.getUsersByFilter(state.userFilter, skip, state.pageSize);
+        const users = response.entities.map(u => {
+            const user: UserType = {
+                id: u.id,
+                name: u.userName,
+                avatarImage: u.avatarImage
+            }
+            return user;
+        });
+
+        dispatch(setUsers(users));
     }
 }
 
