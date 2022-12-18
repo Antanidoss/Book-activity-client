@@ -5,13 +5,20 @@ import { getUsersByFilterThunkCreator } from "../../../redux/user-reducer";
 import { getUsers } from "../../../redux/user-selectors";
 import { UserType } from "../../../types/userType";
 import AllUser from "./AllUsers";
+import UserFilterContainer from "./userFilter/UserFilterContainer";
 
 const AllUsersContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {
         props.getUsers();
     }, [])
 
-    return <AllUser {...props} />
+    return (
+        <>
+            <UserFilterContainer />
+
+            <AllUser {...props} />
+        </>
+    )
 }
 
 type MapDispatchToPropsType = {
@@ -22,7 +29,7 @@ const mapDispatchToProps = {
 }
 
 type MapStateToPropsType = {
-   users: Array<UserType>
+    users: Array<UserType>
 }
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     users: getUsers(state)
