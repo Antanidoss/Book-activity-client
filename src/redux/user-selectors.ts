@@ -23,3 +23,7 @@ export const getCurUser = (state: AppStoreType) => {
 export const getUsers = (state: AppStoreType) => {
     return state.userStore.users;
 }
+
+export const getUserFilter = (state: AppStoreType) => {
+    return state.userStore.userFilter;
+}

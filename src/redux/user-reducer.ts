@@ -32,6 +32,7 @@ const SET_CURRENT_USER_DATA = "SET_CURRENT_USER_DATA";
 const SET_AUTHENTICATED_STATUS = "SET_AUTHENTICATED_STATUS";
 const UPDATE_USER = "UPDATE_USER";
 const SET_USERS = "SET_USERS";
+const UPDATE_USER_FILTER = "UPDATE_USER_FILTER";
 
 const userReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -64,6 +65,11 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 users: action.users
+            }
+        case UPDATE_USER_FILTER:
+            return {
+                ...state,
+                userFilter: action.filter
             }
         default:
             return state;
@@ -98,7 +104,14 @@ export const setUsers = (users: Array<UserType>): SetUsersType => ({
     type: SET_USERS, users: users
 })
 
-type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType;
+type UpdateUserFilterType = {
+    type: typeof UPDATE_USER_FILTER, filter: UserFilterType
+}
+export const updateUserFilter = (filter: UserFilterType): UpdateUserFilterType => ({
+    type: UPDATE_USER_FILTER, filter: filter
+})
+
+type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
