@@ -2,5 +2,6 @@ export type UserType = {
     id: string,
     name: string,
     email?: string,
-    avatarImage: ArrayBuffer | null
+    avatarImage: ArrayBuffer | null,
+    userSubscriptions?: Array<UserType>
  }

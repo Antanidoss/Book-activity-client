@@ -3,6 +3,12 @@ import React from "react";
 import { PropsType } from "./AllUsersContainer";
 
 const AllUser: React.FC<PropsType> = (props) => {
+    const subscribeToUser = (userId: string) => {
+        props.subscribeToUser(userId).then(successfully => {
+            console.log(subscribeToUser);
+        });
+    }
+
     return (
         <List
             style={{padding: "50px 150px 150px 150px"}}
@@ -12,7 +18,7 @@ const AllUser: React.FC<PropsType> = (props) => {
                     <List.Item.Meta
                         avatar={<Image style={{width: "50px", borderRadius: "15px"}} sizes="" src={("data:image/png;base64," + user.avatarImage)} />}
                         title={user.name}/>
-                    <Button shape="round" type="primary">Subscribe</Button>
+                    <Button onClick={() => subscribeToUser(user.id)} shape="round" type="primary">Subscribe</Button>
                 </List.Item>
             )} />
     )
