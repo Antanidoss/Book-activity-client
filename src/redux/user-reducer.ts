@@ -33,6 +33,7 @@ const SET_AUTHENTICATED_STATUS = "SET_AUTHENTICATED_STATUS";
 const UPDATE_USER = "UPDATE_USER";
 const SET_USERS = "SET_USERS";
 const UPDATE_USER_FILTER = "UPDATE_USER_FILTER";
+const SET_USER_SUBSCRIPTIONS = "SET_USER_SUBSCRIPTIONS";
 
 const userReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -55,8 +56,7 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 currentUser: {
-                    id: state.currentUser?.id as string,
-                    email: state.currentUser?.email as string,
+                    ...state.currentUser as UserType,
                     name: action.userName,
                     avatarImage: action.avatarImage
                 }
@@ -70,6 +70,14 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 userFilter: action.filter
+            }
+        case SET_USER_SUBSCRIPTIONS:
+            return {
+                ...state,
+                currentUser: {
+                    ...state.currentUser as UserType,
+                    userSubscriptions: state.currentUser?.userSubscriptions?.concat(action.user)
+                }
             }
         default:
             return state;
@@ -111,7 +119,14 @@ export const updateUserFilter = (filter: UserFilterType): UpdateUserFilterType =
     type: UPDATE_USER_FILTER, filter: filter
 })
 
-type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType;
+type SetUserSubscriptionsType = {
+    type: typeof SET_USER_SUBSCRIPTIONS, user: UserType
+}
+export const setUserSubscriptions = (user: UserType): SetUserSubscriptionsType => ({
+    type: SET_USER_SUBSCRIPTIONS, user: user
+})
+
+type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -175,6 +190,19 @@ export const getUsersByFilterThunkCreator = (): ThunkType => {
         });
 
         dispatch(setUsers(users));
+    }
+}
+
+export const subscribeToUserThunkCreator = (userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await userApi.subscribeToUser(userId);
+        if (!isBadStatusCode(response.status)) {
+            const user = getState().userStore.users.filter(u => u.id == userId)[0];
+            dispatch(setUserSubscriptions(user));
+            return true;
+        }
+        
+        return false;
     }
 }
 

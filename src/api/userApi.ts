@@ -67,5 +67,8 @@ export const userApi = {
                 take
             }
         }).then(res => res.data)
+    },
+    subscribeToUser(userId: string) {
+        return instanceAxios.put(`/user/subscribeUser?subscribedUserId=${userId}`);
     }
 }

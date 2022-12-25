@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { AppStoreType } from "../../../redux/redux-store";
-import { getUsersByFilterThunkCreator } from "../../../redux/user-reducer";
+import { getUsersByFilterThunkCreator, subscribeToUserThunkCreator } from "../../../redux/user-reducer";
 import { getUsers } from "../../../redux/user-selectors";
 import { UserType } from "../../../types/userType";
 import AllUser from "./AllUsers";
@@ -22,10 +22,12 @@ const AllUsersContainer: React.FC<PropsType> = (props) => {
 }
 
 type MapDispatchToPropsType = {
-    getUsers: typeof getUsersByFilterThunkCreator
+    getUsers: typeof getUsersByFilterThunkCreator,
+    subscribeToUser: typeof subscribeToUserThunkCreator
 }
 const mapDispatchToProps = {
-    getUsers: getUsersByFilterThunkCreator
+    getUsers: getUsersByFilterThunkCreator,
+    subscribeToUser: subscribeToUserThunkCreator
 }
 
 type MapStateToPropsType = {
