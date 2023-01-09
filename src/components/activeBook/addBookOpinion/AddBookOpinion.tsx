@@ -18,7 +18,7 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
     const handleOk = (addOpinion: AddOpinionType) => {
         props.updateRating(props.bookRatingId, addOpinion.grade, addOpinion.description, props.userId)
             .then(isSuccess => {
-                return isSuccess ? message.success("Review added.", 6) : message.success("Failed to add review. Try again.", 6)
+                return isSuccess ? message.success("Review added.", 6) : message.error("Failed to add review. Try again.", 6)
             })
 
         setIsModalVisible(false);

@@ -1,18 +1,18 @@
-import { List, Image, Avatar, Button } from "antd";
+import { List, Image, Avatar, Button, message } from "antd";
 import React from "react";
 import { PropsType } from "./AllUsersContainer";
 
 const AllUser: React.FC<PropsType> = (props) => {
     const subscribeToUser = (userId: string) => {
-        props.subscribeToUser(userId).then(successfully => {
-            console.log(subscribeToUser);
+        props.subscribeToUser(userId).then(isSuccess => {
+            return isSuccess ? message.success("You have successfully subscribed", 6) : message.error("Failed to subscribe", 6)
         });
     }
 
     return (
         <List
             style={{padding: "50px 150px 150px 150px"}}
-            dataSource={props.users}
+            dataSource={ props.currentUserId !== null ? props.users.filter(u => u.id !== props.currentUserId) : props.users}
             renderItem={(user) => (
                 <List.Item style={{ border: "1px solid rgba(140, 140, 140, 0.35)", borderRadius: "10px", padding: "10px", marginTop: "50px" }}>
                     <List.Item.Meta

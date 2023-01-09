@@ -1,3 +1,4 @@
+import { compose } from "@reduxjs/toolkit";
 import React from "react";
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { withAuthRedirect } from "../../../hoc/withAuthRedirect";
@@ -29,8 +30,10 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     isAuthenticated: getIsAuthenticated(state)
 })
 
+type OwnPropsType = {}
+
 type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T;
-const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps);
 export type PropsType = ExtractConnectType<typeof connectStore>;
 
-export default connectStore(ProfileContainer);
+export default compose<React.ComponentType>(connectStore, withAuthRedirect)(ProfileContainer);

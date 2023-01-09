@@ -6,7 +6,7 @@ const Profile: React.FC<PropsType> = (props) => {
     return (
         <Col span={24}>
             <Row style={{marginLeft: "200px"}}>
-            <Col>
+            <Col style={{"marginTop": "100px"}}>
                 <Avatar icon={<Image src={("data:image/png;base64," + props.curUser.avatarImage)} />} size={{ xxl: 150, }} shape="circle" />
             </Col>
             <Col>
