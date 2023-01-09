@@ -7,7 +7,7 @@ import { calculateSkip, PaginationType } from '../types/api/paginationType';
 import { getBookById } from './book-selectors';
 import { BookType } from '../types/bookType';
 import { isBadStatusCode } from '../api/instanceAxios';
-import { BookNoteType, NoteColor } from '../types/bookNoteType';
+import { NoteColor } from '../types/bookNoteType';
 import { bookNoteApi } from '../api/bookNoteApi';
 import { ActiveBookFilterType } from '../types/api/activeBookFilterType';
 

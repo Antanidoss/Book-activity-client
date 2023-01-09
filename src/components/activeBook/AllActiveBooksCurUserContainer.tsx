@@ -44,9 +44,7 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     totalActiveBookCount: getTotalActiveBookCount(state)
 })
 
-type OwnPropsType = {
-
-}
+type OwnPropsType = {}
 
 type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)

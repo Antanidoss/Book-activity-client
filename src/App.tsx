@@ -1,9 +1,8 @@
 import './App.css';
 import React, {useEffect} from 'react'
 import AllBooksContainer from './components/books/AllBooksContainer'
-import { Link, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Layout } from 'antd';
-import { NotificationOutlined } from '@ant-design/icons';
 import { siderStyles, bookActivityFontStyles } from './MainStyles';
 import NavbarContainer from './components/navbar/NavbarContainer';
 import LoginContainer from './components/account/login/LoginContainer';
@@ -18,13 +17,15 @@ import RegistrationContainer from './components/account/registration/Registratio
 import ProfileContainer from './components/account/profile/ProfileContainer';
 import ActiveBooksStatisticForCurUserContainer from './components/activeBooksStatistic/ActiveBooksStatisticForCurUser/ActiveBooksStatisticForCurUserContainer';
 import AllUsersContainer from './components/users/allUsers/AllUsersContainer';
+import NotificationsContainer from './components/notifications/NotificationsContainer';
 
 const App: React.FC<PropsType> = (props) => {
     const { Sider, Content, Header } = Layout;
 
     useEffect(()=>{
-        if (!props.initialized)
+        if (!props.initialized) {
             props.initialize();
+        }
     })
 
     return (
@@ -40,11 +41,7 @@ const App: React.FC<PropsType> = (props) => {
                 <Layout style={{ marginLeft: "200px" }}>
                     <Header>
                         <div style={bookActivityFontStyles}>Book activity</div>
-                        <div style={{ float: "right" }}>
-                            <Link to="#" style={{ color: "rgba(255, 255, 255, 0.65)" }}>
-                                <NotificationOutlined />
-                            </Link>
-                        </div>
+                        <NotificationsContainer />
                     </Header>
                     <Content style={{ overflow: "initial", minHeight: "95vh"}}>
                         <Routes>

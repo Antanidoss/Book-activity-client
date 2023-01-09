@@ -2,7 +2,7 @@ import { UploadChangeParam, UploadFile } from "antd/lib/upload";
 import { FilterResultType } from "../types/api/filterResultType";
 import { UserFilterResultType } from "../types/api/userFilterResultType";
 import { UserFilterType } from "../types/api/userFilterType";
-import instanceAxios from "./instanceAxios";
+import instanceAxios, { setAuthorizationToken } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 
 type AuthUserResponseType = {
@@ -27,6 +27,7 @@ export const userApi = {
             .then(r => {
                 if (r.data.result != null) {
                     localStorage.setItem("Authorization", r.data.result.token);
+                    setAuthorizationToken(r.data.result.token);
                 }
 
                 return r.data;
@@ -37,6 +38,7 @@ export const userApi = {
             .then(r => {
                 if (r.data.result !== null) {
                     localStorage.setItem("Authorization", r.data.result.token);
+                    setAuthorizationToken(r.data.result.token);
                 }
 
                 return r.data;

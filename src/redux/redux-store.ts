@@ -7,6 +7,7 @@ import userReducer from "./user-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import authorReducer from "./author-reducer";
 import activeBooksStatisticReducer from "./activeBooksStatistic-reducer";
+import userNotificationReducer from "./userNotification-reducer";
 
 const rootReducer = combineReducers({
     bookStore: bookReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     appStore: appReducer,
     activeBookStore: activeBookReducer,
     authorStore: authorReducer,
-    activeBooksStatisticStore: activeBooksStatisticReducer
+    activeBooksStatisticStore: activeBooksStatisticReducer,
+    userNotificationStore: userNotificationReducer
 });
 
 type RootReducer = typeof rootReducer

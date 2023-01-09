@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { AppStoreType } from "../../../redux/redux-store";
 import { getUsersByFilterThunkCreator, subscribeToUserThunkCreator } from "../../../redux/user-reducer";
-import { getUsers } from "../../../redux/user-selectors";
+import { getUserId, getUsers } from "../../../redux/user-selectors";
 import { UserType } from "../../../types/userType";
 import AllUser from "./AllUsers";
 import UserFilterContainer from "./userFilter/UserFilterContainer";
@@ -31,10 +31,12 @@ const mapDispatchToProps = {
 }
 
 type MapStateToPropsType = {
-    users: Array<UserType>
+    users: Array<UserType>,
+    currentUserId?: string
 }
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
-    users: getUsers(state)
+    users: getUsers(state),
+    currentUserId: getUserId(state)
 })
 
 type OwnPropsType = {}
