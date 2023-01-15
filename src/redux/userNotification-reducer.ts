@@ -14,6 +14,7 @@ const initialState: InitialStateType = {
 }
 
 const SET_USER_NOTIFICATIONS = "SET_USER_NOTIFICATIONS";
+const ADD_USER_NOTIFICATION = "ADD_USER_NOTIFICATION";
 
 const userNotificationReducer = (state = initialState, actions: ActionsTypes) => {
     switch (actions.type) {
@@ -21,6 +22,11 @@ const userNotificationReducer = (state = initialState, actions: ActionsTypes) =>
             return {
                 ...state,
                 notifications: actions.notifications
+            }
+        case ADD_USER_NOTIFICATION:
+            return {
+                ...state,
+                notifications: state.notifications.concat(actions.notification)
             }
         default:
             return state;
@@ -34,7 +40,14 @@ export const setUserNotifications = (notifications: Array<UserNotificationType>)
     type: SET_USER_NOTIFICATIONS, notifications: notifications
 })
 
-type ActionsTypes = SetUserNotificationsType;
+type AddNotificationType = {
+    type: typeof ADD_USER_NOTIFICATION, notification: UserNotificationType
+}
+export const addNotification = (notification: UserNotificationType): AddNotificationType => ({
+    type: ADD_USER_NOTIFICATION, notification: notification
+})
+
+type ActionsTypes = SetUserNotificationsType | AddNotificationType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>;
 
@@ -42,7 +55,7 @@ export const getUserNotificationsThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userNotificationApi.getNotification();
 
-        if (!isBadStatusCode(response.status)){
+        if (!isBadStatusCode(response.status)) {
             dispatch(setUserNotifications(response.data))
         }
     }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect, InferableComponentEnhancerWithProps } from "react-redux";
 import { compose } from "redux";
 import { AppStoreType } from "../../redux/redux-store";
-import { getUserNotificationsThunkCreator, setUserNotifications } from "../../redux/userNotification-reducer";
+import { addNotification, getUserNotificationsThunkCreator, setUserNotifications } from "../../redux/userNotification-reducer";
 import { getNotifications, getNotificationsCount } from "../../redux/userNotification-selectors";
 import { UserNotificationType } from "../../types/userNotificationType";
 import Notifications from "./Notifications";
@@ -21,16 +21,15 @@ const NotificationsContainer: React.FC<PropsType> = (props) => {
         props.getNotifications();
 
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl(SERVER_ADDRESS)
+            .withUrl(`${SERVER_ADDRESS}/${hubsApiConstants.USER_NOTIFICATION_HUB_NAME}`)
             .build();
 
         connection.on(hubsApiConstants.GET_NOTIFICATION, data => {
             data = JSON.parse(data);
-            props.setNotifications(props.notifications.concat({ id: data.NotificationId, description: data.MessageNotification }))
+            props.addNotification({ id: data.NotificationId, description: data.MessageNotification });
         });
 
         connection.start().then(() => {
-            console.log(connection.connectionId)
             setConnectionId(connection.connectionId as string);
             connection.send(hubsApiConstants.SET_USER_INFO, connection.connectionId, props.currentUserId);
         });
@@ -41,12 +40,12 @@ const NotificationsContainer: React.FC<PropsType> = (props) => {
 
 type MapDispatchToPropsType = {
     getNotifications: typeof getUserNotificationsThunkCreator,
-    setNotifications: typeof setUserNotifications
+    addNotification: typeof addNotification
 }
 
 const mapDispatchToProps = {
     getNotifications: getUserNotificationsThunkCreator,
-    setNotifications: setUserNotifications
+    addNotification: addNotification
 }
 
 type MapStateToPropsType = {

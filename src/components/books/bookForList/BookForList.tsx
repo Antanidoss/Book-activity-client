@@ -1,7 +1,6 @@
 import React from 'react';
 import { BookType } from '../../../types/bookType';
 import { Button, Col, Rate, Row, Statistic } from 'antd'
-import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
 import { bookMain, bookTitle } from './BookForListStyles';
 import AddActiveBookContainer from '../../activeBook/addActiveBook/AddActiveBookContainer';
