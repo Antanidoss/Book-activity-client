@@ -22,7 +22,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
     const progressPercent: number = Math.round(props.activeBook.numberPagesRead / props.activeBook.totalNumberPages * 100);
 
     return (
-        <Col style={{marginTop: "20px"}} span={5}>
+        <div className="book-list-block-main">
             <Col span={24} style={bookMain}>
                 <Link to={"#"} style={{ color: "black" }}>
                     <Col span={24} style={bookTitle}>{props.activeBook.bookTitle}</Col>
@@ -36,10 +36,10 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                     <Progress percent={progressPercent} />
                 </Col>
                 <Row>
-                    <Col span={18} style={{ marginTop: "20px" }}>
+                    <Col span={18} style={{ marginTop: "10px" }}>
                         <UpdateActiveBookContainer totalNumberPages={props.activeBook.totalNumberPages} numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} />
                     </Col>
-                    <Col span={4} style={{ marginTop: "20px" }}>
+                    <Col span={4} style={{ marginTop: "10px" }}>
                         <ResizableButton shape="round" type="primary" icon={React.createElement(DeleteOutlined)} onClick={onClickRemoveActiveBook} titleOnResize={"Delete"} />
                     </Col>
                 </Row>
@@ -52,7 +52,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                     </Col>
                 </Row>
             </Col>
-        </Col>
+        </div>
     )
 }
 

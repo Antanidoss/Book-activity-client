@@ -11,7 +11,7 @@ const AllBooks: React.FC<PropsType> = (props) => {
 
     return (
         <>
-            <Row justify="space-around" gutter={[24, 16]} style={{marginRight: "0px"}}>
+            <Row justify="space-around" gutter={[24, 16]} style={{marginRight: "0px"}} wrap={true}>
                 {props.books.map(b => <Book key={b.id} {...b}></Book>)}
             </Row>
 
