@@ -8,3 +8,8 @@ body {
     padding: 24px;
     background: #fff;
   }
+
+.book-list-block-main {
+    margin-top: 20px;
+    width: 400px;
+}
