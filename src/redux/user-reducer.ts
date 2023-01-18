@@ -136,7 +136,7 @@ export const authRequestThunkCreator = (email: string, password: string, remembe
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
-            dispatch(setCurrentUserData(result.id, result.userName, result.email, result.avatarImage));
+            dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
         }
         else {
             // Отправка сообщение на офрму
@@ -161,7 +161,7 @@ export const registrationUserRequestThunkCreator = (userName: string, email: str
         if (!isBadStatusCode(response.status)) {
             const authResponse = await userApi.auth(email, password, true);
             dispatch(setAuthenticatedStatus(true));
-            dispatch(setCurrentUserData(authResponse.result.id, authResponse.result.userName, authResponse.result.email, authResponse.result.avatarImage));
+            dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.email, authResponse.result.avatarImage));
         }
     }
 }

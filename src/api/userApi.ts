@@ -6,7 +6,7 @@ import instanceAxios, { setAuthorizationToken } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 
 type AuthUserResponseType = {
-    id: string,
+    userId: string,
     userName: string,
     email: string,
     token: string,
