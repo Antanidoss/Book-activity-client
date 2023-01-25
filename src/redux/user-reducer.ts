@@ -74,10 +74,13 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
         case SET_USER_SUBSCRIPTIONS:
             return {
                 ...state,
-                currentUser: {
-                    ...state.currentUser as UserType,
-                    userSubscriptions: state.currentUser?.userSubscriptions?.concat(action.user)
-                }
+                users: state.users.map(u => {
+                    if (u.id == action.userId) {
+                        u.isSubscription = true;
+                    }
+
+                    return u
+                })
             }
         default:
             return state;
@@ -120,10 +123,10 @@ export const updateUserFilter = (filter: UserFilterType): UpdateUserFilterType =
 })
 
 type SetUserSubscriptionsType = {
-    type: typeof SET_USER_SUBSCRIPTIONS, user: UserType
+    type: typeof SET_USER_SUBSCRIPTIONS, userId: string
 }
-export const setUserSubscriptions = (user: UserType): SetUserSubscriptionsType => ({
-    type: SET_USER_SUBSCRIPTIONS, user: user
+export const setUserSubscriptions = (userId: string): SetUserSubscriptionsType => ({
+    type: SET_USER_SUBSCRIPTIONS, userId: userId
 })
 
 type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType;
@@ -179,12 +182,14 @@ export const getUsersByFilterThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const state = getState().userStore;
         const skip = calculateSkip(state.pageNumber, state.pageSize);
-        const response = await userApi.getUsersByFilter(state.userFilter, skip, state.pageSize);
+        const response = await userApi.getUsersByFilter(state.userFilter, skip, state.pageSize, state.currentUser?.id);
         const users = response.entities.map(u => {
             const user: UserType = {
                 id: u.id,
                 name: u.userName,
-                avatarImage: u.avatarImage
+                avatarImage: u.avatarImage,
+                isSubscriber: u.isSubscriber,
+                isSubscription: u.isSubscription
             }
             return user;
         });
@@ -197,8 +202,7 @@ export const subscribeToUserThunkCreator = (userId: string): ThunkAction<Promise
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.subscribeToUser(userId);
         if (!isBadStatusCode(response.status)) {
-            const user = getState().userStore.users.filter(u => u.id == userId)[0];
-            dispatch(setUserSubscriptions(user));
+            dispatch(setUserSubscriptions(userId));
             return true;
         }
         
