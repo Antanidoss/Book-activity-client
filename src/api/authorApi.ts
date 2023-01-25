@@ -3,8 +3,8 @@ import instanceAxios from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 
 export const authorApi = {
-    addAuthor(firstName: string, surname: string, patronymic: string) {
-        return instanceAxios.post<ResponseType<string>>(`/author/add?firstName=${firstName}&surname=${surname}&patronymic=${patronymic}`)
+    addAuthor(firstName: string, surname: string) {
+        return instanceAxios.post<ResponseType<string>>(`/author/add?firstName=${firstName}&surname=${surname}`)
             .then(r => r.data);
     },
     getAuthorsByName(name: string, take: number) {

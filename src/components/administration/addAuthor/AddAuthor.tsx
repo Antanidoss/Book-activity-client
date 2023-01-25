@@ -6,11 +6,10 @@ const AddAuthor: React.FC<PropsType> = (props) => {
     type AddAuthorType = {
         firstName: string,
         surname: string,
-        patronymic: string
     }
 
     const handleSubmit = (addAuthorType: AddAuthorType) => {
-        props.addAuthor(addAuthorType.firstName, addAuthorType.surname, addAuthorType.patronymic)
+        props.addAuthor(addAuthorType.firstName, addAuthorType.surname)
             .then(isSuccess => {
                 isSuccess ? message.success("Author added") : message.error("Failed to add author. Try again.");
             });
@@ -31,13 +30,6 @@ const AddAuthor: React.FC<PropsType> = (props) => {
                         label="Surname"
                         name="surname"
                         rules={[{ required: true, message: "Please input surname!" }]}
-                        style={{ marginLeft: "70px" }}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Patronymic"
-                        name="patronymic"
-                        rules={[{ required: true, message: "Please input patronymic!" }]}
                         style={{ marginLeft: "70px" }}>
                         <Input />
                     </Form.Item>

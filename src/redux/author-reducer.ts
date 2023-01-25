@@ -22,7 +22,6 @@ const authorReducer = (state = initialState, action: ActionsTypes): InitialState
                 id: action.id,
                 firstName: action.firstName,
                 surname: action.surname,
-                patronymic: action.patronymic
             }
 
             return {
@@ -40,10 +39,10 @@ const authorReducer = (state = initialState, action: ActionsTypes): InitialState
 }
 
 type AddAuthorType = {
-    type: typeof ADD_AUTHOR, id: string, firstName: string, surname: string, patronymic: string
+    type: typeof ADD_AUTHOR, id: string, firstName: string, surname: string
 }
-export const addAuthor = (id: string, firstName: string, surname: string, patronymic: string): AddAuthorType => ({
-    type: ADD_AUTHOR, id: id, firstName: firstName, surname: surname, patronymic: patronymic
+export const addAuthor = (id: string, firstName: string, surname: string): AddAuthorType => ({
+    type: ADD_AUTHOR, id: id, firstName: firstName, surname: surname
 })
 
 type SetAuthors = {
@@ -57,11 +56,11 @@ type ActionsTypes = AddAuthorType | SetAuthors;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 type GetStateType = () => AppStoreType;
 
-export const addAuthorRequestThunkCreator = (firstName: string, surname: string, patronymic: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+export const addAuthorRequestThunkCreator = (firstName: string, surname: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await authorApi.addAuthor(firstName, surname, patronymic);
+        const response = await authorApi.addAuthor(firstName, surname);
         if (response.success) {
-            dispatch(addAuthor(response.result, firstName, surname, patronymic));
+            dispatch(addAuthor(response.result, firstName, surname));
             return true;
         }
 
