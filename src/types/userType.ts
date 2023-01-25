@@ -3,5 +3,7 @@ export type UserType = {
     name: string,
     email?: string,
     avatarImage: ArrayBuffer | null,
-    userSubscriptions?: Array<UserType>
+    userSubscriptions?: Array<UserType>,
+    isSubscription?: boolean,
+    isSubscriber?: boolean
  }

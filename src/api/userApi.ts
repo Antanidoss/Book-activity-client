@@ -61,12 +61,13 @@ export const userApi = {
 
         return instanceAxios.post("/user/update", formData)
     },
-    getUsersByFilter(filter: UserFilterType, skip: number, take: number) {
+    getUsersByFilter(filter: UserFilterType, skip: number, take: number, currentUserId?: string) {
         return instanceAxios.get<FilterResultType<UserFilterResultType>>("/user/getUsersByFilter", {
             params: {
                 name: filter.name,
                 skip,
-                take
+                take,
+                currentUserId
             }
         }).then(res => res.data)
     },

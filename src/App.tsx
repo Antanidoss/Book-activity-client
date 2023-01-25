@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect} from 'react'
+import React from 'react'
 import AllBooksContainer from './components/books/AllBooksContainer'
 import { Route, Routes } from 'react-router-dom'
 import { Layout } from 'antd';
@@ -22,18 +22,17 @@ import NotificationsContainer from './components/notifications/NotificationsCont
 const App: React.FC<PropsType> = (props) => {
     const { Sider, Content, Header } = Layout;
 
-    useEffect(()=>{
-        if (!props.initialized) {
-            props.initialize();
-        }
-    })
+    if (!props.initialized) {
+        props.initialize();
+        return <></>;
+    }
 
     return (
         <>
             <link rel="preconnect" href="https://fonts.googleapis.com"></link>
             <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"></link>
 
-            <Layout hasSider style={{minHeight: "100%"}}>
+            <Layout hasSider style={{ minHeight: "100%" }}>
                 <Sider style={siderStyles}>
                     <NavbarContainer></NavbarContainer>
                 </Sider>
@@ -43,7 +42,7 @@ const App: React.FC<PropsType> = (props) => {
                         <div style={bookActivityFontStyles}>Book activity</div>
                         <NotificationsContainer />
                     </Header>
-                    <Content style={{ overflow: "initial", minHeight: "95vh"}}>
+                    <Content style={{ overflow: "initial", minHeight: "95vh" }}>
                         <Routes>
                             <Route path="/books" element={<AllBooksContainer />}></Route>
                         </Routes>
@@ -90,4 +89,4 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
 })
 
 export default compose<React.ComponentType>(
-    connect<MapStateToPropsType, MapDispatchToPropsType, null, AppStoreType>(mapStateToProps, {initialize: initializeThunkCreator}))(App)
+    connect<MapStateToPropsType, MapDispatchToPropsType, null, AppStoreType>(mapStateToProps, { initialize: initializeThunkCreator }))(App)
