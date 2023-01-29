@@ -34,8 +34,8 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
 
     return (
         <>
-            <ResizableButton style={{marginLeft: "40px"}} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize={props.userHasOpinion ? "Look review" : "Add review"}/>
-            <Modal title="Add active book" visible={isModalVisible} onCancel={handleCancel}
+            <ResizableButton style={{marginLeft: "50px"}} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize={props.userHasOpinion ? "Look review" : "Add review"}/>
+            <Modal title="Add active book" open={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="back" onClick={handleCancel}>
                         Cancel

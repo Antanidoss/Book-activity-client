@@ -73,5 +73,8 @@ export const userApi = {
     },
     subscribeToUser(userId: string) {
         return instanceAxios.put(`/user/subscribeUser?subscribedUserId=${userId}`);
+    },
+    unsubscribeUser(userId: string) {
+        return instanceAxios.delete(`/user/unsubscribe?unsubscribedUserId=${userId}`);
     }
 }

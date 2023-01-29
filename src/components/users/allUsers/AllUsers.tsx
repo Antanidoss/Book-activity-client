@@ -1,13 +1,16 @@
 import { List, Image, Button, message } from "antd";
 import React from "react";
 import { PropsType } from "./AllUsersContainer";
-import {
-    CheckOutlined
-} from "@ant-design/icons";
 
 const AllUser: React.FC<PropsType> = (props) => {
     const subscribeToUser = (userId: string) => {
         props.subscribeToUser(userId).then(isSuccess => {
+            return isSuccess ? message.success("You have successfully subscribed", 6) : message.error("Failed to subscribe", 6)
+        });
+    }
+
+    const unsubscribeUser = (userId: string) => {
+        props.unsubscribeUser(userId).then(isSuccess => {
             return isSuccess ? message.success("You have successfully subscribed", 6) : message.error("Failed to subscribe", 6)
         });
     }
@@ -22,10 +25,10 @@ const AllUser: React.FC<PropsType> = (props) => {
                         style={{alignItems: "center"}}
                         avatar={<Image style={{width: "50px", maxHeight: "60px", borderRadius: "15px"}} src={("data:image/png;base64," + user.avatarImage)} />}
                         title={user.name}/>
-                     { 
+                     {
                         user.isSubscription
-                            ? <Button shape="round" type="primary" icon={React.createElement(CheckOutlined)}>You subscribed</Button>
-                            : <Button onClick={() => subscribeToUser(user.id)} shape="round" type="primary">Subscribe</Button>
+                            ? <Button shape="round" onClick={() => unsubscribeUser(user.id)} type="primary">Unsubscribe</Button>
+                            : <Button shape="round" onClick={() => subscribeToUser(user.id)} type="primary">Subscribe</Button>
                      }
                 </List.Item>
             )} />
