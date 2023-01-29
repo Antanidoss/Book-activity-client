@@ -36,7 +36,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                     <Progress percent={progressPercent} />
                 </Col>
                 <Row>
-                    <Col span={18} style={{ marginTop: "10px" }}>
+                    <Col span={17} style={{ marginTop: "10px" }}>
                         <UpdateActiveBookContainer totalNumberPages={props.activeBook.totalNumberPages} numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} />
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>
@@ -44,7 +44,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={18} style={{ marginTop: "10px" }}>
+                    <Col span={17} style={{ marginTop: "10px" }}>
                         <AddBookOpinionContainer bookId={props.activeBook.bookId} />
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>

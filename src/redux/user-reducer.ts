@@ -34,6 +34,7 @@ const UPDATE_USER = "UPDATE_USER";
 const SET_USERS = "SET_USERS";
 const UPDATE_USER_FILTER = "UPDATE_USER_FILTER";
 const SET_USER_SUBSCRIPTIONS = "SET_USER_SUBSCRIPTIONS";
+const REMOVE_USER_SUBSCRIPTIONS = "REMOVE_USER_SUBSCRIPTIONS";
 
 const userReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -77,6 +78,17 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 users: state.users.map(u => {
                     if (u.id == action.userId) {
                         u.isSubscription = true;
+                    }
+
+                    return u
+                })
+            }
+        case REMOVE_USER_SUBSCRIPTIONS:
+            return {
+                ...state,
+                users: state.users.map(u => {
+                    if (u.id == action.userId) {
+                        u.isSubscription = false;
                     }
 
                     return u
@@ -129,7 +141,14 @@ export const setUserSubscriptions = (userId: string): SetUserSubscriptionsType =
     type: SET_USER_SUBSCRIPTIONS, userId: userId
 })
 
-type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType;
+type RemoveUserSubscriptionsType = {
+    type: typeof REMOVE_USER_SUBSCRIPTIONS, userId: string
+}
+export const removeUserSubscriptions = (userId: string): RemoveUserSubscriptionsType => ({
+    type: REMOVE_USER_SUBSCRIPTIONS, userId: userId
+})
+
+type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType | RemoveUserSubscriptionsType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -205,7 +224,19 @@ export const subscribeToUserThunkCreator = (userId: string): ThunkAction<Promise
             dispatch(setUserSubscriptions(userId));
             return true;
         }
-        
+
+        return false;
+    }
+}
+
+export const unsubscribeUserThunkCreator = (userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await userApi.unsubscribeUser(userId);
+        if (!isBadStatusCode(response.status)) {
+            dispatch(removeUserSubscriptions(userId));
+            return true;
+        }
+
         return false;
     }
 }
