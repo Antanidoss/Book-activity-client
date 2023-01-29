@@ -8,9 +8,9 @@ const CustomDrawer: React.FC<PropsType> = (props) => {
     document.body.style.overflow = props.open ? 'hidden' : '';
 
     return (
-        <Drawer {...props} style={{ height: "98%", top: "64px" }}>
+        <Drawer {...props}>
             <div style={{ display: "flex", flex: "0", alignItems: "center", padding: "16px 24px", lineHeight: "22px" }}>
-                <button onClick={props.onClose} type="button" aria-label="Close" className="ant-drawer-close" style={{ fontSize: "20px" }}><CloseOutlined /></button>
+                <button onClick={props.onClose} type="button" aria-label="Close" className="ant-drawer-close" style={{ fontSize: "15px" }}><CloseOutlined /></button>
             </div>
             {props.children}
         </Drawer>
