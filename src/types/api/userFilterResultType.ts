@@ -3,5 +3,6 @@ export type UserFilterResultType = {
     userName: string,
     avatarImage: ArrayBuffer,
     isSubscriber: boolean,
-    isSubscription: boolean
+    isSubscription: boolean,
+    activeBookCount: number
 }

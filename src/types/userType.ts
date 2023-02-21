@@ -5,5 +5,6 @@ export type UserType = {
     avatarImage: ArrayBuffer | null,
     userSubscriptions?: Array<UserType>,
     isSubscription?: boolean,
-    isSubscriber?: boolean
+    isSubscriber?: boolean,
+    activeBookCount?: number
  }

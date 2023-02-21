@@ -208,7 +208,8 @@ export const getUsersByFilterThunkCreator = (): ThunkType => {
                 name: u.userName,
                 avatarImage: u.avatarImage,
                 isSubscriber: u.isSubscriber,
-                isSubscription: u.isSubscription
+                isSubscription: u.isSubscription,
+                activeBookCount: u.activeBookCount
             }
             return user;
         });
