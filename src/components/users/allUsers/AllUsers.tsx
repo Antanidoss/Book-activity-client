@@ -1,8 +1,9 @@
-import { List, Image, Button, message } from "antd";
+import { List, Image, Button, message, Row, Col } from "antd";
 import React from "react";
 import { PropsType } from "./AllUsersContainer";
 import {
-    BookOutlined
+    BookOutlined,
+    CommentOutlined
 } from "@ant-design/icons";
 
 const AllUser: React.FC<PropsType> = (props) => {
@@ -28,7 +29,13 @@ const AllUser: React.FC<PropsType> = (props) => {
                         style={{alignItems: "center"}}
                         avatar={<Image style={{width: "50px", maxHeight: "60px", borderRadius: "15px"}} src={("data:image/png;base64," + user.avatarImage)} />}
                         title={user.name} 
-                        description={<div>{React.createElement(BookOutlined)}: {user.activeBookCount}</div>} />
+                        description=
+                        {
+                            <Row>
+                                <Col>{React.createElement(BookOutlined)}: {user.activeBookCount}</Col>
+                                <Col style={{marginLeft: "10px"}}>{React.createElement(CommentOutlined)}: {user.bookOpinionCount}</Col>
+                            </Row>
+                        } />
                      {
                         user.isSubscription
                             ? <Button shape="round" onClick={() => unsubscribeUser(user.id)} type="primary">Unsubscribe</Button>

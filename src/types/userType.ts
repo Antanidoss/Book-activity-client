@@ -6,5 +6,6 @@ export type UserType = {
     userSubscriptions?: Array<UserType>,
     isSubscription?: boolean,
     isSubscriber?: boolean,
-    activeBookCount?: number
+    activeBookCount?: number,
+    bookOpinionCount?: number
  }

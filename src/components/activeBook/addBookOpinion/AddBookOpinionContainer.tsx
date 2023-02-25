@@ -30,20 +30,20 @@ type MapStateToPropsType = {
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => {
     const curUserId = getUserId(state) as string;
-    const bookRating = getBookById(state, ownProps.bookId)?.bookRating as BookRatingType;
-    const bookOpinion = bookRating?.bookOpinions.find(o => o.userId == curUserId) as BookOpinionType;
 
     return {
         bookId: ownProps.bookId,
-        bookRatingId: bookRating.id as string,
-        userHasOpinion: bookOpinion !== undefined,
-        bookOpinion: bookOpinion,
+        bookRatingId: ownProps.bookRatingId,
+        userHasOpinion: ownProps.bookOpinion !== undefined,
+        bookOpinion: ownProps.bookOpinion,
         userId: curUserId
     }
 }
 
 type OwnPropsType = {
     bookId: string,
+    bookRatingId: string,
+    bookOpinion?: BookOpinionType
 }
 
 type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T

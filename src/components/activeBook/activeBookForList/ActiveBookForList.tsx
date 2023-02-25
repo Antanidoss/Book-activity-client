@@ -45,7 +45,10 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 </Row>
                 <Row>
                     <Col span={17} style={{ marginTop: "10px" }}>
-                        <AddBookOpinionContainer bookId={props.activeBook.bookId} />
+                        <AddBookOpinionContainer
+                            bookId={props.activeBook.bookId}
+                            bookRatingId={props.activeBook.bookRatingId as string}
+                            bookOpinion={props.activeBook.bookOpinion} />
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>
                         <AddBookNoteContainer activeBookId={props.activeBook.id} />

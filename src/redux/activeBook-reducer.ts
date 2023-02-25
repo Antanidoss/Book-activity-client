@@ -186,6 +186,8 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
                 imageData: a.imageData,
                 totalNumberPages: a.totalNumberPages,
                 numberPagesRead: a.numberPagesRead,
+                bookOpinion: a.bookOpinion,
+                bookRatingId: a.bookRatingId,
                 notes: a.notes?.map(n => { return { id: n.id, note: n.note, color: n.noteColor } })
             }
         });

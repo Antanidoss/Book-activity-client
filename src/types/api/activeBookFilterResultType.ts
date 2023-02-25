@@ -1,3 +1,5 @@
+import { BookOpinionType } from "../bookOpinionType"
+
 export type ActiveBookFilterResultType = {
     id: string,
     totalNumberPages: number,
@@ -9,5 +11,7 @@ export type ActiveBookFilterResultType = {
         id: string,
         note: string,
         noteColor: number
-    }>
+    }>,
+    bookRatingId: string,
+    bookOpinion: BookOpinionType
 }
