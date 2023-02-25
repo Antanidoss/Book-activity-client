@@ -4,5 +4,6 @@ export type UserFilterResultType = {
     avatarImage: ArrayBuffer,
     isSubscriber: boolean,
     isSubscription: boolean,
-    activeBookCount: number
+    activeBookCount: number,
+    bookOpinionCount: number
 }
