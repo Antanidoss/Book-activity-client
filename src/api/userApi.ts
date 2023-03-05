@@ -1,25 +1,11 @@
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
+import { AuthUserResponseType } from "../types/api/authUserResponseType";
+import { CurrentUserResponseType } from "../types/api/currentUserResponseType";
 import { FilterResultType } from "../types/api/filterResultType";
 import { UserFilterResultType } from "../types/api/userFilterResultType";
 import { UserFilterType } from "../types/api/userFilterType";
 import instanceAxios, { setAuthorizationToken } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
-
-type AuthUserResponseType = {
-    userId: string,
-    userName: string,
-    email: string,
-    token: string,
-    avatarImage: ArrayBuffer
-}
-
-type CurrentUserType = {
-    id: string,
-    userName: string,
-    email: string,
-    token: string,
-    avatarImage: ArrayBuffer
-}
 
 export const userApi = {
     auth(email: string, password: string, rememberMe: boolean) {
@@ -34,7 +20,7 @@ export const userApi = {
             })
     },
     getCurrentUser() {
-        return instanceAxios.get<ResponseType<CurrentUserType>>("/user/getCurrentUser")
+        return instanceAxios.get<ResponseType<CurrentUserResponseType>>("/user/getCurrentUser")
             .then(r => {
                 if (r.data.result !== null) {
                     localStorage.setItem("Authorization", r.data.result.token);
