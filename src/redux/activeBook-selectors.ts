@@ -16,7 +16,6 @@ export const getPageSize = (state: AppStoreType) => {
     return state.activeBookStore.pageSize;
 }
 
-
 export const getFilter = (state: AppStoreType) => {
     return state.activeBookStore.filter;
 }

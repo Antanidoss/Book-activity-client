@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
-import { updateActiveBookThunkCreator } from '../../../redux/activeBook-reducer';
-import { AppStoreType } from '../../../redux/redux-store';
+import { updateActiveBookThunkCreator } from '../../../../redux/activeBook-reducer';
+import { AppStoreType } from '../../../../redux/redux-store';
 import UpdateActiveBook from './UpdateActiveBook';
 
 const UpdateActiveBookContainer: React.FC<PropsType> = (props) => {

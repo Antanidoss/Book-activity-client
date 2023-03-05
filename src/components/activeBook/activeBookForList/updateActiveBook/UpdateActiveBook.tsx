@@ -4,7 +4,7 @@ import { PropsType } from "./UpdateActiveBookContainer";
 import {
     EditOutlined
 } from "@ant-design/icons";
-import ResizableButton from "../../common/ResizableButton";
+import ResizableButton from "../../../common/ResizableButton";
 
 const UpdateActiveBook: React.FC<PropsType> = (props) => {
     type UpdateActiveBookType = {

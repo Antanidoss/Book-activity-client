@@ -5,7 +5,7 @@ import { PropsType } from "./AddBookOpinionContainer";
 import {
     CommentOutlined
 } from "@ant-design/icons";
-import ResizableButton from "../../common/ResizableButton";
+import ResizableButton from "../../../common/ResizableButton";
 
 const AddBookOpinion: React.FC<PropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);

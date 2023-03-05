@@ -59,7 +59,6 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                 totalActiveBookCount: actions.activeBooks.length
             }
         case UPDATE_ACTIVE_BOOK:
-
             return {
                 ...state,
                 activeBooks: state.activeBooks.map(a => {

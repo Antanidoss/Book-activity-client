@@ -2,14 +2,14 @@ import { Col, message, Progress, Row } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import { bookMain, bookTitle } from "../../books/bookForList/BookForListStyles";
-import UpdateActiveBookContainer from "../updateActiveBook/UpdateActiveBookContainer";
+import UpdateActiveBookContainer from "./updateActiveBook/UpdateActiveBookContainer";
 import {
     DeleteOutlined
 } from "@ant-design/icons";
 import { PropsType } from "./ActiveBookForListContainer";
-import AddBookOpinionContainer from "../addBookOpinion/AddBookOpinionContainer";
+import AddBookOpinionContainer from "./addBookOpinion/AddBookOpinionContainer";
 import ResizableButton from "../../common/ResizableButton";
-import AddBookNoteContainer from "../addBookNote/AddBookNoteContainer";
+import AddBookNoteContainer from "./addBookNote/AddBookNoteContainer";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const onClickRemoveActiveBook = () => {

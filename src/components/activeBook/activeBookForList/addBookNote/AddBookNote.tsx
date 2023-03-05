@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import ResizableButton from '../../common/ResizableButton';
+import ResizableButton from '../../../common/ResizableButton';
 import { PropsType } from './AddBookNoteContainer';
 import {
     PushpinOutlined
 } from "@ant-design/icons";
 import { Button, Form, message, Modal, Select } from 'antd';
-import { NoteColor, toHexadecimal } from '../../../types/bookNoteType';
+import { NoteColor, toHexadecimal } from '../../../../types/bookNoteType';
 import TextArea from 'antd/lib/input/TextArea';
 
 const AddBookNote: React.FC<PropsType> = (props) => {
