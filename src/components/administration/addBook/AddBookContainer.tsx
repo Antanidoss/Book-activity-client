@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
-import { addBookRequestThunkCreator } from '../../../redux/book-reducer';
-import { getAuthorsByNameRequestThunkCreator } from '../../../redux/author-reducer';
+import { addBookRequestThunkCreator } from '../../../redux/reducers/book-reducer';
+import { getAuthorsByNameRequestThunkCreator } from '../../../redux/reducers/author-reducer';
 import { AppStoreType } from '../../../redux/redux-store';
 import AddBook from './AddBook';
 import { AuthorType } from '../../../types/authorType';
-import { getAuthors } from '../../../redux/author-slectors';
+import { getAuthors } from '../../../redux/selectors/author-slectors';
 
 const AddBookContainer: React.FC<PropsType> = (props) => {
     return <AddBook {...props} />

@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addActiveBookRequestThunkCreator } from "../../../redux/activeBook-reducer"
+import { addActiveBookRequestThunkCreator } from "../../../redux/reducers/activeBook-reducer"
 import { AppStoreType } from '../../../redux/redux-store'
 import AddActiveBook from './AddActiveBook'
 import { InferableComponentEnhancerWithProps } from 'react-redux'
-import { setActiveBookStatus } from '../../../redux/book-reducer'
+import { setActiveBookStatus } from '../../../redux/reducers/book-reducer'
 
 const AddActiveBookContainer: React.FC<PropsType> = (props) => {
     return <AddActiveBook {...props}/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
-import { getActiveBooksByFilterThunkCreator, updateCurrentPageNumber, updateFilter } from '../../../redux/activeBook-reducer';
-import { getFilter } from '../../../redux/activeBook-selectors';
+import { getActiveBooksByFilterThunkCreator, updateCurrentPageNumber, updateFilter } from '../../../redux/reducers/activeBook-reducer';
+import { getFilter } from '../../../redux/selectors/activeBook-selectors';
 import { AppStoreType } from '../../../redux/redux-store';
 import { ActiveBookFilterType } from '../../../types/api/activeBookFilterType';
 import ActiveBookFilter from './ActiveBookFilter';

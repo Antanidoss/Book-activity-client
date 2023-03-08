@@ -1,11 +1,10 @@
-import { Button, Col, Input, Row } from "antd";
+import { Col } from "antd";
 import Search from "antd/lib/input/Search";
 import React from "react";
 import { PropsType } from "./UserFilterContainer";
 
 const UserFilter: React.FC<PropsType> = (props) => {
     const onUserSerach = (searchValue: string) => {
-        console.log(1);
         props.updateUserFilter({ name: searchValue });
         props.getUsers();
     }

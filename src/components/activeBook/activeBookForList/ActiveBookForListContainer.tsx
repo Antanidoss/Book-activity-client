@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
-import { removeActiveBookThunkCreator } from '../../../redux/activeBook-reducer';
+import { removeActiveBookThunkCreator } from '../../../redux/reducers/activeBook-reducer';
 import { AppStoreType } from '../../../redux/redux-store';
-import { getUserId } from '../../../redux/user-selectors';
 import { ActiveBook } from '../../../types/activeBookType';
 import ActiveBookForList from './ActiveBookForList';
 

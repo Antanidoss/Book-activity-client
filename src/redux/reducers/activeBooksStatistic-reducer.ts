@@ -1,9 +1,9 @@
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { activeBooksStatisticApi } from "../api/activeBooksStatistic";
-import { isBadStatusCode } from "../api/instanceAxios";
-import { ActiveBooksStatisticType } from "../types/activeBooksStatisticType"
-import { AppStoreType } from "./redux-store";
+import { activeBooksStatisticApi } from "../../api/activeBooksStatistic";
+import { isBadStatusCode } from "../../api/instanceAxios";
+import { ActiveBooksStatisticType } from "../../types/activeBooksStatisticType"
+import { AppStoreType } from "../redux-store";
 
 export type InitialStateType = {
     curUserStatistic: ActiveBooksStatisticType | null

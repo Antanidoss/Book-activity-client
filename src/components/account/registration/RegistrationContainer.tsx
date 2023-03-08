@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { AppStoreType } from "../../../redux/redux-store";
-import { registrationUserRequestThunkCreator } from "../../../redux/user-reducer";
-import { getIsAuthenticated } from "../../../redux/user-selectors";
+import { registrationUserRequestThunkCreator } from "../../../redux/reducers/user-reducer";
+import { getIsAuthenticated } from "../../../redux/selectors/user-selectors";
 import Registration from "./Registration";
 
 const RegistrationContainer: React.FC<PropsType> = (props) => {

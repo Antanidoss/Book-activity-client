@@ -1,4 +1,4 @@
-import { AppStoreType } from "./redux-store";
+import { AppStoreType } from "../redux-store";
 
 export const getPageNumber = (state: AppStoreType) => {
     return state.bookStore.pageNumber;

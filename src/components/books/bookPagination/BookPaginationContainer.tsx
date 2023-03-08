@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getBooksByFilter, updateCurrentPage } from '../../../redux/book-reducer';
-import { getPageNumber, getPageSize, getTotalBookCount } from '../../../redux/book-selectors';
+import { getBooksByFilter, updateCurrentPage } from '../../../redux/reducers/book-reducer';
+import { getPageNumber, getPageSize, getTotalBookCount } from '../../../redux/selectors/book-selectors';
 import { AppStoreType } from '../../../redux/redux-store';
 import BookPagination from './BookPagination';
 

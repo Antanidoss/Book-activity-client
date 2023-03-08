@@ -1,8 +1,8 @@
 import React from "react";
 import { InferableComponentEnhancerWithProps, connect } from "react-redux";
-import { updateBookRatingRequestThunkCreator } from "../../../../redux/book-reducer";
+import { updateBookRatingRequestThunkCreator } from "../../../../redux/reducers/book-reducer";
 import { AppStoreType } from "../../../../redux/redux-store";
-import { getUserId } from "../../../../redux/user-selectors";
+import { getUserId } from "../../../../redux/selectors/user-selectors";
 import { BookOpinionType } from "../../../../types/bookOpinionType";
 import AddBookOpinion from "./AddBookOpinion";
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { authRequestThunkCreator } from '../../../redux/user-reducer';
+import { authRequestThunkCreator } from '../../../redux/reducers/user-reducer';
 import { AppStoreType } from '../../../redux/redux-store';
 import Login from './Login';
-import { getIsAuthenticated } from '../../../redux/user-selectors';
+import { getIsAuthenticated } from '../../../redux/selectors/user-selectors';
 
 const LoginContainer: React.FC<PropsType> = (props) => {
     return <Login {...props}></Login>

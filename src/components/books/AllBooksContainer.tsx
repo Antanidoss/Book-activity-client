@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, InferableComponentEnhancerWithProps } from "react-redux";
-import { getBooksByFilter } from "../../redux/book-reducer";
-import { getBooks, getPageNumber, getPageSize, getTotalBookCount } from "../../redux/book-selectors";
+import { getBooksByFilter } from "../../redux/reducers/book-reducer";
+import { getBooks, getPageNumber, getPageSize, getTotalBookCount } from "../../redux/selectors/book-selectors";
 import { AppStoreType } from "../../redux/redux-store";
 import AllBooks from "./AllBooks";
 import { BookType } from "../../types/bookType";
@@ -50,9 +50,7 @@ const mapDispatchToProps = {
     getBooks: getBooksByFilter
 }
 
-type OwnPropsType = {
-
-}
+type OwnPropsType = {}
 
 type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)

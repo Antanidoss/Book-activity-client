@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { getActiveBooksByFilterThunkCreator, removeActiveBookThunkCreator } from '../../redux/activeBook-reducer';
-import { getActiveBooks, getPageNumber, getTotalActiveBookCount } from '../../redux/activeBook-selectors';
+import { getActiveBooksByFilterThunkCreator, removeActiveBookThunkCreator } from '../../redux/reducers/activeBook-reducer';
+import { getActiveBooks, getPageNumber, getTotalActiveBookCount } from '../../redux/selectors/activeBook-selectors';
 import { AppStoreType } from '../../redux/redux-store';
-import { getIsAuthenticated } from '../../redux/user-selectors';
+import { getIsAuthenticated } from '../../redux/selectors/user-selectors';
 import { ActiveBook } from '../../types/activeBookType';
 import AllCurUserActiveBooks from './AllActiveBooksCurUser';
 

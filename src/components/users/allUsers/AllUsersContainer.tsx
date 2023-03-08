@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { AppStoreType } from "../../../redux/redux-store";
-import { getUsersByFilterThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator } from "../../../redux/user-reducer";
-import { getUserId, getUsers } from "../../../redux/user-selectors";
+import { getUsersByFilterThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator } from "../../../redux/reducers/user-reducer";
+import { getUserId, getUsers } from "../../../redux/selectors/user-selectors";
 import { UserType } from "../../../types/userType";
 import AllUser from "./AllUsers";
 import UserFilterContainer from "./userFilter/UserFilterContainer";

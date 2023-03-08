@@ -1,6 +1,6 @@
 import React from "react";
 import { connect, InferableComponentEnhancerWithProps } from "react-redux";
-import { addBookNoteThunkCreator } from "../../../../redux/activeBook-reducer";
+import { addBookNoteThunkCreator } from "../../../../redux/reducers/activeBook-reducer";
 import { AppStoreType } from "../../../../redux/redux-store";
 import AddBookNote from "./AddBookNote";
 
