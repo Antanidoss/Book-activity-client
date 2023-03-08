@@ -3,8 +3,8 @@ import React from "react";
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { withAuthRedirect } from "../../../hoc/withAuthRedirect";
 import { AppStoreType } from "../../../redux/redux-store";
-import { updateUserRequestThunkCreator } from "../../../redux/user-reducer";
-import { getCurUser, getIsAuthenticated } from "../../../redux/user-selectors";
+import { updateUserRequestThunkCreator } from "../../../redux/reducers/user-reducer";
+import { getCurUser, getIsAuthenticated } from "../../../redux/selectors/user-selectors";
 import { UserType } from "../../../types/userType";
 import Profile from "./Profile";
 

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import { compose } from 'redux';
 import { AppStoreType } from '../../redux/redux-store';
-import { getAvatarImage, getIsAuthenticated, getUserName } from '../../redux/user-selectors';
+import { getAvatarImage, getIsAuthenticated, getUserName } from '../../redux/selectors/user-selectors';
 import Navbar from './Navbar';
 
 const NavbarContainer: React.FC<PropsType> = (props) => {

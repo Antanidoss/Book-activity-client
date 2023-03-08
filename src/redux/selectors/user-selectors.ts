@@ -1,4 +1,4 @@
-import { AppStoreType } from "./redux-store";
+import { AppStoreType } from "../redux-store";
 
 export const getUserName = (state: AppStoreType) => {
     return state.userStore.currentUser?.name;

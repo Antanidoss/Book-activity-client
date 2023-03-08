@@ -1,6 +1,6 @@
 import React from "react";
 import { ActiveBooksStatisticType } from "../../types/activeBooksStatisticType";
-import { Divider, List } from 'antd';
+import { Divider } from 'antd';
 
 const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: ActiveBooksStatisticType) => {
     return (

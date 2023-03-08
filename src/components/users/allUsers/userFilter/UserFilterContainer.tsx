@@ -1,8 +1,8 @@
 import React from "react";
 import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { AppStoreType } from "../../../../redux/redux-store";
-import { getUsersByFilterThunkCreator, updateUserFilter } from "../../../../redux/user-reducer";
-import { getUserFilter } from "../../../../redux/user-selectors";
+import { getUsersByFilterThunkCreator, updateUserFilter } from "../../../../redux/reducers/user-reducer";
+import { getUserFilter } from "../../../../redux/selectors/user-selectors";
 import { UserFilterType } from "../../../../types/api/userFilterType";
 import UserFilter from "./UserFilter";
 

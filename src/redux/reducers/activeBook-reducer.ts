@@ -1,15 +1,15 @@
-import { AppStoreType } from './redux-store';
+import { AppStoreType } from '../redux-store';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
-import { activeBookApi } from '../api/activeBookApi';
-import { ActiveBook } from '../types/activeBookType';
-import { calculateSkip, PaginationType } from '../types/api/paginationType';
-import { getBookById } from './book-selectors';
-import { BookType } from '../types/bookType';
-import { isBadStatusCode } from '../api/instanceAxios';
-import { NoteColor } from '../types/bookNoteType';
-import { bookNoteApi } from '../api/bookNoteApi';
-import { ActiveBookFilterType } from '../types/api/activeBookFilterType';
+import { activeBookApi } from '../../api/activeBookApi';
+import { ActiveBook } from '../../types/activeBookType';
+import { calculateSkip, PaginationType } from '../../types/api/paginationType';
+import { getBookById } from '../selectors/book-selectors';
+import { BookType } from '../../types/bookType';
+import { isBadStatusCode } from '../../api/instanceAxios';
+import { NoteColor } from '../../types/bookNoteType';
+import { bookNoteApi } from '../../api/bookNoteApi';
+import { ActiveBookFilterType } from '../../types/api/activeBookFilterType';
 
 export type InitialStateType = {
     pageSize: number

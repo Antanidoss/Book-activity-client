@@ -1,4 +1,4 @@
-import { Empty, Pagination, Row } from "antd";
+import { Empty, Row } from "antd";
 import React from "react";
 import { PropsType } from "./AllBooksContainer";
 import Book from "./bookForList/BookForList";

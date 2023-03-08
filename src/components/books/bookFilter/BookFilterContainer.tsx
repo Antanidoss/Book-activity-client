@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getBooksByFilter, updateBookFilter, updateCurrentPage } from "../../../redux/book-reducer";
-import { getBookFilter } from "../../../redux/book-selectors";
+import { getBooksByFilter, updateBookFilter, updateCurrentPage } from "../../../redux/reducers/book-reducer";
+import { getBookFilter } from "../../../redux/selectors/book-selectors";
 import { AppStoreType } from "../../../redux/redux-store";
 import { BookFilterType } from "../../../types/bookFilterType";
 import BookFilter from "./BookFilter";

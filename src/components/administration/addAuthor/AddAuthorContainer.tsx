@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux'
-import { addAuthorRequestThunkCreator } from '../../../redux/author-reducer'
+import { addAuthorRequestThunkCreator } from '../../../redux/reducers/author-reducer'
 import { AppStoreType } from '../../../redux/redux-store'
 import AddAuthor from './AddAuthor'
 

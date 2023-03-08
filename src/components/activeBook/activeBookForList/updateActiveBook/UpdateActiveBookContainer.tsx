@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
-import { updateActiveBookThunkCreator } from '../../../../redux/activeBook-reducer';
+import { updateActiveBookThunkCreator } from '../../../../redux/reducers/activeBook-reducer';
 import { AppStoreType } from '../../../../redux/redux-store';
 import UpdateActiveBook from './UpdateActiveBook';
 

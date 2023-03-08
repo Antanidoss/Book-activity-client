@@ -1,6 +1,5 @@
-
 import { ThunkAction } from "redux-thunk";
-import { AppStoreType } from "./redux-store";
+import { AppStoreType } from "../redux-store";
 import { getCurrentUserRequestThunkCreator } from "./user-reducer";
 
 export type InitialStateType = {

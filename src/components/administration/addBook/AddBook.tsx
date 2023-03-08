@@ -1,6 +1,6 @@
-import { Button, Col, Form, Input, message, Row, Upload } from 'antd';
+import { Button, Col, Form, Input, message, Row } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import React, { useState } from 'react';
+import React from 'react';
 import { PropsType } from './AddBookContainer';
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload';
 import DebounceSelect, { PropsType as SelectProps } from '../../../components/common/DebounceSelect';

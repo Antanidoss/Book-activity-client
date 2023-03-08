@@ -1,12 +1,12 @@
-import { UserType } from "../types/userType"
+import { UserType } from "../../types/userType"
 import { ThunkAction } from 'redux-thunk';
-import { AppStoreType } from './redux-store';
+import { AppStoreType } from '../redux-store';
 import { Dispatch } from "redux";
-import { userApi } from "../api/userApi";
+import { userApi } from "../../api/userApi";
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
-import { isBadStatusCode } from "../api/instanceAxios";
-import { UserFilterType } from "../types/api/userFilterType";
-import { calculateSkip } from "../types/api/paginationType";
+import { isBadStatusCode } from "../../api/instanceAxios";
+import { UserFilterType } from "../../types/api/userFilterType";
+import { calculateSkip } from "../../types/api/paginationType";
 
 export type InitialStateType = {
     currentUser: UserType | null,

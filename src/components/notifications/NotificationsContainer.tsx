@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect, InferableComponentEnhancerWithProps } from "react-redux";
 import { compose } from "redux";
 import { AppStoreType } from "../../redux/redux-store";
-import { addNotification, getUserNotificationsThunkCreator, setUserNotifications } from "../../redux/userNotification-reducer";
-import { getNotifications, getNotificationsCount } from "../../redux/userNotification-selectors";
+import { addNotification, getUserNotificationsThunkCreator } from "../../redux/reducers/userNotification-reducer";
+import { getNotifications, getNotificationsCount } from "../../redux/selectors/userNotification-selectors";
 import { UserNotificationType } from "../../types/userNotificationType";
 import Notifications from "./Notifications";
 import * as signalR from "@microsoft/signalr";
-import { getInitialized } from "../../redux/app-selectors";
-import { getIsAuthenticated, getUserId } from "../../redux/user-selectors";
+import { getInitialized } from "../../redux/selectors/app-selectors";
+import { getIsAuthenticated, getUserId } from "../../redux/selectors/user-selectors";
 import { SERVER_ADDRESS, setConnectionId } from "../../api/instanceAxios";
 import { hubsApiConstants } from "../../types/api/hubsApiConstants";
 
