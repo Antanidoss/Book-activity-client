@@ -10,6 +10,7 @@ import { PropsType } from "./ActiveBookForListContainer";
 import AddBookOpinionContainer from "./addBookOpinion/AddBookOpinionContainer";
 import ResizableButton from "../../common/ResizableButton";
 import AddBookNoteContainer from "./addBookNote/AddBookNoteContainer";
+import BookOpinionViewContainer from "./bookOpinionView/BookOpinionViewContainer";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const onClickRemoveActiveBook = () => {
@@ -45,10 +46,16 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 </Row>
                 <Row>
                     <Col span={17} style={{ marginTop: "10px" }}>
-                        <AddBookOpinionContainer
-                            bookId={props.activeBook.bookId}
-                            bookRatingId={props.activeBook.bookRatingId as string}
-                            bookOpinion={props.activeBook.bookOpinion} />
+                        { 
+                            props.activeBook.bookOpinion === null || props.activeBook.bookOpinion === undefined
+                                ? <AddBookOpinionContainer
+                                    bookId={props.activeBook.bookId}
+                                    bookRatingId={props.activeBook.bookRatingId as string} />
+                                : <BookOpinionViewContainer
+                                    bookId={props.activeBook.bookId}
+                                    bookRatingId={props.activeBook.bookRatingId as string}
+                                    bookOpinion={props.activeBook.bookOpinion} />
+                        }
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>
                         <AddBookNoteContainer activeBookId={props.activeBook.id} />

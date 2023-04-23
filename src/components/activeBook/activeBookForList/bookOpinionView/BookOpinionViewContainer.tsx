@@ -4,10 +4,11 @@ import { updateBookRatingRequestThunkCreator } from "../../../../redux/reducers/
 import { AppStoreType } from "../../../../redux/redux-store";
 import { getUserId } from "../../../../redux/selectors/user-selectors";
 import { BookOpinionType } from "../../../../types/bookOpinionType";
-import AddBookOpinion from "./AddBookOpinion";
+import BookOpinionView from "./BookOpinionView";
 
-const AddBookOpinionContainer: React.FC<PropsType> = (props) => {
-    return <AddBookOpinion {...props} />
+
+const BookOpinionViewContainer: React.FC<PropsType> = (props) => {
+    return <BookOpinionView {...props} />
 }
 
 type MapDispatchToPropsType = {
@@ -21,7 +22,8 @@ const mapDispatchToProps =  {
 type MapStateToPropsType = {
     bookId: string,
     bookRatingId: string,
-    userId: string
+    userId: string,
+    bookOpinion: BookOpinionType | undefined
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => {
@@ -30,6 +32,7 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
     return {
         bookId: ownProps.bookId,
         bookRatingId: ownProps.bookRatingId,
+        bookOpinion: ownProps.bookOpinion,
         userId: curUserId
     }
 }
@@ -44,4 +47,4 @@ type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 
-export default connectStore(AddBookOpinionContainer)
+export default connectStore(BookOpinionViewContainer)
