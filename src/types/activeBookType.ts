@@ -7,7 +7,7 @@ export type ActiveBook = {
     numberPagesRead: number,
     bookId: string,
     bookTitle: string,
-    imageData: ArrayBuffer,
+    imageData: string,
     notes?: Array<BookNoteType>,
     bookRatingId?: string
     bookOpinion?: BookOpinionType

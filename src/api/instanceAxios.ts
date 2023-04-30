@@ -15,6 +15,10 @@ export type ResponseType<D = {}> = {
     errorMessage: string
 }
 
+export type GraphqlResponseType<D = {}> = {
+    data: D
+}
+
 export const isBadStatusCode = (status: number) => {
     return status > 204;
 }
