@@ -10,6 +10,7 @@ import { isBadStatusCode } from '../../api/instanceAxios';
 import { NoteColor } from '../../types/bookNoteType';
 import { bookNoteApi } from '../../api/bookNoteApi';
 import { ActiveBookFilterType } from '../../types/api/activeBookFilterType';
+import { arrayBufferToBase64 } from '../../utils/imageUtil';
 
 export type InitialStateType = {
     pageSize: number
@@ -45,7 +46,7 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
                 totalNumberPages: actions.totalNumberPages,
                 bookId: actions.book.id,
                 bookTitle: actions.book.title,
-                imageData: actions.book.imageData
+                imageData: arrayBufferToBase64(actions.book.imageData)
             }
 
             return {
@@ -177,12 +178,12 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
         const pagination: PaginationType = { skip: skip, take: state.pageSize };
         const response = await activeBookApi.getActiveBooksByFilter(state.filter, pagination);
 
-        const activeBooks = response.result.entities.map(a => {
+        const activeBooks = response.data.activeBooks.items.map(a => {
             return {
                 id: a.id,
-                bookId: a.bookId,
-                bookTitle: a.bookTitle,
-                imageData: a.imageData,
+                bookId: a.book.id,
+                bookTitle: a.book.title,
+                imageData: arrayBufferToBase64(a.book.imageData),
                 totalNumberPages: a.totalNumberPages,
                 numberPagesRead: a.numberPagesRead,
                 bookOpinion: a.bookOpinion,
@@ -192,7 +193,7 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
         });
 
         dispatch(setActiveBooks(activeBooks));
-        dispatch(updateTotalCount(response.result.totalCount));
+        dispatch(updateTotalCount(response.data.totalCount));
     }
 }
 

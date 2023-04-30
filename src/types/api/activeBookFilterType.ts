@@ -4,7 +4,7 @@ export type ActiveBookFilterType = {
     sortBy: SortBy
 }
 
-enum SortBy {
+export enum SortBy {
     CreateDate,
     CreateDateDescending,
     UpdateDateDescending,

@@ -4,9 +4,11 @@ export type ActiveBookFilterResultType = {
     id: string,
     totalNumberPages: number,
     numberPagesRead: number,
-    bookTitle: string,
-    bookId: string,
-    imageData: ArrayBuffer,
+    book: {
+        id: string,
+        title: string,
+        imageData: ArrayBuffer
+    }
     notes?: Array<{
         id: string,
         note: string,
@@ -14,4 +16,9 @@ export type ActiveBookFilterResultType = {
     }>,
     bookRatingId: string,
     bookOpinion: BookOpinionType
+}
+
+export type ActiveBooksFilterResultType = {
+    activeBooks: { items:  ActiveBookFilterResultType[] },
+    totalCount: number
 }

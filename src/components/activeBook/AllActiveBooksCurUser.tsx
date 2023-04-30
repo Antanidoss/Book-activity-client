@@ -7,7 +7,12 @@ import { PropsType } from './AllActiveBooksCurUserContainer'
 
 const AllCurUserActiveBooks: React.FC<PropsType> = (props) => {
     if (!props.activeBooks.length) {
-        return <Empty />
+        return (
+            <>
+                <ActiveBookFilterContainer />
+                <Empty />
+            </>
+        )
     }
     
     return (
