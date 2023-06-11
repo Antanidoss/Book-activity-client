@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Modal, Input, message } from 'antd';
+import { Button, Form, Modal, message, InputNumber } from 'antd';
 import { PropsType } from './AddActiveBookContainer';
 
 const AddActiveBook: React.FC<PropsType> = (props) => {
@@ -17,11 +17,14 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   const handleSubmit = (addActiveBookType: AddActiveBookType) => {
     props.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, props.bookId)
       .then(isSuccess => {
-        isSuccess ? message.success("The book has been successfully added to active", 6) : message.error("Failed to make the book active", 6);
-        props.setActiveBookStatus(props.bookId);
+        if (isSuccess) {
+          message.success("The book has been successfully added to active", 6);
+          props.setActiveBookStatus(props.bookId);
+          setIsModalVisible(false);
+        } else {
+          message.error("Failed to make the book active", 6);
+        }
       });
-
-    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -44,13 +47,13 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
           label="Total number pages"
           name="totalNumberPages"
           rules={[{ required: true, message: "Please input total number pages!" }]}>
-          <Input />
+          <InputNumber min={0} />
         </Form.Item>
         <Form.Item
           label="Number pages read"
           name="numberPagesRead"
           rules={[{ required: true, message: "Please input number pages read!" }]}>
-          <Input />
+          <InputNumber min={0} />
         </Form.Item>
       </Form>
     </Modal>
