@@ -37,11 +37,14 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
             <ResizableButton style={{marginLeft: "50px"}} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize="Add review" />
             <Modal title="Add active book" open={isModalVisible} onCancel={handleCancel}
                 footer={[
+                    <Button form="addBookOpinionForm" key="submit" type="primary" htmlType="submit">
+                        Submit
+                    </Button>,
                     <Button key="back" onClick={handleCancel}>
                         Cancel
                     </Button>
                 ]}>
-                <Form onFinish={handleOk}>
+                <Form id="addBookOpinionForm" onFinish={handleOk}>
                     <Form.Item
                         label="Description"
                         name="description"
@@ -53,9 +56,6 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
                         name="grade">
                         <Rate allowHalf />
                     </Form.Item>
-                    <Button key="submit" type="primary" htmlType="submit">
-                        Submit
-                    </Button>
                 </Form>
             </Modal>
         </>

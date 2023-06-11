@@ -20,8 +20,8 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
         isSuccess ? message.success("The book has been successfully added to active", 6) : message.error("Failed to make the book active", 6);
         props.setActiveBookStatus(props.bookId);
       });
-      
-      setIsModalVisible(false);
+
+    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -32,6 +32,9 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
     <Button shape="round" type="primary" onClick={showModal}>Make active</Button>
     <Modal title="Add active book" visible={isModalVisible} onCancel={handleCancel}
       footer={[
+        <Button form="addActiveBookForm" key="submit" type="primary" htmlType="submit">
+          Submit
+        </Button>,
         <Button key="back" onClick={handleCancel}>
           Cancel
         </Button>
@@ -49,9 +52,6 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
           rules={[{ required: true, message: "Please input number pages read!" }]}>
           <Input />
         </Form.Item>
-        <Button key="submit" type="primary" htmlType="submit">
-          Submit
-        </Button>
       </Form>
     </Modal>
   </>
