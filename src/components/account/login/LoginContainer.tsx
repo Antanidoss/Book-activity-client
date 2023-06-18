@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { InferableComponentEnhancerWithProps, connect } from 'react-redux';
 import { compose } from 'redux';
 import { authRequestThunkCreator } from '../../../redux/reducers/user-reducer';
 import { AppStoreType } from '../../../redux/redux-store';
@@ -26,8 +26,10 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     isAuthenticated: getIsAuthenticated(state)
 })
 
-export type PropsType = MapDispatchToPropsType & MapStateToPropsType;
+type OwnPropsType = {}
 
-export default compose<React.ComponentType>(
-    connect<MapStateToPropsType, MapDispatchToPropsType, null, AppStoreType>(mapStateToProps, mapDispatchToProps)
-)(LoginContainer)
+type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
+export type PropsType = ExtractConnectType<typeof connectStore>
+
+export default compose<React.ComponentType>(connectStore)(LoginContainer);
