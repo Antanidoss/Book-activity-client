@@ -1,10 +1,11 @@
 import { Form, Input, Checkbox, Button } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PropsType } from './LoginContainer';
 import { Link, useNavigate } from "react-router-dom";
 
 const Login: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (props.isAuthenticated) {
@@ -19,7 +20,15 @@ const Login: React.FC<PropsType> = (props) => {
     }
 
     const onFinish = (values: LoginDataType) => {
-        props.auth(values.email, values.password, values.rememberMe);
+        props.auth(values.email, values.password, values.rememberMe).then(isSuccess => {
+            if (isSuccess) {
+                return navigate("/books");
+            }
+
+            setLoading(false);
+        });
+
+        setLoading(true);
     };
 
     return (
@@ -57,7 +66,7 @@ const Login: React.FC<PropsType> = (props) => {
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 10, span: 4 }}>
-                <Button type="primary" htmlType="submit" shape="round" block>
+                <Button type="primary" htmlType="submit" shape="round" loading={loading} block>
                     Login
                 </Button>
             </Form.Item>

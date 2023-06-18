@@ -30,20 +30,26 @@ export const userApi = {
                 return r.data;
             })
     },
-    addUser(userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile>) {
+    addUser(userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile> | undefined) {
         var formData = new FormData();
         formData.append("name", userName);
         formData.append("email", email);
         formData.append("password", password);
-        formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
+
+        if (avatarImage !== undefined){
+            formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
+        }
 
         return instanceAxios.post("/user/add", formData)
     },
-    updateUser(userId: string, userName: string, avatarImage: UploadChangeParam<UploadFile>) {
+    updateUser(userId: string, userName: string, avatarImage: UploadChangeParam<UploadFile> | undefined) {
         var formData = new FormData();
         formData.append("userId", userId);
         formData.append("name", userName);
-        formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
+
+        if (avatarImage !== undefined){
+            formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
+        }
 
         return instanceAxios.post("/user/update", formData)
     },

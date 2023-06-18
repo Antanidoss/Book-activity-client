@@ -152,16 +152,18 @@ type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | Update
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
-export const authRequestThunkCreator = (email: string, password: string, rememberMe: boolean): ThunkType => {
+export const authRequestThunkCreator = (email: string, password: string, rememberMe: boolean): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.auth(email, password, rememberMe);
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
             dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
+            return true;
         }
         else {
             // Отправка сообщение на офрму
+            return false;
         }
     }
 }
@@ -177,14 +179,17 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
     }
 }
 
-export const registrationUserRequestThunkCreator = (userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile>): ThunkType => {
+export const registrationUserRequestThunkCreator = (userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile>): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.addUser(userName, email, password, avatarImage);
         if (!isBadStatusCode(response.status)) {
             const authResponse = await userApi.auth(email, password, true);
             dispatch(setAuthenticatedStatus(true));
             dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.email, authResponse.result.avatarImage));
+            return true;
         }
+
+        return false;
     }
 }
 

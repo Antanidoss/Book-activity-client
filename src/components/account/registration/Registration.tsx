@@ -1,18 +1,13 @@
-import { Button, Checkbox, Col, Form, Input, Row, UploadFile } from "antd";
+import { Button, Col, Form, Input, Row, UploadFile } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UploadImage from "../../common/UploadImage";
 import { PropsType } from "./RegistrationContainer";
 
 const Registration: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (props.isAuthenticated) {
-            return navigate("/books");
-        }
-    }, [props.isAuthenticated]);
+    const [loading, setLoading] = useState(false);
 
     type RegisterDataType = {
         userName: string,
@@ -22,7 +17,15 @@ const Registration: React.FC<PropsType> = (props) => {
     }
 
     const onFinish = (values: RegisterDataType) => {
-        props.registration(values.userName, values.email, values.password, values.avatarImage);
+        props.registration(values.userName, values.email, values.password, values.avatarImage).then(isSuccess => {
+            if (isSuccess) {
+                return navigate("/books");
+            }
+
+            setLoading(false);
+        });
+
+        setLoading(true);
     };
 
     return (
@@ -66,7 +69,7 @@ const Registration: React.FC<PropsType> = (props) => {
 
             <Form.Item
                 wrapperCol={{ offset: 10, span: 4 }}>
-                <Button type="primary" htmlType="submit" shape="round" block>
+                <Button type="primary" htmlType="submit" shape="round" loading={loading} block>
                     Register
                 </Button>
             </Form.Item>
