@@ -1,6 +1,6 @@
-import { Affix, Button, Checkbox, Col, Form, Select } from "antd";
+import { Affix, Badge, Button, Checkbox, Col, Form, Select } from "antd";
 import React, { useState } from "react"
-import { ActiveBookFilterType } from "../../../types/api/activeBookFilterType";
+import { ActiveBookFilterType, SortBy, isDefaultFilter } from "../../../types/api/activeBookFilterType";
 import CustomDrawer from "../../common/CustomDrawer";
 import { PropsType } from "./ActiveBookFilterContainer"
 import {
@@ -21,6 +21,9 @@ const ActiveBookFilter: React.FC<PropsType> = (props) => {
     };
 
     const onFinish = (activeBookFilterModel: ActiveBookFilterType) => {
+        if (activeBookFilterModel.bookTitle == "")
+            activeBookFilterModel.bookTitle = undefined;
+
         props.updateCurrentPageNumber(1);
         props.updateActiveBookFilter(activeBookFilterModel);
         props.getActiveBooks();
@@ -46,7 +49,11 @@ const ActiveBookFilter: React.FC<PropsType> = (props) => {
         <>
             <Col style={{ height: "50px" }} span={3}>
                 <Affix offsetTop={1}>
-                    <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>Filter</Button>
+                    <Badge dot={!isDefaultFilter(props.activeBookFilter)} style={{marginLeft: "50px", marginTop: "20px"}}>
+                        <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>
+                            Filter
+                        </Button>
+                    </Badge>
                 </Affix>
             </Col>
 

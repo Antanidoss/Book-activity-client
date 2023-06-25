@@ -3,10 +3,10 @@ import { PropsType } from "./BookFilterContainer";
 import {
     FilterOutlined
 } from "@ant-design/icons";
-import { Affix, Button, Col, Form, InputNumber, Row } from "antd";
+import { Affix, Badge, Button, Col, Form, InputNumber, Row } from "antd";
 import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
-import { BookFilterType } from "../../../types/bookFilterType";
+import { BookFilterType, isDefaultFilter } from "../../../types/bookFilterType";
 import CustomDrawer from "../../common/CustomDrawer";
 
 const BookFilter: React.FC<PropsType> = (props) => {
@@ -30,7 +30,9 @@ const BookFilter: React.FC<PropsType> = (props) => {
     return <>
         <Col style={{ height: "50px" }} span={3}>
             <Affix offsetTop={1}>
-                <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>Filter</Button>
+                <Badge dot={!isDefaultFilter(props.bookFilter)} style={{marginLeft: "50px", marginTop: "20px"}}>
+                    <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>Filter</Button>
+                </Badge>
             </Affix>
         </Col>
 
@@ -62,13 +64,13 @@ const BookFilter: React.FC<PropsType> = (props) => {
                         <Form.Item
                             label="from"
                             name="averageRatingFrom">
-                            <InputNumber min={0} max={5} />
+                            <InputNumber min={0} max={5} required />
                         </Form.Item>
                     </Col>
 
                     <Col>
                         <Form.Item label="to" name="averageRatingTo">
-                            <InputNumber min={0} max={5} />
+                            <InputNumber min={0} max={5} required />
                         </Form.Item>
                     </Col>
                 </Row>
