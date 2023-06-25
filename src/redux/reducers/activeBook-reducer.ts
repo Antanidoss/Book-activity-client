@@ -21,7 +21,7 @@ export type InitialStateType = {
 }
 
 const initialState: InitialStateType = {
-    pageSize: 8,
+    pageSize: 10,
     pageNumber: 1,
     totalActiveBookCount: 0,
     activeBooks: [] as Array<ActiveBook>,
@@ -193,7 +193,7 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
         });
 
         dispatch(setActiveBooks(activeBooks));
-        dispatch(updateTotalCount(response.data.totalCount));
+        dispatch(updateTotalCount(response.data.activeBooks.totalCount));
     }
 }
 

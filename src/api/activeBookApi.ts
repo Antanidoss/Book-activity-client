@@ -35,6 +35,7 @@ export const activeBookApi = {
               order: { ${order} }
               where: { book: { title: { contains: ${filterModel.bookTitle === undefined ? "\"\"" : "\"" + filterModel.bookTitle + "\""} } } }
             ) {
+              totalCount
               items {
                 id
                 totalNumberPages
@@ -51,6 +52,6 @@ export const activeBookApi = {
             }
           }`
 
-    return instanceAxios.post<GraphqlResponseType<ActiveBooksFilterResultType>>(`/graphql`, { query: query }).then(res => res.data)
+          return instanceAxios.post<GraphqlResponseType<ActiveBooksFilterResultType>>(`/graphql`, { query: query }).then(res => res.data)
   }
 };

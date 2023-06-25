@@ -55,7 +55,7 @@ const AddBook: React.FC<PropsType> = (props) => {
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col span={11} style={{ marginLeft: "200px" }}>
+                    <Col span={11} style={{ marginLeft: "20%" }}>
                         <Form.Item
                             label="Description"
                             name="description"
@@ -68,7 +68,7 @@ const AddBook: React.FC<PropsType> = (props) => {
                     <Col span={8}>
                         <DebounceSelect {...selectProps} />
                     </Col>
-                    <Col span={8} style={{ marginLeft: "200px" }}>
+                    <Col span={8} style={{ marginLeft: "20%" }}>
                         <UploadImage fieldLabel="Image" fieldName="image" rules={[{ required: true, message: "Please upload image!" }]} uploadListType="picture-card" />
                     </Col>
                 </Row>
