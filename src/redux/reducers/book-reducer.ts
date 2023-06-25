@@ -19,7 +19,7 @@ export type InitialStateType = {
 }
 
 const initialState: InitialStateType = {
-    pageSize: 12,
+    pageSize: 10,
     pageNumber: 1,
     totalBookCount: 0,
     books: [] as Array<BookType>,

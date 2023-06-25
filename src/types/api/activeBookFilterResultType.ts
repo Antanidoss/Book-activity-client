@@ -19,6 +19,8 @@ export type ActiveBookFilterResultType = {
 }
 
 export type ActiveBooksFilterResultType = {
-    activeBooks: { items:  ActiveBookFilterResultType[] },
-    totalCount: number
+    activeBooks: { 
+        totalCount: number,
+        items:  ActiveBookFilterResultType[]
+    }
 }
