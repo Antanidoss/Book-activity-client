@@ -9,3 +9,7 @@ export enum SortBy {
     CreateDateDescending,
     UpdateDateDescending,
 }
+
+export const isDefaultFilter = (filter: ActiveBookFilterType) => {
+    return (filter.bookTitle == undefined || filter.bookTitle == "") && filter.sortBy == SortBy.CreateDateDescending && filter.withFullRead;
+}
