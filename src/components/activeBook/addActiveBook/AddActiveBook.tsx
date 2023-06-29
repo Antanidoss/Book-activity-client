@@ -30,19 +30,42 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  const [form] = Form.useForm();
+  const [disabled, setDisabled] = useState(false);
+
+  const validateForm = () => {
+    const totalNumberPages = form.getFieldValue("totalNumberPages") ?? 0;
+    const numberPagesRead = form.getFieldValue("numberPagesRead") ?? 0;
+
+    if (numberPagesRead > totalNumberPages) {
+      form.setFields([{name: "numberPagesRead", errors: ["The total number of pages cannot be less than the pages read"]}]);
+      setDisabled(true);
+      return;
+    } else {
+      form.setFields([{name: "numberPagesRead", errors: undefined}]);
+    }
+
+    if (disabled) {
+      setDisabled(false);
+    }
+  }
+
+  const onFormChange = () => {
+    validateForm();
+  }
 
   return <>
     <Button shape="round" type="primary" onClick={showModal}>Make active</Button>
-    <Modal title="Add active book" visible={isModalVisible} onCancel={handleCancel}
+    <Modal forceRender title="Add active book" open={isModalVisible} onCancel={handleCancel}
       footer={[
-        <Button form="addActiveBookForm" key="submit" type="primary" htmlType="submit">
+        <Button form="addActiveBookForm" key="submit" type="primary" htmlType="submit" disabled={disabled}>
           Submit
         </Button>,
         <Button key="back" onClick={handleCancel}>
           Cancel
         </Button>
       ]}>
-      <Form id="addActiveBookForm" onFinish={handleSubmit}>
+      <Form id="addActiveBookForm" form={form} onFinish={handleSubmit} onFieldsChange={onFormChange}>
         <Form.Item
           label="Total number pages"
           name="totalNumberPages"
