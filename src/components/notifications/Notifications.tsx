@@ -13,6 +13,7 @@ const Notifications: React.FC<PropsType> = (props) => {
             key: n.id,
         }
     })
+    
     return (
         <>
             <div style={{ float: "right" }}>

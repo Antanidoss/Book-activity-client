@@ -53,7 +53,7 @@ const Registration: React.FC<PropsType> = (props) => {
                         label="Email"
                         name="email"
                         rules={[{ required: true, message: "Please input your email!" }]}>
-                        <Input style={{ width: '170%' }} />
+                        <Input type="email" style={{ width: '170%' }} />
                     </Form.Item>
                     <Form.Item
                         label="Password"
