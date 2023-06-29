@@ -15,12 +15,18 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   };
 
   const handleSubmit = (addActiveBookType: AddActiveBookType) => {
+    let haveErrors = validateForm();
+
+    if (haveErrors) {
+      return;
+    }
+
     props.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, props.bookId)
       .then(isSuccess => {
         if (isSuccess) {
-          message.success("The book has been successfully added to active", 6);
           props.setActiveBookStatus(props.bookId);
           setIsModalVisible(false);
+          message.success("The book has been successfully added to active", 6);
         } else {
           message.error("Failed to make the book active", 6);
         }
@@ -36,18 +42,21 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   const validateForm = () => {
     const totalNumberPages = form.getFieldValue("totalNumberPages") ?? 0;
     const numberPagesRead = form.getFieldValue("numberPagesRead") ?? 0;
+    let haveErrors = false
 
     if (numberPagesRead > totalNumberPages) {
       form.setFields([{name: "numberPagesRead", errors: ["The total number of pages cannot be less than the pages read"]}]);
       setDisabled(true);
-      return;
+      haveErrors = true;
     } else {
       form.setFields([{name: "numberPagesRead", errors: undefined}]);
     }
 
-    if (disabled) {
+    if (disabled && !haveErrors) {
       setDisabled(false);
     }
+
+    return haveErrors;
   }
 
   const onFormChange = () => {
