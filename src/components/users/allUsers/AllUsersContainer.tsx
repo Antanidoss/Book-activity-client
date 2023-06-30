@@ -6,6 +6,7 @@ import { getUserId, getUsers } from "../../../redux/selectors/user-selectors";
 import { UserType } from "../../../types/userType";
 import AllUser from "./AllUsers";
 import UserFilterContainer from "./userFilter/UserFilterContainer";
+import { getIsAuthenticated } from "../../../redux/selectors/user-selectors";
 
 const AllUsersContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {
@@ -34,11 +35,13 @@ const mapDispatchToProps = {
 
 type MapStateToPropsType = {
     users: Array<UserType>,
-    currentUserId?: string
+    currentUserId?: string,
+    isAuthenticated: boolean
 }
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     users: getUsers(state),
-    currentUserId: getUserId(state)
+    currentUserId: getUserId(state),
+    isAuthenticated: getIsAuthenticated(state)
 })
 
 type OwnPropsType = {}

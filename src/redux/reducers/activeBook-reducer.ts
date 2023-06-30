@@ -24,7 +24,7 @@ const initialState: InitialStateType = {
     pageSize: 10,
     pageNumber: 1,
     totalActiveBookCount: 0,
-    activeBooks: [] as Array<ActiveBook>,
+    activeBooks: [],
     filter: { sortBy: 1, withFullRead: true }
 }
 
