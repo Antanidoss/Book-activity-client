@@ -1,19 +1,30 @@
 import { List, Image, Button, message, Row, Col } from "antd";
 import React from "react";
 import { PropsType } from "./AllUsersContainer";
+import { useNavigate } from "react-router-dom";
 import {
     BookOutlined,
     CommentOutlined
 } from "@ant-design/icons";
 
 const AllUser: React.FC<PropsType> = (props) => {
+    const navigate = useNavigate();
+
     const subscribeToUser = (userId: string) => {
+        if (!props.isAuthenticated) {
+            return navigate("/login");
+        }
+
         props.subscribeToUser(userId).then(isSuccess => {
             return isSuccess ? message.success("You have successfully subscribed", 6) : message.error("Failed to subscribe", 6)
         });
     }
 
     const unsubscribeUser = (userId: string) => {
+        if (!props.isAuthenticated) {
+            return navigate("/login");
+        }
+            
         props.unsubscribeUser(userId).then(isSuccess => {
             return isSuccess ? message.success("You have successfully subscribed", 6) : message.error("Failed to subscribe", 6)
         });
