@@ -1,30 +1,39 @@
 import React from "react";
 import { ActiveBooksStatisticType } from "../../types/activeBooksStatisticType";
-import { Divider } from 'antd';
+import { Divider, Tooltip } from 'antd';
+import date from 'date-and-time';
+import "./ActiveBooksStatistic.css"
 
 const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: ActiveBooksStatisticType) => {
     const createCalendarStatiscs = () => {
         let result: Array<JSX.Element> = [];
         const rowCount = 7;
 
+        let currentDate = new Date();
         for (let i = 0; i < rowCount; i++) {
-            result.push(<tr style={{ height: "10px" }}>{createRowStatistics()}</tr>)
+            result.push(<tr style={{ height: "10px" }}>{createRowStatistics(currentDate)}</tr>)
+
+            currentDate = date.addDays(currentDate, -1);
         }
 
         return result;
     }
 
-    const createRowStatistics = () => {
+    const createRowStatistics = (currentDate: Date) => {
         let rowStatistics: Array<JSX.Element> = [];
 
         for (let j = 0; j < 52; j++) {
-            rowStatistics.push(<td tabIndex={-1} style={{
-                width: "10px",
-                borderRadius: "2px",
-                fill: "ebedf0",
-                backgroundColor: "#ebedf0",
-                outline: "1px solid rgba(27, 31, 35, 0.06)"
-            }}><span></span></td>)
+            rowStatistics.unshift(
+                <Tooltip title={`${0} pages read on ${currentDate.toDateString()}`}>
+                    <td data-date={date.format(currentDate, "DD-MM-YYYY")} tabIndex={-1} className="calendarReading-day"><span></span></td>
+                </Tooltip>
+            )
+
+            currentDate = date.addDays(currentDate, -7);
+
+            if (currentDate > new Date()) {
+                break;
+            }
         }
 
         return rowStatistics;
@@ -33,7 +42,7 @@ const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: Act
     const createMonthsLabels = () => {
         let result: Array<JSX.Element> = [];
         let colSpan: number;
-        const monthNumber = new Date().getMonth()
+        const currentDate = new Date();
         const monthsCount = 11;
 
         for (let i = monthsCount; i >= 0; i--) {
@@ -45,7 +54,7 @@ const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: Act
             }
 
             result.push(<td colSpan={colSpan} style={{ position: "relative" }}>
-                <span>{getMonthStrByNumber(monthNumber - i)}</span>
+                <span>{getMonthStrByNumber(date.addMonths(currentDate, -i).getMonth())}</span>
                 <span aria-hidden={true} style={{ position: "absolute", top: "0" }}></span>
             </td>)
         }
@@ -54,11 +63,8 @@ const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: Act
     }
 
     const getMonthStrByNumber = (monthNumber: number) => {
-        if (monthNumber < 1) {
-            monthNumber = 12 - -monthNumber
-        }
-
         switch (monthNumber) {
+            case 0: return "Dec";
             case 1: return "Jan";
             case 2: return "Feb";
             case 3: return "Mar";
@@ -70,20 +76,14 @@ const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: Act
             case 9: return "Sep";
             case 10: return "Oct";
             case 11: return "Nov";
-            case 12: return "Dec";
         }
     }
 
     return (
         <>
-            <Divider orientation="center">Total stats</Divider>
-            <div style={{ "textAlign": "center", "marginTop": "50px" }}>
-                <h3>Average number of pages read per day: {statistic.averagePagesReadPerDay}</h3>
-                <h3>Average number of pages read per week: {statistic.averagePagesReadPerWeek}</h3>
-                <h3>Average number of pages read per mouth: {statistic.averagePagesReadPerMouth}</h3>
-            </div>
-            <div style={{ maxWidth: "100%", marginTop: "200px" }}>
-                <table style={{ borderSpacing: "7px", borderCollapse: "separate", margin: "0 auto", border: "1px solid #d0d7de", borderRadius: "6px", padding: "20px" }}>
+            <Divider style={{marginTop: "50px"}} orientation="center">Calendar statistics</Divider>
+            <div style={{ maxWidth: "100%" }}>
+                <table id="calendarStatistics-table">
                     <thead>
                         <tr style={{ height: "13px" }}>
                             <td style={{ width: "10px" }} />
@@ -94,6 +94,13 @@ const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: Act
                         { createCalendarStatiscs() }
                     </tbody>
                 </table>
+            </div>
+
+            <Divider style={{marginTop: "100px"}} orientation="center">Total stats</Divider>
+            <div style={{ "textAlign": "center", "marginTop": "50px" }}>
+                <h3>Average number of pages read per day: {statistic.averagePagesReadPerDay}</h3>
+                <h3>Average number of pages read per week: {statistic.averagePagesReadPerWeek}</h3>
+                <h3>Average number of pages read per mouth: {statistic.averagePagesReadPerMouth}</h3>
             </div>
         </>
     )

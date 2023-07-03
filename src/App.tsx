@@ -15,7 +15,7 @@ import AllCurUserActiveBooksContainer from './components/activeBook/AllActiveBoo
 import AdministartionMain from './components/administration/AdministartionMain';
 import RegistrationContainer from './components/account/registration/RegistrationContainer';
 import ProfileContainer from './components/account/profile/ProfileContainer';
-import ActiveBooksStatisticForCurUserContainer from './components/activeBooksStatistic/ActiveBooksStatisticForCurUser/ActiveBooksStatisticForCurUserContainer';
+import ActiveBooksStatisticForCurUserContainer from './components/activeBooksStatistic/ActiveBooksStatisticForCurUserContainer';
 import AllUsersContainer from './components/users/allUsers/AllUsersContainer';
 import NotificationsContainer from './components/notifications/NotificationsContainer';
 
