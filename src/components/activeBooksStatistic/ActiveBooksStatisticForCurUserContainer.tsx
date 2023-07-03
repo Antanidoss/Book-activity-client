@@ -2,13 +2,13 @@ import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { connect, InferableComponentEnhancerWithProps } from "react-redux";
 import { compose } from "redux";
-import { withAuthRedirect } from "../../../hoc/withAuthRedirect";
-import { getActiveBooksStatisticThunkCreator } from "../../../redux/reducers/activeBooksStatistic-reducer";
-import { getCurUserStatistics } from "../../../redux/selectors/activeBooksStatistic-selectors";
-import { AppStoreType } from "../../../redux/redux-store";
-import { getIsAuthenticated } from "../../../redux/selectors/user-selectors";
-import { ActiveBooksStatisticType } from "../../../types/activeBooksStatisticType";
-import ActiveBooksStatistic from "../ActiveBooksStatistic";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { getActiveBooksStatisticThunkCreator } from "../../redux/reducers/activeBooksStatistic-reducer";
+import { getCurUserStatistics } from "../../redux/selectors/activeBooksStatistic-selectors";
+import { AppStoreType } from "../../redux/redux-store";
+import { getIsAuthenticated } from "../../redux/selectors/user-selectors";
+import { ActiveBooksStatisticType } from "../../types/activeBooksStatisticType";
+import ActiveBooksStatistic from "./ActiveBooksStatistic";
 
 const ActiveBooksStatisticForCurUserContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);
