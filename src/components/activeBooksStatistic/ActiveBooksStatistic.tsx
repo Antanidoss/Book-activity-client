@@ -1,5 +1,5 @@
 import React from "react";
-import { ActiveBooksStatisticType } from "../../types/activeBooksStatisticType";
+import { ActiveBooksStatisticType, NumberOfPagesReadPerDay } from "../../types/activeBooksStatisticType";
 import { Divider, Tooltip } from 'antd';
 import date from 'date-and-time';
 import "./ActiveBooksStatistic.css"
@@ -11,29 +11,41 @@ const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: Act
 
         let currentDate = new Date();
         for (let i = 0; i < rowCount; i++) {
-            result.push(<tr style={{ height: "10px" }}>{createRowStatistics(currentDate)}</tr>)
+            result.push(<tr style={{ height: "10px" }}>{createRowStatistics(new Date(currentDate))}</tr>)
 
-            currentDate = date.addDays(currentDate, -1);
+            currentDate.setDate(currentDate.getDate() - 1);
         }
 
-        return result;
+        return result.reverse();
     }
 
     const createRowStatistics = (currentDate: Date) => {
         let rowStatistics: Array<JSX.Element> = [];
+        let numberOfPagesReadPerDay: NumberOfPagesReadPerDay | undefined;
+        let formatDate: string;
 
         for (let j = 0; j < 52; j++) {
+            formatDate = date.format(currentDate, "DD-MM-YYYY");
+            numberOfPagesReadPerDay = statistic.readingCalendar.find(n => n.date === formatDate)
+
+            let tooltipTitle: string;
+            let backgroundColor: string;
+
+            if (numberOfPagesReadPerDay === undefined) {
+                tooltipTitle = `0 pages read on ${currentDate.toDateString()}`
+                backgroundColor = "#ebedf0";
+            } else {
+                tooltipTitle = `${numberOfPagesReadPerDay.countPagesRead} pages read on ${currentDate.toDateString()}`
+                backgroundColor = "#4096ff";
+            }
+
             rowStatistics.unshift(
-                <Tooltip title={`${0} pages read on ${currentDate.toDateString()}`}>
-                    <td data-date={date.format(currentDate, "DD-MM-YYYY")} tabIndex={-1} className="calendarReading-day"><span></span></td>
+                <Tooltip title={tooltipTitle}>
+                    <td data-date={formatDate} tabIndex={-1} className="calendarReading-day" style={{backgroundColor: backgroundColor}}><span></span></td>
                 </Tooltip>
             )
 
-            currentDate = date.addDays(currentDate, -7);
-
-            if (currentDate > new Date()) {
-                break;
-            }
+            currentDate.setDate(currentDate.getDate() - 7);
         }
 
         return rowStatistics;
