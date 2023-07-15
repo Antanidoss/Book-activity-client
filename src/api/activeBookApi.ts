@@ -27,13 +27,15 @@ export const activeBookApi = {
       order = `timeOfUpdate: DESC`
     }
 
+    let where = filterModel.bookTitle === undefined ? "" : `where: { book: { title: { contains: ${"\"" + filterModel.bookTitle + "\""} } } }`
+
     let query = `query {
             activeBooks(
               skip: ${pagination.skip},
               take: ${pagination.take},
               withFullRead: ${filterModel.withFullRead},
               order: { ${order} }
-              where: { book: { title: { contains: ${filterModel.bookTitle === undefined ? "\"\"" : "\"" + filterModel.bookTitle + "\""} } } }
+              ${where}
             ) {
               totalCount
               items {
@@ -52,6 +54,6 @@ export const activeBookApi = {
             }
           }`
 
-          return instanceAxios.post<GraphqlResponseType<ActiveBooksFilterResultType>>(`/graphql`, { query: query }).then(res => res.data)
+    return instanceAxios.post<GraphqlResponseType<ActiveBooksFilterResultType>>(`/graphql`, { query: query }).then(res => res.data);
   }
 };

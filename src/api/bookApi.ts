@@ -1,21 +1,40 @@
-import instanceAxios from "./instanceAxios";
+import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 import { BookType } from '../types/bookType';
 import { BookFilterType } from "../types/bookFilterType";
 import { FilterResultType } from "../types/api/filterResultType";
 import { AddBookModelType } from "../types/api/addBookModelType";
+import { BooksFilterResultType } from "../types/api/bookFilterResultType";
 
 export const bookApi = {
     getBooksByFilter(filterModel: BookFilterType, skip: number, take: number) {
-        return instanceAxios.get<ResponseType<FilterResultType<BookType>>>("/book/getByFilter", {
-            params: {
-                bookTitle: filterModel.bookTitle,
-                averageRatingFrom: filterModel.averageRatingFrom,
-                averageRatingTo: filterModel.averageRatingTo,
-                skip,
-                take
+        let where = filterModel.bookTitle === undefined ? "" : `where: { title: { contains: ${"\"" + filterModel.bookTitle + "\""} } }`
+
+        let query = `query {
+            books(
+              skip: ${skip},
+              take: ${take},
+              averageRatingFrom: ${filterModel.averageRatingFrom},
+              averageRatingTo: ${filterModel.averageRatingTo},
+              ${where}
+            ) {
+              totalCount
+              items {
+                id
+                title
+                imageData
+                isActiveBook
+                bookRating {
+                  calculateAverageRating
+                  bookOpinions {
+                    grade
+                  }
+                }
+              }
             }
-        }).then(res => res.data)
+          }`
+
+        return instanceAxios.post<GraphqlResponseType<BooksFilterResultType>>(`/graphql`, { query: query }).then(res => res.data);
     },
     addBook(addBookModel: AddBookModelType) {
         var formData = new FormData();
