@@ -7,6 +7,7 @@ import AddActiveBookContainer from '../../activeBook/addActiveBook/AddActiveBook
 import {
     CheckOutlined
 } from "@ant-design/icons";
+import { arrayBufferToBase64 } from '../../../utils/imageUtil';
 
 const Book: React.FC<BookType> = (props) => {
     return (
@@ -17,7 +18,7 @@ const Book: React.FC<BookType> = (props) => {
                 </Link>
                 <Link to={"#"} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
-                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + props.imageData} />
+                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + arrayBufferToBase64(props.imageData)} />
                     </Col>
                 </Link>
                 <Col span={24} style={{top: "40px"}}>

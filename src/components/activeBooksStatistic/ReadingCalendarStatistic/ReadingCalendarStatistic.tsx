@@ -41,7 +41,7 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
 
             rowStatistics.unshift(
                 <Tooltip title={tooltipTitle}>
-                    <td data-date={formatDate} tabIndex={-1} className="calendarReading-day" style={{backgroundColor: backgroundColor}} />
+                    <td data-date={formatDate} tabIndex={-1} className="calendarReading-day" style={{ backgroundColor: backgroundColor }} />
                 </Tooltip>
             )
 
@@ -58,12 +58,7 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
         const monthsCount = 11;
 
         for (let i = monthsCount; i >= 0; i--) {
-
-            if (i == 0 || i == 2 || i == 4 || i == 6) {
-                colSpan = 5;
-            } else {
-                colSpan = 4
-            }
+            colSpan = i % 2 === 0 ? 5 : 4;
 
             result.push(<td colSpan={colSpan} style={{ position: "relative" }}>
                 <span>{getMonthStrByNumber(date.addMonths(currentDate, -i).getMonth())}</span>
@@ -93,19 +88,22 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
 
     return (
         <>
-            <Divider style={{marginTop: "50px"}} orientation="center">Calendar statistics</Divider>
-            <div style={{ maxWidth: "100%" }}>
-                <table id="calendarStatistics-table">
-                    <thead>
-                        <tr style={{ height: "13px" }}>
-                            <td style={{ width: "10px" }} />
-                            { createMonthsLabels() }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { createCalendarStatiscs() }
-                    </tbody>
-                </table>
+            <Divider style={{ marginTop: "50px" }} orientation="center">Calendar statistics</Divider>
+            <div style={{ maxWidth: "100%", marginTop: "100px", textAlign: "center" }}>
+                <div style={{ display: "inline-block" }}>
+                    <div style={{textAlign: "left", paddingBottom: "10px"}}>{statistic.numberPagesReadPerYear} pages read per year</div>
+                    <table id="calendarStatistics-table">
+                        <thead>
+                            <tr style={{ height: "13px" }}>
+                                <td style={{ width: "10px" }} />
+                                {createMonthsLabels()}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {createCalendarStatiscs()}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     )

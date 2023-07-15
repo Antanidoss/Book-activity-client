@@ -10,7 +10,6 @@ import { isBadStatusCode } from '../../api/instanceAxios';
 import { NoteColor } from '../../types/bookNoteType';
 import { bookNoteApi } from '../../api/bookNoteApi';
 import { ActiveBookFilterType } from '../../types/api/activeBookFilterType';
-import { arrayBufferToBase64 } from '../../utils/imageUtil';
 
 export type InitialStateType = {
     pageSize: number
@@ -40,24 +39,14 @@ const UPDATE_TOTAL_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
         case ADD_ACTIVE_BOOK:
-            const activeBook: ActiveBook = {
-                id: actions.id,
-                numberPagesRead: actions.numberPagesRead,
-                totalNumberPages: actions.totalNumberPages,
-                bookId: actions.book.id,
-                bookTitle: actions.book.title,
-                imageData: arrayBufferToBase64(actions.book.imageData)
-            }
-
             return {
                 ...state,
-                activeBooks: state.activeBooks.concat(activeBook)
+                activeBooks: state.activeBooks.concat(actions)
             }
         case SET_ACTIVE_BOOKS:
             return {
                 ...state,
                 activeBooks: actions.activeBooks,
-                totalActiveBookCount: actions.activeBooks.length
             }
         case UPDATE_ACTIVE_BOOK:
             return {
@@ -178,21 +167,7 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
         const pagination: PaginationType = { skip: skip, take: state.pageSize };
         const response = await activeBookApi.getActiveBooksByFilter(state.filter, pagination);
 
-        const activeBooks = response.data.activeBooks.items.map(a => {
-            return {
-                id: a.id,
-                bookId: a.book.id,
-                bookTitle: a.book.title,
-                imageData: arrayBufferToBase64(a.book.imageData),
-                totalNumberPages: a.totalNumberPages,
-                numberPagesRead: a.numberPagesRead,
-                bookOpinion: a.bookOpinion,
-                bookRatingId: a.bookRatingId,
-                notes: a.notes?.map(n => { return { id: n.id, note: n.note, color: n.noteColor } })
-            }
-        });
-
-        dispatch(setActiveBooks(activeBooks));
+        dispatch(setActiveBooks(response.data.activeBooks.items));
         dispatch(updateTotalCount(response.data.activeBooks.totalCount));
     }
 }

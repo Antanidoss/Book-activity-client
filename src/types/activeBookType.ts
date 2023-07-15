@@ -5,10 +5,12 @@ export type ActiveBook = {
     id: string,
     totalNumberPages: number,
     numberPagesRead: number,
-    bookId: string,
-    bookTitle: string,
-    imageData: string,
+    book: {
+        id: string,
+        title: string,
+        imageData: ArrayBuffer,
+        bookRatingId?: string
+    }
     notes?: Array<BookNoteType>,
-    bookRatingId?: string
     bookOpinion?: BookOpinionType
 }

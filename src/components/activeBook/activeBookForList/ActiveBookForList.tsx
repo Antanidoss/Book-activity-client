@@ -11,6 +11,7 @@ import AddBookOpinionContainer from "./addBookOpinion/AddBookOpinionContainer";
 import ResizableButton from "../../common/ResizableButton";
 import AddBookNoteContainer from "./addBookNote/AddBookNoteContainer";
 import BookOpinionViewContainer from "./bookOpinionView/BookOpinionViewContainer";
+import { arrayBufferToBase64 } from "../../../utils/imageUtil";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const onClickRemoveActiveBook = () => {
@@ -26,11 +27,11 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
         <div className="book-list-block-main">
             <Col span={24} style={bookMain}>
                 <Link to={"#"} style={{ color: "black" }}>
-                    <Col span={24} style={bookTitle}>{props.activeBook.bookTitle}</Col>
+                    <Col span={24} style={bookTitle}>{props.activeBook.book.title}</Col>
                 </Link>
                 <Link to={"#"} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
-                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + props.activeBook.imageData} />
+                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + arrayBufferToBase64(props.activeBook.book.imageData)} />
                     </Col>
                 </Link>
                 <Col span={24}>
@@ -49,11 +50,11 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                         { 
                             props.activeBook.bookOpinion === null || props.activeBook.bookOpinion === undefined
                                 ? <AddBookOpinionContainer
-                                    bookId={props.activeBook.bookId}
-                                    bookRatingId={props.activeBook.bookRatingId as string} />
+                                    bookId={props.activeBook.book.id}
+                                    bookRatingId={props.activeBook.book.bookRatingId as string} />
                                 : <BookOpinionViewContainer
-                                    bookId={props.activeBook.bookId}
-                                    bookRatingId={props.activeBook.bookRatingId as string}
+                                    bookId={props.activeBook.book.id}
+                                    bookRatingId={props.activeBook.book.bookRatingId as string}
                                     bookOpinion={props.activeBook.bookOpinion} />
                         }
                     </Col>

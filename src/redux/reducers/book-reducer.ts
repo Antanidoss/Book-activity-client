@@ -8,6 +8,7 @@ import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookRatingApi } from '../../api/bookRatingApi';
 import { BookFilterType, BookFilterTypeDefault } from '../../types/bookFilterType';
 import { AddBookModelType } from '../../types/api/addBookModelType';
+import { arrayBufferToBase64 } from '../../utils/imageUtil';
 
 export type InitialStateType = {
     pageSize: number
@@ -45,7 +46,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
         case SET_BOOKS_DATA:
             return {
                 ...state,
-                books: action.books,
+                books: action.books
             }
         case SET_ACTIVE_BOOK_STATUS:
             return {
@@ -155,10 +156,8 @@ export const getBooksByFilter = (): ThunkType => {
         const bookState = getState().bookStore;
         const skip = calculateSkip(bookState.pageNumber, bookState.pageSize);
         const response = await bookApi.getBooksByFilter(bookState.bookFilter, skip, bookState.pageSize);
-        if (response.success) {
-            dispatch(setBooksData(response.result.entities))
-            dispatch(updateTotalBookCountType(response.result.totalCount))
-        }
+        dispatch(setBooksData(response.data.books.items));
+        dispatch(updateTotalBookCountType(response.data.books.totalCount));
     }
 }
 
