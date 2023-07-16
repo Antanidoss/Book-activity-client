@@ -39,7 +39,7 @@ const AddBookNote: React.FC<PropsType> = (props) => {
     return (
         <>
             <ResizableButton icon={React.createElement(PushpinOutlined)} onClick={showModal} shape="round" titleOnResize="Add note" type="primary" />
-            <Modal title="Add book note" visible={isModalVisible} onCancel={handleCancel}
+            <Modal title="Add book note" open={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button form="addBookNoteForm" key="submit" type="primary" htmlType="submit">
                         Submit

@@ -45,26 +45,12 @@ const App: React.FC<PropsType> = (props) => {
                     <Content style={{ overflow: "initial", minHeight: "95vh" }}>
                         <Routes>
                             <Route path="/books" element={<AllBooksContainer />}></Route>
-                        </Routes>
-                        <Routes>
                             <Route path="/login" element={<LoginContainer />}></Route>
-                        </Routes>
-                        <Routes>
                             <Route path="/registration" element={<RegistrationContainer />}></Route>
-                        </Routes>
-                        <Routes>
                             <Route path="/activeBooks" element={<AllCurUserActiveBooksContainer />}></Route>
-                        </Routes>
-                        <Routes>
                             <Route path="/administration" element={<AdministartionMain />}></Route>
-                        </Routes>
-                        <Routes>
                             <Route path="/profile" element={<ProfileContainer />}></Route>
-                        </Routes>
-                        <Routes>
                             <Route path="/statistic" element={<ActiveBooksStatisticForCurUserContainer />}></Route>
-                        </Routes>
-                        <Routes>
                             <Route path="/users" element={<AllUsersContainer />}></Route>
                         </Routes>
                     </Content>

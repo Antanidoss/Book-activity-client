@@ -53,7 +53,6 @@ export const setAuthors = (authors: Array<AuthorType>): SetAuthors => ({
 })
 
 type ActionsTypes = AddAuthorType | SetAuthors;
-type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 type GetStateType = () => AppStoreType;
 
 export const addAuthorRequestThunkCreator = (firstName: string, surname: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
@@ -61,10 +60,9 @@ export const addAuthorRequestThunkCreator = (firstName: string, surname: string)
         const response = await authorApi.addAuthor(firstName, surname);
         if (response.success) {
             dispatch(addAuthor(response.result, firstName, surname));
-            return true;
         }
 
-        return false;
+        return response.success;
     }
 }
 

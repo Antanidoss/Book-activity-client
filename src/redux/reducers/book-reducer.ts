@@ -8,7 +8,6 @@ import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookRatingApi } from '../../api/bookRatingApi';
 import { BookFilterType, BookFilterTypeDefault } from '../../types/bookFilterType';
 import { AddBookModelType } from '../../types/api/addBookModelType';
-import { arrayBufferToBase64 } from '../../utils/imageUtil';
 
 export type InitialStateType = {
     pageSize: number
@@ -156,6 +155,7 @@ export const getBooksByFilter = (): ThunkType => {
         const bookState = getState().bookStore;
         const skip = calculateSkip(bookState.pageNumber, bookState.pageSize);
         const response = await bookApi.getBooksByFilter(bookState.bookFilter, skip, bookState.pageSize);
+        
         dispatch(setBooksData(response.data.books.items));
         dispatch(updateTotalBookCountType(response.data.books.totalCount));
     }
@@ -164,24 +164,24 @@ export const getBooksByFilter = (): ThunkType => {
 export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookApi.addBook(addBookModel);
-        if (!isBadStatusCode(response.status)) {
+        const success = !isBadStatusCode(response.status);
+        if (success) {
             dispatch(addBook(addBookModel))
-            return true;
         }
 
-        return false;
+        return success;
     }
 }
 
 export const updateBookRatingRequestThunkCreator = (bookRatingId: string, grade: number, description: string, userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookRatingApi.update(bookRatingId, grade, description);
-        if (!isBadStatusCode(response.status)) {
+        const success = !isBadStatusCode(response.status);
+        if (success) {
             dispatch(updateBookRating(grade, bookRatingId, description, userId));
-            return true;
         }
 
-        return false;
+        return success;
     }
 }
 

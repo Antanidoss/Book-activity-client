@@ -159,12 +159,9 @@ export const authRequestThunkCreator = (email: string, password: string, remembe
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
             dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
-            return true;
         }
-        else {
-            // Отправка сообщение на офрму
-            return false;
-        }
+
+        return response.success;
     }
 }
 
@@ -182,14 +179,15 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
 export const registrationUserRequestThunkCreator = (userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile>): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.addUser(userName, email, password, avatarImage);
-        if (!isBadStatusCode(response.status)) {
+        const success = !isBadStatusCode(response.status);
+
+        if (success) {
             const authResponse = await userApi.auth(email, password, true);
             dispatch(setAuthenticatedStatus(true));
             dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.email, authResponse.result.avatarImage));
-            return true;
         }
 
-        return false;
+        return success;
     }
 }
 
@@ -227,24 +225,24 @@ export const getUsersByFilterThunkCreator = (): ThunkType => {
 export const subscribeToUserThunkCreator = (userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.subscribeToUser(userId);
-        if (!isBadStatusCode(response.status)) {
+        const success = !isBadStatusCode(response.status);
+        if (success) {
             dispatch(setUserSubscriptions(userId));
-            return true;
         }
 
-        return false;
+        return success;
     }
 }
 
 export const unsubscribeUserThunkCreator = (userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.unsubscribeUser(userId);
-        if (!isBadStatusCode(response.status)) {
+        const success = !isBadStatusCode(response.status);
+        if (success) {
             dispatch(removeUserSubscriptions(userId));
-            return true;
         }
 
-        return false;
+        return success;
     }
 }
 

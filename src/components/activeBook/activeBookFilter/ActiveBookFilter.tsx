@@ -80,9 +80,7 @@ const ActiveBookFilter: React.FC<PropsType> = (props) => {
                     </Form.Item>
 
                     <Form.Item labelCol={{ offset: 6 }} wrapperCol={{ span: 10 }} style={{ "marginTop": "50px" }} label="Sort by" name="sortBy">
-                        <Select
-                            defaultValue={sortByOptions.find(o => o.value == props.activeBookFilter.sortBy)?.label}
-                            options={sortByOptions} />
+                        <Select options={sortByOptions} />
                     </Form.Item>
 
                     <Form.Item labelCol={{offset: 10}} label="With full read" valuePropName="checked" name="withFullRead">
