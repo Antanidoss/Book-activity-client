@@ -11,7 +11,7 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
 
         let currentDate = new Date();
         for (let i = 0; i < rowCount; i++) {
-            result.push(<tr style={{ height: "10px" }}>{createRowStatistics(new Date(currentDate))}</tr>)
+            result.push(<tr key={i} style={{ height: "10px" }}>{createRowStatistics(new Date(currentDate))}</tr>)
 
             currentDate.setDate(currentDate.getDate() - 1);
         }
@@ -40,8 +40,8 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
             }
 
             rowStatistics.unshift(
-                <Tooltip title={tooltipTitle}>
-                    <td data-date={formatDate} tabIndex={-1} className="calendarReading-day" style={{ backgroundColor: backgroundColor }} />
+                <Tooltip key={formatDate} title={tooltipTitle}>
+                    <td key={formatDate} data-date={formatDate} tabIndex={-1} className="calendarReading-day" style={{ backgroundColor: backgroundColor }} />
                 </Tooltip>
             )
 
@@ -60,7 +60,7 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
         for (let i = monthsCount; i >= 0; i--) {
             colSpan = i % 2 === 0 ? 5 : 4;
 
-            result.push(<td colSpan={colSpan} style={{ position: "relative" }}>
+            result.push(<td key={i} colSpan={colSpan} style={{ position: "relative" }}>
                 <span>{getMonthStrByNumber(date.addMonths(currentDate, -i).getMonth())}</span>
                 <span aria-hidden={true} style={{ position: "absolute", top: "0" }}></span>
             </td>)
@@ -95,7 +95,7 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
                     <table id="calendarStatistics-table">
                         <thead>
                             <tr style={{ height: "13px" }}>
-                                <td style={{ width: "10px" }} />
+                                <td key={0} style={{ width: "10px" }} />
                                 {createMonthsLabels()}
                             </tr>
                         </thead>

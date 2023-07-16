@@ -153,10 +153,9 @@ export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalN
         if (response.success) {
             var book = getBookById(getState(), bookId);
             dispatch(addActiveBook(response.result, numberPagesRead, totalNumberPages, book as BookType))
-            return true;
         }
 
-        return false;
+        return response.success;
     }
 }
 
@@ -182,24 +181,24 @@ export const updateActiveBookThunkCreator = (activeBookId: string, numberPagesRe
 export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await activeBookApi.removeActiveBook(activeBookId);
-        if (!isBadStatusCode(response.status)) {
+        const success = !isBadStatusCode(response.status);
+        if (success) {
             dispatch(removeActiveBook(activeBookId))
-            return true;
         }
 
-        return false;
+        return success;
     }
 }
 
 export const addBookNoteThunkCreator = (activeBookId: string, note: string, noteColor: NoteColor): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookNoteApi.addBookNote(activeBookId, note, noteColor);
-        if (!isBadStatusCode(response.status)) {
+        const success = !isBadStatusCode(response.status);
+        if (success) {
             dispatch(addBookNote(activeBookId, note, noteColor))
-            return true;
         }
 
-        return false;
+        return success;
     }
 }
 
