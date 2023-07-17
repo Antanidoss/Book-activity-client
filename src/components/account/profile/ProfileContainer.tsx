@@ -7,6 +7,8 @@ import { updateUserRequestThunkCreator } from "../../../redux/reducers/user-redu
 import { getCurUser, getIsAuthenticated } from "../../../redux/selectors/user-selectors";
 import { UserType } from "../../../types/userType";
 import Profile from "./Profile";
+import { ActiveBooksStatisticType } from "../../../types/activeBooksStatisticType";
+import { getCurUserStatistics } from "../../../redux/selectors/activeBooksStatistic-selectors";
 
 const ProfileContainer: React.FC<PropsType> = (props) => {
     return <Profile {...props} />
@@ -14,7 +16,8 @@ const ProfileContainer: React.FC<PropsType> = (props) => {
 
 type MapStateToPropsType = {
     curUser: UserType,
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
+    statistic: ActiveBooksStatisticType
 }
 
 type MapDispatchToPropsType = {
@@ -27,7 +30,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     curUser: getCurUser(state) as UserType,
-    isAuthenticated: getIsAuthenticated(state)
+    isAuthenticated: getIsAuthenticated(state),
+    statistic: getCurUserStatistics(state) as ActiveBooksStatisticType
 })
 
 type OwnPropsType = {}

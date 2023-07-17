@@ -6,6 +6,7 @@ import ReadingCalendarStatistic from "./ReadingCalendarStatistic/ReadingCalendar
 const ActiveBooksStatistic: React.FC<ActiveBooksStatisticType> = (statistic: ActiveBooksStatisticType) => {
     return (
         <>
+            <Divider style={{ marginTop: "50px" }} orientation="center">Calendar statistics</Divider>
             <ReadingCalendarStatistic {...statistic} />
 
             <Divider style={{marginTop: "100px"}} orientation="center">Total stats</Divider>
