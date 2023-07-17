@@ -88,7 +88,6 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
 
     return (
         <>
-            <Divider style={{ marginTop: "50px" }} orientation="center">Calendar statistics</Divider>
             <div style={{ maxWidth: "100%", marginTop: "100px", textAlign: "center" }}>
                 <div style={{ display: "inline-block" }}>
                     <div style={{textAlign: "left", paddingBottom: "10px"}}>{statistic.numberPagesReadPerYear} pages read per year</div>
