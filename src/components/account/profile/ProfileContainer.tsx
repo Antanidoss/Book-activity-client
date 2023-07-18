@@ -1,5 +1,5 @@
 import { compose } from "@reduxjs/toolkit";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { withAuthRedirect } from "../../../hoc/withAuthRedirect";
 import { AppStoreType } from "../../../redux/redux-store";
@@ -9,9 +9,17 @@ import { UserType } from "../../../types/userType";
 import Profile from "./Profile";
 import { ActiveBooksStatisticType } from "../../../types/activeBooksStatisticType";
 import { getCurUserStatistics } from "../../../redux/selectors/activeBooksStatistic-selectors";
+import { getActiveBooksStatisticThunkCreator } from "../../../redux/reducers/activeBooksStatistic-reducer";
+import { Spin } from "antd";
 
 const ProfileContainer: React.FC<PropsType> = (props) => {
-    return <Profile {...props} />
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        props.getActiveBooksStatistic().then(() => setLoading(false));
+    }, [])
+
+    return loading ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div> : <Profile {...props} />
 }
 
 type MapStateToPropsType = {
@@ -21,11 +29,13 @@ type MapStateToPropsType = {
 }
 
 type MapDispatchToPropsType = {
-    updateUser: typeof updateUserRequestThunkCreator
+    updateUser: typeof updateUserRequestThunkCreator,
+    getActiveBooksStatistic: typeof getActiveBooksStatisticThunkCreator
 }
 
 const mapDispatchToProps = {
-    updateUser: updateUserRequestThunkCreator
+    updateUser: updateUserRequestThunkCreator,
+    getActiveBooksStatistic: getActiveBooksStatisticThunkCreator
 }
 
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
