@@ -7,10 +7,10 @@ const Profile: React.FC<PropsType> = (props) => {
     return (
         <Col span={24} style={{ textAlign: "center" }}>
             <Col style={{ display: "inline-block" }}>
-                <Row>
-                    <Col style={{ marginTop: "100px", display: "inline-block" }}>
+                <Row style={{flexFlow: "nowrap"}}>
+                    <Col style={{ marginTop: "100px" }}>
                         <Col>
-                            <Avatar icon={<Image src={("data:image/png;base64," + props.curUser.avatarImage)} />} size={{ xs: 30, sm: 40, md: 60, lg: 120, xl: 150, xxl: 170, }} shape="circle" />
+                            <Avatar icon={<Image src={("data:image/png;base64," + props.curUser.avatarImage)} />} size={{ xs: 50, sm: 60, md: 130, lg: 150, xl: 160, xxl: 170, }} shape="circle" />
                         </Col>
                         <Col style={{ marginTop: "50px", fontSize: "18px", textAlign: "center" }}>
                             {props.curUser.name}

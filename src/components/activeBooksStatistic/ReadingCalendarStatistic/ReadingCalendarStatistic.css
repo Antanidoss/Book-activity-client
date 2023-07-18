@@ -13,4 +13,5 @@
     border-radius: 6px;
     padding: 20px;
     overflow: hidden;
+    width: max-content;
 }
