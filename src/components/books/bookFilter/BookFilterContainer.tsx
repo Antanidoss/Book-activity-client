@@ -4,7 +4,7 @@ import { compose } from "redux";
 import { getBooksByFilter, updateBookFilter, updateCurrentPage } from "../../../redux/reducers/book-reducer";
 import { getBookFilter } from "../../../redux/selectors/book-selectors";
 import { AppStoreType } from "../../../redux/redux-store";
-import { BookFilterType } from "../../../types/bookFilterType";
+import { BookFilterType } from "../../../types/books/bookFilterType";
 import BookFilter from "./BookFilter";
 
 const BookFilterContainer: React.FC<PropsType> = (props) => {

@@ -1,8 +1,8 @@
-import { ActiveBookFilterType, SortBy } from "../types/api/activeBookFilterType";
+import { ActiveBookFilterType, SortBy } from "../types/activeBooks/activeBookFilterType";
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
-import { PaginationType } from "../types/api/paginationType";
-import { ActiveBooksFilterResultType } from "../types/api/activeBookFilterResultType";
+import { PaginationType } from "../types/common/paginationType";
+import { ActiveBooksFilterResultType } from "../types/activeBooks/activeBookFilterResultType";
 
 export const activeBookApi = {
   addActiveBook(totalNumberPages: number, numberPagesRead: number, bookId: string) {

@@ -6,11 +6,11 @@ import { AppStoreType } from "../../../redux/redux-store";
 import { getUserProfileThunkCreator, updateUserRequestThunkCreator } from "../../../redux/reducers/user-reducer";
 import { getCurUser, getIsAuthenticated, getUserProfile } from "../../../redux/selectors/user-selectors";
 import Profile from "./Profile";
-import { ActiveBooksStatisticType } from "../../../types/activeBooksStatisticType";
+import { ActiveBooksStatisticType } from "../../../types/activeBooks/activeBooksStatisticType";
 import { getCurUserStatistics } from "../../../redux/selectors/activeBooksStatistic-selectors";
 import { getActiveBooksStatisticThunkCreator } from "../../../redux/reducers/activeBooksStatistic-reducer";
 import { Spin } from "antd";
-import { UserProfileType } from "../../../types/api/userProfileType";
+import { UserProfileType } from "../../../types/users/userProfileType";
 import { useQuery } from "../../../hoc/useQuery";
 
 const ProfileContainer: React.FC<PropsType> = (props) => {

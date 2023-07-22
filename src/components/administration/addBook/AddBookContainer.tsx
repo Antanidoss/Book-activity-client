@@ -4,7 +4,7 @@ import { addBookRequestThunkCreator } from '../../../redux/reducers/book-reducer
 import { getAuthorsByNameRequestThunkCreator } from '../../../redux/reducers/author-reducer';
 import { AppStoreType } from '../../../redux/redux-store';
 import AddBook from './AddBook';
-import { AuthorType } from '../../../types/authorType';
+import { AuthorType } from '../../../types/authors/authorType';
 import { getAuthors } from '../../../redux/selectors/author-slectors';
 
 const AddBookContainer: React.FC<PropsType> = (props) => {

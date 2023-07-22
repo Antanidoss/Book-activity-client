@@ -1,20 +1,19 @@
-import { BookType } from '../../types/bookType';
+import { BookOfListType } from '../../types/books/bookOfListType';
 import { AppStoreType } from '../redux-store';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
 import { bookApi } from '../../api/bookApi';
-import { calculateSkip } from '../../types/api/paginationType';
+import { calculateSkip } from '../../types/common/paginationType';
 import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookRatingApi } from '../../api/bookRatingApi';
-import { BookFilterType, BookFilterTypeDefault } from '../../types/bookFilterType';
-import { AddBookModelType } from '../../types/api/addBookModelType';
+import { BookFilterType, BookFilterTypeDefault } from '../../types/books/bookFilterType';
+import { AddBookType } from '../../types/books/addBookType';
 
 export type InitialStateType = {
     pageSize: number
     pageNumber: number
     totalBookCount: number
-    books: Array<BookType>,
-    currentBook: BookType,
+    books: Array<BookOfListType>,
     bookFilter: BookFilterType
 }
 
@@ -22,15 +21,13 @@ const initialState: InitialStateType = {
     pageSize: 10,
     pageNumber: 1,
     totalBookCount: 0,
-    books: [] as Array<BookType>,
-    currentBook: {} as BookType,
+    books: [] as Array<BookOfListType>,
     bookFilter: BookFilterTypeDefault
 }
 
 const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
 const SET_BOOKS_DATA = "SET_BOOKS_DATA";
 const SET_ACTIVE_BOOK_STATUS = "SET_ACTIVE_BOOK_STATUS";
-const ADD_BOOK = "ADD_BOOK";
 const UPDATE_BOOK_RATING = "UPDATE_BOOK_RATING";
 const UPDATE_TOTAL_BOOK_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
 const UPDATE_BOOK_FILTER = "UPDATE_BOOK_FILTER";
@@ -105,9 +102,9 @@ export const updateCurrentPage = (newPageNumber: number): UpdatePageNumberType =
 })
 
 type SetBooksDataType = {
-    type: typeof SET_BOOKS_DATA, books: Array<BookType>
+    type: typeof SET_BOOKS_DATA, books: Array<BookOfListType>
 }
-export const setBooksData = (books: Array<BookType>): SetBooksDataType => ({
+export const setBooksData = (books: Array<BookOfListType>): SetBooksDataType => ({
     type: SET_BOOKS_DATA, books: books
 })
 
@@ -116,13 +113,6 @@ type SetActiveBookStatusType = {
 }
 export const setActiveBookStatus = (bookId: string): SetActiveBookStatusType => ({
     type: SET_ACTIVE_BOOK_STATUS, bookId: bookId
-})
-
-type AddBookType = {
-    type: typeof ADD_BOOK, addBookModel: AddBookModelType
-}
-export const addBook = (addBookModel: AddBookModelType): AddBookType => ({
-    type: ADD_BOOK, addBookModel: addBookModel
 })
 
 type UpdateBookRatingType = {
@@ -146,7 +136,7 @@ export const updateBookFilter = (bookFilter: BookFilterType): UpdateBookFilterTy
     type: UPDATE_BOOK_FILTER, bookFilter: bookFilter
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | AddBookType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType;
+type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -161,13 +151,10 @@ export const getBooksByFilter = (): ThunkType => {
     }
 }
 
-export const addBookRequestThunkCreator = (addBookModel: AddBookModelType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+export const addBookRequestThunkCreator = (addBookModel: AddBookType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookApi.addBook(addBookModel);
         const success = !isBadStatusCode(response.status);
-        if (success) {
-            dispatch(addBook(addBookModel))
-        }
 
         return success;
     }

@@ -3,7 +3,7 @@ import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { updateBookRatingRequestThunkCreator } from "../../../../redux/reducers/book-reducer";
 import { AppStoreType } from "../../../../redux/redux-store";
 import { getUserId } from "../../../../redux/selectors/user-selectors";
-import { BookOpinionType } from "../../../../types/bookOpinionType";
+import { BookOpinionType } from "../../../../types/books/bookOpinionType";
 import BookOpinionView from "./BookOpinionView";
 
 

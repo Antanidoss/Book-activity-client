@@ -3,7 +3,7 @@ import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { getActiveBooksByFilterThunkCreator, updateCurrentPageNumber, updateFilter } from '../../../redux/reducers/activeBook-reducer';
 import { getFilter } from '../../../redux/selectors/activeBook-selectors';
 import { AppStoreType } from '../../../redux/redux-store';
-import { ActiveBookFilterType } from '../../../types/api/activeBookFilterType';
+import { ActiveBookFilterType } from '../../../types/activeBooks/activeBookFilterType';
 import ActiveBookFilter from './ActiveBookFilter';
 
 const ActiveBookFilterContainer: React.FC<PropsType> = (props) => {

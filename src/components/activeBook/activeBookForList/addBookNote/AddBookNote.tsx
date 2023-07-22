@@ -5,7 +5,7 @@ import {
     PushpinOutlined
 } from "@ant-design/icons";
 import { Button, Form, message, Modal, Select } from 'antd';
-import { NoteColor, toHexadecimal } from '../../../../types/bookNoteType';
+import { NoteColor, toHexadecimal } from '../../../../types/books/bookNoteType';
 import TextArea from 'antd/lib/input/TextArea';
 
 const AddBookNote: React.FC<PropsType> = (props) => {
@@ -22,7 +22,7 @@ const AddBookNote: React.FC<PropsType> = (props) => {
 
     type AddBookNoteType = {
         note: string,
-        color: NoteColor
+        color: string
     }
 
     const handleOk = (addBookNote: AddBookNoteType) => {

@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { isBadStatusCode } from "../../api/instanceAxios";
 import { userNotificationApi } from "../../api/userNotificationApi";
-import { UserNotificationType } from "../../types/userNotificationType"
+import { UserNotificationType } from "../../types/users/userNotificationType"
 import { AppStoreType } from "../redux-store";
 
 export type InitialStateType = {

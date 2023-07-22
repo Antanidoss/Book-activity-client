@@ -4,7 +4,7 @@ import { getBooksByFilter } from "../../redux/reducers/book-reducer";
 import { getBooks, getPageNumber, getPageSize, getTotalBookCount } from "../../redux/selectors/book-selectors";
 import { AppStoreType } from "../../redux/redux-store";
 import AllBooks from "./AllBooks";
-import { BookType } from "../../types/bookType";
+import { BookOfListType } from "../../types/books/bookOfListType";
 import { Spin } from "antd";
 import BookFilterContainer from "./bookFilter/BookFilterContainer";
 
@@ -31,7 +31,7 @@ const AllBooksContainer: React.FC<PropsType> = (props) => {
 type MapStateToPropsType = {
     pageNumber: number,
     pageSize: number,
-    books: Array<BookType>,
+    books: Array<BookOfListType>,
     totalBookCount: number
 }
 

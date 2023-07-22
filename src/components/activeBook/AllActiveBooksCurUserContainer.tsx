@@ -7,7 +7,7 @@ import { getActiveBooksByFilterThunkCreator, removeActiveBookThunkCreator } from
 import { getActiveBooks, getPageNumber, getTotalActiveBookCount } from '../../redux/selectors/activeBook-selectors';
 import { AppStoreType } from '../../redux/redux-store';
 import { getIsAuthenticated } from '../../redux/selectors/user-selectors';
-import { ActiveBook } from '../../types/activeBookType';
+import { ActiveBookOfListType } from '../../types/activeBooks/activeBookOfListType';
 import AllCurUserActiveBooks from './AllActiveBooksCurUser';
 
 const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
@@ -31,7 +31,7 @@ const mapDispatchToProps = {
 }
 
 type MapStateToPropsType = {
-    activeBooks: Array<ActiveBook>,
+    activeBooks: Array<ActiveBookOfListType>,
     isAuthenticated: boolean,
     pageNumber: number,
     totalActiveBookCount: number

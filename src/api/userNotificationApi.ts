@@ -1,4 +1,4 @@
-import { UserNotificationType } from "../types/userNotificationType";
+import { UserNotificationType } from "../types/users/userNotificationType";
 import instanceAxios from "./instanceAxios";
 
 export const userNotificationApi = {

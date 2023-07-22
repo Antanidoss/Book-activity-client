@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { removeActiveBookThunkCreator } from '../../../redux/reducers/activeBook-reducer';
 import { AppStoreType } from '../../../redux/redux-store';
-import { ActiveBook } from '../../../types/activeBookType';
+import { ActiveBookOfListType } from '../../../types/activeBooks/activeBookOfListType';
 import ActiveBookForList from './ActiveBookForList';
 
 const ActiveBookForListContainer: React.FC<PropsType> = (props) => {
@@ -20,7 +20,7 @@ const mapDispatchToProps =  {
 }
 
 type MapStateToPropsType = {
-    activeBook: ActiveBook
+    activeBook: ActiveBookOfListType
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
@@ -28,7 +28,7 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
 })
 
 type OwnPropsType = {
-    activeBook: ActiveBook,
+    activeBook: ActiveBookOfListType,
 }
 
 type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T

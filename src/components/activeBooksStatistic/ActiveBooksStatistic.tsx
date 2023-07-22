@@ -1,5 +1,5 @@
 import React from "react";
-import { ActiveBooksStatisticType } from "../../types/activeBooksStatisticType";
+import { ActiveBooksStatisticType } from "../../types/activeBooks/activeBooksStatisticType";
 import { Divider } from 'antd';
 import ReadingCalendarStatistic from "./ReadingCalendarStatistic/ReadingCalendarStatistic";
 
