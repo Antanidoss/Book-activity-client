@@ -1,4 +1,4 @@
-import { AuthorType } from "../types/authorType";
+import { AuthorType } from "../types/authors/authorType";
 import instanceAxios from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 

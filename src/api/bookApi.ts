@@ -1,7 +1,7 @@
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
-import { BookFilterType } from "../types/bookFilterType";
-import { AddBookModelType } from "../types/api/addBookModelType";
-import { BooksFilterResultType } from "../types/api/bookFilterResultType";
+import { BookFilterType } from "../types/books/bookFilterType";
+import { AddBookType } from "../types/books/addBookType";
+import { BooksFilterResultType } from "../types/books/bookFilterResultType";
 
 export const bookApi = {
     getBooksByFilter(filterModel: BookFilterType, skip: number, take: number) {
@@ -23,17 +23,15 @@ export const bookApi = {
                 isActiveBook
                 bookRating {
                   calculateAverageRating
-                  bookOpinions {
-                    grade
-                  }
                 }
+                bookOpinionsCount
               }
             }
           }`
 
         return instanceAxios.post<GraphqlResponseType<BooksFilterResultType>>(`/graphql`, { query: query }).then(res => res.data);
     },
-    addBook(addBookModel: AddBookModelType) {
+    addBook(addBookModel: AddBookType) {
         var formData = new FormData();
         formData.append("title", addBookModel.title);
         formData.append("description", addBookModel.description);

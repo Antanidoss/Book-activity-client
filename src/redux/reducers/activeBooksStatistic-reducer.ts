@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { activeBooksStatisticApi } from "../../api/activeBooksStatistic";
 import { isBadStatusCode } from "../../api/instanceAxios";
-import { ActiveBooksStatisticType } from "../../types/activeBooksStatisticType"
+import { ActiveBooksStatisticType } from "../../types/activeBooks/activeBooksStatisticType"
 import { AppStoreType } from "../redux-store";
 
 export type InitialStateType = {
@@ -31,7 +31,7 @@ type AddActiveBookStatisticsType = {
     type: typeof ADD_ACTIVE_BOOKS_STATISTIC, statistic: ActiveBooksStatisticType
 }
 const addActiveBooksStatistic = (statistic: ActiveBooksStatisticType): AddActiveBookStatisticsType => ({
-    type: ADD_ACTIVE_BOOKS_STATISTIC, statistic: statistic
+    type: ADD_ACTIVE_BOOKS_STATISTIC, statistic
 })
 
 type ActionsTypes = AddActiveBookStatisticsType;

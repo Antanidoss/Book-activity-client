@@ -1,12 +1,12 @@
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
-import { AuthUserResponseType } from "../types/api/authUserResponseType";
-import { CurrentUserResponseType } from "../types/api/currentUserResponseType";
-import { FilterResultType } from "../types/api/filterResultType";
-import { UserFilterResultType } from "../types/api/userFilterResultType";
-import { UserFilterType } from "../types/api/userFilterType";
+import { AuthUserResponseType } from "../types/users/authUserResponseType";
+import { CurrentUserResponseType } from "../types/users/currentUserResponseType";
+import { FilterResultType } from "../types/common/filterResultType";
+import { UserFilterResultType } from "../types/users/userFilterResultType";
+import { UserFilterType } from "../types/users/userFilterType";
 import instanceAxios, { GraphqlResponseType, setAuthorizationToken } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
-import { UserProfileType } from "../types/api/userProfileType";
+import { UserProfileType } from "../types/users/userProfileType";
 
 export const userApi = {
     auth(email: string, password: string, rememberMe: boolean) {

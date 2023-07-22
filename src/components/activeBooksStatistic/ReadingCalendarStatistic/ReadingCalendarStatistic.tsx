@@ -1,6 +1,6 @@
 import React from "react";
-import { ActiveBooksStatisticType, NumberOfPagesReadPerDay } from "../../../types/activeBooksStatisticType";
-import { Divider, Tooltip } from "antd";
+import { ActiveBooksStatisticType, NumberOfPagesReadPerDay } from "../../../types/activeBooks/activeBooksStatisticType";
+import { Tooltip } from "antd";
 import date from 'date-and-time';
 import "./ReadingCalendarStatistic.css"
 

@@ -1,22 +1,23 @@
-import { UserType } from "../../types/userType"
+import { UserOfListType } from "../../types/users/userOfListType"
 import { ThunkAction } from 'redux-thunk';
 import { AppStoreType } from '../redux-store';
 import { Dispatch } from "redux";
 import { userApi } from "../../api/userApi";
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
 import { isBadStatusCode } from "../../api/instanceAxios";
-import { UserFilterType } from "../../types/api/userFilterType";
-import { calculateSkip } from "../../types/api/paginationType";
-import { UserProfileType } from "../../types/api/userProfileType";
+import { UserFilterType } from "../../types/users/userFilterType";
+import { calculateSkip } from "../../types/common/paginationType";
+import { UserProfileType } from "../../types/users/userProfileType";
+import { CurrentUserType } from "../../types/users/currentUserType";
 
 export type InitialStateType = {
-    currentUser: UserType | null,
+    currentUser: CurrentUserType | null,
     isAuthenticated: boolean,
     pageNumber: number,
     totalUserCount: number,
     pageSize: number,
     userFilter: UserFilterType,
-    users: Array<UserType>,
+    users: Array<UserOfListType>,
     userProfile: UserProfileType | null
 }
 
@@ -27,7 +28,7 @@ const initialState: InitialStateType = {
     totalUserCount: 0,
     pageSize: 12,
     userFilter: { name: null },
-    users: [] as Array<UserType>,
+    users: [] as Array<UserOfListType>,
     userProfile: null
 }
 
@@ -47,8 +48,7 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 ...state,
                 currentUser: {
                     id: action.id,
-                    email: action.email,
-                    name: action.name,
+                    userName: action.userName,
                     avatarImage: action.avatarImage
                 }
             }
@@ -61,8 +61,8 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 currentUser: {
-                    ...state.currentUser as UserType,
-                    name: action.userName,
+                    ...state.currentUser as CurrentUserType,
+                    userName: action.userName,
                     avatarImage: action.avatarImage
                 }
             }
@@ -116,10 +116,10 @@ export const setAuthenticatedStatus = (isAuthenticated: boolean): SetAuthenticat
 })
 
 type SetCurrentUserDataType = {
-    type: typeof SET_CURRENT_USER_DATA, id: string, name: string, email: string, avatarImage: ArrayBuffer
+    type: typeof SET_CURRENT_USER_DATA, id: string, userName: string, avatarImage: ArrayBuffer
 }
-export const setCurrentUserData = (id: string, userName: string, email: string, avatarImage: ArrayBuffer): SetCurrentUserDataType => ({
-    type: SET_CURRENT_USER_DATA, id: id, name: userName, email: email, avatarImage: avatarImage
+export const setCurrentUserData = (id: string, userName: string, avatarImage: ArrayBuffer): SetCurrentUserDataType => ({
+    type: SET_CURRENT_USER_DATA, id: id, userName: userName, avatarImage: avatarImage
 })
 
 type UpdateUserType = {
@@ -130,9 +130,9 @@ export const updateUser = (userName: string, avatarImage: ArrayBuffer): UpdateUs
 })
 
 type SetUsersType = {
-    type: typeof SET_USERS, users: Array<UserType>
+    type: typeof SET_USERS, users: Array<UserOfListType>
 }
-export const setUsers = (users: Array<UserType>): SetUsersType => ({
+export const setUsers = (users: Array<UserOfListType>): SetUsersType => ({
     type: SET_USERS, users: users
 })
 
@@ -174,7 +174,7 @@ export const authRequestThunkCreator = (email: string, password: string, remembe
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
-            dispatch(setCurrentUserData(result.userId, result.userName, result.email, result.avatarImage));
+            dispatch(setCurrentUserData(result.userId, result.userName, result.avatarImage));
         }
 
         return response.success;
@@ -187,7 +187,7 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
         if (response.success && response.result !== null) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
-            dispatch(setCurrentUserData(result.id, result.userName, result.email, result.avatarImage));
+            dispatch(setCurrentUserData(result.id, result.userName, result.avatarImage));
         }
     }
 }
@@ -200,7 +200,7 @@ export const registrationUserRequestThunkCreator = (userName: string, email: str
         if (success) {
             const authResponse = await userApi.auth(email, password, true);
             dispatch(setAuthenticatedStatus(true));
-            dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.email, authResponse.result.avatarImage));
+            dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.avatarImage));
         }
 
         return success;
@@ -222,7 +222,7 @@ export const getUsersByFilterThunkCreator = (): ThunkType => {
         const skip = calculateSkip(state.pageNumber, state.pageSize);
         const response = await userApi.getUsersByFilter(state.userFilter, skip, state.pageSize, state.currentUser?.id);
         const users = response.entities.map(u => {
-            const user: UserType = {
+            const user: UserOfListType = {
                 id: u.id,
                 name: u.userName,
                 avatarImage: u.avatarImage,

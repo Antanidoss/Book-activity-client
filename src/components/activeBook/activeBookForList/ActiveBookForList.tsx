@@ -48,14 +48,13 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 <Row>
                     <Col span={17} style={{ marginTop: "10px" }}>
                         { 
-                            props.activeBook.bookOpinion === null || props.activeBook.bookOpinion === undefined
+                            !props.activeBook.hasOpinion
                                 ? <AddBookOpinionContainer
                                     bookId={props.activeBook.book.id}
                                     bookRatingId={props.activeBook.book.bookRatingId as string} />
                                 : <BookOpinionViewContainer
                                     bookId={props.activeBook.book.id}
-                                    bookRatingId={props.activeBook.book.bookRatingId as string}
-                                    bookOpinion={props.activeBook.bookOpinion} />
+                                    bookRatingId={props.activeBook.book.bookRatingId as string} />
                         }
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>

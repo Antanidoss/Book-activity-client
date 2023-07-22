@@ -1,6 +1,6 @@
 import { Affix, Badge, Button, Checkbox, Col, Form, Select } from "antd";
 import React, { useState } from "react"
-import { ActiveBookFilterType, SortBy, isDefaultFilter } from "../../../types/api/activeBookFilterType";
+import { ActiveBookFilterType, SortBy, isDefaultFilter } from "../../../types/activeBooks/activeBookFilterType";
 import CustomDrawer from "../../common/CustomDrawer";
 import { PropsType } from "./ActiveBookFilterContainer"
 import {

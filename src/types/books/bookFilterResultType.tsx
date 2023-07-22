@@ -1,8 +1,8 @@
-import { BookType } from "../bookType"
+import { BookOfListType } from "./bookOfListType"
 
 export type BooksFilterResultType = {
     books: { 
         totalCount: number,
-        items:  BookType[]
+        items:  BookOfListType[]
     }
 }

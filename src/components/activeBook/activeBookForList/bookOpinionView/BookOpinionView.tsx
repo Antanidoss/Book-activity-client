@@ -1,4 +1,4 @@
-import { Button, Form, message, Modal, Rate } from "antd";
+import { Button, Form, Modal, Rate } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useState } from "react";
 import { PropsType } from "./BookOpinionViewContainer";

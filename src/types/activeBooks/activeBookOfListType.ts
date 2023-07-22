@@ -1,7 +1,4 @@
-import { BookNoteType } from "./bookNoteType"
-import { BookOpinionType } from "./bookOpinionType"
-
-export type ActiveBook = {
+export type ActiveBookOfListType = {
     id: string,
     totalNumberPages: number,
     numberPagesRead: number,
@@ -11,6 +8,5 @@ export type ActiveBook = {
         imageData: ArrayBuffer,
         bookRatingId?: string
     }
-    notes?: Array<BookNoteType>,
-    bookOpinion?: BookOpinionType
+    hasOpinion: boolean
 }

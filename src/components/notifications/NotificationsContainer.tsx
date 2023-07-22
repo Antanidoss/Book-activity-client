@@ -4,13 +4,13 @@ import { compose } from "redux";
 import { AppStoreType } from "../../redux/redux-store";
 import { addNotification, getUserNotificationsThunkCreator } from "../../redux/reducers/userNotification-reducer";
 import { getNotifications, getNotificationsCount } from "../../redux/selectors/userNotification-selectors";
-import { UserNotificationType } from "../../types/userNotificationType";
+import { UserNotificationType } from "../../types/users/userNotificationType";
 import Notifications from "./Notifications";
 import * as signalR from "@microsoft/signalr";
 import { getInitialized } from "../../redux/selectors/app-selectors";
 import { getIsAuthenticated, getUserId } from "../../redux/selectors/user-selectors";
 import { SERVER_ADDRESS, setConnectionId } from "../../api/instanceAxios";
-import { hubsApiConstants } from "../../types/api/hubsApiConstants";
+import { hubsApiConstants } from "../../types/common/hubsApiConstants";
 
 const NotificationsContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {

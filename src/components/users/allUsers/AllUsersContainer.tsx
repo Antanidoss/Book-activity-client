@@ -3,7 +3,7 @@ import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { AppStoreType } from "../../../redux/redux-store";
 import { getUsersByFilterThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator } from "../../../redux/reducers/user-reducer";
 import { getUserId, getUsers } from "../../../redux/selectors/user-selectors";
-import { UserType } from "../../../types/userType";
+import { UserOfListType } from "../../../types/users/userOfListType";
 import AllUser from "./AllUsers";
 import UserFilterContainer from "./userFilter/UserFilterContainer";
 import { getIsAuthenticated } from "../../../redux/selectors/user-selectors";
@@ -34,7 +34,7 @@ const mapDispatchToProps = {
 }
 
 type MapStateToPropsType = {
-    users: Array<UserType>,
+    users: Array<UserOfListType>,
     currentUserId?: string,
     isAuthenticated: boolean
 }

@@ -6,7 +6,7 @@ import {
 import { Affix, Badge, Button, Col, Form, InputNumber, Row } from "antd";
 import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
-import { BookFilterType, isDefaultFilter } from "../../../types/bookFilterType";
+import { BookFilterType, isDefaultFilter } from "../../../types/books/bookFilterType";
 import CustomDrawer from "../../common/CustomDrawer";
 
 const BookFilter: React.FC<PropsType> = (props) => {

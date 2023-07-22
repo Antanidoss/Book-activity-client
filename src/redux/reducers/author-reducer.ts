@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { ThunkAction } from "redux-thunk";
 import { authorApi } from "../../api/authorApi";
-import { AuthorType } from "../../types/authorType";
+import { AuthorType } from "../../types/authors/authorType";
 import { AppStoreType } from "../redux-store";
 
 export type InitialStateType = {

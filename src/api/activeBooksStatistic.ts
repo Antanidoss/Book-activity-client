@@ -1,4 +1,4 @@
-import { ActiveBooksStatisticType } from "../types/activeBooksStatisticType";
+import { ActiveBooksStatisticType } from "../types/activeBooks/activeBooksStatisticType";
 import instanceAxios from "./instanceAxios";
 
 export const activeBooksStatisticApi = {
