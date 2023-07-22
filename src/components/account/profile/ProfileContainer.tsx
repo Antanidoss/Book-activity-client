@@ -19,8 +19,10 @@ const ProfileContainer: React.FC<PropsType> = (props) => {
 
     useEffect(() => {
         const userId = query.get("userId") ?? props.curUserId;
-        props.getActiveBooksStatistic(userId).then(() => setLoading(false));
-        props.getUserProfile(userId)
+        Promise.all([
+            props.getActiveBooksStatistic(userId),
+            props.getUserProfile(userId)
+        ]).then(() => setLoading(false))
     }, [])
 
     return loading ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div> : <Profile {...props} />
@@ -45,7 +47,7 @@ const mapDispatchToProps = {
     getUserProfile: getUserProfileThunkCreator
 }
 
-const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => {
+const mapStateToProps = (state: AppStoreType): MapStateToPropsType => {
     return {
         isAuthenticated: getIsAuthenticated(state),
         statistic: getCurUserStatistics(state) as ActiveBooksStatisticType,

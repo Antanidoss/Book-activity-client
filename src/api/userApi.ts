@@ -81,6 +81,6 @@ export const userApi = {
             }
         }`
 
-        return instanceAxios.post<GraphqlResponseType<{userById :UserProfileType}>>(`/graphql`, { query: query }).then(res => res.data.data.userById);
+        return instanceAxios.post<GraphqlResponseType<{userById: UserProfileType}>>(`/graphql`, { query: query }).then(res => res.data.data.userById);
     }
 }
