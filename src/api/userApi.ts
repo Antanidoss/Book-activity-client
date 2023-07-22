@@ -4,8 +4,9 @@ import { CurrentUserResponseType } from "../types/api/currentUserResponseType";
 import { FilterResultType } from "../types/api/filterResultType";
 import { UserFilterResultType } from "../types/api/userFilterResultType";
 import { UserFilterType } from "../types/api/userFilterType";
-import instanceAxios, { setAuthorizationToken } from "./instanceAxios";
+import instanceAxios, { GraphqlResponseType, setAuthorizationToken } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
+import { UserProfileType } from "../types/api/userProfileType";
 
 export const userApi = {
     auth(email: string, password: string, rememberMe: boolean) {
@@ -36,7 +37,7 @@ export const userApi = {
         formData.append("email", email);
         formData.append("password", password);
 
-        if (avatarImage !== undefined){
+        if (avatarImage !== undefined) {
             formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
         }
 
@@ -47,7 +48,7 @@ export const userApi = {
         formData.append("userId", userId);
         formData.append("name", userName);
 
-        if (avatarImage !== undefined){
+        if (avatarImage !== undefined) {
             formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
         }
 
@@ -68,5 +69,18 @@ export const userApi = {
     },
     unsubscribeUser(userId: string) {
         return instanceAxios.delete(`/user/unsubscribe?unsubscribedUserId=${userId}`);
+    },
+    getUserProfile(userId: string) {
+        let query = `query {
+            userById(userId: "${userId}") {
+                id
+                userName
+                avatarImage
+                subscriptionsCount
+                subscribersCount
+            }
+        }`
+
+        return instanceAxios.post<GraphqlResponseType<{userById :UserProfileType}>>(`/graphql`, { query: query }).then(res => res.data.data.userById);
     }
 }

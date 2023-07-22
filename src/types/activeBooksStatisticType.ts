@@ -1,5 +1,5 @@
 export type ActiveBooksStatisticType = {
-    readingCalendar: Array<NumberOfPagesReadPerDay>,
+    readingCalendar?: Array<NumberOfPagesReadPerDay>,
     averagePagesReadPerDay: number,
     averagePagesReadPerWeek: number,
     averagePagesReadPerMouth: number,

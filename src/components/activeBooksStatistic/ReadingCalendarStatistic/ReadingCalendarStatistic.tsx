@@ -26,7 +26,7 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
 
         for (let j = 0; j < 52; j++) {
             formatDate = date.format(currentDate, "DD-MM-YYYY");
-            numberOfPagesReadPerDay = statistic.readingCalendar.find(n => n.date === formatDate)
+            numberOfPagesReadPerDay = statistic.readingCalendar?.find(n => n.date === formatDate)
 
             let tooltipTitle: string;
             let backgroundColor: string;

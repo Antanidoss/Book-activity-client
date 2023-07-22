@@ -1,8 +1,5 @@
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
-import { ResponseType } from "./instanceAxios";
-import { BookType } from '../types/bookType';
 import { BookFilterType } from "../types/bookFilterType";
-import { FilterResultType } from "../types/api/filterResultType";
 import { AddBookModelType } from "../types/api/addBookModelType";
 import { BooksFilterResultType } from "../types/api/bookFilterResultType";
 
