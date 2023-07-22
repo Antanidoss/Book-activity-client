@@ -38,9 +38,9 @@ type ActionsTypes = AddActiveBookStatisticsType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
-export const getActiveBooksStatisticThunkCreator = (): ThunkType => {
+export const getActiveBooksStatisticThunkCreator = (userId?: string): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        var response = await activeBooksStatisticApi.getActiveBooksStatistic();
+        var response = await activeBooksStatisticApi.getActiveBooksStatistic(userId);
         const success = !isBadStatusCode(response.status);
 
         if (success) {

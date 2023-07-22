@@ -27,3 +27,7 @@ export const getUsers = (state: AppStoreType) => {
 export const getUserFilter = (state: AppStoreType) => {
     return state.userStore.userFilter;
 }
+
+export const getUserProfile = (state: AppStoreType) => {
+    return state.userStore.userProfile;
+}

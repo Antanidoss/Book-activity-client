@@ -7,6 +7,7 @@ import { UploadChangeParam, UploadFile } from "antd/lib/upload";
 import { isBadStatusCode } from "../../api/instanceAxios";
 import { UserFilterType } from "../../types/api/userFilterType";
 import { calculateSkip } from "../../types/api/paginationType";
+import { UserProfileType } from "../../types/api/userProfileType";
 
 export type InitialStateType = {
     currentUser: UserType | null,
@@ -15,7 +16,8 @@ export type InitialStateType = {
     totalUserCount: number,
     pageSize: number,
     userFilter: UserFilterType,
-    users: Array<UserType>
+    users: Array<UserType>,
+    userProfile: UserProfileType | null
 }
 
 const initialState: InitialStateType = {
@@ -25,7 +27,8 @@ const initialState: InitialStateType = {
     totalUserCount: 0,
     pageSize: 12,
     userFilter: { name: null },
-    users: [] as Array<UserType>
+    users: [] as Array<UserType>,
+    userProfile: null
 }
 
 const SET_CURRENT_USER_DATA = "SET_CURRENT_USER_DATA";
@@ -35,6 +38,7 @@ const SET_USERS = "SET_USERS";
 const UPDATE_USER_FILTER = "UPDATE_USER_FILTER";
 const SET_USER_SUBSCRIPTIONS = "SET_USER_SUBSCRIPTIONS";
 const REMOVE_USER_SUBSCRIPTIONS = "REMOVE_USER_SUBSCRIPTIONS";
+const SET_USER_PROFILE = "SET_USER_PROFILE";
 
 const userReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -94,6 +98,11 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     return u
                 })
             }
+        case SET_USER_PROFILE:
+            return {
+                ...state,
+                userProfile: action.userProfile
+            }
         default:
             return state;
     }
@@ -148,7 +157,14 @@ export const removeUserSubscriptions = (userId: string): RemoveUserSubscriptions
     type: REMOVE_USER_SUBSCRIPTIONS, userId: userId
 })
 
-type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType | RemoveUserSubscriptionsType;
+type SetUserProfileType = {
+    type: typeof SET_USER_PROFILE, userProfile: UserProfileType
+}
+export const setUserProfile = (userProfile: UserProfileType): SetUserProfileType => ({
+    type: SET_USER_PROFILE, userProfile: userProfile
+})
+
+type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType | RemoveUserSubscriptionsType | SetUserProfileType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -243,6 +259,14 @@ export const unsubscribeUserThunkCreator = (userId: string): ThunkAction<Promise
         }
 
         return success;
+    }
+}
+
+export const getUserProfileThunkCreator = (userId: string): ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const userProfile = await userApi.getUserProfile(userId);
+
+        dispatch(setUserProfile(userProfile))
     }
 }
 

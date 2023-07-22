@@ -1,7 +1,7 @@
 import { List, Image, Button, message, Row, Col } from "antd";
 import React from "react";
 import { PropsType } from "./AllUsersContainer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     BookOutlined,
     CommentOutlined
@@ -39,7 +39,7 @@ const AllUser: React.FC<PropsType> = (props) => {
                     <List.Item.Meta
                         style={{alignItems: "center"}}
                         avatar={<Image style={{width: "50px", maxHeight: "60px", borderRadius: "15px"}} src={("data:image/png;base64," + user.avatarImage)} />}
-                        title={user.name} 
+                        title={<Link to={`/profile?userId=${user.id}`}>user.name</Link>} 
                         description=
                         {
                             <Row>
