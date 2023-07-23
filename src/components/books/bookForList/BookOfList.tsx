@@ -18,7 +18,7 @@ const BookOfList: React.FC<BookOfListType> = (book) => {
                 </Link>
                 <Link to={"#"} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
-                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + arrayBufferToBase64(book.imageData)} />
+                        <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + book.imageDataBase64} />
                     </Col>
                 </Link>
                 <Col span={24} style={{top: "40px"}}>

@@ -13,12 +13,13 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [numberPagesRead, setNumberPagesRead] = useState(props.numberPagesRead);
+    const [form] = Form.useForm();
 
     const showModal = () => {
         setIsModalVisible(true);
     };
 
-    const handleOk = (updateActiveBook: UpdateActiveBookType) => {
+    const handleSubmit = (updateActiveBook: UpdateActiveBookType) => {
         props.updateActiveBook(props.activeBookId, updateActiveBook.numberPagesRead)
             .then(message.success("The active book has been successfully updated", 6));
 
@@ -34,14 +35,20 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
         <ResizableButton style={{marginLeft: "50px"}} onClick={showModal} shape="round" type="primary" icon={React.createElement(EditOutlined)} titleOnResize={"Edit"}/>
         <Modal title="Add active book" open={isModalVisible} onCancel={handleCancel}
             footer={[
-                <Button key="submit" type="primary" htmlType="submit">
+                <Button key="submit" type="primary" htmlType="submit" onClick={() => {
+                    form.validateFields()
+                            .then((value) => {
+                                handleSubmit(value);
+                                form.resetFields();
+                            })
+                }}>
                     Submit
                 </Button>,
                 <Button key="back" onClick={handleCancel}>
                     Cancel
                 </Button>
             ]}>
-            <Form id="updateActiveBookForm" onFinish={handleOk}>
+            <Form id="updateActiveBookForm" form={form}>
                 <Form.Item
                     label="Number of pages read"
                     name="numberPagesRead"

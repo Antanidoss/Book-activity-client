@@ -5,7 +5,7 @@ export type ActiveBookOfListType = {
     book: {
         id: string,
         title: string,
-        imageData: ArrayBuffer,
+        imageDataBase64: string,
         bookRatingId?: string
     }
     hasOpinion: boolean

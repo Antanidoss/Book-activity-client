@@ -19,8 +19,8 @@ export const bookApi = {
               items {
                 id
                 title
-                imageData
                 isActiveBook
+                imageDataBase64
                 bookRating {
                   calculateAverageRating
                 }
