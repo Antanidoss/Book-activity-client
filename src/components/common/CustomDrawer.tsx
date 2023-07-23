@@ -10,7 +10,7 @@ const CustomDrawer: React.FC<PropsType> = (props) => {
     return (
         <Drawer {...props}>
             <div style={{ display: "flex", flex: "0", alignItems: "center", padding: "16px 24px", lineHeight: "22px" }}>
-                <button onClick={props.onClose} type="button" aria-label="Close" className="ant-drawer-close" style={{ fontSize: "15px" }}><CloseOutlined /></button>
+                <button onClick={props.onClose} type="button" aria-label="Close" className="ant-drawer-close" style={{ fontSize: "15px" }}>{React.createElement(CloseOutlined)}</button>
             </div>
             {props.children}
         </Drawer>

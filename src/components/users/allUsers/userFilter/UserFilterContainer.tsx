@@ -3,7 +3,7 @@ import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { AppStoreType } from "../../../../redux/redux-store";
 import { getUsersByFilterThunkCreator, updateUserFilter } from "../../../../redux/reducers/user-reducer";
 import { getUserFilter } from "../../../../redux/selectors/user-selectors";
-import { UserFilterType } from "../../../../types/api/userFilterType";
+import { UserFilterType } from "../../../../types/users/userFilterType";
 import UserFilter from "./UserFilter";
 
 const UserFilterContainer: React.FC<PropsType> = (props) => {

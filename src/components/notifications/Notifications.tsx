@@ -19,7 +19,7 @@ const Notifications: React.FC<PropsType> = (props) => {
             <div style={{ float: "right" }}>
                 <Dropdown menu={{ items }}>
                     <Badge color="red" count={props.notificationCount} size="small" style={{ bottom: "15px" }}>
-                        <NotificationOutlined style={{ color: "white" }} onClick={() => changeDisplayNotificationsList(!isOpenNotificationsList)} />
+                        <NotificationOutlined rev style={{ color: "white" }} onClick={() => changeDisplayNotificationsList(!isOpenNotificationsList)} />
                     </Badge>
                 </Dropdown>
             </div>

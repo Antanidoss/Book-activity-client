@@ -4,13 +4,14 @@ import { PropsType } from './AddBookNoteContainer';
 import {
     PushpinOutlined
 } from "@ant-design/icons";
-import { Button, Form, message, Modal, Select } from 'antd';
-import { NoteColor, toHexadecimal } from '../../../../types/books/bookNoteType';
+import { Button, Form, message, Modal, ColorPicker } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
+import { Color } from 'antd/es/color-picker';
 
 const AddBookNote: React.FC<PropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedColor, setSelectedColor] = useState("white");
+    const [form] = Form.useForm();
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -22,18 +23,18 @@ const AddBookNote: React.FC<PropsType> = (props) => {
 
     type AddBookNoteType = {
         note: string,
-        color: string
+        color: Color
     }
 
-    const handleOk = (addBookNote: AddBookNoteType) => {
-        props.addBookNote(props.activeBookId, addBookNote.note, addBookNote.color)
+    const handleSubmit = (addBookNote: AddBookNoteType) => {
+        props.addBookNote(props.activeBookId, addBookNote.note, addBookNote.color.toHexString())
             .then(message.success("Book note has been successfully added", 6))
 
         setIsModalVisible(false);
     }
 
-    const onSelectColor = (color: number) => {
-        setSelectedColor(toHexadecimal(color));
+    const onSelectColor = (color: Color) => {
+        setSelectedColor(color.toHexString());
     }
 
     return (
@@ -41,33 +42,30 @@ const AddBookNote: React.FC<PropsType> = (props) => {
             <ResizableButton icon={React.createElement(PushpinOutlined)} onClick={showModal} shape="round" titleOnResize="Add note" type="primary" />
             <Modal title="Add book note" open={isModalVisible} onCancel={handleCancel}
                 footer={[
-                    <Button form="addBookNoteForm" key="submit" type="primary" htmlType="submit">
+                    <Button key="submit" type="primary" htmlType="submit" onClick={() => {
+                        form.validateFields()
+                            .then((value) => {
+                                handleSubmit(value);
+                                form.resetFields();
+                            })
+                    }}>
                         Submit
                     </Button>,
                     <Button key="back" onClick={handleCancel}>
                         Cancel
                     </Button>
                 ]}>
-                <Form id="addBookNoteForm" onFinish={handleOk}>
+                <Form id="addBookNoteForm" form={form}>
                     <Form.Item
                         label="Note color"
                         name="color">
-                        <Select options={[
-                            {
-                                value: NoteColor.White,
-                                label: NoteColor[NoteColor.White],
-                            },
-                            {
-                                value: NoteColor.Blue,
-                                label: NoteColor[NoteColor.Blue],
-                            }
-                        ]} onSelect={onSelectColor} />
+                        <ColorPicker onChangeComplete={onSelectColor} />
                     </Form.Item>
                     <Form.Item
                         label="Note"
                         name="note">
-                            <TextArea style={{backgroundColor: selectedColor}} />
-                        </Form.Item>
+                        <TextArea style={{ backgroundColor: selectedColor }} />
+                    </Form.Item>
                 </Form>
             </Modal>
         </>

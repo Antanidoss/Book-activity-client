@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import { ButtonType } from "antd/es/button";
 import React, { CSSProperties, useState } from "react";
 
 const ResizableButton: React.FC<PropsType> = (props) => {
@@ -31,7 +32,7 @@ const ResizableButton: React.FC<PropsType> = (props) => {
 type PropsType = {
     onClick?: () => void,
     shape?: "default" | "circle" | "round",
-    type: "default" | "primary" | "ghost" | "dashed" | "link" | "text",
+    type: ButtonType,
     icon: React.ReactNode,
     titleOnResize: string
     style?: CSSProperties

@@ -9,6 +9,8 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   }
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
+  const [disabled, setDisabled] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -36,9 +38,6 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  
-  const [form] = Form.useForm();
-  const [disabled, setDisabled] = useState(false);
 
   const validateForm = () => {
     const totalNumberPages = form.getFieldValue("totalNumberPages") ?? 0;
@@ -46,11 +45,11 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
     let haveErrors = false
 
     if (numberPagesRead > totalNumberPages) {
-      form.setFields([{name: "numberPagesRead", errors: ["The total number of pages cannot be less than the pages read"]}]);
+      form.setFields([{ name: "numberPagesRead", errors: ["The total number of pages cannot be less than the pages read"] }]);
       setDisabled(true);
       haveErrors = true;
     } else {
-      form.setFields([{name: "numberPagesRead", errors: undefined}]);
+      form.setFields([{ name: "numberPagesRead", errors: undefined }]);
     }
 
     if (disabled && !haveErrors) {
@@ -68,14 +67,20 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
     <Button shape="round" type="primary" onClick={showModal}>Make active</Button>
     <Modal forceRender title="Add active book" open={isModalVisible} onCancel={handleCancel}
       footer={[
-        <Button form="addActiveBookForm" key="submit" type="primary" htmlType="submit" disabled={disabled}>
+        <Button key="submit" type="primary" htmlType="submit" disabled={disabled} onClick={() => {
+          form.validateFields()
+            .then((value) => {
+              handleSubmit(value);
+              form.resetFields();
+            })
+        }}>
           Submit
         </Button>,
         <Button key="back" onClick={handleCancel}>
           Cancel
         </Button>
       ]}>
-      <Form id="addActiveBookForm" form={form} onFinish={handleSubmit} onFieldsChange={onFormChange}>
+      <Form id="addActiveBookForm" form={form} onFieldsChange={onFormChange}>
         <Form.Item
           label="Total number pages"
           name="totalNumberPages"

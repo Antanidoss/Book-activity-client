@@ -47,7 +47,7 @@ const Navbar: React.FC<PropsType> = (props) => {
         if (props.isAuthenticated) {
             const avatarImage = props.avatarImage !== null
                 ? <Avatar><Image width={"32px"} src={("data:image/png;base64," + props.avatarImage)} /></Avatar>
-                : <UserOutlined />;
+                : <Avatar icon={React.createElement(UserOutlined)} />;
 
             return getItem(props.userName, "/userOptions", avatarImage, undefined, { marginTop: "64px" }, [
                 getItem("PROFILE", "/profile", undefined, onClickMenuItem),
@@ -55,15 +55,15 @@ const Navbar: React.FC<PropsType> = (props) => {
             ]);
         }
 
-        return getItem("LOGIN", "/login", undefined, LoginOutlined, { marginTop: "64px" });
+        return getItem("LOGIN", "/login", React.createElement(LoginOutlined), onClickMenuItem, { marginTop: "64px" });
     }
 
     const items: MenuProps['items'] = [
         getProfileMenuItem(),
-        getItem("ACTIVE BOOKS", "/activeBooks", <BookOutlined />, onClickMenuItem),
-        getItem("BOOKS", "/books", <BookOutlined />, onClickMenuItem),
-        getItem("STATISTICS", "/statistic", <BarChartOutlined />, onClickMenuItem),
-        getItem("OTHER READERS", "/users", <TeamOutlined />, onClickMenuItem),
+        getItem("ACTIVE BOOKS", "/activeBooks", React.createElement(BookOutlined), onClickMenuItem),
+        getItem("BOOKS", "/books", React.createElement(BookOutlined), onClickMenuItem),
+        getItem("STATISTICS", "/statistic", React.createElement(BarChartOutlined), onClickMenuItem),
+        getItem("OTHER READERS", "/users", React.createElement(TeamOutlined), onClickMenuItem),
     ];
 
     return (
