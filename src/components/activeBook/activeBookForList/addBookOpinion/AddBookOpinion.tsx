@@ -9,13 +9,14 @@ import ResizableButton from "../../../common/ResizableButton";
 
 const AddBookOpinion: React.FC<PropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [form] = Form.useForm();
 
     type AddOpinionType = {
         grade: number,
         description: string
     }
 
-    const handleOk = (addOpinion: AddOpinionType) => {
+    const handleSubmit = (addOpinion: AddOpinionType) => {
         props.updateRating(props.bookRatingId, addOpinion.grade, addOpinion.description, props.userId)
             .then(isSuccess => {
                 return isSuccess ? message.success("Review added.", 6) : message.error("Failed to add review. Try again.", 6)
@@ -34,17 +35,23 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
 
     return (
         <>
-            <ResizableButton style={{marginLeft: "50px"}} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize="Add review" />
+            <ResizableButton style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize="Add review" />
             <Modal title="Add active book" open={isModalVisible} onCancel={handleCancel}
                 footer={[
-                    <Button key="submit" type="primary" htmlType="submit">
+                    <Button key="submit" type="primary" htmlType="submit" onClick={() => {
+                        form.validateFields()
+                            .then((value) => {
+                                handleSubmit(value);
+                                form.resetFields();
+                            })
+                    }}>
                         Submit
                     </Button>,
                     <Button key="back" onClick={handleCancel}>
                         Cancel
                     </Button>
                 ]}>
-                <Form id="addBookOpinionForm" onFinish={handleOk}>
+                <Form id="addBookOpinionForm" form={form}>
                     <Form.Item
                         label="Description"
                         name="description"

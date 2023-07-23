@@ -4,7 +4,7 @@ export type BookOfListType = {
 	id: string,
 	title: string,
 	description: string,
-	imageData: ArrayBuffer,
+	imageDataBase64: string,
 	isActiveBook: boolean,
 	bookRating: BookRatingType,
 	bookOpinionsCount: number
