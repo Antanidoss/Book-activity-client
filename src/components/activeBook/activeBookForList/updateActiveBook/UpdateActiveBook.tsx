@@ -34,7 +34,7 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
         <ResizableButton style={{marginLeft: "50px"}} onClick={showModal} shape="round" type="primary" icon={React.createElement(EditOutlined)} titleOnResize={"Edit"}/>
         <Modal title="Add active book" open={isModalVisible} onCancel={handleCancel}
             footer={[
-                <Button form="updateActiveBookForm" key="submit" type="primary" htmlType="submit">
+                <Button key="submit" type="primary" htmlType="submit">
                     Submit
                 </Button>,
                 <Button key="back" onClick={handleCancel}>

@@ -40,7 +40,7 @@ const UploadImage: React.FC<PropsType> = (props) => {
 
     const uploadButton = (
         <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            {React.createElement(loading ? LoadingOutlined : PlusOutlined)}
             <div
                 style={{
                     marginTop: 8,
