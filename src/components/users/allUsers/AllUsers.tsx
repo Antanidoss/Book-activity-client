@@ -39,7 +39,7 @@ const AllUser: React.FC<PropsType> = (props) => {
                     <List.Item.Meta
                         style={{ alignItems: "center" }}
                         avatar={
-                            <Link style={{ cursor: "pointer" }} to={`/profile?userId=${user.id}`}>
+                            <Link style={{ cursor: "pointer", marginLeft: "20px" }} to={`/profile?userId=${user.id}`}>
                                 <Image preview={false} style={{ width: "50px", maxHeight: "60px", borderRadius: "15px" }} src={("data:image/png;base64," + user.avatarImage)} />
                             </Link>}
                         title={<Link style={{ cursor: "pointer" }} to={`/profile?userId=${user.id}`}>{user.name}</Link>}
@@ -52,8 +52,8 @@ const AllUser: React.FC<PropsType> = (props) => {
                         } />
                     {
                         user.isSubscription
-                            ? <Button shape="round" onClick={() => unsubscribeUser(user.id)} type="primary">Unsubscribe</Button>
-                            : <Button shape="round" onClick={() => subscribeToUser(user.id)} type="primary">Subscribe</Button>
+                            ? <Button shape="round" onClick={() => unsubscribeUser(user.id)} type="primary" style={{ marginRight: "20px" }}>Unsubscribe</Button>
+                            : <Button shape="round" onClick={() => subscribeToUser(user.id)} type="primary" style={{ marginRight: "20px" }}>Subscribe</Button>
                     }
                 </List.Item>
             )} />

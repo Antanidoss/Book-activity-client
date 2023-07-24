@@ -4,6 +4,7 @@ import { PropsType } from "./ProfileContainer";
 import ReadingCalendarStatistic from "../../activeBooksStatistic/ReadingCalendarStatistic/ReadingCalendarStatistic";
 import { arrayBufferToBase64 } from "../../../utils/imageUtil";
 import { Link } from "react-router-dom";
+import { TeamOutlined } from "@ant-design/icons";
 
 const Profile: React.FC<PropsType> = (props) => {
     return (
@@ -17,12 +18,12 @@ const Profile: React.FC<PropsType> = (props) => {
                         <Col style={{ marginTop: "20px", fontSize: "18px", textAlign: "center" }}>
                             {props.userProfile.userName}
                         </Col>
-                        <Col style={{textAlign: "center"}}>
-                            <Link to={"#"} style={{padding: "5px", color: "#5a5e61"}}>{props.userProfile.subscribersCount} fllowers</Link>
+                        <Col style={{textAlign: "center", marginTop: "10px"}}>
+                            <Link to={"#"} style={{padding: "5px", color: "#5a5e61", cursor: "pointer"}}>{React.createElement(TeamOutlined)} {props.userProfile.subscribersCount} fllowers</Link>
                             ·
-                            <Link to={"#"} style={{padding: "5px", color: "#5a5e61"}}>{props.userProfile.subscriptionsCount} following</Link>
+                            <Link to={"#"} style={{padding: "5px", color: "#5a5e61", cursor: "pointer"}}>{props.userProfile.subscriptionsCount} following</Link>
                         </Col>
-                        <Col style={{ marginTop: "50px" }}>
+                        <Col style={{ marginTop: "20px" }}>
                             <Button style={{ width: "150px" }} shape="round" type="primary">Edit profile</Button>
                         </Col>
                     </Col>
