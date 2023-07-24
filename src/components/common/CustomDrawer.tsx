@@ -3,6 +3,7 @@ import Drawer from 'react-modern-drawer'
 import {
     CloseOutlined
 } from "@ant-design/icons";
+import { Button } from 'antd';
 
 const CustomDrawer: React.FC<PropsType> = (props) => {
     document.body.style.overflow = props.open ? 'hidden' : '';
@@ -10,7 +11,7 @@ const CustomDrawer: React.FC<PropsType> = (props) => {
     return (
         <Drawer {...props}>
             <div style={{ display: "flex", flex: "0", alignItems: "center", padding: "16px 24px", lineHeight: "22px" }}>
-                <button onClick={props.onClose} type="button" aria-label="Close" className="ant-drawer-close" style={{ fontSize: "15px" }}>{React.createElement(CloseOutlined)}</button>
+                <Button onClick={props.onClose} type="primary" shape="round" aria-label="Close"  className="ant-drawer-close" size="small" icon={React.createElement(CloseOutlined)} />
             </div>
             {props.children}
         </Drawer>
