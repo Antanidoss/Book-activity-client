@@ -55,11 +55,11 @@ const AddBookNote: React.FC<PropsType> = (props) => {
                         Cancel
                     </Button>
                 ]}>
-                <Form id="addBookNoteForm" form={form}>
+                <Form id="addBookNoteForm" form={form} initialValues={{"color": "#FFFFFF"}}>
                     <Form.Item
                         label="Note color"
                         name="color">
-                        <ColorPicker onChangeComplete={onSelectColor} defaultValue="#FFFFFF" />
+                        <ColorPicker onChangeComplete={onSelectColor} />
                     </Form.Item>
                     <Form.Item
                         label="Note"

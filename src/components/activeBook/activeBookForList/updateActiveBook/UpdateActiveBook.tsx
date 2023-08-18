@@ -48,12 +48,12 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
                     Cancel
                 </Button>
             ]}>
-            <Form id="updateActiveBookForm" form={form}>
+            <Form id="updateActiveBookForm" form={form} initialValues={{numberPagesRead: numberPagesRead}}>
                 <Form.Item
                     label="Number of pages read"
                     name="numberPagesRead"
                     rules={[{ required: true, message: "Please input number pages read!" }]}>
-                    <Input size="small" type="number" defaultValue={numberPagesRead} min={0} max={props.totalNumberPages} suffix={"from " + props.totalNumberPages} />
+                    <Input size="small" type="number" min={0} max={props.totalNumberPages} suffix={"from " + props.totalNumberPages} />
                     
                 </Form.Item>
             </Form>

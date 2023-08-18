@@ -27,8 +27,8 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
       .then(isSuccess => {
         if (isSuccess) {
           props.setActiveBookStatus(props.bookId);
-          setIsModalVisible(false);
           message.success("The book has been successfully added to active", 6);
+          setIsModalVisible(false);
         } else {
           message.error("Failed to make the book active", 6);
         }
