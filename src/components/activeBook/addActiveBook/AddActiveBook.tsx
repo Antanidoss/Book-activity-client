@@ -59,10 +59,6 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
     return haveErrors;
   }
 
-  const onFormChange = () => {
-    validateForm();
-  }
-
   return <>
     <Button shape="round" type="primary" onClick={showModal}>Make active</Button>
     <Modal forceRender title="Add active book" open={isModalVisible} onCancel={handleCancel}
@@ -80,7 +76,7 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
           Cancel
         </Button>
       ]}>
-      <Form id="addActiveBookForm" form={form} onFieldsChange={onFormChange}>
+      <Form id="addActiveBookForm" form={form} onFieldsChange={validateForm}>
         <Form.Item
           label="Total number pages"
           name="totalNumberPages"

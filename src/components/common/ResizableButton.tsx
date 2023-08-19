@@ -19,6 +19,7 @@ const ResizableButton: React.FC<PropsType> = (props) => {
 
     return (
         <Button
+            disabled={props.disable}
             type={props.type}
             onMouseEnter={addTitle}
             onMouseLeave={clearTitle}
@@ -35,7 +36,8 @@ type PropsType = {
     type: ButtonType,
     icon: React.ReactNode,
     titleOnResize: string
-    style?: CSSProperties
+    style?: CSSProperties,
+    disable?: boolean
 }
 
 export default ResizableButton;

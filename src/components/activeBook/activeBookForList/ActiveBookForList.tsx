@@ -11,14 +11,13 @@ import AddBookOpinionContainer from "./addBookOpinion/AddBookOpinionContainer";
 import ResizableButton from "../../common/ResizableButton";
 import AddBookNoteContainer from "./addBookNote/AddBookNoteContainer";
 import BookOpinionViewContainer from "./bookOpinionView/BookOpinionViewContainer";
-import { arrayBufferToBase64 } from "../../../utils/imageUtil";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const onClickRemoveActiveBook = () => {
         props.removeActiveBook(props.activeBook.id)
             .then(isSuccess => {
-                isSuccess ?  message.success("The book has been successfully removed.", 6) : message.error("Failed to delete active workbook. Try again.", 6)
-        });
+                isSuccess ? message.success("The book has been successfully removed.", 6) : message.error("Failed to delete active workbook. Try again.", 6)
+            });
     }
 
     const progressPercent: number = Math.round(props.activeBook.numberPagesRead / props.activeBook.totalNumberPages * 100);
@@ -39,7 +38,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 </Col>
                 <Row>
                     <Col span={17} style={{ marginTop: "10px" }}>
-                        <UpdateActiveBookContainer totalNumberPages={props.activeBook.totalNumberPages} numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} />
+                        <UpdateActiveBookContainer totalNumberPages={props.activeBook.totalNumberPages} numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} disableButton={progressPercent == 100} />
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>
                         <ResizableButton shape="round" type="primary" icon={React.createElement(DeleteOutlined)} onClick={onClickRemoveActiveBook} titleOnResize={"Delete"} />
@@ -47,7 +46,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 </Row>
                 <Row>
                     <Col span={17} style={{ marginTop: "10px" }}>
-                        { 
+                        {
                             !props.activeBook.hasOpinion
                                 ? <AddBookOpinionContainer
                                     bookId={props.activeBook.book.id}
