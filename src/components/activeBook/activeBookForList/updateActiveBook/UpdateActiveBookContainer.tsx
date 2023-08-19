@@ -19,20 +19,22 @@ const mapDispatchToProps = {
 type MapStateToPropsType = {
     activeBookId: string,
     numberPagesRead: number,
-    totalNumberPages: number
+    totalNumberPages: number,
+    disableButton?: boolean
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
     activeBookId: ownProps.activeBookId,
     numberPagesRead: ownProps.numberPagesRead,
-    totalNumberPages: ownProps.totalNumberPages
-
+    totalNumberPages: ownProps.totalNumberPages,
+    disableButton: ownProps.disableButton
 })
 
 type OwnPropsType = {
     activeBookId: string,
     numberPagesRead: number,
-    totalNumberPages: number
+    totalNumberPages: number,
+    disableButton?: boolean
 }
 
 type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
