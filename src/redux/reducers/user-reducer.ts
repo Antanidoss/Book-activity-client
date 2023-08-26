@@ -85,7 +85,11 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     }
 
                     return u
-                })
+                }),
+                userProfile: {
+                    ...state.userProfile as UserProfileType,
+                    isSubscribed: action.userId === state.userProfile?.id
+                }
             }
         case REMOVE_USER_SUBSCRIPTIONS:
             return {
@@ -96,7 +100,11 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     }
 
                     return u
-                })
+                }),
+                userProfile: {
+                    ...state.userProfile as UserProfileType,
+                    isSubscribed: action.userId !== state.userProfile?.id
+                }
             }
         case SET_USER_PROFILE:
             return {
@@ -262,9 +270,9 @@ export const unsubscribeUserThunkCreator = (userId: string): ThunkAction<Promise
     }
 }
 
-export const getUserProfileThunkCreator = (userId: string): ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes> => {
+export const getUserProfileThunkCreator = (userId: string, forCurrentUser: boolean): ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const userProfile = await userApi.getUserProfile(userId);
+        const userProfile = await userApi.getUserProfile(userId, forCurrentUser);
 
         dispatch(setUserProfile(userProfile))
     }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
 import { withAuthRedirect } from "../../../hoc/withAuthRedirect";
 import { AppStoreType } from "../../../redux/redux-store";
-import { getUserProfileThunkCreator, updateUserRequestThunkCreator } from "../../../redux/reducers/user-reducer";
+import { getUserProfileThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator, updateUserRequestThunkCreator } from "../../../redux/reducers/user-reducer";
 import { getCurUser, getIsAuthenticated, getUserProfile } from "../../../redux/selectors/user-selectors";
 import Profile from "./Profile";
 import { ActiveBooksStatisticType } from "../../../types/activeBooks/activeBooksStatisticType";
@@ -18,43 +18,52 @@ const ProfileContainer: React.FC<PropsType> = (props) => {
     let query = useQuery();
 
     useEffect(() => {
-        const userId = query.get("userId") ?? props.curUserId;
+        let userId = query.get("userId") ?? "";
+        let forCurrentUser: boolean = false
+
+        if (userId === "") {
+            forCurrentUser = true;
+            userId = props.curUserId
+        }
+
         Promise.all([
             props.getActiveBooksStatistic(userId),
-            props.getUserProfile(userId)
+            props.getUserProfile(userId, forCurrentUser)
         ]).then(() => setLoading(false))
     }, [])
 
-    return loading ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div> : <Profile {...props} />
+    return loading ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div> : <Profile {...props} />
 }
 
 type MapStateToPropsType = {
     isAuthenticated: boolean,
     statistic: ActiveBooksStatisticType,
     userProfile: UserProfileType,
-    curUserId: string,
+    curUserId: string
 }
 
 type MapDispatchToPropsType = {
     updateUser: typeof updateUserRequestThunkCreator,
     getActiveBooksStatistic: typeof getActiveBooksStatisticThunkCreator,
-    getUserProfile: typeof getUserProfileThunkCreator
+    getUserProfile: typeof getUserProfileThunkCreator,
+    subscribeToUser: typeof subscribeToUserThunkCreator,
+    unsubscribeUser: typeof unsubscribeUserThunkCreator
 }
 
 const mapDispatchToProps = {
     updateUser: updateUserRequestThunkCreator,
     getActiveBooksStatistic: getActiveBooksStatisticThunkCreator,
-    getUserProfile: getUserProfileThunkCreator
+    getUserProfile: getUserProfileThunkCreator,
+    subscribeToUser: subscribeToUserThunkCreator,
+    unsubscribeUser: unsubscribeUserThunkCreator
 }
 
-const mapStateToProps = (state: AppStoreType): MapStateToPropsType => {
-    return {
-        isAuthenticated: getIsAuthenticated(state),
-        statistic: getCurUserStatistics(state) as ActiveBooksStatisticType,
-        userProfile: getUserProfile(state) as UserProfileType,
-        curUserId: getCurUser(state)?.id as string
-    }
-}
+const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
+    isAuthenticated: getIsAuthenticated(state),
+    statistic: getCurUserStatistics(state) as ActiveBooksStatisticType,
+    userProfile: getUserProfile(state) as UserProfileType,
+    curUserId: getCurUser(state)?.id as string
+})
 
 type OwnPropsType = {}
 

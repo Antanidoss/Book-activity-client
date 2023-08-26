@@ -1,35 +1,14 @@
-import { List, Image, Button, message, Row, Col } from "antd";
+import { List, Image, Row, Col } from "antd";
 import React from "react";
 import { PropsType } from "./AllUsersContainer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
     BookOutlined,
     CommentOutlined
 } from "@ant-design/icons";
+import SubUnsubButton from "../../common/SubUnsubButton";
 
 const AllUser: React.FC<PropsType> = (props) => {
-    const navigate = useNavigate();
-
-    const subscribeToUser = (userId: string) => {
-        if (!props.isAuthenticated) {
-            return navigate("/login");
-        }
-
-        props.subscribeToUser(userId).then(isSuccess => {
-            return isSuccess ? message.success("You have successfully subscribed", 6) : message.error("Failed to subscribe", 6)
-        });
-    }
-
-    const unsubscribeUser = (userId: string) => {
-        if (!props.isAuthenticated) {
-            return navigate("/login");
-        }
-
-        props.unsubscribeUser(userId).then(isSuccess => {
-            return isSuccess ? message.success("You have successfully subscribed", 6) : message.error("Failed to subscribe", 6)
-        });
-    }
-
     return (
         <List
             style={{ padding: "50px 150px 150px 150px", alignItems: "center" }}
@@ -51,9 +30,13 @@ const AllUser: React.FC<PropsType> = (props) => {
                             </Row>
                         } />
                     {
-                        user.isSubscription
-                            ? <Button shape="round" onClick={() => unsubscribeUser(user.id)} type="primary" style={{ marginRight: "20px" }}>Unsubscribe</Button>
-                            : <Button shape="round" onClick={() => subscribeToUser(user.id)} type="primary" style={{ marginRight: "20px" }}>Subscribe</Button>
+                        <SubUnsubButton
+                            userId={user.id}
+                            style={{"marginRight": "20px"}}
+                            unsubscribeUser={props.unsubscribeUser}
+                            subscribeToUser={props.subscribeToUser}
+                            isSubscribed={user.isSubscription as boolean}
+                            isAuthenticated={props.isAuthenticated} />
                     }
                 </List.Item>
             )} />

@@ -3,5 +3,6 @@ export type UserProfileType = {
     userName: string,
     avatarImage: ArrayBuffer,
     subscriptionsCount: number,
-    subscribersCount: number
+    subscribersCount: number,
+    isSubscribed: boolean
 }
