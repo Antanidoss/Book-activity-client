@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InferableComponentEnhancerWithProps, connect } from "react-redux";
 import { AppStoreType } from "../../../redux/redux-store";
 import { getUsersByFilterThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator } from "../../../redux/reducers/user-reducer";
@@ -7,19 +7,24 @@ import { UserOfListType } from "../../../types/users/userOfListType";
 import AllUser from "./AllUsers";
 import UserFilterContainer from "./userFilter/UserFilterContainer";
 import { getIsAuthenticated } from "../../../redux/selectors/user-selectors";
+import { Spin } from "antd";
 
 const AllUsersContainer: React.FC<PropsType> = (props) => {
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        props.getUsers();
+        props.getUsers().then(() => setLoading(false));
     }, [])
 
-    return (
-        <>
-            <UserFilterContainer />
+    return loading
+        ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+        : (
+            <>
+                <UserFilterContainer />
 
-            <AllUser {...props} />
-        </>
-    )
+                <AllUser {...props} />
+            </>
+        )
 }
 
 type MapDispatchToPropsType = {

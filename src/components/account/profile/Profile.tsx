@@ -5,6 +5,7 @@ import ReadingCalendarStatistic from "../../activeBooksStatistic/ReadingCalendar
 import { arrayBufferToBase64 } from "../../../utils/imageUtil";
 import { Link } from "react-router-dom";
 import { TeamOutlined } from "@ant-design/icons";
+import SubUnsubButton from "../../common/SubUnsubButton";
 
 const Profile: React.FC<PropsType> = (props) => {
     return (
@@ -24,7 +25,17 @@ const Profile: React.FC<PropsType> = (props) => {
                             <Link to={"#"} style={{padding: "5px", color: "#5a5e61", cursor: "pointer"}}>{props.userProfile.subscriptionsCount} following</Link>
                         </Col>
                         <Col style={{ marginTop: "20px" }}>
-                            <Button style={{ width: "150px" }} shape="round" type="primary">Edit profile</Button>
+                        {
+                            props.curUserId == props.userProfile.id
+                                ? <Button style={{ width: "150px" }} shape="round" type="primary">Edit profile</Button>
+                                : <SubUnsubButton
+                                    userId={props.userProfile.id}
+                                    style={{"marginRight": "20px"}}
+                                    unsubscribeUser={props.unsubscribeUser}
+                                    subscribeToUser={props.subscribeToUser}
+                                    isSubscribed={props.userProfile.isSubscribed}
+                                    isAuthenticated={props.isAuthenticated} />
+                        }
                         </Col>
                     </Col>
                     <Col style={{ marginLeft: "50px" }}>

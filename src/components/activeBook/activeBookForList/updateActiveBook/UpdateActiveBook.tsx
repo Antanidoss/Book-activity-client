@@ -37,19 +37,19 @@ const UpdateActiveBook: React.FC<PropsType> = (props) => {
 
     const validateForm = () => {
         const numberPagesRead = form.getFieldValue("numberPagesRead") ?? 0;
-        let haveErrors = false
+        let success = true
     
         if (numberPagesRead < props.numberPagesRead) {
           form.setFields([{ name: "numberPagesRead", errors: ["Can't reduce the number of pages read"] }]);
           setDisabled(true);
-          haveErrors = true;
+          success = false;
         }
     
-        if (disabled && !haveErrors) {
+        if (disabled && !success) {
           setDisabled(false);
         }
     
-        return haveErrors;
+        return success;
       }
 
     return <>

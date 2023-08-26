@@ -17,7 +17,7 @@ const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
         props.getActiveBooks().then(() => setLoading(false));
     }, [])
 
-    return loading ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div> : <AllCurUserActiveBooks {...props} />
+    return loading ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div> : <AllCurUserActiveBooks {...props} />
 }
 
 type MapDispatchToPropsType = {

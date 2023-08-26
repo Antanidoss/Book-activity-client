@@ -70,7 +70,7 @@ export const userApi = {
     unsubscribeUser(userId: string) {
         return instanceAxios.delete(`/user/unsubscribe?unsubscribedUserId=${userId}`);
     },
-    getUserProfile(userId: string) {
+    getUserProfile(userId: string, forCurrentUser: boolean) {
         let query = `query {
             userById(userId: "${userId}") {
                 id
@@ -78,6 +78,7 @@ export const userApi = {
                 avatarImage
                 subscriptionsCount
                 subscribersCount
+                ${ forCurrentUser ? "" : "isSubscribed" }
             }
         }`
 
