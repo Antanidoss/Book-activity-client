@@ -88,7 +88,8 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 }),
                 userProfile: {
                     ...state.userProfile as UserProfileType,
-                    isSubscribed: action.userId === state.userProfile?.id
+                    isSubscribed: action.userId === state.userProfile?.id,
+                    subscribersCount: state.userProfile?.subscribersCount as number + 1
                 }
             }
         case REMOVE_USER_SUBSCRIPTIONS:
@@ -103,7 +104,8 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 }),
                 userProfile: {
                     ...state.userProfile as UserProfileType,
-                    isSubscribed: action.userId !== state.userProfile?.id
+                    isSubscribed: action.userId !== state.userProfile?.id,
+                    subscribersCount: state.userProfile?.subscribersCount as number - 1
                 }
             }
         case SET_USER_PROFILE:
