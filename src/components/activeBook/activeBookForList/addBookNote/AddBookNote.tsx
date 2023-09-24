@@ -4,9 +4,12 @@ import { PropsType } from './AddBookNoteContainer';
 import {
     PushpinOutlined
 } from "@ant-design/icons";
-import { Button, Form, message, Modal, ColorPicker } from 'antd';
+import { Button, Form, message, Modal, ColorPicker, Row, UploadFile } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { Color } from 'antd/es/color-picker';
+import UploadImage from '../../../common/UploadImage';
+import { UploadChangeParam } from 'antd/lib/upload';
+import { ocrApi } from '../../../../api/ocrApi';
 
 const AddBookNote: React.FC<PropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,6 +40,14 @@ const AddBookNote: React.FC<PropsType> = (props) => {
         setSelectedColor(color.toHexString());
     }
 
+    const onSelectImage = (fileInfo: UploadChangeParam<UploadFile>) => {
+        ocrApi.getTextOnImage(fileInfo).then(d => {
+            if (d.success) {
+                form.setFieldValue("note", d.result);
+            }
+        })
+    }
+
     return (
         <>
             <ResizableButton icon={React.createElement(PushpinOutlined)} onClick={showModal} shape="round" titleOnResize="Add note" type="primary" />
@@ -59,12 +70,15 @@ const AddBookNote: React.FC<PropsType> = (props) => {
                     <Form.Item
                         label="Note color"
                         name="color">
-                        <ColorPicker onChangeComplete={onSelectColor} />
+                            <Row>
+                                <ColorPicker onChangeComplete={onSelectColor} />
+                                <UploadImage showUploadImage={false} fieldName="image" style={{margin: "0 auto"}} onChange={onSelectImage} />
+                            </Row>
                     </Form.Item>
                     <Form.Item
                         label="Note"
                         name="note">
-                        <TextArea style={{ backgroundColor: selectedColor }} />
+                        <TextArea style={{ backgroundColor: selectedColor }} autoSize />
                     </Form.Item>
                 </Form>
             </Modal>
