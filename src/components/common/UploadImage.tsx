@@ -36,6 +36,8 @@ const UploadImage: React.FC<PropsType> = (props) => {
                 setImageUrl(url as string);
             }, info.file.originFileObj);
         }
+
+        props.onChange?.(info);
     };
 
     const uploadButton = (
@@ -55,7 +57,7 @@ const UploadImage: React.FC<PropsType> = (props) => {
             label={props.fieldLabel}
             name={props.fieldName}
             rules={props.rules}
-            >
+            style={props.style}>
             <Upload
                 listType={props.uploadListType}
                 showUploadList={false}
@@ -66,7 +68,7 @@ const UploadImage: React.FC<PropsType> = (props) => {
                         onSuccess?.("ok");
                     }, 0);
                 }}                    >
-                {imageUrl ? (
+                {imageUrl && (props.showUploadImage == undefined || props.showUploadImage) ? (
                     <img
                         src={imageUrl}
                         style={{
@@ -82,12 +84,15 @@ const UploadImage: React.FC<PropsType> = (props) => {
 }
 
 export type PropsType = {
-    uploadListType: UploadListType
+    uploadListType?: UploadListType,
+    showUploadImage?: boolean
     fieldName: string,
     fieldLabel?: string,
     rules?: Rule[],
     wrapperCol?: ColProps,
-    uploadButtonTitle?: string
+    uploadButtonTitle?: string,
+    style?: React.CSSProperties,
+    onChange?: (info: UploadChangeParam<UploadFile>) => void
 }
 
 export default UploadImage;

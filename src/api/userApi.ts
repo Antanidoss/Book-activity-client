@@ -55,7 +55,7 @@ export const userApi = {
         return instanceAxios.post("/user/update", formData)
     },
     getUsersByFilter(filter: UserFilterType, skip: number, take: number, currentUserId?: string) {
-        return instanceAxios.get<FilterResultType<UserFilterResultType>>("/user/getUsersByFilter", {
+        return instanceAxios.get<FilterResultType<UserFilterResultType>>("/user/getByFilter", {
             params: {
                 name: filter.name,
                 skip,
@@ -79,6 +79,16 @@ export const userApi = {
                 subscriptionsCount
                 subscribersCount
                 ${ forCurrentUser ? "" : "isSubscribed" }
+                activeBooks {
+                    id
+                    totalNumberPages
+                    numberPagesRead
+                    book {
+                      id
+                      title
+                      imageDataBase64
+                    }
+                }
             }
         }`
 
