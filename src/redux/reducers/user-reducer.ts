@@ -231,11 +231,12 @@ export const getUsersByFilterThunkCreator = (): ThunkType => {
         const state = getState().userStore;
         const skip = calculateSkip(state.pageNumber, state.pageSize);
         const response = await userApi.getUsersByFilter(state.userFilter, skip, state.pageSize, state.currentUser?.id);
-        const users = response.entities.map(u => {
+
+        const users = response.data.users.items.map(u => {
             const user: UserOfListType = {
                 id: u.id,
                 name: u.userName,
-                avatarImage: u.avatarImage,
+                avatarImage: u.avatarDataBase64,
                 isSubscriber: u.isSubscriber,
                 isSubscription: u.isSubscription,
                 activeBookCount: u.activeBookCount,
