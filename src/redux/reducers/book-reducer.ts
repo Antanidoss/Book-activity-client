@@ -48,7 +48,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 books: state.books.map(b => {
-                    if (b.id == action.bookId) {
+                    if (b.id === action.bookId) {
                         return {
                             ...b,
                             isActiveBook: true
@@ -62,7 +62,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 books: state.books.map(b => {
-                    if (b.bookRating.id == action.bookRatingId) {
+                    if (b.bookRating.id === action.bookRatingId) {
                         return {
                             ...b,
                             bookRating: {

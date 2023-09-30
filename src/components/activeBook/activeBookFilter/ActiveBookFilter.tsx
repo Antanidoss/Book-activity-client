@@ -1,6 +1,6 @@
 import { Affix, Badge, Button, Checkbox, Col, Form, Select } from "antd";
 import React, { useState } from "react"
-import { ActiveBookFilterType, SortBy, isDefaultFilter } from "../../../types/activeBooks/activeBookFilterType";
+import { ActiveBookFilterType, isDefaultFilter } from "../../../types/activeBooks/activeBookFilterType";
 import CustomDrawer from "../../common/CustomDrawer";
 import { PropsType } from "./ActiveBookFilterContainer"
 import {
@@ -21,7 +21,7 @@ const ActiveBookFilter: React.FC<PropsType> = (props) => {
     };
 
     const onFinish = (activeBookFilterModel: ActiveBookFilterType) => {
-        if (activeBookFilterModel.bookTitle == "")
+        if (activeBookFilterModel.bookTitle === "")
             activeBookFilterModel.bookTitle = undefined;
 
         props.updateCurrentPageNumber(1);

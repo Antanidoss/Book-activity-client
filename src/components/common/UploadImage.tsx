@@ -43,10 +43,7 @@ const UploadImage: React.FC<PropsType> = (props) => {
     const uploadButton = (
         <div>
             {React.createElement(loading ? LoadingOutlined : PlusOutlined)}
-            <div
-                style={{
-                    marginTop: 8,
-                }}>
+            <div style={{marginTop: 8}}>
                 {props.uploadButtonTitle === undefined ? "Upload" : props.uploadButtonTitle}
             </div>
         </div>
@@ -63,21 +60,14 @@ const UploadImage: React.FC<PropsType> = (props) => {
                 showUploadList={false}
                 beforeUpload={beforeUpload}
                 onChange={handleChange}
-                customRequest={({ file, onSuccess }) => {
+                customRequest={({ onSuccess }) => {
                     setTimeout(() => {
                         onSuccess?.("ok");
                     }, 0);
                 }}                    >
-                {imageUrl && (props.showUploadImage == undefined || props.showUploadImage) ? (
-                    <img
-                        src={imageUrl}
-                        style={{
-                            width: "100%",
-                        }}
-                    />
-                ) : (
-                    uploadButton
-                )}
+                {imageUrl && (props.showUploadImage === undefined || props.showUploadImage) 
+                    ? (<img src={imageUrl} style={{width: "100%"}} />)
+                    : (uploadButton)}
             </Upload>
         </Form.Item>
     )

@@ -15,7 +15,7 @@ import { useQuery } from "../../../hoc/useQuery";
 
 const ProfileContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);
-    let query = useQuery();
+    const query = useQuery();
 
     useEffect(() => {
         let userId = query.get("userId") ?? "";

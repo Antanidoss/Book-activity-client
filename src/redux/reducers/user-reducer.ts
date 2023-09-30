@@ -80,7 +80,7 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 users: state.users.map(u => {
-                    if (u.id == action.userId) {
+                    if (u.id === action.userId) {
                         u.isSubscription = true;
                     }
 
@@ -96,7 +96,7 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
             return {
                 ...state,
                 users: state.users.map(u => {
-                    if (u.id == action.userId) {
+                    if (u.id === action.userId) {
                         u.isSubscription = false;
                     }
 

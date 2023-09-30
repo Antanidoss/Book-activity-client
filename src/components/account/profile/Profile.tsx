@@ -26,7 +26,7 @@ const Profile: React.FC<PropsType> = (props) => {
                         </Col>
                         <Col style={{ marginTop: "20px" }}>
                         {
-                            props.curUserId == props.userProfile.id
+                            props.curUserId === props.userProfile.id
                                 ? <Button style={{ width: "150px" }} shape="round" type="primary">Edit profile</Button>
                                 : <SubUnsubButton
                                     userId={props.userProfile.id}

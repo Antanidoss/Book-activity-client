@@ -10,5 +10,5 @@ export const BookFilterTypeDefault: BookFilterType = {
 }
 
 export const isDefaultFilter = (filter: BookFilterType) => {
-    return (filter.bookTitle == undefined || filter.bookTitle == "") && filter.averageRatingFrom == 0 && filter.averageRatingTo == 5
+    return (filter.bookTitle === undefined || filter.bookTitle === "") && filter.averageRatingFrom === 0 && filter.averageRatingTo === 5
 }

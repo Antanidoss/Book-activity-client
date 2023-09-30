@@ -19,9 +19,9 @@ export const activeBookApi = {
   getActiveBooksByFilter(filterModel: ActiveBookFilterType, pagination: PaginationType) {
     let order: string
 
-    if (filterModel.sortBy == SortBy.CreateDate) {
+    if (filterModel.sortBy === SortBy.CreateDate) {
       order = `timeOfCreation: ASC`
-    } else if (filterModel.sortBy == SortBy.CreateDateDescending) {
+    } else if (filterModel.sortBy === SortBy.CreateDateDescending) {
       order = `timeOfCreation: DESC`
     } else {
       order = `timeOfUpdate: DESC`

@@ -43,7 +43,7 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
             return {
                 ...state,
                 activeBooks: state.activeBooks.map(a => {
-                    if (a.id == actions.activeBookId) {
+                    if (a.id === actions.activeBookId) {
                         return {
                             ...a,
                             numberPagesRead: actions.numberPagesRead
@@ -56,7 +56,7 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): Initial
         case REMOVE_ACTIVE_BOOK:
             return {
                 ...state,
-                activeBooks: state.activeBooks.filter(a => a.id != actions.activeBookId)
+                activeBooks: state.activeBooks.filter(a => a.id !== actions.activeBookId)
             }
         case UPDATE_FILTER:
             return {
