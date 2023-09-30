@@ -1,7 +1,6 @@
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
 import { AuthUserResponseType } from "../types/users/authUserResponseType";
 import { CurrentUserResponseType } from "../types/users/currentUserResponseType";
-import { FilterResultType } from "../types/common/filterResultType";
 import { UserFilterResultType } from "../types/users/userFilterResultType";
 import { UserFilterType } from "../types/users/userFilterType";
 import instanceAxios, { GraphqlResponseType, setAuthorizationToken } from "./instanceAxios";
@@ -55,14 +54,23 @@ export const userApi = {
         return instanceAxios.post("/user/update", formData)
     },
     getUsersByFilter(filter: UserFilterType, skip: number, take: number, currentUserId?: string) {
-        return instanceAxios.get<FilterResultType<UserFilterResultType>>("/user/getByFilter", {
-            params: {
-                name: filter.name,
-                skip,
-                take,
-                currentUserId
-            }
-        }).then(res => res.data)
+        let where = filter.name === null ? "" : `where: { userName: { contains: ${"\"" + filter.name + "\""} } }`
+        const query = `query {
+            users(skip: ${skip}, take: ${take}, ${where}) {
+                items {
+                  id,
+                  userName,
+                  avatarDataBase64,
+                  isSubscribed,
+                  isSubscription,
+                  activeBookCount,
+                  bookOpinionCount
+                },
+                totalCount
+              }
+        }`
+
+        return instanceAxios.post<GraphqlResponseType<UserFilterResultType>>(`/graphql`, { query: query }).then(res => res.data);
     },
     subscribeToUser(userId: string) {
         return instanceAxios.put(`/user/subscribeUser?subscribedUserId=${userId}`);
