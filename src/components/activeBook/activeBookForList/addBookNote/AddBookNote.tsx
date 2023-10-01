@@ -15,6 +15,7 @@ const AddBookNote: React.FC<PropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedColor, setSelectedColor] = useState("white");
     const [form] = Form.useForm();
+    const [addNoteButtonLoading, setAddNoteButtonLoading] = useState(false);
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -26,14 +27,22 @@ const AddBookNote: React.FC<PropsType> = (props) => {
 
     type AddBookNoteType = {
         note: string,
-        color: Color
+        color: string
     }
 
     const handleSubmit = (addBookNote: AddBookNoteType) => {
-        props.addBookNote(props.activeBookId, addBookNote.note, addBookNote.color.toHexString())
-            .then(message.success("Book note has been successfully added", 6))
+        setAddNoteButtonLoading(true);
 
-        setIsModalVisible(false);
+        props.addBookNote(props.activeBookId, addBookNote.note, addBookNote.color).then(isSuccess => {
+            if (isSuccess) {
+                setIsModalVisible(false);
+                message.success("Book note has been successfully added", 6);
+            } else {
+                message.success("Failed to add note. Try again", 6);
+            }
+
+            setAddNoteButtonLoading(false);
+        });
     }
 
     const onSelectColor = (color: Color) => {
@@ -53,12 +62,11 @@ const AddBookNote: React.FC<PropsType> = (props) => {
             <ResizableButton icon={React.createElement(PushpinOutlined)} onClick={showModal} shape="round" titleOnResize="Add note" type="primary" />
             <Modal title="Add book note" open={isModalVisible} onCancel={handleCancel}
                 footer={[
-                    <Button key="submit" type="primary" htmlType="submit" onClick={() => {
-                        form.validateFields()
-                            .then((value) => {
-                                handleSubmit(value);
-                                form.resetFields();
-                            })
+                    <Button key="submit" type="primary" htmlType="submit" loading={addNoteButtonLoading} onClick={() => {
+                        form.validateFields().then((value) => {
+                            handleSubmit(value);
+                            form.resetFields();
+                        })
                     }}>
                         Submit
                     </Button>,
@@ -66,15 +74,15 @@ const AddBookNote: React.FC<PropsType> = (props) => {
                         Cancel
                     </Button>
                 ]}>
-                <Form id="addBookNoteForm" form={form} initialValues={{"color": "#FFFFFF"}}>
-                    <Form.Item
-                        label="Note color"
-                        name="color">
-                            <Row>
-                                <ColorPicker onChangeComplete={onSelectColor} />
-                                <UploadImage showUploadImage={false} fieldName="image" style={{margin: "0 auto"}} onChange={onSelectImage} />
-                            </Row>
-                    </Form.Item>
+                <Form id="addBookNoteForm" form={form}>
+                    <Row>
+                        <Form.Item
+                            label="Note color"
+                            name="color">
+                            <ColorPicker value="#FFFFFF" onChangeComplete={onSelectColor} />
+                        </Form.Item>
+                        <UploadImage showUploadImage={false} fieldName="image" style={{ margin: "0 auto" }} onChange={onSelectImage} />
+                    </Row>
                     <Form.Item
                         label="Note"
                         name="note">

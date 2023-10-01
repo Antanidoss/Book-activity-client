@@ -11,6 +11,7 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(false);
+  const [addActiveBookButtonLoading, setAddActiveBookButtonLoading] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -23,6 +24,8 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
       return;
     }
 
+    setAddActiveBookButtonLoading(true);
+
     props.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, props.bookId)
       .then(isSuccess => {
         if (isSuccess) {
@@ -32,6 +35,8 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
         } else {
           message.error("Failed to make the book active", 6);
         }
+
+        setAddActiveBookButtonLoading(false);
       });
   };
 
@@ -63,7 +68,7 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
     <Button shape="round" type="primary" onClick={showModal}>Make active</Button>
     <Modal forceRender title="Add active book" open={isModalVisible} onCancel={handleCancel}
       footer={[
-        <Button key="submit" type="primary" htmlType="submit" disabled={disabled} onClick={() => {
+        <Button key="submit" type="primary" htmlType="submit" loading={addActiveBookButtonLoading} disabled={disabled} onClick={() => {
           form.validateFields()
             .then((value) => {
               handleSubmit(value);
