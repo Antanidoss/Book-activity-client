@@ -1,5 +1,5 @@
 import { Col, message, Progress, Row } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { bookMain, bookTitle } from "../../books/bookForList/BookForListStyles";
 import UpdateActiveBookContainer from "./updateActiveBook/UpdateActiveBookContainer";
@@ -13,10 +13,15 @@ import AddBookNoteContainer from "./addBookNote/AddBookNoteContainer";
 import BookOpinionViewContainer from "./bookOpinionView/BookOpinionViewContainer";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
+    const [removeActiveBookButtonLoading, setRemoveActiveBookButtonLoading] = useState(false);
+
     const onClickRemoveActiveBook = () => {
+        setRemoveActiveBookButtonLoading(true);
+
         props.removeActiveBook(props.activeBook.id)
             .then(isSuccess => {
                 isSuccess ? message.success("The book has been successfully removed.", 6) : message.error("Failed to delete active workbook. Try again.", 6)
+                setRemoveActiveBookButtonLoading(false);
             });
     }
 
@@ -41,7 +46,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                         <UpdateActiveBookContainer totalNumberPages={props.activeBook.totalNumberPages} numberPagesRead={props.activeBook.numberPagesRead} activeBookId={props.activeBook.id} disableButton={progressPercent == 100} />
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>
-                        <ResizableButton shape="round" type="primary" icon={React.createElement(DeleteOutlined)} onClick={onClickRemoveActiveBook} titleOnResize={"Delete"} />
+                        <ResizableButton shape="round" type="primary" icon={React.createElement(DeleteOutlined)} onClick={onClickRemoveActiveBook} titleOnResize={"Delete"} loading={removeActiveBookButtonLoading} />
                     </Col>
                 </Row>
                 <Row>

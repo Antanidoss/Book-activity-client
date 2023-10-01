@@ -26,7 +26,8 @@ const ResizableButton: React.FC<PropsType> = (props) => {
             onClick={props.onClick}
             shape={props.shape}
             icon={props.icon}
-            style={props.style}>{curButtonTitle}</Button>
+            style={props.style}
+            loading={props.loading}>{curButtonTitle}</Button>
     )
 }
 
@@ -37,7 +38,8 @@ type PropsType = {
     icon: React.ReactNode,
     titleOnResize: string
     style?: CSSProperties,
-    disable?: boolean
+    disable?: boolean,
+    loading?: boolean
 }
 
 export default ResizableButton;
