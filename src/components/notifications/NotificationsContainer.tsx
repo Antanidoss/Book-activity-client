@@ -14,7 +14,7 @@ import { hubsApiConstants } from "../../types/common/hubsApiConstants";
 
 const NotificationsContainer: React.FC<PropsType> = (props) => {
     useEffect(() => {
-        if (!props.appInitialized) {
+        if (!props.appInitialized || !props.isAuthenticated) {
             return;
         }
 

@@ -9,6 +9,7 @@ import { UserFilterType } from "../../types/users/userFilterType";
 import { calculateSkip } from "../../types/common/paginationType";
 import { UserProfileType } from "../../types/users/userProfileType";
 import { CurrentUserType } from "../../types/users/currentUserType";
+import { ThunkResponseType } from "../../types/common/thunkResponseType";
 
 export type InitialStateType = {
     currentUser: CurrentUserType | null,
@@ -178,7 +179,7 @@ type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | Update
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
-export const authRequestThunkCreator = (email: string, password: string, rememberMe: boolean): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+export const authRequestThunkCreator = (email: string, password: string, rememberMe: boolean): ThunkAction<Promise<ThunkResponseType>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.auth(email, password, rememberMe);
         if (response.success) {
@@ -187,7 +188,7 @@ export const authRequestThunkCreator = (email: string, password: string, remembe
             dispatch(setCurrentUserData(result.userId, result.userName, result.avatarImage));
         }
 
-        return response.success;
+        return { isSuccess: response.success, errorMessage: response.errorMessage };
     }
 }
 

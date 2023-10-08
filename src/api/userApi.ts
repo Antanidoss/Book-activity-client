@@ -83,7 +83,7 @@ export const userApi = {
             userById(userId: "${userId}") {
                 id
                 userName
-                avatarImage
+                avatarDataBase64
                 subscriptionsCount
                 subscribersCount
                 ${ forCurrentUser ? "" : "isSubscribed" }

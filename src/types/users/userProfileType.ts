@@ -1,7 +1,7 @@
 export type UserProfileType = {
     id: string,
     userName: string,
-    avatarImage: ArrayBuffer,
+    avatarDataBase64: string,
     subscriptionsCount: number,
     subscribersCount: number,
     isSubscribed: boolean
