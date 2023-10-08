@@ -2,10 +2,13 @@ import { Form, Input, Checkbox, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { PropsType } from './LoginContainer';
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from 'antd/es/form/Form';
 
 const Login: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [form] = useForm();
+    const [formError, setFormError] = useState("");
 
     useEffect(() => {
         if (props.isAuthenticated) {
@@ -20,15 +23,16 @@ const Login: React.FC<PropsType> = (props) => {
     }
 
     const onFinish = (values: LoginDataType) => {
-        props.auth(values.email, values.password, values.rememberMe).then(isSuccess => {
-            if (isSuccess) {
+        setLoading(true);
+
+        props.auth(values.email, values.password, values.rememberMe).then(response => {
+            if (response.isSuccess) {
                 return navigate("/books");
             }
 
+            setFormError(response.errorMessage);
             setLoading(false);
         });
-
-        setLoading(true);
     };
 
     return (
@@ -37,11 +41,11 @@ const Login: React.FC<PropsType> = (props) => {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 8 }}
             style={{ marginTop: "15%" }}
-            onFinish={onFinish}>
-            <Form.Item
-                wrapperCol={{ offset: 11, span: 10, }}>
-                <div style={{ fontFamily: "Pacifico, cursive", fontSize: "30px" }}>Authorization</div>
-            </Form.Item>
+            onFinish={onFinish}
+            form={form}>
+
+            <div style={{textAlign: "center", fontFamily: "Pacifico, cursive", fontSize: "30px", marginBottom: "20px"}}>Authorization</div>
+            <div style={{textAlign: "center", color: "red"}}>{formError}</div>
 
             <Form.Item
                 label="Email"
@@ -61,7 +65,7 @@ const Login: React.FC<PropsType> = (props) => {
                 name="rememberMe"
                 valuePropName="checked"
                 label="Remember me"
-                labelCol={{sm: {offset: 11}}}>
+                labelCol={{ sm: { offset: 11 } }}>
                 <Checkbox></Checkbox>
             </Form.Item>
 
@@ -71,7 +75,7 @@ const Login: React.FC<PropsType> = (props) => {
                 </Button>
             </Form.Item>
 
-            <Form.Item style={{textAlign: "center"}} wrapperCol={{ span: 24 }}>
+            <Form.Item style={{ textAlign: "center" }} wrapperCol={{ span: 24 }}>
                 <Link to="/registration">Registration</Link>
             </Form.Item>
         </Form>
