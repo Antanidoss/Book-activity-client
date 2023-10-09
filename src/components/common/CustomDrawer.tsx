@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Drawer from 'react-modern-drawer'
 import {
     CloseOutlined
@@ -7,11 +7,12 @@ import { Button } from 'antd';
 
 const CustomDrawer: React.FC<PropsType> = (props) => {
     document.body.style.overflow = props.open ? 'hidden' : '';
+    const [open, setOpen] = useState(props.open ? true : false);
 
     return (
         <Drawer {...props}>
             <div style={{ display: "flex", flex: "0", alignItems: "center", padding: "16px 24px", lineHeight: "22px" }}>
-                <Button onClick={props.onClose} type="primary" shape="round" aria-label="Close"  className="ant-drawer-close" size="small" icon={React.createElement(CloseOutlined)} />
+                <Button onClick={props.onClose} type="primary" shape="round" aria-label="Close"  className="ant-drawer-close" icon={React.createElement(CloseOutlined)} />
             </div>
             {props.children}
         </Drawer>

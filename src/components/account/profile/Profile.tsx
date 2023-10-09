@@ -39,7 +39,7 @@ const Profile: React.FC<PropsType> = (props) => {
                         </Col>
                     </Col>
                     <Col style={{ marginLeft: "50px" }}>
-                        <ReadingCalendarStatistic {...props.statistic} />
+                        <ReadingCalendarStatistic statistic={props.statistic} userId={props.curUserId}  />
                     </Col>
                 </Row>
             </Col>

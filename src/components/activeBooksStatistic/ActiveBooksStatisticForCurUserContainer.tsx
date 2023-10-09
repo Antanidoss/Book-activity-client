@@ -17,7 +17,7 @@ const ActiveBooksStatisticForCurUserContainer: React.FC<PropsType> = (props) => 
         props.getActiveBooksStatistic().then(() => setLoading(false));
     }, [])
 
-    return loading ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div> : <ActiveBooksStatistic {...props.statistic} />
+    return loading ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div> : <ActiveBooksStatistic {...props} />
 }
 
 type MapDispatchToPropsType = {
@@ -33,9 +33,9 @@ type MapStateToPropsType = {
    isAuthenticated: boolean
 }
 
-const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
+const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
     statistic: getCurUserStatistics(state) as ActiveBooksStatisticType,
-    isAuthenticated: getIsAuthenticated(state),
+    isAuthenticated: getIsAuthenticated(state)
 })
 
 type OwnPropsType = {}
