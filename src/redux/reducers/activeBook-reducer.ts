@@ -7,13 +7,15 @@ import { calculateSkip, PaginationType } from '../../types/common/paginationType
 import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookNoteApi } from '../../api/bookNoteApi';
 import { ActiveBookFilterType } from '../../types/activeBooks/activeBookFilterType';
+import { ActiveBookStatisticByDayType } from '../../types/activeBooks/activeBookStatisticByDayType';
 
 export type InitialStateType = {
     pageSize: number
     pageNumber: number
     totalActiveBookCount: number
     activeBooks: Array<ActiveBookOfListType>,
-    filter: ActiveBookFilterType
+    filter: ActiveBookFilterType,
+    activeBookStatisticByDay?: Array<ActiveBookStatisticByDayType>
 }
 
 const initialState: InitialStateType = {
@@ -31,6 +33,7 @@ const ADD_BOOK_NOTE = "ADD_BOOK_NOTE";
 const UPDATE_FILTER = "UPDATE_FILTER"
 const UPDATE_CURRENT_PAGE_NUMBER = "UPDATE_CURRENT_PAGE_NUMBER";
 const UPDATE_TOTAL_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
+const SET_ACTIVE_BOOK_STATISTIC_BY_DAY = "SET_ACTIVE_BOOK_STATISTIC_BY_DAY";
 
 const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
@@ -126,6 +129,7 @@ type UpdateTotalCountType = {
 export const updateTotalCount = (totalCount: number): UpdateTotalCountType => ({
     type: UPDATE_TOTAL_COUNT, totalCount: totalCount
 })
+
 
 type ActionsTypes = SetActiveBooksType | UpdateActiveBookType | RemoveActiveBookType | AddBookNoteType | UpdateFilterType | UpdateCurrentPageNumberType | UpdateTotalCountType;
 type GetStateType = () => AppStoreType;

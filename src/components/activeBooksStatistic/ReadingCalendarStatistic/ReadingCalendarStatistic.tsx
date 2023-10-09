@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { ActiveBooksStatisticType, NumberOfPagesReadPerDay } from "../../../types/activeBooks/activeBooksStatisticType";
 import { Tooltip } from "antd";
 import date from 'date-and-time';
 import "./ReadingCalendarStatistic.css"
+import StatisticsPerDayContainer from "./StatisticsPerDay/StatisticsPerDayContainer";
 
-const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic: ActiveBooksStatisticType) => {
+const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, userId?: string}> = (props: {statistic: ActiveBooksStatisticType, userId?: string}) => {
+    const [curDaySelected, setCurDaySelected] = useState("");
+    const [showStatisticsPerDay, setShowStatisticsPerDay] = useState(false);
+
     const createCalendarStatiscs = () => {
         let result: Array<JSX.Element> = [];
         const rowCount = 7;
@@ -26,7 +30,7 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
 
         for (let j = 0; j < 52; j++) {
             formatDate = date.format(currentDate, "DD-MM-YYYY");
-            numberOfPagesReadPerDay = statistic.readingCalendar?.find(n => n.date === formatDate)
+            numberOfPagesReadPerDay = props.statistic.readingCalendar?.find(n => n.date === formatDate)
 
             let tooltipTitle: string;
             let backgroundColor: string;
@@ -39,9 +43,11 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
                 backgroundColor = "#4096ff";
             }
 
+            let formatDateForDayStatistic = date.format(currentDate, "MM.DD.YYYY");
+
             rowStatistics.unshift(
                 <Tooltip key={formatDate} title={tooltipTitle}>
-                    <td key={formatDate} data-date={formatDate} tabIndex={-1} className="calendarReading-day" style={{ backgroundColor: backgroundColor }} />
+                    <td key={formatDate} data-date={formatDate} tabIndex={-1} onClick={() => onClickDayStatistics(formatDateForDayStatistic)} className="calendarReading-day" style={{ backgroundColor: backgroundColor }} />
                 </Tooltip>
             )
 
@@ -60,13 +66,19 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
         for (let i = monthsCount; i >= 0; i--) {
             colSpan = i % 2 === 0 ? 5 : 4;
 
-            result.push(<td key={i} colSpan={colSpan} style={{ position: "relative" }}>
-                <span>{getMonthStrByNumber(date.addMonths(currentDate, -i).getMonth())}</span>
-                <span aria-hidden={true} style={{ position: "absolute", top: "0" }}></span>
-            </td>)
+            result.push(
+                <td key={i} colSpan={colSpan} style={{ position: "relative" }}>
+                    <span>{getMonthStrByNumber(date.addMonths(currentDate, -i).getMonth())}</span>
+                    <span aria-hidden={true} style={{ position: "absolute", top: "0" }}></span>
+                </td>)
         }
 
         return result;
+    }
+
+    const onClickDayStatistics = (day: string) => {
+        setCurDaySelected(day);
+        setShowStatisticsPerDay(!showStatisticsPerDay);
     }
 
     const getMonthStrByNumber = (monthNumber: number) => {
@@ -90,7 +102,7 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
         <>
             <div style={{ maxWidth: "100%", marginTop: "100px", textAlign: "center", overflowX: "auto" }}>
                 <div style={{ display: "inline-block" }}>
-                    <div style={{textAlign: "left", paddingBottom: "10px"}}>{statistic.numberPagesReadPerYear} pages read per year</div>
+                    <div style={{ textAlign: "left", paddingBottom: "10px" }}>{props.statistic.numberPagesReadPerYear} pages read per year</div>
                     <table id="calendarStatistics-table">
                         <thead>
                             <tr style={{ height: "13px" }}>
@@ -104,6 +116,8 @@ const ReadingCalendarStatistic: React.FC<ActiveBooksStatisticType> = (statistic:
                     </table>
                 </div>
             </div>
+
+            <StatisticsPerDayContainer day={curDaySelected} show={showStatisticsPerDay} userId={props.userId} onClose={() => {setShowStatisticsPerDay(false)}} />
         </>
     )
 }

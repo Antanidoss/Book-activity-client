@@ -4,16 +4,18 @@ import { activeBooksStatisticApi } from "../../api/activeBooksStatistic";
 import { isBadStatusCode } from "../../api/instanceAxios";
 import { ActiveBooksStatisticType } from "../../types/activeBooks/activeBooksStatisticType"
 import { AppStoreType } from "../redux-store";
+import { ActiveBookStatisticByDayType } from "../../types/activeBooks/activeBookStatisticByDayType";
 
 export type InitialStateType = {
-    curUserStatistic: ActiveBooksStatisticType | null
+    curUserStatistic?: ActiveBooksStatisticType,
+    activeBookStatisticsByDay?: Array<ActiveBookStatisticByDayType>
 }
 
 const initialState: InitialStateType = {
-    curUserStatistic: null
 }
 
 const ADD_ACTIVE_BOOKS_STATISTIC = "ADD_ACTIVE_BOOKS_STATISTIC";
+const SET_ACTIVE_BOOK_STATISTIC_BY_DAY = "SET_ACTIVE_BOOK_STATISTIC_BY_DAY";
 
 const activeBooksStatisticReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
     switch (actions.type) {
@@ -21,6 +23,11 @@ const activeBooksStatisticReducer = (state = initialState, actions: ActionsTypes
             return {
                 ...state,
                 curUserStatistic: actions.statistic
+            }
+        case SET_ACTIVE_BOOK_STATISTIC_BY_DAY:
+            return {
+                ...state,
+                activeBookStatisticsByDay: actions.activeBookStatisticsByDayType
             }
         default:
             return state;
@@ -34,7 +41,14 @@ const addActiveBooksStatistic = (statistic: ActiveBooksStatisticType): AddActive
     type: ADD_ACTIVE_BOOKS_STATISTIC, statistic
 })
 
-type ActionsTypes = AddActiveBookStatisticsType;
+type SetActiveBookStatisticByDayType = {
+    type: typeof SET_ACTIVE_BOOK_STATISTIC_BY_DAY, activeBookStatisticsByDayType: Array<ActiveBookStatisticByDayType>
+}
+const setActiveBookStatisticByDay = (activeBookStatisticsByDayType: Array<ActiveBookStatisticByDayType>): SetActiveBookStatisticByDayType => ({
+    type: SET_ACTIVE_BOOK_STATISTIC_BY_DAY, activeBookStatisticsByDayType
+})
+
+type ActionsTypes = AddActiveBookStatisticsType | SetActiveBookStatisticByDayType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -45,6 +59,17 @@ export const getActiveBooksStatisticThunkCreator = (userId?: string): ThunkType 
 
         if (success) {
             dispatch(addActiveBooksStatistic(response.data))
+        }
+    }
+}
+
+export const getActiveBookStatisticByDayThunkCreator = (day: string, userId?: string): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        var response = await activeBooksStatisticApi.getActiveBooksStatisticByDay(day, userId);
+        const success = !isBadStatusCode(response.status);
+
+        if (success) {
+            dispatch(setActiveBookStatisticByDay(response.data.result))
         }
     }
 }
