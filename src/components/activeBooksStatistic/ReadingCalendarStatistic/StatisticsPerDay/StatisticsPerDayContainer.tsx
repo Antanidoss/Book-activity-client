@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getActiveBookStatisticByDayThunkCreator } from "../../../../redux/reducers/activeBooksStatistic-reducer";
 import { ActiveBookStatisticByDayType } from "../../../../types/activeBooks/activeBookStatisticByDayType";
 import { getActiveBookStatisticsByDay } from "../../../../redux/selectors/activeBooksStatistic-selectors";
-import { AppStoreType } from "../../../../redux/redux-store";
-import { InferableComponentEnhancerWithProps, connect } from "react-redux";
+import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
+import { connect } from "react-redux";
 import { Spin } from "antd";
 import CustomDrawer from "../../../common/CustomDrawer";
 import StatisticsPerDay from "./StatisticsPerDay";
@@ -55,7 +55,6 @@ type OwnPropsType = {
     onClose: () => void
 }
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 

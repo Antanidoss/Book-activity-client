@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { connect, InferableComponentEnhancerWithProps } from "react-redux";
+import { connect } from "react-redux";
 import { compose } from "redux";
-import { AppStoreType } from "../../redux/redux-store";
+import { AppStoreType, ExtractConnectType } from "../../redux/redux-store";
 import { addNotification, getUserNotificationsThunkCreator } from "../../redux/reducers/userNotification-reducer";
 import { getNotifications, getNotificationsCount } from "../../redux/selectors/userNotification-selectors";
 import { UserNotificationType } from "../../types/users/userNotificationType";
@@ -66,7 +66,6 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
 
 type OwnPropsType = {}
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 

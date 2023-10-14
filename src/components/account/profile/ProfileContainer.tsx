@@ -1,8 +1,8 @@
 import { compose } from "@reduxjs/toolkit";
 import React, { useEffect, useState } from "react";
-import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
+import { connect } from 'react-redux';
 import { withAuthRedirect } from "../../../hoc/withAuthRedirect";
-import { AppStoreType } from "../../../redux/redux-store";
+import { AppStoreType, ExtractConnectType } from "../../../redux/redux-store";
 import { getUserProfileThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator, updateUserRequestThunkCreator } from "../../../redux/reducers/user-reducer";
 import { getCurUser, getIsAuthenticated, getUserProfile } from "../../../redux/selectors/user-selectors";
 import Profile from "./Profile";
@@ -67,7 +67,6 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
 
 type OwnPropsType = {}
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T;
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps);
 export type PropsType = ExtractConnectType<typeof connectStore>;
 

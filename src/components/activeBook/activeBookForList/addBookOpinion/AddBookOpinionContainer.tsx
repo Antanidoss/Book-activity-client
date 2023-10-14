@@ -1,7 +1,7 @@
 import React from "react";
-import { InferableComponentEnhancerWithProps, connect } from "react-redux";
+import { connect } from "react-redux";
 import { updateBookRatingRequestThunkCreator } from "../../../../redux/reducers/book-reducer";
-import { AppStoreType } from "../../../../redux/redux-store";
+import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
 import { getUserId } from "../../../../redux/selectors/user-selectors";
 import { BookOpinionType } from "../../../../types/books/bookOpinionType";
 import AddBookOpinion from "./AddBookOpinion";
@@ -40,7 +40,6 @@ type OwnPropsType = {
     bookOpinion?: BookOpinionType
 }
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 

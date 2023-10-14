@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { PropsType } from "./StatisticsPerDayContainer";
-import { Col, Divider, Row } from "antd";
+import { Col, Divider } from "antd";
 import { Link } from "react-router-dom";
-import date from 'date-and-time';
 
 const StatisticsPerDay: React.FC<PropsType> = (props) => {
     var statistics = props.activeBookStatisticsByDay !== undefined && props.activeBookStatisticsByDay.length != 0

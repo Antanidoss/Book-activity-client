@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addActiveBookRequestThunkCreator } from "../../../redux/reducers/activeBook-reducer"
-import { AppStoreType } from '../../../redux/redux-store'
+import { AppStoreType, ExtractConnectType } from '../../../redux/redux-store'
 import AddActiveBook from './AddActiveBook'
-import { InferableComponentEnhancerWithProps } from 'react-redux'
 import { setActiveBookStatus } from '../../../redux/reducers/book-reducer'
 
 const AddActiveBookContainer: React.FC<PropsType> = (props) => {
@@ -32,7 +31,6 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
     bookId: ownProps.bookId
 })
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 

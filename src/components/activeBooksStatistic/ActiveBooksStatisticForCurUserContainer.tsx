@@ -1,11 +1,11 @@
 import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
-import { connect, InferableComponentEnhancerWithProps } from "react-redux";
+import { connect } from "react-redux";
 import { compose } from "redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { getActiveBooksStatisticThunkCreator } from "../../redux/reducers/activeBooksStatistic-reducer";
 import { getCurUserStatistics } from "../../redux/selectors/activeBooksStatistic-selectors";
-import { AppStoreType } from "../../redux/redux-store";
+import { AppStoreType, ExtractConnectType } from "../../redux/redux-store";
 import { getIsAuthenticated } from "../../redux/selectors/user-selectors";
 import { ActiveBooksStatisticType } from "../../types/activeBooks/activeBooksStatisticType";
 import ActiveBooksStatistic from "./ActiveBooksStatistic";
@@ -17,7 +17,9 @@ const ActiveBooksStatisticForCurUserContainer: React.FC<PropsType> = (props) => 
         props.getActiveBooksStatistic().then(() => setLoading(false));
     }, [])
 
-    return loading ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div> : <ActiveBooksStatistic {...props} />
+    return loading
+        ? <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div>
+        : <ActiveBooksStatistic {...props} />
 }
 
 type MapDispatchToPropsType = {
@@ -40,7 +42,6 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
 
 type OwnPropsType = {}
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 

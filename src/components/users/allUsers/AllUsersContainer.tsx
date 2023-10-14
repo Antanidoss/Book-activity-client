@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { InferableComponentEnhancerWithProps, connect } from "react-redux";
-import { AppStoreType } from "../../../redux/redux-store";
+import { connect } from "react-redux";
+import { AppStoreType, ExtractConnectType } from "../../../redux/redux-store";
 import { getUsersByFilterThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator } from "../../../redux/reducers/user-reducer";
 import { getUserId, getUsers } from "../../../redux/selectors/user-selectors";
 import { UserOfListType } from "../../../types/users/userOfListType";
@@ -51,7 +51,6 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
 
 type OwnPropsType = {}
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 
