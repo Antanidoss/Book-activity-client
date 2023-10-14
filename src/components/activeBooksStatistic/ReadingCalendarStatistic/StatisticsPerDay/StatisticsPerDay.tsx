@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { PropsType } from "./StatisticsPerDayContainer";
-import { Col, Row } from "antd";
+import { Col, Divider, Row } from "antd";
 import { Link } from "react-router-dom";
+import date from 'date-and-time';
 
 const StatisticsPerDay: React.FC<PropsType> = (props) => {
     var statistics = props.activeBookStatisticsByDay !== undefined && props.activeBookStatisticsByDay.length != 0
         ? props.activeBookStatisticsByDay.map(statistics => {
             return (
-                <Col style={{fontSize: "15px", textAlign: "center", marginBottom: "20px"}}><Link to="#">{statistics.bookTitle}</Link>: {statistics.countPagesRead} pages read</Col>
+                <Col style={{fontSize: "15px", textAlign: "center", marginBottom: "25px"}}><Link to="#">{statistics.bookTitle}</Link>: {statistics.countPagesRead} pages read</Col>
             )
         })
-        : <div></div>
+        : "On this day you have not read"
 
     return (
-        <Col>
+        <Col style={{fontSize: "15px"}}>
+            <Divider>{new Date(props.day).toDateString()}</Divider>
             {statistics}
         </Col>
     )

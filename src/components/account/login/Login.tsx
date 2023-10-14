@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { PropsType } from './LoginContainer';
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'antd/es/form/Form';
+import FormErrorMessage from '../../common/FormErrorMessage';
 
 const Login: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
@@ -45,7 +46,7 @@ const Login: React.FC<PropsType> = (props) => {
             form={form}>
 
             <div style={{textAlign: "center", fontFamily: "Pacifico, cursive", fontSize: "30px", marginBottom: "20px"}}>Authorization</div>
-            <div style={{textAlign: "center", color: "red"}}>{formError}</div>
+            <FormErrorMessage errorMessage={formError} />
 
             <Form.Item
                 label="Email"

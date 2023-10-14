@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UploadImage from "../../common/UploadImage";
 import { PropsType } from "./RegistrationContainer";
+import FormErrorMessage from "../../common/FormErrorMessage";
 
 const Registration: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [formError, setFormError] = useState("");
 
     type RegisterDataType = {
         userName: string,
@@ -17,11 +19,12 @@ const Registration: React.FC<PropsType> = (props) => {
     }
 
     const onFinish = (values: RegisterDataType) => {
-        props.registration(values.userName, values.email, values.password, values.avatarImage).then(isSuccess => {
-            if (isSuccess) {
+        props.registration(values.userName, values.email, values.password, values.avatarImage).then(response => {
+            if (response.isSuccess) {
                 return navigate("/books");
             }
 
+            setFormError(response.errorMessage);
             setLoading(false);
         });
 
@@ -39,6 +42,8 @@ const Registration: React.FC<PropsType> = (props) => {
                 wrapperCol={{ offset: 11, span: 10, }}>
                 <div style={{ fontFamily: "Pacifico, cursive", fontSize: "30px" }}>Registration</div>
             </Form.Item>
+
+            <FormErrorMessage errorMessage={formError} />
 
             <Form.Item
                 label="Name"
