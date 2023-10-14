@@ -8,6 +8,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import authorReducer from "./reducers/author-reducer";
 import activeBooksStatisticReducer from "./reducers/activeBooksStatistic-reducer";
 import userNotificationReducer from "./reducers/userNotification-reducer";
+import { InferableComponentEnhancerWithProps } from "react-redux";
 
 const rootReducer = combineReducers({
     bookStore: bookReducer,
@@ -27,5 +28,7 @@ const store = createStore(rootReducer,
   composeWithDevTools(
     applyMiddleware(thunkMiddleware)
 ))
+
+export type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T;
 
 export default store;

@@ -1,7 +1,7 @@
 import React from "react";
-import { connect, InferableComponentEnhancerWithProps } from "react-redux";
+import { connect } from "react-redux";
 import { addBookNoteThunkCreator } from "../../../../redux/reducers/activeBook-reducer";
-import { AppStoreType } from "../../../../redux/redux-store";
+import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
 import AddBookNote from "./AddBookNote";
 
 const AddBookNoteContainer: React.FC<PropsType> = (props) => {
@@ -28,7 +28,6 @@ type OwnPropsType = {
     activeBookId: string
 }
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 

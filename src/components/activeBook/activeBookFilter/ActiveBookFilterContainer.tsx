@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
+import { connect } from 'react-redux';
 import { getActiveBooksByFilterThunkCreator, updateCurrentPageNumber, updateFilter } from '../../../redux/reducers/activeBook-reducer';
 import { getFilter } from '../../../redux/selectors/activeBook-selectors';
-import { AppStoreType } from '../../../redux/redux-store';
+import { AppStoreType, ExtractConnectType } from '../../../redux/redux-store';
 import { ActiveBookFilterType } from '../../../types/activeBooks/activeBookFilterType';
 import ActiveBookFilter from './ActiveBookFilter';
 
@@ -32,7 +32,6 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
 
 type OwnPropsType = {}
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 

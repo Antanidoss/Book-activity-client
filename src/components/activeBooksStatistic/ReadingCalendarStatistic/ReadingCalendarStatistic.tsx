@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ActiveBooksStatisticType, NumberOfPagesReadPerDay } from "../../../types/activeBooks/activeBooksStatisticType";
-import { Tooltip } from "antd";
+import { Col, Tooltip } from "antd";
 import date from 'date-and-time';
 import "./ReadingCalendarStatistic.css"
 import StatisticsPerDayContainer from "./StatisticsPerDay/StatisticsPerDayContainer";
@@ -61,9 +61,9 @@ const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, u
         let result: Array<JSX.Element> = [];
         let colSpan: number;
         const currentDate = new Date();
-        const monthsCount = 11;
+        const monthsCount = 12;
 
-        for (let i = monthsCount; i >= 0; i--) {
+        for (let i = monthsCount - 1; i >= 0; i--) {
             colSpan = i % 2 === 0 ? 5 : 4;
 
             result.push(
@@ -100,7 +100,7 @@ const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, u
 
     return (
         <>
-            <div style={{ maxWidth: "100%", marginTop: "100px", textAlign: "center", overflowX: "auto" }}>
+            <Col style={{ marginTop: "100px", textAlign: "center", overflowX: "auto" }}>
                 <div style={{ display: "inline-block" }}>
                     <div style={{ textAlign: "left", paddingBottom: "10px" }}>{props.statistic.numberPagesReadPerYear} pages read per year</div>
                     <table id="calendarStatistics-table">
@@ -115,7 +115,7 @@ const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, u
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </Col>
 
             <StatisticsPerDayContainer day={curDaySelected} show={showStatisticsPerDay} userId={props.userId} onClose={() => {setShowStatisticsPerDay(false)}} />
         </>

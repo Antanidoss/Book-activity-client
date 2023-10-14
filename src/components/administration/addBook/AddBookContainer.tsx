@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
+import { connect } from 'react-redux';
 import { addBookRequestThunkCreator } from '../../../redux/reducers/book-reducer';
 import { getAuthorsByNameRequestThunkCreator } from '../../../redux/reducers/author-reducer';
-import { AppStoreType } from '../../../redux/redux-store';
+import { AppStoreType, ExtractConnectType } from '../../../redux/redux-store';
 import AddBook from './AddBook';
 import { AuthorType } from '../../../types/authors/authorType';
 import { getAuthors } from '../../../redux/selectors/author-slectors';
@@ -29,7 +29,6 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     authors: getAuthors(state)
 })
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T;
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);
 export type PropsType = ExtractConnectType<typeof connectStore>;
 

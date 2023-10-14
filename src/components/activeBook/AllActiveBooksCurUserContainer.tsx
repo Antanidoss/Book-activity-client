@@ -1,11 +1,11 @@
 import { Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { connect, InferableComponentEnhancerWithProps } from 'react-redux';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { getActiveBooksByFilterThunkCreator, removeActiveBookThunkCreator } from '../../redux/reducers/activeBook-reducer';
 import { getActiveBooks, getPageNumber, getTotalActiveBookCount } from '../../redux/selectors/activeBook-selectors';
-import { AppStoreType } from '../../redux/redux-store';
+import { AppStoreType, ExtractConnectType } from '../../redux/redux-store';
 import { getIsAuthenticated } from '../../redux/selectors/user-selectors';
 import { ActiveBookOfListType } from '../../types/activeBooks/activeBookOfListType';
 import AllCurUserActiveBooks from './AllActiveBooksCurUser';
@@ -46,7 +46,6 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
 
 type OwnPropsType = {}
 
-type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 
