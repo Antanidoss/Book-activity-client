@@ -9,7 +9,7 @@ const ActiveBookPagination: React.FC<PropsType> = (props) => {
       };
 
     return (
-        <Pagination style={{display: "flex", justifyContent: "center", marginTop: "100px", marginBottom: "20px"}}
+        <Pagination style={{display: "flex", justifyContent: "center", marginTop: "80px", marginBottom: "20px"}}
             current={props.currentPage}
             total={props.totalActiveBookCount}
             defaultPageSize={props.pageSize}

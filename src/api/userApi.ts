@@ -40,7 +40,9 @@ export const userApi = {
             formData.append("avatarImage", avatarImage.file.originFileObj as Blob);
         }
 
-        return instanceAxios.post("/user/add", formData)
+        return instanceAxios.post<ResponseType>("/user/add", formData)
+            .then(() => ({ success: true, errorMessage: "" }))
+            .catch(error => ({ success: false, errorMessage: error.response.data }))
     },
     updateUser(userId: string, userName: string, avatarImage: UploadChangeParam<UploadFile> | undefined) {
         var formData = new FormData();
@@ -53,7 +55,7 @@ export const userApi = {
 
         return instanceAxios.post("/user/update", formData)
     },
-    getUsersByFilter(filter: UserFilterType, skip: number, take: number, currentUserId?: string) {
+    getUsersByFilter(filter: UserFilterType, skip: number, take: number) {
         let where = filter.name === null ? "" : `where: { userName: { contains: ${"\"" + filter.name + "\""} } }`
         const query = `query {
             users(skip: ${skip}, take: ${take}, ${where}) {
@@ -86,7 +88,7 @@ export const userApi = {
                 avatarDataBase64
                 subscriptionsCount
                 subscribersCount
-                ${ forCurrentUser ? "" : "isSubscribed" }
+                ${forCurrentUser ? "" : "isSubscribed"}
                 activeBooks {
                     id
                     totalNumberPages
@@ -100,6 +102,6 @@ export const userApi = {
             }
         }`
 
-        return instanceAxios.post<GraphqlResponseType<{userById: UserProfileType}>>(`/graphql`, { query: query }).then(res => res.data.data.userById);
+        return instanceAxios.post<GraphqlResponseType<{ userById: UserProfileType }>>(`/graphql`, { query: query }).then(res => res.data.data.userById);
     }
 }

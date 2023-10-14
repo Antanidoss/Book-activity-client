@@ -203,18 +203,17 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
     }
 }
 
-export const registrationUserRequestThunkCreator = (userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile>): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+export const registrationUserRequestThunkCreator = (userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile>): ThunkAction<Promise<ThunkResponseType>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await userApi.addUser(userName, email, password, avatarImage);
-        const success = !isBadStatusCode(response.status);
 
-        if (success) {
+        if (response.success) {
             const authResponse = await userApi.auth(email, password, true);
             dispatch(setAuthenticatedStatus(true));
             dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.avatarImage));
         }
 
-        return success;
+        return {isSuccess: response.success, errorMessage: response.errorMessage};
     }
 }
 
@@ -231,7 +230,7 @@ export const getUsersByFilterThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const state = getState().userStore;
         const skip = calculateSkip(state.pageNumber, state.pageSize);
-        const response = await userApi.getUsersByFilter(state.userFilter, skip, state.pageSize, state.currentUser?.id);
+        const response = await userApi.getUsersByFilter(state.userFilter, skip, state.pageSize);
 
         const users = response.data.users.items.map(u => {
             const user: UserOfListType = {
