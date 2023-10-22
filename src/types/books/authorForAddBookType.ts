@@ -1,4 +1,4 @@
-export type AuthorType = {
+export type AuthorForAddBookType = {
     id: string,
     firstName: string,
     surname: string

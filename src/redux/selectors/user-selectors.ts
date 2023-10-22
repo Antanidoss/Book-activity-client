@@ -21,13 +21,13 @@ export const getCurUser = (state: AppStoreType) => {
 }
 
 export const getUsers = (state: AppStoreType) => {
-    return state.userStore.users;
+    return state.userStore.allUsersPage.users;
 }
 
 export const getUserFilter = (state: AppStoreType) => {
-    return state.userStore.userFilter;
+    return state.userStore.allUsersPage.userFilter;
 }
 
 export const getUserProfile = (state: AppStoreType) => {
-    return state.userStore.userProfile;
+    return state.userStore.userProfilePage.userProfile;
 }

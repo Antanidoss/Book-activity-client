@@ -7,23 +7,25 @@ import { calculateSkip, PaginationType } from '../../types/common/paginationType
 import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookNoteApi } from '../../api/bookNoteApi';
 import { ActiveBookFilterType } from '../../types/activeBooks/activeBookFilterType';
-import { ActiveBookStatisticByDayType } from '../../types/activeBooks/activeBookStatisticByDayType';
 
-export type InitialStateType = {
-    pageSize: number
-    pageNumber: number
-    totalActiveBookCount: number
-    activeBooks: Array<ActiveBookOfListType>,
-    filter: ActiveBookFilterType,
-    activeBookStatisticByDay?: Array<ActiveBookStatisticByDayType>
+export type ActiveBookInitialStateType = {
+    allActiveBookPage: {
+        pageSize: number
+        pageNumber: number
+        totalActiveBookCount: number
+        activeBooks: Array<ActiveBookOfListType>,
+        filter: ActiveBookFilterType,
+    }
 }
 
-const initialState: InitialStateType = {
-    pageSize: 10,
-    pageNumber: 1,
-    totalActiveBookCount: 0,
-    activeBooks: [],
-    filter: { sortBy: 1, withFullRead: true }
+const initialState: ActiveBookInitialStateType = {
+    allActiveBookPage: {
+        pageSize: 10,
+        pageNumber: 1,
+        totalActiveBookCount: 0,
+        activeBooks: [],
+        filter: { sortBy: 1, withFullRead: true }
+    }
 }
 
 const SET_ACTIVE_BOOKS = "SET_ACTIVE_BOOKS";
@@ -33,48 +35,65 @@ const ADD_BOOK_NOTE = "ADD_BOOK_NOTE";
 const UPDATE_FILTER = "UPDATE_FILTER"
 const UPDATE_CURRENT_PAGE_NUMBER = "UPDATE_CURRENT_PAGE_NUMBER";
 const UPDATE_TOTAL_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
-const SET_ACTIVE_BOOK_STATISTIC_BY_DAY = "SET_ACTIVE_BOOK_STATISTIC_BY_DAY";
 
-const activeBookReducer = (state = initialState, actions: ActionsTypes): InitialStateType => {
+const activeBookReducer = (state = initialState, actions: ActionsTypes): ActiveBookInitialStateType => {
     switch (actions.type) {
         case SET_ACTIVE_BOOKS:
             return {
                 ...state,
-                activeBooks: actions.activeBooks,
+                allActiveBookPage: {
+                    ...state.allActiveBookPage,
+                    activeBooks: actions.activeBooks,
+                }
             }
         case UPDATE_ACTIVE_BOOK:
             return {
                 ...state,
-                activeBooks: state.activeBooks.map(a => {
-                    if (a.id === actions.activeBookId) {
-                        return {
-                            ...a,
-                            numberPagesRead: actions.numberPagesRead
+                allActiveBookPage: {
+                    ...state.allActiveBookPage,
+                    activeBooks: state.allActiveBookPage.activeBooks.map(a => {
+                        if (a.id === actions.activeBookId) {
+                            return {
+                                ...a,
+                                numberPagesRead: actions.numberPagesRead
+                            }
                         }
-                    }
-
-                    return a;
-                })
+    
+                        return a;
+                    })
+                }
             }
         case REMOVE_ACTIVE_BOOK:
             return {
                 ...state,
-                activeBooks: state.activeBooks.filter(a => a.id !== actions.activeBookId)
+                allActiveBookPage: {
+                    ...state.allActiveBookPage,
+                    activeBooks: state.allActiveBookPage.activeBooks.filter(a => a.id !== actions.activeBookId)
+                }
             }
         case UPDATE_FILTER:
             return {
                 ...state,
-                filter: actions.filter
+                allActiveBookPage: {
+                    ...state.allActiveBookPage,
+                    filter: actions.filter
+                }
             }
         case UPDATE_CURRENT_PAGE_NUMBER:
             return {
                 ...state,
-                pageNumber: actions.pageNumber
+                allActiveBookPage: {
+                    ...state.allActiveBookPage,
+                    pageNumber: actions.pageNumber
+                }
             }
         case UPDATE_TOTAL_COUNT:
             return {
                 ...state,
-                totalActiveBookCount: actions.totalCount
+                allActiveBookPage: {
+                    ...state.allActiveBookPage,
+                    totalActiveBookCount: actions.totalCount
+                }
             }
         default:
             return state;
@@ -149,9 +168,9 @@ export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalN
 export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const state = getState().activeBookStore;
-        const skip = calculateSkip(state.pageNumber, state.pageSize);
-        const pagination: PaginationType = { skip: skip, take: state.pageSize };
-        const response = await activeBookApi.getActiveBooksByFilter(state.filter, pagination);
+        const skip = calculateSkip(state.allActiveBookPage.pageNumber, state.allActiveBookPage.pageSize);
+        const pagination: PaginationType = { skip: skip, take: state.allActiveBookPage.pageSize };
+        const response = await activeBookApi.getActiveBooksByFilter(state.allActiveBookPage.filter, pagination);
 
         dispatch(setActiveBooks(response.data.activeBooks.items));
         dispatch(updateTotalCount(response.data.activeBooks.totalCount));

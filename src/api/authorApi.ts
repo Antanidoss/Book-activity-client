@@ -1,4 +1,4 @@
-import { AuthorType } from "../types/authors/authorType";
+import { AuthorForAddBookType } from "../types/books/authorForAddBookType";
 import instanceAxios from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 
@@ -8,7 +8,7 @@ export const authorApi = {
             .then(r => r.data);
     },
     getAuthorsByName(name: string, take: number) {
-        return instanceAxios.get<ResponseType<Array<AuthorType>>>(`/author/getByName?name=${name}&take=${take}`)
+        return instanceAxios.get<ResponseType<Array<AuthorForAddBookType>>>(`/author/getByName?name=${name}&take=${take}`)
             .then(r => r.data);
     },
 }

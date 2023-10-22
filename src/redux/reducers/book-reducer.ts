@@ -8,21 +8,33 @@ import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookRatingApi } from '../../api/bookRatingApi';
 import { BookFilterType, BookFilterTypeDefault } from '../../types/books/bookFilterType';
 import { AddBookType } from '../../types/books/addBookType';
+import { AuthorForAddBookType } from '../../types/books/authorForAddBookType';
+import { authorApi } from '../../api/authorApi';
 
 export type InitialStateType = {
-    pageSize: number
-    pageNumber: number
-    totalBookCount: number
-    books: Array<BookOfListType>,
-    bookFilter: BookFilterType
+    allBooksPage: {
+        pageSize: number
+        pageNumber: number
+        totalBookCount: number
+        books: Array<BookOfListType>,
+        bookFilter: BookFilterType
+    },
+    addBookPage: {
+        authors: Array<AuthorForAddBookType>
+    }
 }
 
 const initialState: InitialStateType = {
-    pageSize: 10,
-    pageNumber: 1,
-    totalBookCount: 0,
-    books: [] as Array<BookOfListType>,
-    bookFilter: BookFilterTypeDefault
+    allBooksPage: {
+        pageSize: 10,
+        pageNumber: 1,
+        totalBookCount: 0,
+        books: [] as Array<BookOfListType>,
+        bookFilter: BookFilterTypeDefault
+    },
+    addBookPage: {
+        authors: [] as Array<AuthorForAddBookType>
+    }
 }
 
 const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
@@ -31,62 +43,81 @@ const SET_ACTIVE_BOOK_STATUS = "SET_ACTIVE_BOOK_STATUS";
 const UPDATE_BOOK_RATING = "UPDATE_BOOK_RATING";
 const UPDATE_TOTAL_BOOK_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
 const UPDATE_BOOK_FILTER = "UPDATE_BOOK_FILTER";
+const SET_AUTHORS_FOR_ADD_BOOK = "SET_AUTHORS_FOR_ADD_BOOK";
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case UPDATE_PAGE_NUMBER:
             return {
                 ...state,
-                pageNumber: action.newPageNumber
+                allBooksPage: {
+                    ...state.allBooksPage,
+                    pageNumber: action.newPageNumber
+                }
             }
         case SET_BOOKS_DATA:
             return {
                 ...state,
-                books: action.books
+                allBooksPage: {
+                    ...state.allBooksPage,
+                    books: action.books
+                }
             }
         case SET_ACTIVE_BOOK_STATUS:
             return {
                 ...state,
-                books: state.books.map(b => {
-                    if (b.id === action.bookId) {
-                        return {
-                            ...b,
-                            isActiveBook: true
+                allBooksPage: {
+                    ...state.allBooksPage,
+                    books: state.allBooksPage.books.map(b => {
+                        if (b.id === action.bookId) {
+                            return {
+                                ...b,
+                                isActiveBook: true
+                            }
                         }
-                    }
-
-                    return b;
-                })
+    
+                        return b;
+                    })
+                }
             }
         case UPDATE_BOOK_RATING:
             return {
                 ...state,
-                books: state.books.map(b => {
-                    if (b.bookRating.id === action.bookRatingId) {
-                        return {
-                            ...b,
-                            bookRating: {
-                                ...b.bookRating,
-                                bookOpinions: b.bookRating.bookOpinions.concat({ grade: action.grade, description: action.description, userId: action.userId })
+                allBooksPage: {
+                    ...state.allBooksPage,
+                    books: state.allBooksPage.books.map(b => {
+                        if (b.bookRating.id === action.bookRatingId) {
+                            return {
+                                ...b,
+                                bookRating: {
+                                    ...b.bookRating,
+                                    bookOpinions: b.bookRating.bookOpinions.concat({ grade: action.grade, description: action.description, userId: action.userId })
+                                }
                             }
                         }
-                    }
-
-                    return b;
-                })
+    
+                        return b;
+                    })
+                }
             }
         case UPDATE_TOTAL_BOOK_COUNT:
             return {
                 ...state,
-                totalBookCount: action.totalBookCount
+                allBooksPage: {
+                    ...state.allBooksPage,
+                    totalBookCount: action.totalBookCount
+                }
             }
         case UPDATE_BOOK_FILTER:
             return {
                 ...state,
-                bookFilter: {
-                    bookTitle: action.bookFilter.bookTitle,
-                    averageRatingFrom: action.bookFilter.averageRatingFrom,
-                    averageRatingTo: action.bookFilter.averageRatingTo,
+                allBooksPage: {
+                    ...state.allBooksPage,
+                    bookFilter: {
+                        bookTitle: action.bookFilter.bookTitle,
+                        averageRatingFrom: action.bookFilter.averageRatingFrom,
+                        averageRatingTo: action.bookFilter.averageRatingTo,
+                    }
                 }
             }
         default:
@@ -136,16 +167,23 @@ export const updateBookFilter = (bookFilter: BookFilterType): UpdateBookFilterTy
     type: UPDATE_BOOK_FILTER, bookFilter: bookFilter
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType;
+type SetAuthorsForAddBookType = {
+    type: typeof SET_AUTHORS_FOR_ADD_BOOK, authors: Array<AuthorForAddBookType>
+}
+export const setAuthorsForAddBook = (authors: Array<AuthorForAddBookType>): SetAuthorsForAddBookType => ({
+    type: SET_AUTHORS_FOR_ADD_BOOK, authors: authors
+})
+
+type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const getBooksByFilter = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const bookState = getState().bookStore;
-        const skip = calculateSkip(bookState.pageNumber, bookState.pageSize);
-        const response = await bookApi.getBooksByFilter(bookState.bookFilter, skip, bookState.pageSize);
-        
+        const skip = calculateSkip(bookState.allBooksPage.pageNumber, bookState.allBooksPage.pageSize);
+        const response = await bookApi.getBooksByFilter(bookState.allBooksPage.bookFilter, skip, bookState.allBooksPage.pageSize);
+
         dispatch(setBooksData(response.data.books.items));
         dispatch(updateTotalBookCountType(response.data.books.totalCount));
     }
@@ -169,6 +207,17 @@ export const updateBookRatingRequestThunkCreator = (bookRatingId: string, grade:
         }
 
         return success;
+    }
+}
+
+export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<Promise<Array<AuthorForAddBookType>>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await authorApi.getAuthorsByName(name, 5);
+        if (response.success) {
+            dispatch(setAuthorsForAddBook(response.result));
+        }
+
+        return getState().bookStore.addBookPage.authors;
     }
 }
 
