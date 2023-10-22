@@ -12,25 +12,33 @@ import { CurrentUserType } from "../../types/users/currentUserType";
 import { ThunkResponseType } from "../../types/common/thunkResponseType";
 
 export type InitialStateType = {
-    currentUser: CurrentUserType | null,
+    currentUser?: CurrentUserType,
     isAuthenticated: boolean,
-    pageNumber: number,
-    totalUserCount: number,
-    pageSize: number,
-    userFilter: UserFilterType,
-    users: Array<UserOfListType>,
-    userProfile: UserProfileType | null
+    allUsersPage: {
+        pageNumber: number,
+        totalUserCount: number,
+        pageSize: number,
+        userFilter: UserFilterType,
+        users: Array<UserOfListType>,
+    },
+    userProfilePage: {
+        userProfile?: UserProfileType
+    }
 }
 
 const initialState: InitialStateType = {
-    currentUser: null,
+    currentUser: undefined,
     isAuthenticated: false,
-    pageNumber: 1,
-    totalUserCount: 0,
-    pageSize: 12,
-    userFilter: { name: null },
-    users: [] as Array<UserOfListType>,
-    userProfile: null
+    allUsersPage: {
+        pageNumber: 1,
+        totalUserCount: 0,
+        pageSize: 12,
+        userFilter: { name: null },
+        users: [] as Array<UserOfListType>,
+    },
+    userProfilePage: {
+        userProfile: undefined
+    }
 }
 
 const SET_CURRENT_USER_DATA = "SET_CURRENT_USER_DATA";
@@ -70,49 +78,69 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
         case SET_USERS:
             return {
                 ...state,
-                users: action.users
+                allUsersPage: {
+                    ...state.allUsersPage,
+                    users: action.users
+                }
             }
         case UPDATE_USER_FILTER:
             return {
                 ...state,
-                userFilter: action.filter
+                allUsersPage: {
+                    ...state.allUsersPage,
+                    userFilter: action.filter
+                }
             }
         case SET_USER_SUBSCRIPTIONS:
             return {
                 ...state,
-                users: state.users.map(u => {
-                    if (u.id === action.userId) {
-                        u.isSubscription = true;
+                allUsersPage: {
+                    ...state.allUsersPage,
+                    users: state.allUsersPage.users.map(u => {
+                        if (u.id === action.userId) {
+                            u.isSubscription = true;
+                        }
+    
+                        return u
+                    }),
+                },
+                userProfilePage: {
+                    ...state.userProfilePage,
+                    userProfile: {
+                        ...state.userProfilePage.userProfile as UserProfileType,
+                        isSubscribed: action.userId === state.userProfilePage.userProfile?.id,
+                        subscribersCount: state.userProfilePage.userProfile?.subscribersCount as number + 1
                     }
-
-                    return u
-                }),
-                userProfile: {
-                    ...state.userProfile as UserProfileType,
-                    isSubscribed: action.userId === state.userProfile?.id,
-                    subscribersCount: state.userProfile?.subscribersCount as number + 1
                 }
             }
         case REMOVE_USER_SUBSCRIPTIONS:
             return {
                 ...state,
-                users: state.users.map(u => {
-                    if (u.id === action.userId) {
-                        u.isSubscription = false;
+                allUsersPage: {
+                    ...state.allUsersPage,
+                    users: state.allUsersPage.users.map(u => {
+                        if (u.id === action.userId) {
+                            u.isSubscription = false;
+                        }
+    
+                        return u
+                    }),
+                },
+                userProfilePage: {
+                    ...state.userProfilePage,
+                    userProfile: {
+                        ...state.userProfilePage.userProfile as UserProfileType,
+                        isSubscribed: action.userId !== state.userProfilePage.userProfile?.id,
+                        subscribersCount: state.userProfilePage.userProfile?.subscribersCount as number - 1
                     }
-
-                    return u
-                }),
-                userProfile: {
-                    ...state.userProfile as UserProfileType,
-                    isSubscribed: action.userId !== state.userProfile?.id,
-                    subscribersCount: state.userProfile?.subscribersCount as number - 1
                 }
             }
         case SET_USER_PROFILE:
             return {
                 ...state,
-                userProfile: action.userProfile
+                userProfilePage: {
+                    userProfile: action.userProfile
+                }
             }
         default:
             return state;
@@ -213,7 +241,7 @@ export const registrationUserRequestThunkCreator = (userName: string, email: str
             dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.avatarImage));
         }
 
-        return {isSuccess: response.success, errorMessage: response.errorMessage};
+        return { isSuccess: response.success, errorMessage: response.errorMessage };
     }
 }
 
@@ -229,8 +257,8 @@ export const updateUserRequestThunkCreator = (userId: string, userName: string, 
 export const getUsersByFilterThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const state = getState().userStore;
-        const skip = calculateSkip(state.pageNumber, state.pageSize);
-        const response = await userApi.getUsersByFilter(state.userFilter, skip, state.pageSize);
+        const skip = calculateSkip(state.allUsersPage.pageNumber, state.allUsersPage.pageSize);
+        const response = await userApi.getUsersByFilter(state.allUsersPage.userFilter, skip, state.allUsersPage.pageSize);
 
         const users = response.data.users.items.map(u => {
             const user: UserOfListType = {

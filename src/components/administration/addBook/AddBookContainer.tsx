@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addBookRequestThunkCreator } from '../../../redux/reducers/book-reducer';
-import { getAuthorsByNameRequestThunkCreator } from '../../../redux/reducers/author-reducer';
+import { addBookRequestThunkCreator, getAuthorsByNameRequestThunkCreator } from '../../../redux/reducers/book-reducer';
 import { AppStoreType, ExtractConnectType } from '../../../redux/redux-store';
 import AddBook from './AddBook';
-import { AuthorType } from '../../../types/authors/authorType';
-import { getAuthors } from '../../../redux/selectors/author-slectors';
+import { AuthorForAddBookType } from '../../../types/books/authorForAddBookType';
+import { getAuthorsForAddBook } from '../../../redux/selectors/book-selectors';
 
 const AddBookContainer: React.FC<PropsType> = (props) => {
     return <AddBook {...props} />
@@ -22,11 +21,11 @@ const mapDispatchToProps: MapDispatchToPropsType = {
 }
 
 type MapStateToPropsType = {
-    authors: Array<AuthorType>
+    authors: Array<AuthorForAddBookType>
 }
 
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
-    authors: getAuthors(state)
+    authors: getAuthorsForAddBook(state)
 })
 
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);

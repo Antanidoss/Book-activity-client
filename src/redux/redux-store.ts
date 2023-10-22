@@ -5,19 +5,19 @@ import appReducer from "./reducers/app-reducer";
 import bookReducer from './reducers/book-reducer'
 import userReducer from "./reducers/user-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
-import authorReducer from "./reducers/author-reducer";
 import activeBooksStatisticReducer from "./reducers/activeBooksStatistic-reducer";
 import userNotificationReducer from "./reducers/userNotification-reducer";
 import { InferableComponentEnhancerWithProps } from "react-redux";
+import authorReducer from "./reducers/author-reducer";
 
 const rootReducer = combineReducers({
     bookStore: bookReducer,
     userStore: userReducer,
     appStore: appReducer,
     activeBookStore: activeBookReducer,
-    authorStore: authorReducer,
     activeBooksStatisticStore: activeBooksStatisticReducer,
-    userNotificationStore: userNotificationReducer
+    userNotificationStore: userNotificationReducer,
+    authorStore: authorReducer
 });
 
 type RootReducer = typeof rootReducer

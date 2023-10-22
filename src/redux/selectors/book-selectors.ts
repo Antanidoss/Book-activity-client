@@ -1,25 +1,29 @@
 import { AppStoreType } from "../redux-store";
 
 export const getPageNumber = (state: AppStoreType) => {
-    return state.bookStore.pageNumber;
+    return state.bookStore.allBooksPage.pageNumber;
 }
 
 export const getPageSize = (state: AppStoreType) => {
-    return state.bookStore.pageSize;
+    return state.bookStore.allBooksPage.pageSize;
 }
 
 export const getBooks = (state: AppStoreType) => {
-    return state.bookStore.books;
+    return state.bookStore.allBooksPage.books;
 }
 
 export const getTotalBookCount = (state: AppStoreType) => {
-    return state.bookStore.totalBookCount;
+    return state.bookStore.allBooksPage.totalBookCount;
 }
 
 export const getBookById = (state: AppStoreType, id: string) => {
-    return state.bookStore.books.find(b => b.id === id)
+    return state.bookStore.allBooksPage.books.find(b => b.id === id)
 }
 
 export const getBookFilter = (state: AppStoreType) => {
-    return state.bookStore.bookFilter
+    return state.bookStore.allBooksPage.bookFilter
+}
+
+export const getAuthorsForAddBook = (state: AppStoreType) => {
+    return state.bookStore.addBookPage.authors;
 }
