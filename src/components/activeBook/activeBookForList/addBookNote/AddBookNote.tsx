@@ -27,13 +27,13 @@ const AddBookNote: React.FC<PropsType> = (props) => {
 
     type AddBookNoteType = {
         note: string,
-        color: string
+        color: Color
     }
 
     const handleSubmit = (addBookNote: AddBookNoteType) => {
         setAddNoteButtonLoading(true);
 
-        props.addBookNote(props.activeBookId, addBookNote.note, addBookNote.color).then(isSuccess => {
+        props.addBookNote(props.activeBookId, addBookNote.note, addBookNote.color.toHexString()).then(isSuccess => {
             if (isSuccess) {
                 setIsModalVisible(false);
                 message.success("Book note has been successfully added", 6);
