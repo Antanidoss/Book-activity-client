@@ -10,6 +10,8 @@ import { calculateSkip } from "../../types/common/paginationType";
 import { UserProfileType } from "../../types/users/userProfileType";
 import { CurrentUserType } from "../../types/users/currentUserType";
 import { ThunkResponseType } from "../../types/common/thunkResponseType";
+import { BookNoteForProfileType } from "../../types/bookNote/bookNoteForProfile";
+import { bookNoteApi } from "../../api/bookNoteApi";
 
 export type InitialStateType = {
     currentUser?: CurrentUserType,
@@ -22,7 +24,8 @@ export type InitialStateType = {
         users: Array<UserOfListType>,
     },
     userProfilePage: {
-        userProfile?: UserProfileType
+        userProfile?: UserProfileType,
+        bookNotes?: Array<BookNoteForProfileType>
     }
 }
 
@@ -49,6 +52,7 @@ const UPDATE_USER_FILTER = "UPDATE_USER_FILTER";
 const SET_USER_SUBSCRIPTIONS = "SET_USER_SUBSCRIPTIONS";
 const REMOVE_USER_SUBSCRIPTIONS = "REMOVE_USER_SUBSCRIPTIONS";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
+const SET_BOOK_NOTES_PROFILE = "SET_BOOK_NOTES_PROFILE";
 
 const userReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -100,7 +104,7 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                         if (u.id === action.userId) {
                             u.isSubscription = true;
                         }
-    
+
                         return u
                     }),
                 },
@@ -122,7 +126,7 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                         if (u.id === action.userId) {
                             u.isSubscription = false;
                         }
-    
+
                         return u
                     }),
                 },
@@ -140,6 +144,14 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 ...state,
                 userProfilePage: {
                     userProfile: action.userProfile
+                }
+            }
+        case SET_BOOK_NOTES_PROFILE:
+            return {
+                ...state,
+                userProfilePage: {
+                    ...state.userProfilePage,
+                    bookNotes: action.bookNotes
                 }
             }
         default:
@@ -203,7 +215,14 @@ export const setUserProfile = (userProfile: UserProfileType): SetUserProfileType
     type: SET_USER_PROFILE, userProfile: userProfile
 })
 
-type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType | RemoveUserSubscriptionsType | SetUserProfileType;
+type SetBookNotesProfileType = {
+    type: typeof SET_BOOK_NOTES_PROFILE, bookNotes: Array<BookNoteForProfileType>
+}
+export const setBookNotesProfile = (bookNotes: Array<BookNoteForProfileType>): SetBookNotesProfileType => ({
+    type: SET_BOOK_NOTES_PROFILE, bookNotes: bookNotes
+})
+
+type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType | RemoveUserSubscriptionsType | SetUserProfileType | SetBookNotesProfileType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -306,6 +325,14 @@ export const getUserProfileThunkCreator = (userId: string, forCurrentUser: boole
         const userProfile = await userApi.getUserProfile(userId, forCurrentUser);
 
         dispatch(setUserProfile(userProfile))
+    }
+}
+
+export const getBookNotesProfileThunkCreator = (userId: string): ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const bookNotes = await bookNoteApi.getLastBookNotes(4, userId);
+
+        dispatch(setBookNotesProfile(bookNotes))
     }
 }
 
