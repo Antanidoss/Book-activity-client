@@ -196,9 +196,9 @@ export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<
     }
 }
 
-export const addBookNoteThunkCreator = (activeBookId: string, note: string, noteColor: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+export const addBookNoteThunkCreator = (activeBookId: string, note: string, noteColor: string, noteTextColor: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await bookNoteApi.addBookNote(activeBookId, note, noteColor);
+        const response = await bookNoteApi.addBookNote(activeBookId, note, noteColor, noteTextColor);
         const success = !isBadStatusCode(response.status);
         if (success) {
             dispatch(addBookNote(activeBookId, note, noteColor))

@@ -2,6 +2,7 @@ export type BookNoteForProfileType = {
     id: string,
     note: string,
     noteColor: string,
+    noteTextColor: string,
     activeBook: {
         book: {
             id: string,

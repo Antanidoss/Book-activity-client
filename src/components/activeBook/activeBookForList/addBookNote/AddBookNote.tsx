@@ -13,7 +13,8 @@ import { ocrApi } from '../../../../api/ocrApi';
 
 const AddBookNote: React.FC<PropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedColor, setSelectedColor] = useState("white");
+    const [selectedColor, setSelectedColor] = useState("#FFFFFF");
+    const [selectedTextColor, setSelectedTextColor] = useState("#000000");
     const [form] = Form.useForm();
     const [addNoteButtonLoading, setAddNoteButtonLoading] = useState(false);
 
@@ -27,13 +28,12 @@ const AddBookNote: React.FC<PropsType> = (props) => {
 
     type AddBookNoteType = {
         note: string,
-        color: Color
     }
 
     const handleSubmit = (addBookNote: AddBookNoteType) => {
         setAddNoteButtonLoading(true);
 
-        props.addBookNote(props.activeBookId, addBookNote.note, addBookNote.color.toHexString()).then(isSuccess => {
+        props.addBookNote(props.activeBookId, addBookNote.note, selectedColor, selectedTextColor).then(isSuccess => {
             if (isSuccess) {
                 setIsModalVisible(false);
                 message.success("Book note has been successfully added", 6);
@@ -47,6 +47,10 @@ const AddBookNote: React.FC<PropsType> = (props) => {
 
     const onSelectColor = (color: Color) => {
         setSelectedColor(color.toHexString());
+    }
+
+    const onSelectTextColor = (color: Color) => {
+        setSelectedTextColor(color.toHexString());
     }
 
     const onSelectImage = (fileInfo: UploadChangeParam<UploadFile>) => {
@@ -74,19 +78,25 @@ const AddBookNote: React.FC<PropsType> = (props) => {
                         Cancel
                     </Button>
                 ]}>
-                <Form id="addBookNoteForm" form={form}>
+                <Form id="addBookNoteForm" form={form} initialValues={{color: selectedColor, textColor: selectedTextColor}}>
                     <Row>
                         <Form.Item
                             label="Note color"
                             name="color">
-                            <ColorPicker value="#FFFFFF" onChangeComplete={onSelectColor} />
+                            <ColorPicker onChangeComplete={onSelectColor} />
                         </Form.Item>
-                        <UploadImage showUploadImage={false} fieldName="image" style={{ margin: "0 auto" }} onChange={onSelectImage} />
+                        <Form.Item
+                            style={{marginLeft: "30px"}}
+                            label="Text color"
+                            name="textColor">
+                            <ColorPicker onChangeComplete={onSelectTextColor} />
+                        </Form.Item>
+                        <UploadImage showUploadImage={false} fieldName="image" style={{ marginLeft: "50px" }} onChange={onSelectImage} />
                     </Row>
                     <Form.Item
                         label="Note"
                         name="note">
-                        <TextArea style={{ backgroundColor: selectedColor }} autoSize />
+                        <TextArea style={{ backgroundColor: selectedColor, color: selectedTextColor }} autoSize />
                     </Form.Item>
                 </Form>
             </Modal>

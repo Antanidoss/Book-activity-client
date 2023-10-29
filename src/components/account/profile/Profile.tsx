@@ -11,7 +11,7 @@ const Profile: React.FC<PropsType> = (props) => {
     return (
         <Col span={24} style={{ textAlign: "center" }}>
             <Col style={{ display: "inline-block" }}>
-                <Row style={{ flexFlow: "nowrap" }}>
+                <Row style={{ flexFlow: "nowrap", justifyContent: "center" }}>
                     <Col style={{ marginTop: "100px" }}>
                         <Col>
                             <Avatar icon={<Image preview={false} src={("data:image/png;base64," + props.userProfile.avatarDataBase64)} />} size={{ xs: 50, sm: 60, md: 130, lg: 150, xl: 160, xxl: 170, }} shape="circle" />
