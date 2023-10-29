@@ -30,9 +30,10 @@ const ProfileContainer: React.FC<PropsType> = (props) => {
         Promise.all([
             props.getActiveBooksStatistic(userId),
             props.getUserProfile(userId, forCurrentUser),
-            props.getBookNotes(userId),
-        ]).then(res => {
-            Promise.all(res).then(() => {
+        ]).then(() => {
+            Promise.all([
+                props.getBookNotes(userId)
+            ]).then(() => {
                 setLoading(false)
             })
         })
