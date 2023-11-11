@@ -7,7 +7,9 @@ const StatisticsPerDay: React.FC<PropsType> = (props) => {
     var statistics = props.activeBookStatisticsByDay !== undefined && props.activeBookStatisticsByDay.length != 0
         ? props.activeBookStatisticsByDay.map(statistics => {
             return (
-                <Col style={{fontSize: "15px", textAlign: "center", marginBottom: "25px"}}><Link to="#">{statistics.bookTitle}</Link>: {statistics.countPagesRead} pages read</Col>
+                <Col style={{fontSize: "15px", textAlign: "center", marginBottom: "25px"}}>
+                    <Link to={`/book?bookId=${statistics.bookId}`}>{statistics.bookTitle}</Link>: {statistics.countPagesRead} pages read
+                </Col>
             )
         })
         : "On this day you have not read"

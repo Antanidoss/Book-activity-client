@@ -10,6 +10,7 @@ import { BookFilterType, BookFilterTypeDefault } from '../../types/books/bookFil
 import { AddBookType } from '../../types/books/addBookType';
 import { AuthorForAddBookType } from '../../types/books/authorForAddBookType';
 import { authorApi } from '../../api/authorApi';
+import { BookInfoType } from '../../types/books/bookInfoType';
 
 export type InitialStateType = {
     allBooksPage: {
@@ -18,6 +19,9 @@ export type InitialStateType = {
         totalBookCount: number
         books: Array<BookOfListType>,
         bookFilter: BookFilterType
+    },
+    bookInfoPage: {
+        bookInfo?: BookInfoType
     },
     addBookPage: {
         authors: Array<AuthorForAddBookType>
@@ -32,18 +36,21 @@ const initialState: InitialStateType = {
         books: [] as Array<BookOfListType>,
         bookFilter: BookFilterTypeDefault
     },
+    bookInfoPage: {
+    },
     addBookPage: {
         authors: [] as Array<AuthorForAddBookType>
     }
 }
 
 const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
-const SET_BOOKS_DATA = "SET_BOOKS_DATA";
+const SET_BOOKS_LIST = "SET_BOOKS_LIST";
 const SET_ACTIVE_BOOK_STATUS = "SET_ACTIVE_BOOK_STATUS";
 const UPDATE_BOOK_RATING = "UPDATE_BOOK_RATING";
 const UPDATE_TOTAL_BOOK_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
 const UPDATE_BOOK_FILTER = "UPDATE_BOOK_FILTER";
 const SET_AUTHORS_FOR_ADD_BOOK = "SET_AUTHORS_FOR_ADD_BOOK";
+const SET_BOOK_INFO = "SET_BOOK_INFO";
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -55,7 +62,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     pageNumber: action.newPageNumber
                 }
             }
-        case SET_BOOKS_DATA:
+        case SET_BOOKS_LIST:
             return {
                 ...state,
                 allBooksPage: {
@@ -75,7 +82,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                                 isActiveBook: true
                             }
                         }
-    
+
                         return b;
                     })
                 }
@@ -95,7 +102,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                                 }
                             }
                         }
-    
+
                         return b;
                     })
                 }
@@ -120,6 +127,14 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     }
                 }
             }
+        case SET_BOOK_INFO:
+            return {
+                ...state,
+                bookInfoPage: {
+                    ...state.bookInfoPage,
+                    bookInfo: action.bookInfo
+                }
+            }
         default:
             return state;
     }
@@ -132,11 +147,11 @@ export const updateCurrentPage = (newPageNumber: number): UpdatePageNumberType =
     type: UPDATE_PAGE_NUMBER, newPageNumber: newPageNumber
 })
 
-type SetBooksDataType = {
-    type: typeof SET_BOOKS_DATA, books: Array<BookOfListType>
+type SetBooksListType = {
+    type: typeof SET_BOOKS_LIST, books: Array<BookOfListType>
 }
-export const setBooksData = (books: Array<BookOfListType>): SetBooksDataType => ({
-    type: SET_BOOKS_DATA, books: books
+export const setBooksList = (books: Array<BookOfListType>): SetBooksListType => ({
+    type: SET_BOOKS_LIST, books: books
 })
 
 type SetActiveBookStatusType = {
@@ -171,10 +186,17 @@ type SetAuthorsForAddBookType = {
     type: typeof SET_AUTHORS_FOR_ADD_BOOK, authors: Array<AuthorForAddBookType>
 }
 export const setAuthorsForAddBook = (authors: Array<AuthorForAddBookType>): SetAuthorsForAddBookType => ({
-    type: SET_AUTHORS_FOR_ADD_BOOK, authors: authors
+    type: SET_AUTHORS_FOR_ADD_BOOK, authors
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksDataType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType;
+type SetBookInfoType = {
+    type: typeof SET_BOOK_INFO, bookInfo: BookInfoType
+}
+export const setBookInfo = (bookInfo: BookInfoType): SetBookInfoType => ({
+    type: SET_BOOK_INFO, bookInfo
+})
+
+type ActionsTypes = UpdatePageNumberType | SetBooksListType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType | SetBookInfoType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -184,7 +206,7 @@ export const getBooksByFilter = (): ThunkType => {
         const skip = calculateSkip(bookState.allBooksPage.pageNumber, bookState.allBooksPage.pageSize);
         const response = await bookApi.getBooksByFilter(bookState.allBooksPage.bookFilter, skip, bookState.allBooksPage.pageSize);
 
-        dispatch(setBooksData(response.data.books.items));
+        dispatch(setBooksList(response.data.books.items));
         dispatch(updateTotalBookCountType(response.data.books.totalCount));
     }
 }
@@ -218,6 +240,28 @@ export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<P
         }
 
         return getState().bookStore.addBookPage.authors;
+    }
+}
+
+export const getBookInfoThunkCreator = (bookId: string): ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await bookApi.getBookInfo(bookId);
+        if (!isBadStatusCode(response.status)) {
+            dispatch(setBookInfo(response.data.data.bookById.map(i => {
+                return {
+                    id: i.id,
+                    title: i.title,
+                    description: i.description,
+                    imageDataBase64: i.imageDataBase64,
+                    bookOpinionsCount: i.bookOpinionsCount,
+                    isActiveBook: i.isActiveBook,
+                    averageRating: 0,
+                    hasOpinion: false,
+                    bookRatingId: "1",
+                    bookAuthorNames: i.bookAuthors.map(a => a.author.firstName + " " + a.author.surname)
+                }
+            })[0]));
+        }
     }
 }
 

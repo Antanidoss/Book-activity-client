@@ -35,7 +35,11 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
 
     return (
         <>
-            <ResizableButton style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize="Add review" />
+            {
+                props.resizableButton || props.resizableButton === undefined
+                    ? <ResizableButton style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize="Add review" />
+                    : <Button style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal}>Add review</Button>
+            }
             <Modal title="Add active book" open={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="submit" type="primary" htmlType="submit" onClick={() => {

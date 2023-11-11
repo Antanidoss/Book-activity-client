@@ -21,7 +21,8 @@ const mapDispatchToProps =  {
 type MapStateToPropsType = {
     bookId: string,
     bookRatingId: string,
-    userId: string
+    userId: string,
+    resizableButton?: boolean
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => {
@@ -30,14 +31,16 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
     return {
         bookId: ownProps.bookId,
         bookRatingId: ownProps.bookRatingId,
-        userId: curUserId
+        userId: curUserId,
+        resizableButton: ownProps.resizableButton
     }
 }
 
 type OwnPropsType = {
     bookId: string,
     bookRatingId: string,
-    bookOpinion?: BookOpinionType
+    bookOpinion?: BookOpinionType,
+    resizableButton?: boolean
 }
 
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
