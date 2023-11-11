@@ -2,8 +2,6 @@ import React from "react";
 import { BookNoteForProfileType } from "../../../../types/bookNote/bookNoteForProfile";
 import { Col, Divider, Row } from "antd";
 import { Link } from "react-router-dom";
-import TextArea from "antd/es/input/TextArea";
-import { getuid } from "process";
 
 const BookNotes: React.FC<{ bookNotes: Array<BookNoteForProfileType> }> = (props) => {
     if (props.bookNotes === undefined || props.bookNotes.length === 0) {

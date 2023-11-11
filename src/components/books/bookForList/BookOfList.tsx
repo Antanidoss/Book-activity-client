@@ -7,16 +7,15 @@ import AddActiveBookContainer from '../../activeBook/addActiveBook/AddActiveBook
 import {
     CheckOutlined
 } from "@ant-design/icons";
-import { arrayBufferToBase64 } from '../../../utils/imageUtil';
 
 const BookOfList: React.FC<BookOfListType> = (book) => {
     return (
         <div className="book-list-block-main">
             <Col span={24} style={bookMain}>
-                <Link to={"#"} style={{ color: "black" }}>
+                <Link to={`/book?bookId=${book.id}`} style={{ color: "black" }}>
                     <Col span={24} style={bookTitle}>{book.title}</Col>
                 </Link>
-                <Link to={"#"} style={{ textAlign: "center" }}>
+                <Link to={`/book?bookId=${book.id}`} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
                         <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + book.imageDataBase64} />
                     </Col>

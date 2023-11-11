@@ -27,3 +27,7 @@ export const getBookFilter = (state: AppStoreType) => {
 export const getAuthorsForAddBook = (state: AppStoreType) => {
     return state.bookStore.addBookPage.authors;
 }
+
+export const getBookInfo = (state: AppStoreType) => {
+    return state.bookStore.bookInfoPage.bookInfo;
+}

@@ -2,6 +2,7 @@ import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 import { BookFilterType } from "../types/books/bookFilterType";
 import { AddBookType } from "../types/books/addBookType";
 import { BooksFilterResultType } from "../types/books/bookFilterResultType";
+import { BookInfoGraphqlType, BookInfoType } from "../types/books/bookInfoType";
 
 export const bookApi = {
     getBooksByFilter(filterModel: BookFilterType, skip: number, take: number) {
@@ -30,6 +31,27 @@ export const bookApi = {
           }`
 
         return instanceAxios.post<GraphqlResponseType<BooksFilterResultType>>(`/graphql`, { query: query }).then(res => res.data);
+    },
+    getBookInfo(bookId: string) {
+      let query = `query {
+        bookById(bookId: "${bookId}") {
+          title
+          description,
+          isActiveBook,
+          imageDataBase64
+          bookAuthors {
+            author {
+              surname
+              firstName
+            }
+          }
+          bookRating {
+            calculateAverageRating
+          }
+        }
+      }`
+
+      return instanceAxios.post<GraphqlResponseType<BookInfoGraphqlType>>(`/graphql`, { query: query }).then(res => res); 
     },
     addBook(addBookModel: AddBookType) {
         var formData = new FormData();
