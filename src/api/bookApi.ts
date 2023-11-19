@@ -35,6 +35,7 @@ export const bookApi = {
     getBookInfo(bookId: string) {
       let query = `query {
         bookById(bookId: "${bookId}") {
+          id
           title
           description,
           isActiveBook,
@@ -46,7 +47,21 @@ export const bookApi = {
             }
           }
           bookRating {
+            id
             calculateAverageRating
+            bookOpinions(take: 4) {
+              totalCount
+              items {
+                grade
+                id
+                description
+                user {
+                  id,
+                  avatarDataBase64
+                  userName
+                }
+              }
+            }
           }
         }
       }`

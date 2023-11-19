@@ -253,12 +253,22 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkAction<Promise<voi
                     title: i.title,
                     description: i.description,
                     imageDataBase64: i.imageDataBase64,
-                    bookOpinionsCount: i.bookOpinionsCount,
+                    bookOpinionsCount: i.bookRating.bookOpinions.totalCount,
                     isActiveBook: i.isActiveBook,
-                    averageRating: 0,
+                    averageRating: i.bookRating.averageRating,
                     hasOpinion: false,
-                    bookRatingId: "1",
-                    bookAuthorNames: i.bookAuthors.map(a => a.author.firstName + " " + a.author.surname)
+                    bookRatingId: i.bookRating.id,
+                    bookAuthorNames: i.bookAuthors.map(a => a.author.firstName + " " + a.author.surname),
+                    bookOpinions: i.bookRating.bookOpinions.items.map(o => { return {
+                        id: o.id,
+                        description: o.description,
+                        grade: o.grade,
+                        user: {
+                            id: o.user.id,
+                            avatarDataBase64: o.user.avatarDataBase64,
+                            userName: o.user.userName
+                        }
+                    }})
                 }
             })[0]));
         }

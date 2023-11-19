@@ -23,7 +23,7 @@ const BookNotes: React.FC<{ bookNotes: Array<BookNoteForProfileType> }> = (props
                         }}>
                             <Col>
                                 <Divider orientation="center">
-                                    <Link to="#">
+                                    <Link to={`/book?bookId=${n.activeBook.book.id}`}>
                                         {n.activeBook.book.title}
                                     </Link>
                                 </Divider>
