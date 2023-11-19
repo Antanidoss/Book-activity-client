@@ -6,6 +6,7 @@ import { CheckOutlined } from "@ant-design/icons";
 import AddBookOpinionContainer from "../../activeBook/activeBookForList/addBookOpinion/AddBookOpinionContainer";
 import BookOpinionViewContainer from "../../activeBook/activeBookForList/bookOpinionView/BookOpinionViewContainer";
 import { Link } from "react-router-dom";
+import BookCommentsContainer from "./bookComments/BookCommentsContainer";
 
 const BookInfo: React.FC<PropsType> = (props) => {
     return (
@@ -17,11 +18,11 @@ const BookInfo: React.FC<PropsType> = (props) => {
                 <Col style={{ fontFamily: "Inter,sans-serif" }}>
                     <Row>
                         <Col>
-                            <Rate value={0} disabled allowHalf></Rate>
+                            <Rate value={props?.bookInfo?.averageRating} disabled allowHalf></Rate>
                         </Col>
-                        <Col style={{ marginLeft: "20px" }}>
+                        <Col style={{ marginLeft: "20px", alignSelf: "self-end" }}>
                             <Link to="#">
-                                {props.bookInfo?.bookOpinionsCount ?? 0} users rated
+                                {props.bookInfo?.bookOpinionsCount} users rated
                             </Link>
                         </Col>
                     </Row>
@@ -51,6 +52,7 @@ const BookInfo: React.FC<PropsType> = (props) => {
                 </Col>
                 <Col style={{ paddingTop: "50px", margin: "0 auto", width: "50%", fontSize: "15px" }}>
                     {props.bookInfo?.description}
+                    <BookCommentsContainer bookOpinions={props?.bookInfo?.bookOpinions} />
                 </Col>
             </Row>
         </Col>
