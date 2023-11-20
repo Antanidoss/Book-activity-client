@@ -34,6 +34,7 @@ export type BookInfoGraphqlType = {
         bookAuthors: Array<{ author: { firstName: string, surname: string } }>,
         bookRating: {
             id: string,
+            hasOpinion: boolean,
             bookOpinions: {
                 totalCount: number,
                 items: Array<{

@@ -23,9 +23,12 @@ export const bookApi = {
                 isActiveBook
                 imageDataBase64
                 bookRating {
-                  calculateAverageRating
+                  id
+                  averageRating
+                  bookOpinions {
+                    totalCount
+                  }
                 }
-                bookOpinionsCount
               }
             }
           }`
@@ -48,7 +51,7 @@ export const bookApi = {
           }
           bookRating {
             id
-            calculateAverageRating
+            hasOpinion
             bookOpinions(take: 4) {
               totalCount
               items {
@@ -62,6 +65,7 @@ export const bookApi = {
                 }
               }
             }
+            averageRating
           }
         }
       }`
