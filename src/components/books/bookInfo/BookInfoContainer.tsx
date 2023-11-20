@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BookInfoType } from "../../../types/books/bookInfoType";
 import { getBookInfoThunkCreator } from "../../../redux/reducers/book-reducer";
 import { getBookInfo } from "../../../redux/selectors/book-selectors";
@@ -7,17 +7,22 @@ import { compose } from "redux";
 import { connect } from 'react-redux';
 import { useQuery } from "../../../hoc/useQuery";
 import BookInfo from "./BookInfo";
+import { Spin } from "antd";
 
 const BookInfoContainer: React.FC<PropsType> = (props) => {
+    const [loading, setLoading] = useState(true);
     const query = useQuery();
     let bookId = query.get("bookId");
+
     useEffect(() => {
         if (bookId != null) {
-            props.getBookInfo(bookId as string);
+            props.getBookInfo(bookId as string).then(() => setLoading(false));
         }
     }, [bookId])
 
-    return <BookInfo {...props} />
+    return loading
+        ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+        : <BookInfo {...props} />
 }
 
 type MapStateToPropsType = {

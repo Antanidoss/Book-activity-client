@@ -4,7 +4,11 @@ import { Col, List, Image, Rate } from "antd";
 import { Link } from "react-router-dom";
 
 const BookComments: React.FC<PropsType> = (props) => {
-    const data = props?.bookOpinions?.map((o) => ({
+    if (!props.bookOpinions.length) {
+        return <></>;
+    }
+
+    const data = props.bookOpinions.map(o => ({
         title: <Link to={`/profile?userId=${o.user.id}`}>{o.user.userName}</Link>,
         avatar: <Link to={`/profile?userId=${o.user.id}`}><Image preview={false} style={{ width: "40px", maxHeight: "40px", borderRadius: "10px" }} src={("data:image/png;base64," + o.user.avatarDataBase64)} /></Link>,
         description: o.description,

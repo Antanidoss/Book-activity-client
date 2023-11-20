@@ -18,7 +18,7 @@ const BookInfo: React.FC<PropsType> = (props) => {
                 <Col style={{ fontFamily: "Inter,sans-serif" }}>
                     <Row>
                         <Col>
-                            <Rate value={props?.bookInfo?.averageRating} disabled allowHalf></Rate>
+                            <Rate value={props.bookInfo.averageRating} disabled allowHalf></Rate>
                         </Col>
                         <Col style={{ marginLeft: "20px", alignSelf: "self-end" }}>
                             <Link to="#">
@@ -26,33 +26,33 @@ const BookInfo: React.FC<PropsType> = (props) => {
                             </Link>
                         </Col>
                     </Row>
-                    <Col style={{ marginTop: "10px", fontSize: "22px" }}>{props.bookInfo?.title}</Col>
-                    <Col style={{ marginTop: "10px", fontSize: "15px" }}>{props.bookInfo?.bookAuthorNames.join(",")}</Col>
+                    <Col style={{ marginTop: "10px", fontSize: "22px" }}>{props.bookInfo.title}</Col>
+                    <Col style={{ marginTop: "10px", fontSize: "15px" }}>{props.bookInfo.bookAuthorNames.join(",")}</Col>
                     <Row style={{ marginTop: "15px" }}>
                         <Col>
                             {
                                 props.bookInfo?.isActiveBook
                                     ? <Button shape="round" type="primary" icon={React.createElement(CheckOutlined)}>Is active</Button>
-                                    : <AddActiveBookContainer bookId={props.bookInfo?.id} />
+                                    : <AddActiveBookContainer bookId={props.bookInfo.id} />
                             }
                         </Col>
                         <Col>
                             {
-                                !props.bookInfo?.hasOpinion
-                                    ? <AddBookOpinionContainer
-                                        bookId={props.bookInfo?.id}
-                                        bookRatingId={props.bookInfo?.bookRatingId as string}
+                                props.bookInfo.hasOpinion
+                                    ? <BookOpinionViewContainer
+                                        bookId={props.bookInfo.id}
+                                        bookRatingId={props.bookInfo.bookRatingId} />
+                                    : <AddBookOpinionContainer
+                                        bookId={props.bookInfo.id}
+                                        bookRatingId={props.bookInfo.bookRatingId}
                                         resizableButton={false} />
-                                    : <BookOpinionViewContainer
-                                        bookId={props.bookInfo?.id}
-                                        bookRatingId={props.bookInfo?.bookRatingId as string} />
                             }
                         </Col>
                     </Row>
                 </Col>
                 <Col style={{ paddingTop: "50px", margin: "0 auto", width: "50%", fontSize: "15px" }}>
-                    {props.bookInfo?.description}
-                    <BookCommentsContainer bookOpinions={props?.bookInfo?.bookOpinions} />
+                    {props.bookInfo.description}
+                    <BookCommentsContainer bookOpinions={props.bookInfo.bookOpinions} />
                 </Col>
             </Row>
         </Col>

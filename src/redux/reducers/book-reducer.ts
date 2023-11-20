@@ -98,7 +98,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                                 ...b,
                                 bookRating: {
                                     ...b.bookRating,
-                                    bookOpinions: b.bookRating.bookOpinions.concat({ grade: action.grade, description: action.description, userId: action.userId })
+                                    averageRating: action.averageRating
                                 }
                             }
                         }
@@ -162,10 +162,10 @@ export const setActiveBookStatus = (bookId: string): SetActiveBookStatusType => 
 })
 
 type UpdateBookRatingType = {
-    type: typeof UPDATE_BOOK_RATING, grade: number, bookRatingId: string, description: string, userId: string
+    type: typeof UPDATE_BOOK_RATING, averageRating: number, bookRatingId: string, description: string, userId: string
 }
-export const updateBookRating = (grade: number, bookRatingId: string, description: string, userId: string): UpdateBookRatingType => ({
-    type: UPDATE_BOOK_RATING, grade: grade, bookRatingId: bookRatingId, description: description, userId: userId
+export const updateBookRating = (averageRating: number, bookRatingId: string, description: string, userId: string): UpdateBookRatingType => ({
+    type: UPDATE_BOOK_RATING, averageRating: averageRating, bookRatingId: bookRatingId, description: description, userId: userId
 })
 
 type UpdateTotalBookCountType = {
@@ -223,6 +223,7 @@ export const addBookRequestThunkCreator = (addBookModel: AddBookType): ThunkActi
 export const updateBookRatingRequestThunkCreator = (bookRatingId: string, grade: number, description: string, userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookRatingApi.update(bookRatingId, grade, description);
+        //TODO: обновить рейтинг
         const success = !isBadStatusCode(response.status);
         if (success) {
             dispatch(updateBookRating(grade, bookRatingId, description, userId));
@@ -247,30 +248,28 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkAction<Promise<voi
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookApi.getBookInfo(bookId);
         if (!isBadStatusCode(response.status)) {
-            dispatch(setBookInfo(response.data.data.bookById.map(i => {
-                return {
-                    id: i.id,
-                    title: i.title,
-                    description: i.description,
-                    imageDataBase64: i.imageDataBase64,
-                    bookOpinionsCount: i.bookRating.bookOpinions.totalCount,
-                    isActiveBook: i.isActiveBook,
-                    averageRating: i.bookRating.averageRating,
-                    hasOpinion: false,
-                    bookRatingId: i.bookRating.id,
-                    bookAuthorNames: i.bookAuthors.map(a => a.author.firstName + " " + a.author.surname),
-                    bookOpinions: i.bookRating.bookOpinions.items.map(o => { return {
-                        id: o.id,
-                        description: o.description,
-                        grade: o.grade,
-                        user: {
-                            id: o.user.id,
-                            avatarDataBase64: o.user.avatarDataBase64,
-                            userName: o.user.userName
-                        }
-                    }})
-                }
-            })[0]));
+            dispatch(setBookInfo(response.data.data.bookById.map(i => ({
+                id: i.id,
+                title: i.title,
+                description: i.description,
+                imageDataBase64: i.imageDataBase64,
+                bookOpinionsCount: i.bookRating.bookOpinions.totalCount,
+                isActiveBook: i.isActiveBook,
+                averageRating: i.bookRating.averageRating,
+                bookRatingId: i.bookRating.id,
+                hasOpinion: i.bookRating.hasOpinion,
+                bookAuthorNames: i.bookAuthors.map(a => a.author.firstName + " " + a.author.surname),
+                bookOpinions: i.bookRating.bookOpinions.items.map(o => ({
+                    id: o.id,
+                    description: o.description,
+                    grade: o.grade,
+                    user: {
+                        id: o.user.id,
+                        avatarDataBase64: o.user.avatarDataBase64,
+                        userName: o.user.userName
+                    }
+                }))
+            }))[0]));
         }
     }
 }
