@@ -11,8 +11,10 @@ import { AddBookType } from '../../types/books/addBookType';
 import { AuthorForAddBookType } from '../../types/books/authorForAddBookType';
 import { authorApi } from '../../api/authorApi';
 import { BookInfoType } from '../../types/books/bookInfoType';
+import { BookOpinionType } from '../../types/books/bookOpinionType';
 
 export type InitialStateType = {
+    bookOpinion?: BookOpinionType,
     allBooksPage: {
         pageSize: number
         pageNumber: number
@@ -51,6 +53,7 @@ const UPDATE_TOTAL_BOOK_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
 const UPDATE_BOOK_FILTER = "UPDATE_BOOK_FILTER";
 const SET_AUTHORS_FOR_ADD_BOOK = "SET_AUTHORS_FOR_ADD_BOOK";
 const SET_BOOK_INFO = "SET_BOOK_INFO";
+const SET_BOOK_OPINION = "SET_BOOK_OPINION"
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -135,6 +138,11 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     bookInfo: action.bookInfo
                 }
             }
+        case SET_BOOK_OPINION:
+            return {
+                ...state,
+                bookOpinion: action.bookOpinion
+            }
         default:
             return state;
     }
@@ -196,7 +204,14 @@ export const setBookInfo = (bookInfo: BookInfoType): SetBookInfoType => ({
     type: SET_BOOK_INFO, bookInfo
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksListType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType | SetBookInfoType;
+type SetBookOpinionType = {
+    type: typeof SET_BOOK_OPINION, bookOpinion: BookOpinionType
+}
+export const setBookOpinion = (bookOpinion: BookOpinionType): SetBookOpinionType => ({
+    type: SET_BOOK_OPINION, bookOpinion
+})
+
+type ActionsTypes = UpdatePageNumberType | SetBooksListType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType | SetBookInfoType | SetBookOpinionType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -244,7 +259,7 @@ export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<P
     }
 }
 
-export const getBookInfoThunkCreator = (bookId: string): ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes> => {
+export const getBookInfoThunkCreator = (bookId: string): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookApi.getBookInfo(bookId);
         if (!isBadStatusCode(response.status)) {
@@ -270,6 +285,16 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkAction<Promise<voi
                     }
                 }))
             }))[0]));
+        }
+    }
+}
+
+export const getBookOpinionThunkCreator = (bookRatingId: string, userId: string): ThunkType => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await bookRatingApi.getBookOpinion(bookRatingId, userId);
+
+        if (!isBadStatusCode(response.status)) {
+            dispatch(setBookOpinion(response.data.data.bookOpinions.items[0]))
         }
     }
 }

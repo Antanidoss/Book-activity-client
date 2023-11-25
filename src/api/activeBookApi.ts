@@ -2,7 +2,7 @@ import { ActiveBookFilterType, SortBy } from "../types/activeBooks/activeBookFil
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 import { PaginationType } from "../types/common/paginationType";
-import { ActiveBooksFilterResultType } from "../types/activeBooks/activeBookFilterResultType";
+import { ActiveBooksFilterResultGraphqlType } from "../types/activeBooks/activeBookFilterResultType";
 
 export const activeBookApi = {
   addActiveBook(totalNumberPages: number, numberPagesRead: number, bookId: string) {
@@ -27,9 +27,9 @@ export const activeBookApi = {
       order = `timeOfUpdate: DESC`
     }
 
-    let where = filterModel.bookTitle === undefined ? "" : `where: { book: { title: { contains: ${"\"" + filterModel.bookTitle + "\""} } } }`
+    const where = filterModel.bookTitle === undefined ? "" : `where: { book: { title: { contains: ${"\"" + filterModel.bookTitle + "\""} } } }`
 
-    let query = `query {
+    const query = `query {
             activeBooks(
               skip: ${pagination.skip},
               take: ${pagination.take},
@@ -47,13 +47,15 @@ export const activeBookApi = {
                   title
                   imageDataBase64
                   bookRating {
-                    calculateAverageRating
+                    id
+                    averageRating
+                    hasOpinion
                   }
                 }
               }
             }
           }`
 
-    return instanceAxios.post<GraphqlResponseType<ActiveBooksFilterResultType>>(`/graphql`, { query: query }).then(res => res.data);
+    return instanceAxios.post<GraphqlResponseType<ActiveBooksFilterResultGraphqlType>>(`/graphql`, { query }).then(res => res.data);
   }
 };

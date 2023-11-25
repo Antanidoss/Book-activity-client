@@ -1,8 +1,20 @@
-import { ActiveBookOfListType } from "./activeBookOfListType"
-
-export type ActiveBooksFilterResultType = {
+export type ActiveBooksFilterResultGraphqlType = {
     activeBooks: { 
         totalCount: number,
-        items:  ActiveBookOfListType[]
+        items: Array<{
+            id: string,
+            totalNumberPages: number,
+            numberPagesRead: number,
+            book: {
+                id: string,
+                title: string,
+                imageDataBase64: string,
+                bookRating: {
+                    id: string,
+                    averageRating: number,
+                    hasOpinion: boolean
+                }
+            },
+        }>
     }
 }

@@ -41,11 +41,13 @@ const BookInfo: React.FC<PropsType> = (props) => {
                                 props.bookInfo.hasOpinion
                                     ? <BookOpinionViewContainer
                                         bookId={props.bookInfo.id}
-                                        bookRatingId={props.bookInfo.bookRatingId} />
+                                        bookRatingId={props.bookInfo.bookRatingId}
+                                        resizableButton={false} />
                                     : <AddBookOpinionContainer
                                         bookId={props.bookInfo.id}
                                         bookRatingId={props.bookInfo.bookRatingId}
-                                        resizableButton={false} />
+                                        resizableButton={false}
+                                        onAddedOpinion={() => props.getBookInfo(props.bookInfo.id)} />
                             }
                         </Col>
                     </Row>

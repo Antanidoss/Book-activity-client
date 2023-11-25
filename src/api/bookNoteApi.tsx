@@ -27,6 +27,6 @@ export const bookNoteApi = {
             }
           }`
 
-    return instanceAxios.post<GraphqlResponseType<BookNoteForProfileResultType>>(`/graphql`, { query: query }).then(res => res.data.data.bookNotes.items);
+    return instanceAxios.post<GraphqlResponseType<BookNoteForProfileResultType>>(`/graphql`, { query }).then(res => res.data.data.bookNotes.items);
   }
 }

@@ -1,5 +1,11 @@
 export type BookOpinionType = {
+    id: string,
     grade: number,
-    description: string,
-    userId: string
+    description: string
+}
+
+export type BookOpinionGraphqlType = {
+    bookOpinions: {
+        items: Array<BookOpinionType>
+    }
 }

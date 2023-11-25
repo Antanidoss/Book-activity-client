@@ -58,7 +58,7 @@ const activeBookReducer = (state = initialState, actions: ActionsTypes): ActiveB
                                 numberPagesRead: actions.numberPagesRead
                             }
                         }
-    
+
                         return a;
                     })
                 }
@@ -172,7 +172,20 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
         const pagination: PaginationType = { skip: skip, take: state.allActiveBookPage.pageSize };
         const response = await activeBookApi.getActiveBooksByFilter(state.allActiveBookPage.filter, pagination);
 
-        dispatch(setActiveBooks(response.data.activeBooks.items));
+        dispatch(setActiveBooks(response.data.activeBooks.items.map(a => ({
+            id: a.id,
+            book: {
+                id: a.book.id,
+                averageRating: a.book.bookRating.averageRating,
+                imageDataBase64: a.book.imageDataBase64,
+                title: a.book.title,
+                bookRatingId: a.book.bookRating.id,
+            },
+            hasOpinion: a.book.bookRating.hasOpinion,
+            numberPagesRead: a.numberPagesRead,
+            totalNumberPages: a.totalNumberPages
+        }))));
+        
         dispatch(updateTotalCount(response.data.activeBooks.totalCount));
     }
 }
