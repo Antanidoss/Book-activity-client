@@ -22,7 +22,8 @@ type MapStateToPropsType = {
     bookId: string,
     bookRatingId: string,
     userId: string,
-    resizableButton?: boolean
+    resizableButton?: boolean,
+    onAddedOpinion?: () => void
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => {
@@ -32,7 +33,8 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
         bookId: ownProps.bookId,
         bookRatingId: ownProps.bookRatingId,
         userId: curUserId,
-        resizableButton: ownProps.resizableButton
+        resizableButton: ownProps.resizableButton,
+        onAddedOpinion: ownProps.onAddedOpinion
     }
 }
 
@@ -40,7 +42,8 @@ type OwnPropsType = {
     bookId: string,
     bookRatingId: string,
     bookOpinion?: BookOpinionType,
-    resizableButton?: boolean
+    resizableButton?: boolean,
+    onAddedOpinion?: () => void
 }
 
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)

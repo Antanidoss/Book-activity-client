@@ -19,6 +19,13 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
     const handleSubmit = (addOpinion: AddOpinionType) => {
         props.updateRating(props.bookRatingId, addOpinion.grade, addOpinion.description, props.userId)
             .then(isSuccess => {
+                if (isSuccess) {
+                    message.success("Review added", 6);
+                    props.onAddedOpinion?.();
+                }
+                else {
+                    message.error("Failed to add review. Try again", 6)
+                }
                 return isSuccess ? message.success("Review added", 6) : message.error("Failed to add review. Try again", 6)
             })
 
@@ -40,7 +47,7 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
                     ? <ResizableButton style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize="Add review" />
                     : <Button style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal}>Add review</Button>
             }
-            <Modal title="Add active book" open={isModalVisible} onCancel={handleCancel}
+            <Modal title="Add book opinion" open={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="submit" type="primary" htmlType="submit" onClick={() => {
                         form.validateFields()

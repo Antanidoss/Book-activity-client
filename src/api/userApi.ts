@@ -72,7 +72,7 @@ export const userApi = {
               }
         }`
 
-        return instanceAxios.post<GraphqlResponseType<UserFilterResultType>>(`/graphql`, { query: query }).then(res => res.data);
+        return instanceAxios.post<GraphqlResponseType<UserFilterResultType>>(`/graphql`, { query }).then(res => res.data);
     },
     subscribeToUser(userId: string) {
         return instanceAxios.put(`/user/subscribeUser?subscribedUserId=${userId}`);
@@ -81,7 +81,7 @@ export const userApi = {
         return instanceAxios.delete(`/user/unsubscribe?unsubscribedUserId=${userId}`);
     },
     getUserProfile(userId: string, forCurrentUser: boolean) {
-        let query = `query {
+        const query = `query {
             userById(userId: "${userId}") {
                 id
                 userName
@@ -102,6 +102,6 @@ export const userApi = {
             }
         }`
 
-        return instanceAxios.post<GraphqlResponseType<{ userById: UserProfileType }>>(`/graphql`, { query: query }).then(res => res.data.data.userById);
+        return instanceAxios.post<GraphqlResponseType<{ userById: UserProfileType }>>(`/graphql`, { query }).then(res => res.data.data.userById);
     }
 }

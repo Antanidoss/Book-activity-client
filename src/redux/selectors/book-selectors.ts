@@ -31,3 +31,7 @@ export const getAuthorsForAddBook = (state: AppStoreType) => {
 export const getBookInfo = (state: AppStoreType) => {
     return state.bookStore.bookInfoPage.bookInfo;
 }
+
+export const getBookOpinion = (state: AppStoreType) => {
+    return state.bookStore.bookOpinion;
+}
