@@ -1,13 +1,13 @@
 import { BookOpinionGraphqlType } from "../types/books/bookOpinionType";
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 
-export const bookRatingApi = {
-    update(bookRatingId: string, grade: number, description: string) {
-        return instanceAxios.put("/bookRating/update", { bookRatingId, grade, description });
+export const bookOpinionApi = {
+    update(bookId: string, grade: number, description: string) {
+        return instanceAxios.post("/bookOpinion/add", { bookId, grade, description });
     },
-    getBookOpinion(bookRatingId: string, userId: string) {
+    getBookOpinion(bookId: string, userId: string) {
         let query = `query {
-            bookOpinions(take: 1, where: {bookRatingId: {eq: "${bookRatingId}"}, and: {userId: {eq: "${userId}"} }}) {
+            bookOpinions(take: 1, where: {bookId: {eq: "${bookId}"}, and: {userId: {eq: "${userId}"} }}) {
               items {
                 id
                 description

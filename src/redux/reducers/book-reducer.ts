@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { bookApi } from '../../api/bookApi';
 import { calculateSkip } from '../../types/common/paginationType';
 import { isBadStatusCode } from '../../api/instanceAxios';
-import { bookRatingApi } from '../../api/bookRatingApi';
+import { bookOpinionApi } from '../../api/bookOpinionApi';
 import { BookFilterType, BookFilterTypeDefault } from '../../types/books/bookFilterType';
 import { AddBookType } from '../../types/books/addBookType';
 import { AuthorForAddBookType } from '../../types/books/authorForAddBookType';
@@ -96,13 +96,10 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 allBooksPage: {
                     ...state.allBooksPage,
                     books: state.allBooksPage.books.map(b => {
-                        if (b.bookRating.id === action.bookRatingId) {
+                        if (b.id === action.bookId) {
                             return {
                                 ...b,
-                                bookRating: {
-                                    ...b.bookRating,
-                                    averageRating: action.averageRating
-                                }
+                                averageRating: action.averageRating
                             }
                         }
 
@@ -170,10 +167,10 @@ export const setActiveBookStatus = (bookId: string): SetActiveBookStatusType => 
 })
 
 type UpdateBookRatingType = {
-    type: typeof UPDATE_BOOK_RATING, averageRating: number, bookRatingId: string, description: string, userId: string
+    type: typeof UPDATE_BOOK_RATING, averageRating: number, bookId: string, description: string, userId: string
 }
-export const updateBookRating = (averageRating: number, bookRatingId: string, description: string, userId: string): UpdateBookRatingType => ({
-    type: UPDATE_BOOK_RATING, averageRating: averageRating, bookRatingId: bookRatingId, description: description, userId: userId
+export const updateBookRating = (averageRating: number, bookId: string, description: string, userId: string): UpdateBookRatingType => ({
+    type: UPDATE_BOOK_RATING, averageRating: averageRating, bookId, description,userId
 })
 
 type UpdateTotalBookCountType = {
@@ -235,13 +232,13 @@ export const addBookRequestThunkCreator = (addBookModel: AddBookType): ThunkActi
     }
 }
 
-export const updateBookRatingRequestThunkCreator = (bookRatingId: string, grade: number, description: string, userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+export const addBookOpinionThunkCreator = (bookId: string, grade: number, description: string, userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await bookRatingApi.update(bookRatingId, grade, description);
+        const response = await bookOpinionApi.update(bookId, grade, description);
         //TODO: обновить рейтинг
         const success = !isBadStatusCode(response.status);
         if (success) {
-            dispatch(updateBookRating(grade, bookRatingId, description, userId));
+            dispatch(updateBookRating(grade, bookId, description, userId));
         }
 
         return success;
@@ -268,14 +265,12 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkType => {
                 title: i.title,
                 description: i.description,
                 imageDataBase64: i.imageDataBase64,
-                bookOpinionsCount: i.bookRating.bookOpinions.totalCount,
+                bookOpinionsCount: i.bookOpinions.totalCount,
                 isActiveBook: i.isActiveBook,
-                averageRating: i.bookRating.averageRating,
-                bookRatingId: i.bookRating.id,
-                hasOpinion: i.bookRating.hasOpinion,
+                averageRating: i.averageRating,
+                hasOpinion: i.hasOpinion,
                 bookAuthorNames: i.bookAuthors.map(a => a.author.firstName + " " + a.author.surname),
-                bookOpinions: i.bookRating.bookOpinions.items.map(o => ({
-                    id: o.id,
+                bookOpinions: i.bookOpinions.items.map(o => ({
                     description: o.description,
                     grade: o.grade,
                     user: {
@@ -291,7 +286,7 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkType => {
 
 export const getBookOpinionThunkCreator = (bookRatingId: string, userId: string): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await bookRatingApi.getBookOpinion(bookRatingId, userId);
+        const response = await bookOpinionApi.getBookOpinion(bookRatingId, userId);
 
         if (!isBadStatusCode(response.status)) {
             dispatch(setBookOpinion(response.data.data.bookOpinions.items[0]))

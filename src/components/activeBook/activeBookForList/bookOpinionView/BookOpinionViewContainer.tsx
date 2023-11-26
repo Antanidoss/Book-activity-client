@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getBookOpinionThunkCreator, updateBookRatingRequestThunkCreator } from "../../../../redux/reducers/book-reducer";
+import { getBookOpinionThunkCreator, addBookOpinionThunkCreator } from "../../../../redux/reducers/book-reducer";
 import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
 import { getUserId } from "../../../../redux/selectors/user-selectors";
 import { BookOpinionType } from "../../../../types/books/bookOpinionType";
@@ -12,18 +12,17 @@ const BookOpinionViewContainer: React.FC<PropsType> = (props) => {
 }
 
 type MapDispatchToPropsType = {
-    updateRating: typeof updateBookRatingRequestThunkCreator,
+    addBookOpinion: typeof addBookOpinionThunkCreator,
     getBookOpinion: typeof getBookOpinionThunkCreator
 }
 
 const mapDispatchToProps = {
-    updateRating: updateBookRatingRequestThunkCreator,
+    addBookOpinion: addBookOpinionThunkCreator,
     getBookOpinion: getBookOpinionThunkCreator
 }
 
 type MapStateToPropsType = {
     bookId: string,
-    bookRatingId: string,
     userId: string,
     bookOpinion: BookOpinionType | undefined,
     resizableButton?: boolean
@@ -31,7 +30,6 @@ type MapStateToPropsType = {
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
     bookId: ownProps.bookId,
-    bookRatingId: ownProps.bookRatingId,
     bookOpinion: getBookOpinion(state),
     userId: getUserId(state) as string,
     resizableButton: ownProps.resizableButton
@@ -39,7 +37,6 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
 
 type OwnPropsType = {
     bookId: string,
-    bookRatingId: string,
     resizableButton?: boolean
 }
 

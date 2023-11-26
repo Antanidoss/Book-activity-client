@@ -7,13 +7,11 @@ export type BookInfoType = {
     isActiveBook: boolean,
     averageRating: number,
     hasOpinion: boolean,
-    bookRatingId: string,
     bookAuthorNames: Array<string>
     bookOpinions: Array<BookOpinionForBookInfo>
 }
 
 export type BookOpinionForBookInfo = {
-    id: string,
     description: string,
     grade: number
     user: {
@@ -30,25 +28,20 @@ export type BookInfoGraphqlType = {
         description: string,
         imageDataBase64: string,
         isActiveBook: boolean,
-        averageRating: number,
         bookAuthors: Array<{ author: { firstName: string, surname: string } }>,
-        bookRating: {
-            id: string,
-            hasOpinion: boolean,
-            bookOpinions: {
-                totalCount: number,
-                items: Array<{
+        hasOpinion: boolean,
+        averageRating: number,
+        bookOpinions: {
+            totalCount: number,
+            items: Array<{
+                description: string,
+                grade: number
+                user: {
                     id: string,
-                    description: string,
-                    grade: number
-                    user: {
-                        id: string,
-                        avatarDataBase64: string,
-                        userName: string
-                    }
-                }>
-            },
-            averageRating: number,
-        }
+                    avatarDataBase64: string,
+                    userName: string
+                }
+            }>
+        },
     }>
 }

@@ -30,10 +30,10 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
     return (
         <div className="book-list-block-main">
             <Col span={24} style={bookMain}>
-                <Link to={`/book?bookId=${props.activeBook.book.id}`} style={{ color: "black" }}>
-                    <Col span={24} style={bookTitle}>{props.activeBook.book.title}</Col>
-                </Link>
-                <Link to={`/book?bookId=${props.activeBook.book.id}`}style={{ textAlign: "center" }}>
+                <Col span={24} style={bookTitle} title={props.activeBook.book.title}>
+                    <Link to={`/book?bookId=${props.activeBook.book.id}`} style={{ color: "black" }}>{props.activeBook.book.title}</Link>
+                </Col>
+                <Link to={`/book?bookId=${props.activeBook.book.id}`} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
                         <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + props.activeBook.book.imageDataBase64} />
                     </Col>
@@ -52,13 +52,9 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
                 <Row>
                     <Col span={17} style={{ marginTop: "10px" }}>
                         {
-                            !props.activeBook.hasOpinion
-                                ? <AddBookOpinionContainer
-                                    bookId={props.activeBook.book.id}
-                                    bookRatingId={props.activeBook.book.bookRatingId as string} />
-                                : <BookOpinionViewContainer
-                                    bookId={props.activeBook.book.id}
-                                    bookRatingId={props.activeBook.book.bookRatingId as string} />
+                            !props.activeBook.book.hasOpinion
+                                ? <AddBookOpinionContainer bookId={props.activeBook.book.id} />
+                                : <BookOpinionViewContainer bookId={props.activeBook.book.id} />
                         }
                     </Col>
                     <Col span={4} style={{ marginTop: "10px" }}>
