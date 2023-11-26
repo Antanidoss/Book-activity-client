@@ -13,7 +13,6 @@ const BookComments: React.FC<PropsType> = (props) => {
         avatar: <Link to={`/profile?userId=${o.user.id}`}><Image preview={false} style={{ width: "40px", maxHeight: "40px", borderRadius: "10px" }} src={("data:image/png;base64," + o.user.avatarDataBase64)} /></Link>,
         description: o.description,
         grade: <Rate value={o.grade} disabled />,
-        bookOpinionId: o.id
     }));
 
     return (
@@ -24,7 +23,7 @@ const BookComments: React.FC<PropsType> = (props) => {
                 itemLayout="vertical"
                 dataSource={data}
                 renderItem={(item) => (
-                    <List.Item key={item.bookOpinionId}>
+                    <List.Item key={Math.random().toString(16).slice(2)}>
                         <List.Item.Meta avatar={item.avatar} title={item.title}>
                         </List.Item.Meta>
                             {item.description}

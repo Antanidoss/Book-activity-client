@@ -176,12 +176,11 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
             id: a.id,
             book: {
                 id: a.book.id,
-                averageRating: a.book.bookRating.averageRating,
+                averageRating: a.book.averageRating,
                 imageDataBase64: a.book.imageDataBase64,
                 title: a.book.title,
-                bookRatingId: a.book.bookRating.id,
+                hasOpinion: a.book.hasOpinion,
             },
-            hasOpinion: a.book.bookRating.hasOpinion,
             numberPagesRead: a.numberPagesRead,
             totalNumberPages: a.totalNumberPages
         }))));

@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Rate, Spin } from "antd";
+import { Button, Col, Form, Modal, Rate, Spin } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useState } from "react";
 import { PropsType } from "./BookOpinionViewContainer";
@@ -18,7 +18,7 @@ const BookOpinionView: React.FC<PropsType> = (props) => {
     const showModal = () => {
         setIsModalVisible(true);
         if (props.bookOpinion === undefined) {
-            props.getBookOpinion(props.bookRatingId, props.userId).then(_ => setLoading(false));
+            props.getBookOpinion(props.bookId, props.userId).then(_ => setLoading(false));
         }
     };
 
@@ -39,19 +39,10 @@ const BookOpinionView: React.FC<PropsType> = (props) => {
                 {
                     loading
                         ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
-                        : <Form initialValues={{ description: props.bookOpinion?.description, grade: props.bookOpinion?.grade }}>
-                            <Form.Item
-                                label="Description"
-                                name="description"
-                                rules={[{ required: true, message: "Please input number pages read!" }]}>
-                                <TextArea rows={10} disabled={true} />
-                            </Form.Item>
-                            <Form.Item
-                                label="Grade"
-                                name="grade">
-                                <Rate allowHalf disabled={true} />
-                            </Form.Item>
-                        </Form>
+                        : <Col>
+                            <TextArea value={props.bookOpinion?.description} rows={10} disabled={true} autoSize style={{maxHeight: "700px"}} />
+                            <Rate value={props.bookOpinion?.grade} allowHalf disabled={true} />
+                        </Col>
                 }
             </Modal>
         </>

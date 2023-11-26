@@ -46,11 +46,8 @@ export const activeBookApi = {
                   id
                   title
                   imageDataBase64
-                  bookRating {
-                    id
-                    averageRating
-                    hasOpinion
-                  }
+                  averageRating
+                  hasOpinion
                 }
               }
             }

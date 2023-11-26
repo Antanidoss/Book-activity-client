@@ -11,6 +11,7 @@ export const bookTitle: CSSProperties = {
     textAlign: "center",
     paddingBottom: "20px",
     fontSize: "18px",
-    height: "100px",
-    paddingTop: "10px"
+    height: "85px",
+    paddingTop: "10px",
+    overflow: "hidden"
 }

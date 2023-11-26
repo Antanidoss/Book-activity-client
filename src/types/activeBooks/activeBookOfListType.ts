@@ -6,8 +6,7 @@ export type ActiveBookOfListType = {
         id: string,
         title: string,
         imageDataBase64: string,
-        bookRatingId?: string,
         averageRating: number
+        hasOpinion: boolean
     }
-    hasOpinion: boolean
 }

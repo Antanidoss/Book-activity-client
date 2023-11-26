@@ -96,7 +96,7 @@ const AddBookNote: React.FC<PropsType> = (props) => {
                     <Form.Item
                         label="Note"
                         name="note">
-                        <TextArea style={{ backgroundColor: selectedColor, color: selectedTextColor }} autoSize />
+                        <TextArea style={{ backgroundColor: selectedColor, color: selectedTextColor, maxHeight: "700px" }} autoSize />
                     </Form.Item>
                 </Form>
             </Modal>

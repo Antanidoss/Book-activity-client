@@ -17,7 +17,7 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
     }
 
     const handleSubmit = (addOpinion: AddOpinionType) => {
-        props.updateRating(props.bookRatingId, addOpinion.grade, addOpinion.description, props.userId)
+        props.addBookOpinion(props.bookId, addOpinion.grade, addOpinion.description, props.userId)
             .then(isSuccess => {
                 if (isSuccess) {
                     message.success("Review added", 6);
@@ -26,7 +26,6 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
                 else {
                     message.error("Failed to add review. Try again", 6)
                 }
-                return isSuccess ? message.success("Review added", 6) : message.error("Failed to add review. Try again", 6)
             })
 
         setIsModalVisible(false);
@@ -64,10 +63,9 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
                 ]}>
                 <Form id="addBookOpinionForm" form={form}>
                     <Form.Item
-                        label="Description"
                         name="description"
                         rules={[{ required: true, message: "Please input number pages read!" }]}>
-                        <TextArea rows={10} />
+                        <TextArea placeholder="Description" rows={10} autoSize style={{maxHeight: "700px"}} />
                     </Form.Item>
                     <Form.Item
                         label="Grade"
