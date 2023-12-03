@@ -10,7 +10,10 @@ export type ActiveBooksFilterResultGraphqlType = {
                 title: string,
                 imageDataBase64: string,
                 averageRating: number,
-                hasOpinion: boolean
+                hasOpinion: boolean,
+                bookOpinions: {
+                    totalCount: number
+                }
             },
         }>
     }

@@ -3,3 +3,9 @@ export type AuthorForAddBookType = {
     firstName: string,
     surname: string
 }
+
+export type AuthorForAddBookGraphqlType = {
+    authors: {
+        items: Array<AuthorForAddBookType>
+    }
+}
