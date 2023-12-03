@@ -1,5 +1,5 @@
-import { AuthorForAddBookType } from "../types/books/authorForAddBookType";
-import instanceAxios from "./instanceAxios";
+import { AuthorForAddBookGraphqlType, AuthorForAddBookType } from "../types/books/authorForAddBookType";
+import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 
 export const authorApi = {
@@ -8,7 +8,16 @@ export const authorApi = {
             .then(r => r.data);
     },
     getAuthorsByName(name: string, take: number) {
-        return instanceAxios.get<ResponseType<Array<AuthorForAddBookType>>>(`/author/getByName?name=${name}&take=${take}`)
-            .then(r => r.data);
+        let query = `query {
+            authors(where: {firstName: {contains: "${name}"}, or: {surname: {contains: "${name}"} }}, take: ${take}) {
+                items {
+                    id
+                    firstName
+                    surname
+                }
+              }
+          }`
+
+        return instanceAxios.post<GraphqlResponseType<AuthorForAddBookGraphqlType>>(`/graphql`, { query: query }).then(res => res);
     },
 }

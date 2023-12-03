@@ -34,10 +34,9 @@ const AddBook: React.FC<PropsType> = (props) => {
         fieldLabel: "Authors",
         transformToOptions(items) {
             return items.map(a => {
-                var authorFullName = `${a.surname} ${a.firstName} ${a.patronymic}`;
                 return {
                     value: a.id,
-                    label: authorFullName
+                    label: `${a.firstName} ${a.surname}`
                 };
             })
         }

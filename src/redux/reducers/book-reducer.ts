@@ -248,11 +248,11 @@ export const addBookOpinionThunkCreator = (bookId: string, grade: number, descri
 export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<Promise<Array<AuthorForAddBookType>>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await authorApi.getAuthorsByName(name, 5);
-        if (response.success) {
-            dispatch(setAuthorsForAddBook(response.result));
+        if (!isBadStatusCode(response.status)) {
+            return dispatch(setAuthorsForAddBook(response.data.data.authors.items)).authors;
         }
 
-        return getState().bookStore.addBookPage.authors;
+        return [];
     }
 }
 
