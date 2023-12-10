@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Drawer from 'react-modern-drawer'
 import {
     CloseOutlined
@@ -7,7 +7,6 @@ import { Button } from 'antd';
 
 const CustomDrawer: React.FC<PropsType> = (props) => {
     document.body.style.overflow = props.open ? 'hidden' : '';
-    const [open, setOpen] = useState(props.open ? true : false);
 
     return (
         <Drawer {...props}>

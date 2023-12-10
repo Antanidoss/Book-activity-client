@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { PropsType } from "./NotificationsContainer";
 import { NotificationOutlined } from '@ant-design/icons';
-import { Badge, Col, Row } from "antd";
+import { Badge, Button, Col, Row } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 
 const Notifications: React.FC<PropsType> = (props) => {
     const [isOpenNotificationsList, changeDisplayNotificationsList] = useState(false)
     const items = props.notifications.map(n => {
         return (
-            <Row style={{ padding: "20px", borderBottom: "1px solid #d0d7de" }} key={n.id}>
-                {n.description}
+            <Row style={{ padding: "20px", borderBottom: "1px solid #d0d7de", width: "100%" }} key={n.id}>
+                <Col style={{ width: "85%" }}>
+                    {n.description}
+                </Col>
+                <Col style={{ float: "right" }}><Button size="small" type="primary" shape="round" aria-label="Close" icon={React.createElement(CloseOutlined)} /></Col>
             </Row>
         )
     })
@@ -17,13 +21,23 @@ const Notifications: React.FC<PropsType> = (props) => {
         <>
             <Col style={{ float: "right" }}>
                 <Col>
-                <Col style={{float: "right"}}>
-                <Badge color="red" count={props.notificationCount} size="small" style={{ bottom: "15px" }}>
-                        <NotificationOutlined rev style={{ color: "white", }} onMouseEnter={() => changeDisplayNotificationsList(!isOpenNotificationsList)} />
-                    </Badge>
+                    <Col style={{ float: "right" }} onMouseEnter={() => changeDisplayNotificationsList(!isOpenNotificationsList)}>
+                        <Badge color="red" count={props.notificationCount} size="small" style={{ bottom: "15px", cursor: "pointer" }}>
+                            <NotificationOutlined rev style={{ color: "white" }} />
+                        </Badge>
+                    </Col>
                 </Col>
-                </Col>
-                <Col onMouseLeave={() => changeDisplayNotificationsList(!isOpenNotificationsList)} style={{ backgroundColor: "white", zIndex: "1", maxHeight: "600px", overflowY: "scroll", display: isOpenNotificationsList ? "block" : "none" }}>
+                <Col onMouseLeave={() => changeDisplayNotificationsList(!isOpenNotificationsList)} style={{
+                    width: "400px",
+                    border: "1px solid #d0d7de",
+                    backgroundColor: "whitesmoke",
+                    zIndex: "1",
+                    maxHeight: "600px",
+                    overflowY: "scroll",
+                    overflowX: "hidden",
+                    borderRadius: "10px",
+                    display: isOpenNotificationsList ? "block" : "none"
+                }}>
                     {items}
                 </Col>
             </Col>
