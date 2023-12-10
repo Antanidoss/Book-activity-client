@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const SERVER_ADDRESS = "https://localhost:5001"
+export const SERVER_ADDRESS = "http://localhost:5000"
 
 const instanceAxios = axios.create({
     withCredentials: true,
