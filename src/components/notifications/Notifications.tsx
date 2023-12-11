@@ -12,7 +12,9 @@ const Notifications: React.FC<PropsType> = (props) => {
                 <Col style={{ width: "85%" }}>
                     {n.description}
                 </Col>
-                <Col style={{ float: "right" }}><Button size="small" type="primary" shape="round" aria-label="Close" icon={React.createElement(CloseOutlined)} /></Col>
+                <Col style={{ float: "right" }}>
+                    <Button onClick={() => props.removeNotification(n.id)} size="small" type="primary" shape="round" aria-label="Close" icon={React.createElement(CloseOutlined)} />
+                </Col>
             </Row>
         )
     })
