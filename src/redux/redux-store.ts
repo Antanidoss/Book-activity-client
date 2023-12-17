@@ -6,7 +6,7 @@ import bookReducer from './reducers/book-reducer'
 import userReducer from "./reducers/user-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import activeBooksStatisticReducer from "./reducers/activeBooksStatistic-reducer";
-import userNotificationReducer from "./reducers/userNotification-reducer";
+import userNotificationReducer from "./reducers/notification-reducer";
 import { InferableComponentEnhancerWithProps } from "react-redux";
 import authorReducer from "./reducers/author-reducer";
 

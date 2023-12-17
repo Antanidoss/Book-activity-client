@@ -2,11 +2,11 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { isBadStatusCode } from "../../api/instanceAxios";
 import { userNotificationApi } from "../../api/userNotificationApi";
-import { UserNotificationType } from "../../types/users/userNotificationType"
+import { NotificationType as NotificationType } from "../../types/users/notificationType"
 import { AppStoreType } from "../redux-store";
 
 export type InitialStateType = {
-    notifications: Array<UserNotificationType>
+    notifications: Array<NotificationType>
 }
 
 const initialState: InitialStateType = {
@@ -40,16 +40,16 @@ const userNotificationReducer = (state = initialState, actions: ActionsTypes): I
 }
 
 type SetUserNotificationsType = {
-    type: typeof SET_USER_NOTIFICATIONS, notifications: Array<UserNotificationType>
+    type: typeof SET_USER_NOTIFICATIONS, notifications: Array<NotificationType>
 }
-export const setUserNotifications = (notifications: Array<UserNotificationType>): SetUserNotificationsType => ({
+export const setUserNotifications = (notifications: Array<NotificationType>): SetUserNotificationsType => ({
     type: SET_USER_NOTIFICATIONS, notifications: notifications
 })
 
 type AddNotificationType = {
-    type: typeof ADD_USER_NOTIFICATION, notification: UserNotificationType
+    type: typeof ADD_USER_NOTIFICATION, notification: NotificationType
 }
-export const addNotification = (notification: UserNotificationType): AddNotificationType => ({
+export const addNotification = (notification: NotificationType): AddNotificationType => ({
     type: ADD_USER_NOTIFICATION, notification: notification
 })
 

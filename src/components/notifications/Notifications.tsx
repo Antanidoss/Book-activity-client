@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PropsType } from "./NotificationsContainer";
 import { NotificationOutlined } from '@ant-design/icons';
-import { Badge, Button, Col, Row } from "antd";
+import { Avatar, Badge, Button, Col, Row, Image } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
 const Notifications: React.FC<PropsType> = (props) => {
@@ -9,6 +9,9 @@ const Notifications: React.FC<PropsType> = (props) => {
     const items = props.notifications.map(n => {
         return (
             <Row style={{ padding: "20px", borderBottom: "1px solid #d0d7de", width: "100%" }} key={n.id}>
+                <Col style={{ width: "85%" }}>
+                    <Avatar><Image preview={false} width={"32px"} src={("data:image/png;base64," + n.avatarDataBase64)} /></Avatar>
+                </Col>
                 <Col style={{ width: "85%" }}>
                     {n.description}
                 </Col>
@@ -30,7 +33,7 @@ const Notifications: React.FC<PropsType> = (props) => {
                     </Col>
                 </Col>
                 <Col onMouseLeave={() => changeDisplayNotificationsList(!isOpenNotificationsList)} style={{
-                    width: "400px",
+                    width: "450px",
                     border: "1px solid #d0d7de",
                     backgroundColor: "whitesmoke",
                     zIndex: "1",
