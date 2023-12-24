@@ -1,4 +1,4 @@
-export interface NotificationType {
+export interface SignalRNotification {
     NotificationId: string,
     MessageNotification: string
 }
