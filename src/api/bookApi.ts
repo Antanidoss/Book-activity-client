@@ -53,6 +53,14 @@ export const bookApi = {
             items {
               grade
               description
+              likes {
+                totalCount
+              }
+              dislikes {
+                totalCount
+              }
+              hasLike
+              hasDislike
               user {
                 id,
                 avatarDataBase64

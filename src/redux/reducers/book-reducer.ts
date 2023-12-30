@@ -273,6 +273,10 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkType => {
                 bookOpinions: i.bookOpinions.items.map(o => ({
                     description: o.description,
                     grade: o.grade,
+                    likesCount: o.likes.totalCount,
+                    dislikesCount: o.dislikes.totalCount,
+                    hasLike: o.hasLike,
+                    hasDislike: o.hasDislike,
                     user: {
                         id: o.user.id,
                         avatarDataBase64: o.user.avatarDataBase64,
