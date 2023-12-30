@@ -4,13 +4,14 @@ import ActiveBookFilterContainer from './activeBookFilter/ActiveBookFilterContai
 import ActiveBookForListContainer from './activeBookForList/ActiveBookForListContainer';
 import ActiveBookPaginationContainer from './activeBookPagination/ActiveBookPaginationContainer';
 import { PropsType } from './AllActiveBooksCurUserContainer'
+import { FrownOutlined } from '@ant-design/icons';
 
 const AllCurUserActiveBooks: React.FC<PropsType> = (props) => {
     if (!props.activeBooks.length) {
         return (
             <>
                 <ActiveBookFilterContainer />
-                <Empty />
+                <Empty description="You don't have any active books" image={React.createElement(FrownOutlined)} imageStyle={{fontSize: "30px", display: "inline"}} />
             </>
         )
     }

@@ -18,7 +18,11 @@ export type BookOpinionForBookInfo = {
         id: string,
         avatarDataBase64: string,
         userName: string
-    }
+    },
+    likesCount: number,
+    dislikesCount: number,
+    hasLike: boolean,
+    hasDislike: boolean,
 }
 
 export type BookInfoGraphqlType = {
@@ -34,6 +38,14 @@ export type BookInfoGraphqlType = {
         bookOpinions: {
             totalCount: number,
             items: Array<{
+                hasLike: boolean,
+                hasDislike: boolean
+                likes: {
+                    totalCount: number
+                },
+                dislikes: {
+                    totalCount: number
+                }
                 description: string,
                 grade: number
                 user: {

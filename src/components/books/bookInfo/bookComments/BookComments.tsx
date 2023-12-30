@@ -1,7 +1,8 @@
 import React from "react";
 import { PropsType } from "./BookCommentsContainer";
-import { Col, List, Image, Rate } from "antd";
+import { Col, List, Image, Rate, Row, Button } from "antd";
 import { Link } from "react-router-dom";
+import { LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 
 const BookComments: React.FC<PropsType> = (props) => {
     if (!props.bookOpinions.length) {
@@ -13,6 +14,8 @@ const BookComments: React.FC<PropsType> = (props) => {
         avatar: <Link to={`/profile?userId=${o.user.id}`}><Image preview={false} style={{ width: "40px", maxHeight: "40px", borderRadius: "10px" }} src={("data:image/png;base64," + o.user.avatarDataBase64)} /></Link>,
         description: o.description,
         grade: <Rate value={o.grade} disabled />,
+        likes: <Button style={{backgroundColor: "transparent"}} icon={React.createElement(LikeOutlined)}>{o.likesCount}</Button>,
+        dislikes: <Button style={{backgroundColor: "transparent"}} icon={React.createElement(DislikeOutlined)}>{o.dislikesCount}</Button>
     }));
 
     return (
@@ -27,7 +30,11 @@ const BookComments: React.FC<PropsType> = (props) => {
                         <List.Item.Meta avatar={item.avatar} title={item.title}>
                         </List.Item.Meta>
                             {item.description}
-                            <Col>{item.grade}</Col>
+                            <Row>
+                                <Col>{item.grade}</Col>
+                                <Col style={{marginLeft: "10px"}}>{item.likes}</Col>
+                                <Col>{item.dislikes}</Col>
+                            </Row>
                     </List.Item>
                 )}>
 

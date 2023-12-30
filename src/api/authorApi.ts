@@ -1,4 +1,4 @@
-import { AuthorForAddBookGraphqlType, AuthorForAddBookType } from "../types/books/authorForAddBookType";
+import { AuthorForAddBookGraphqlType } from "../types/books/authorForAddBookType";
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 
