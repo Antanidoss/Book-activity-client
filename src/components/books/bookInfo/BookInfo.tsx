@@ -52,7 +52,7 @@ const BookInfo: React.FC<PropsType> = (props) => {
                 </Col>
                 <Col style={{ paddingTop: "50px", margin: "0 auto", width: "50%", fontSize: "15px" }}>
                     {props.bookInfo.description}
-                    <BookCommentsContainer bookOpinions={props.bookInfo.bookOpinions} />
+                    <BookCommentsContainer bookOpinions={props.bookInfo.bookOpinions} bookId={props.bookInfo.id} />
                 </Col>
             </Row>
         </Col>

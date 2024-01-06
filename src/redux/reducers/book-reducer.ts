@@ -53,7 +53,11 @@ const UPDATE_TOTAL_BOOK_COUNT = "UPDATE_TOTAL_BOOK_COUNT";
 const UPDATE_BOOK_FILTER = "UPDATE_BOOK_FILTER";
 const SET_AUTHORS_FOR_ADD_BOOK = "SET_AUTHORS_FOR_ADD_BOOK";
 const SET_BOOK_INFO = "SET_BOOK_INFO";
-const SET_BOOK_OPINION = "SET_BOOK_OPINION"
+const SET_BOOK_OPINION = "SET_BOOK_OPINION";
+const ADD_BOOK_OPINION_LIKE = "ADD_BOOK_OPINION_LIKE";
+const ADD_BOOK_OPINION_DISLIKE = "ADD_BOOK_OPINION_DISLIKE";
+const REMOVE_BOOK_OPINION_LIKE = "REMOVE_BOOK_OPINION_LIKE";
+const REMOVE_BOOK_OPINION_DISLIKE = "REMOVE_BOOK_OPINION_DISLIKE";
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -140,6 +144,52 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 ...state,
                 bookOpinion: action.bookOpinion
             }
+        case ADD_BOOK_OPINION_LIKE:
+            return {
+                ...state,
+                bookInfoPage: {
+                    ...state.bookInfoPage.bookInfo,
+                    bookInfo: {
+                        ...state.bookInfoPage.bookInfo as BookInfoType,
+                        bookOpinions: (state.bookInfoPage.bookInfo as BookInfoType).bookOpinions.map(o => {
+                            if (o.user.id === action.userIdOpinion) {
+                                if (action.hasDislike) {
+                                    o.dislikesCount--;
+                                    o.hasDislike = false;
+                                }
+
+                                o.hasLike = true;
+                                o.likesCount++;
+                            }
+
+                            return o;
+                        })
+                    }
+                }
+            }
+        case ADD_BOOK_OPINION_DISLIKE:
+            return {
+                ...state,
+                bookInfoPage: {
+                    ...state.bookInfoPage.bookInfo,
+                    bookInfo: {
+                        ...state.bookInfoPage.bookInfo as BookInfoType,
+                        bookOpinions: (state.bookInfoPage.bookInfo as BookInfoType).bookOpinions.map(o => {
+                            if (o.user.id === action.userIdOpinion) {
+                                if (action.hasLike) {
+                                    o.likesCount--;
+                                    o.hasLike = false;
+                                }
+
+                                o.hasDislike = true;
+                                o.dislikesCount++;
+                            }
+
+                            return o;
+                        })
+                    }
+                }
+            }
         default:
             return state;
     }
@@ -170,7 +220,7 @@ type UpdateBookRatingType = {
     type: typeof UPDATE_BOOK_RATING, averageRating: number, bookId: string, description: string, userId: string
 }
 export const updateBookRating = (averageRating: number, bookId: string, description: string, userId: string): UpdateBookRatingType => ({
-    type: UPDATE_BOOK_RATING, averageRating: averageRating, bookId, description,userId
+    type: UPDATE_BOOK_RATING, averageRating: averageRating, bookId, description, userId
 })
 
 type UpdateTotalBookCountType = {
@@ -208,7 +258,21 @@ export const setBookOpinion = (bookOpinion: BookOpinionType): SetBookOpinionType
     type: SET_BOOK_OPINION, bookOpinion
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksListType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType | SetBookInfoType | SetBookOpinionType;
+type AddBookOpinionLikeType = {
+    type: typeof ADD_BOOK_OPINION_LIKE, userIdOpinion: string, bookId: string, hasDislike: boolean
+}
+export const addBookOpinionLike = (userIdOpinion: string, bookId: string, hasDislike: boolean): AddBookOpinionLikeType => ({
+    type: ADD_BOOK_OPINION_LIKE, userIdOpinion, bookId, hasDislike
+})
+
+type AddBookOpinionDislikeType = {
+    type: typeof ADD_BOOK_OPINION_DISLIKE, userIdOpinion: string, bookId: string, hasLike: boolean
+}
+export const addBookOpinionDislike = (userIdOpinion: string, bookId: string, hasLike: boolean): AddBookOpinionDislikeType => ({
+    type: ADD_BOOK_OPINION_DISLIKE, userIdOpinion, bookId, hasLike
+})
+
+type ActionsTypes = UpdatePageNumberType | SetBooksListType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType | SetBookInfoType | SetBookOpinionType | AddBookOpinionLikeType | AddBookOpinionDislikeType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -235,7 +299,6 @@ export const addBookRequestThunkCreator = (addBookModel: AddBookType): ThunkActi
 export const addBookOpinionThunkCreator = (bookId: string, grade: number, description: string, userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await bookOpinionApi.update(bookId, grade, description);
-        //TODO: обновить рейтинг
         const success = !isBadStatusCode(response.status);
         if (success) {
             dispatch(updateBookRating(grade, bookId, description, userId));
@@ -295,6 +358,32 @@ export const getBookOpinionThunkCreator = (bookRatingId: string, userId: string)
         if (!isBadStatusCode(response.status)) {
             dispatch(setBookOpinion(response.data.data.bookOpinions.items[0]))
         }
+    }
+}
+
+export const addBookOpinionLikeThunkCreator = (userIdOpinion: string, bookId: string, hasDislike: boolean): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await bookOpinionApi.addLike(bookId, userIdOpinion);
+        const success = !isBadStatusCode(response.status);
+
+        if (success) {
+            dispatch(addBookOpinionLike(userIdOpinion, bookId, hasDislike));
+        }
+
+        return success;
+    }
+}
+
+export const addBookOpinionDislikeThunkCreator = (userIdOpinion: string, bookId: string, hasLike: boolean): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await bookOpinionApi.addDislike(bookId, userIdOpinion);
+        const success = !isBadStatusCode(response.status);
+
+        if (success) {
+            dispatch(addBookOpinionDislike(userIdOpinion, bookId, hasLike));
+        }
+
+        return success;
     }
 }
 

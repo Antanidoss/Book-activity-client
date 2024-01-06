@@ -2,7 +2,7 @@ import React from "react";
 import { PropsType } from "./BookCommentsContainer";
 import { Col, List, Image, Rate, Row, Button } from "antd";
 import { Link } from "react-router-dom";
-import { LikeOutlined, DislikeOutlined } from '@ant-design/icons';
+import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 
 const BookComments: React.FC<PropsType> = (props) => {
     if (!props.bookOpinions.length) {
@@ -14,8 +14,12 @@ const BookComments: React.FC<PropsType> = (props) => {
         avatar: <Link to={`/profile?userId=${o.user.id}`}><Image preview={false} style={{ width: "40px", maxHeight: "40px", borderRadius: "10px" }} src={("data:image/png;base64," + o.user.avatarDataBase64)} /></Link>,
         description: o.description,
         grade: <Rate value={o.grade} disabled />,
-        likes: <Button style={{backgroundColor: "transparent"}} icon={React.createElement(LikeOutlined)}>{o.likesCount}</Button>,
-        dislikes: <Button style={{backgroundColor: "transparent"}} icon={React.createElement(DislikeOutlined)}>{o.dislikesCount}</Button>
+        likes: o.hasLike
+            ? <Button><LikeTwoTone /> {o.likesCount}</Button>
+            : <Button onClick={() => props.addBookOpinionLike(o.user.id, props.bookId, o.hasDislike)}><LikeOutlined /> {o.likesCount}</Button>,
+        dislikes: o.hasDislike
+            ? <Button><DislikeTwoTone /> {o.dislikesCount}</Button>
+            : <Button onClick={() => props.addBookOpinionDislike(o.user.id, props.bookId, o.hasLike)}><DislikeOutlined /> {o.dislikesCount}</Button>
     }));
 
     return (
