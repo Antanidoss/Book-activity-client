@@ -51,6 +51,7 @@ export const bookApi = {
           bookOpinions(take: 4) {
             totalCount
             items {
+              bookId
               grade
               description
               likes {

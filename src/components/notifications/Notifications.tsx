@@ -28,7 +28,7 @@ const Notifications: React.FC<PropsType> = (props) => {
                 <Col>
                     <Col style={{ float: "right" }} onMouseEnter={() => changeDisplayNotificationsList(!isOpenNotificationsList)}>
                         <Badge color="red" count={props.notificationCount} size="small" style={{ bottom: "15px", cursor: "pointer" }}>
-                            <NotificationOutlined rev style={{ color: "white" }} />
+                            <NotificationOutlined  style={{ color: "white" }} />
                         </Badge>
                     </Col>
                 </Col>

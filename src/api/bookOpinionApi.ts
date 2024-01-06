@@ -17,5 +17,17 @@ export const bookOpinionApi = {
           }`
 
         return instanceAxios.post<GraphqlResponseType<BookOpinionGraphqlType>>(`/graphql`, { query: query }).then(res => res);
+    },
+    addLike(bookId: string, userIdOpinion: string) {
+      return instanceAxios.post(`/bookOpinion/addLike?bookId=${bookId}&userIdOpinion=${userIdOpinion}`)
+    },
+    addDislike(bookId: string, userIdOpinion: string) {
+      return instanceAxios.post(`/bookOpinion/addDislike?bookId=${bookId}&userIdOpinion=${userIdOpinion}`)
+    },
+    removeLike(bookId: string, userIdOpinion: string) {
+      return instanceAxios.delete(`/bookOpinion/removeLike?bookId=${bookId}&userIdOpinion=${userIdOpinion}`)
+    },
+    removeDislike(bookId: string, userIdOpinion: string) {
+      return instanceAxios.delete(`/bookOpinion/removeDislike?bookId=${bookId}&userIdOpinion=${userIdOpinion}`)
     }
 } 
