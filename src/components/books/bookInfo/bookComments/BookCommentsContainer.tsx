@@ -3,7 +3,7 @@ import { BookOpinionForBookInfo } from "../../../../types/books/bookInfoType";
 import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
 import { connect } from "react-redux";
 import BookComments from "./BookComments";
-import { addBookOpinionDislikeThunkCreator, addBookOpinionLikeThunkCreator } from "../../../../redux/reducers/book-reducer";
+import { addBookOpinionDislikeThunkCreator, addBookOpinionLikeThunkCreator, removeBookOpinionDislikeThunkCreator, removeBookOpinionLikeThunkCreator } from "../../../../redux/reducers/book-reducer";
 
 const BookCommentsContainer: React.FC<PropsType> = (props) => {
     return <BookComments {...props} />
@@ -17,12 +17,15 @@ type MapStateToPropsType = {
 type MapDispatchToPropsType = {
     addBookOpinionLike: typeof addBookOpinionLikeThunkCreator,
     addBookOpinionDislike: typeof addBookOpinionDislikeThunkCreator,
-
+    removeBookOpinionDislike: typeof removeBookOpinionDislikeThunkCreator,
+    removeBookOpinionLike: typeof removeBookOpinionLikeThunkCreator
 }
 
 const mapDispatchToProps = {
     addBookOpinionLike: addBookOpinionLikeThunkCreator,
-    addBookOpinionDislike: addBookOpinionDislikeThunkCreator
+    addBookOpinionDislike: addBookOpinionDislikeThunkCreator,
+    removeBookOpinionDislike: removeBookOpinionDislikeThunkCreator,
+    removeBookOpinionLike: removeBookOpinionLikeThunkCreator
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({

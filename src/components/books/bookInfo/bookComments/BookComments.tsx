@@ -15,10 +15,10 @@ const BookComments: React.FC<PropsType> = (props) => {
         description: o.description,
         grade: <Rate value={o.grade} disabled />,
         likes: o.hasLike
-            ? <Button><LikeTwoTone /> {o.likesCount}</Button>
+            ? <Button onClick={() => props.removeBookOpinionLike(o.user.id, props.bookId)}><LikeTwoTone /> {o.likesCount}</Button>
             : <Button onClick={() => props.addBookOpinionLike(o.user.id, props.bookId, o.hasDislike)}><LikeOutlined /> {o.likesCount}</Button>,
         dislikes: o.hasDislike
-            ? <Button><DislikeTwoTone /> {o.dislikesCount}</Button>
+            ? <Button onClick={() => props.removeBookOpinionDislike(o.user.id, props.bookId)}><DislikeTwoTone /> {o.dislikesCount}</Button>
             : <Button onClick={() => props.addBookOpinionDislike(o.user.id, props.bookId, o.hasLike)}><DislikeOutlined /> {o.dislikesCount}</Button>
     }));
 
