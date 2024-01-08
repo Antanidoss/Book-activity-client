@@ -190,6 +190,42 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     }
                 }
             }
+        case REMOVE_BOOK_OPINION_LIKE:
+            return {
+                ...state,
+                bookInfoPage: {
+                    ...state.bookInfoPage.bookInfo,
+                    bookInfo: {
+                        ...state.bookInfoPage.bookInfo as BookInfoType,
+                        bookOpinions: (state.bookInfoPage.bookInfo as BookInfoType).bookOpinions.map(o => {
+                            if (o.user.id === action.userIdOpinion) {
+                                o.likesCount--;
+                                o.hasLike = false;
+                            }
+
+                            return o;
+                        })
+                    }
+                }
+            }
+        case REMOVE_BOOK_OPINION_DISLIKE:
+            return {
+                ...state,
+                bookInfoPage: {
+                    ...state.bookInfoPage.bookInfo,
+                    bookInfo: {
+                        ...state.bookInfoPage.bookInfo as BookInfoType,
+                        bookOpinions: (state.bookInfoPage.bookInfo as BookInfoType).bookOpinions.map(o => {
+                            if (o.user.id === action.userIdOpinion) {
+                                o.dislikesCount--;
+                                o.hasDislike = false;
+                            }
+
+                            return o;
+                        })
+                    }
+                }
+            }
         default:
             return state;
     }
@@ -272,7 +308,21 @@ export const addBookOpinionDislike = (userIdOpinion: string, bookId: string, has
     type: ADD_BOOK_OPINION_DISLIKE, userIdOpinion, bookId, hasLike
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksListType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType | SetBookInfoType | SetBookOpinionType | AddBookOpinionLikeType | AddBookOpinionDislikeType;
+type RemoveBookOpinionLikeType = {
+    type: typeof REMOVE_BOOK_OPINION_LIKE, userIdOpinion: string, bookId: string
+}
+export const removeBookOpinionLike = (userIdOpinion: string, bookId: string): RemoveBookOpinionLikeType => ({
+    type: REMOVE_BOOK_OPINION_LIKE, userIdOpinion, bookId
+})
+
+type RemoveBookOpinionDislikeType = {
+    type: typeof REMOVE_BOOK_OPINION_DISLIKE, userIdOpinion: string, bookId: string
+}
+export const removeBookOpinionDislike = (userIdOpinion: string, bookId: string): RemoveBookOpinionDislikeType => ({
+    type: REMOVE_BOOK_OPINION_DISLIKE, userIdOpinion, bookId
+})
+
+type ActionsTypes = UpdatePageNumberType | SetBooksListType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType | SetBookInfoType | SetBookOpinionType | AddBookOpinionLikeType | AddBookOpinionDislikeType | RemoveBookOpinionLikeType | RemoveBookOpinionDislikeType;
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -381,6 +431,32 @@ export const addBookOpinionDislikeThunkCreator = (userIdOpinion: string, bookId:
 
         if (success) {
             dispatch(addBookOpinionDislike(userIdOpinion, bookId, hasLike));
+        }
+
+        return success;
+    }
+}
+
+export const removeBookOpinionLikeThunkCreator = (userIdOpinion: string, bookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await bookOpinionApi.removeLike(bookId, userIdOpinion);
+        const success = !isBadStatusCode(response.status);
+
+        if (success) {
+            dispatch(removeBookOpinionLike(userIdOpinion, bookId));
+        }
+
+        return success;
+    }
+}
+
+export const removeBookOpinionDislikeThunkCreator = (userIdOpinion: string, bookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await bookOpinionApi.removeDislike(bookId, userIdOpinion);
+        const success = !isBadStatusCode(response.status);
+
+        if (success) {
+            dispatch(removeBookOpinionDislike(userIdOpinion, bookId));
         }
 
         return success;
