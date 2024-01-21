@@ -6,10 +6,12 @@ import {
     CommentOutlined
 } from "@ant-design/icons";
 import ResizableButton from "../../../common/ResizableButton";
+import { useNavigate } from "react-router-dom";
 
 const AddBookOpinion: React.FC<PropsType> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
+    const navigate = useNavigate();
 
     type AddOpinionType = {
         grade: number,
@@ -36,6 +38,10 @@ const AddBookOpinion: React.FC<PropsType> = (props) => {
     };
 
     const showModal = () => {
+        if (!props.isAuthenticated) {
+            navigate("/login");
+        }
+
         setIsModalVisible(true);
     };
 
