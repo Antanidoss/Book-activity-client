@@ -4,6 +4,7 @@ import { addActiveBookRequestThunkCreator } from "../../../redux/reducers/active
 import { AppStoreType, ExtractConnectType } from '../../../redux/redux-store'
 import AddActiveBook from './AddActiveBook'
 import { setActiveBookStatus } from '../../../redux/reducers/book-reducer'
+import { getIsAuthenticated } from '../../../redux/selectors/user-selectors'
 
 const AddActiveBookContainer: React.FC<PropsType> = (props) => {
     return <AddActiveBook {...props}/>
@@ -24,11 +25,13 @@ const mapDispatchToProps = {
 }
 
 type MapStateToPropsType = {
-    bookId: string
+    bookId: string,
+    isAuthenticated: boolean
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
-    bookId: ownProps.bookId
+    bookId: ownProps.bookId,
+    isAuthenticated: getIsAuthenticated(state)
 })
 
 const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)

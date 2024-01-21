@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { addBookOpinionThunkCreator } from "../../../../redux/reducers/book-reducer";
 import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
-import { getUserId } from "../../../../redux/selectors/user-selectors";
+import { getIsAuthenticated, getUserId } from "../../../../redux/selectors/user-selectors";
 import AddBookOpinion from "./AddBookOpinion";
 
 const AddBookOpinionContainer: React.FC<PropsType> = (props) => {
@@ -21,14 +21,16 @@ type MapStateToPropsType = {
     bookId: string,
     userId: string,
     resizableButton?: boolean,
-    onAddedOpinion?: () => void
+    onAddedOpinion?: () => void,
+    isAuthenticated: boolean
 }
 
 const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateToPropsType => ({
     bookId: ownProps.bookId,
     userId: getUserId(state) as string,
     resizableButton: ownProps.resizableButton,
-    onAddedOpinion: ownProps.onAddedOpinion
+    onAddedOpinion: ownProps.onAddedOpinion,
+    isAuthenticated: getIsAuthenticated(state)
 })
 
 type OwnPropsType = {

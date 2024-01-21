@@ -1,13 +1,42 @@
 import React from "react";
 import { PropsType } from "./BookCommentsContainer";
 import { Col, List, Image, Rate, Row, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 
 const BookComments: React.FC<PropsType> = (props) => {
+    const navigate = useNavigate();
+
     if (!props.bookOpinions.length) {
         return <></>;
     }
+
+    const checkIsAuthenticated = () => {
+        if (!props.isAuthenticated) {
+            navigate("/login");
+        }
+    }
+
+    const removeBookOpinionLike = (userId: string) => {
+        props.removeBookOpinionLike(userId, props.bookId)
+    }
+
+    const addBookOpinionLike = (userId: string, hasDislike: boolean) => {
+        checkIsAuthenticated();
+
+        props.addBookOpinionLike(userId, props.bookId, hasDislike)
+    }
+
+    const removeBookOpinionDislike = (userId: string) => {
+        props.removeBookOpinionDislike(userId, props.bookId)
+    }
+
+    const addBookOpinionDislike = (userId: string, hasLike: boolean) => {
+        checkIsAuthenticated();
+
+        props.addBookOpinionDislike(userId, props.bookId, hasLike);
+    }
+
 
     const data = props.bookOpinions.map(o => ({
         title: <Link to={`/profile?userId=${o.user.id}`}>{o.user.userName}</Link>,
@@ -15,11 +44,11 @@ const BookComments: React.FC<PropsType> = (props) => {
         description: o.description,
         grade: <Rate value={o.grade} disabled />,
         likes: o.hasLike
-            ? <Button onClick={() => props.removeBookOpinionLike(o.user.id, props.bookId)}><LikeTwoTone /> {o.likesCount}</Button>
-            : <Button onClick={() => props.addBookOpinionLike(o.user.id, props.bookId, o.hasDislike)}><LikeOutlined /> {o.likesCount}</Button>,
+            ? <Button onClick={() => removeBookOpinionLike(o.user.id)}><LikeTwoTone /> {o.likesCount}</Button>
+            : <Button onClick={() => addBookOpinionLike(o.user.id, o.hasDislike)}><LikeOutlined /> {o.likesCount}</Button>,
         dislikes: o.hasDislike
-            ? <Button onClick={() => props.removeBookOpinionDislike(o.user.id, props.bookId)}><DislikeTwoTone /> {o.dislikesCount}</Button>
-            : <Button onClick={() => props.addBookOpinionDislike(o.user.id, props.bookId, o.hasLike)}><DislikeOutlined /> {o.dislikesCount}</Button>
+            ? <Button onClick={() => removeBookOpinionDislike(o.user.id)}><DislikeTwoTone /> {o.dislikesCount}</Button>
+            : <Button onClick={() => addBookOpinionDislike(o.user.id, o.hasLike)}><DislikeOutlined /> {o.dislikesCount}</Button>
     }));
 
     return (

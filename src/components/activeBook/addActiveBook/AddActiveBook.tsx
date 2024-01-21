@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal, message, InputNumber } from 'antd';
 import { PropsType } from './AddActiveBookContainer';
+import { useNavigate } from 'react-router-dom';
 
 const AddActiveBook: React.FC<PropsType> = (props) => {
   type AddActiveBookType = {
@@ -12,8 +13,13 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(false);
   const [addActiveBookButtonLoading, setAddActiveBookButtonLoading] = useState(false);
+  const navigate = useNavigate();
 
   const showModal = () => {
+    if (!props.isAuthenticated) {
+      navigate("/login");
+    }
+
     setIsModalVisible(true);
   };
 
