@@ -1,4 +1,4 @@
-export type ActiveBooksFilterResultGraphqlType = {
+export type GetActiveBooksByFilterResultType = {
     activeBooks: { 
         totalCount: number,
         items: Array<{

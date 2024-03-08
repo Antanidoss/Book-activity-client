@@ -7,11 +7,10 @@ import { getNotifications, getNotificationsCount } from "../../redux/selectors/u
 import Notifications from "./Notifications";
 import { getInitialized } from "../../redux/selectors/app-selectors";
 import { getIsAuthenticated, getUserId } from "../../redux/selectors/user-selectors";
-import { Avatar, notification, Image } from "antd";
+import { notification } from "antd";
 import signalRUtil from "../../utils/signalRUtil";
-import { SignalRNotification } from "../../types/signalR/signalRnotificationType";
-import { SignalRUserNotification } from "../../types/signalR/signalRuserNotificationType";
-import { NotificationType } from "../../types/users/notificationType";
+import { SignalRNotification } from "../../types/signalR/signalRNotificationType";
+import { NotificationType } from "../../redux/types/notifications/notificationType";
 
 const NotificationsContainer: React.FC<PropsType> = (props) => {
     let notificationsBeingListened = false;
@@ -21,22 +20,18 @@ const NotificationsContainer: React.FC<PropsType> = (props) => {
             return;
         }
 
-        const onUserNotificationReceived = (data: SignalRUserNotification) => {
-            props.addNotification({ id: data.NotificationId, description: data.MessageNotification, avatarDataBase64: data.AvatarDataBase64 });
-            notification.open({
-                message: <Avatar><Image preview={false} width={"32px"} src={("data:image/png;base64," + data.AvatarDataBase64)} /></Avatar>,
-                description: data.MessageNotification,
-            });
-        }
-
         const onNotificationReceived = (data: SignalRNotification) => {
-            props.addNotification({ id: data.NotificationId, description: data.MessageNotification });
+            props.addNotification({
+                notificationId: data.NotificationId,
+                messageNotification: data.MessageNotification,
+                fromUser: data.fromUser !== undefined ? { userId: data.fromUser.UserId, avatarImage: data.fromUser.AvatarDataBase64 } : undefined
+            });
             notification.open({
                 message: data.MessageNotification
             });
         }
 
-        signalRUtil.connectToUserNotificationHub(props.currentUserId as string, onUserNotificationReceived, onNotificationReceived);
+        signalRUtil.connectToUserNotificationHub(props.currentUserId as string, onNotificationReceived);
 
         props.getNotifications();
 

@@ -2,9 +2,9 @@ import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { activeBooksStatisticApi } from "../../api/activeBooksStatistic";
 import { isBadStatusCode } from "../../api/instanceAxios";
-import { ActiveBooksStatisticType } from "../../types/activeBooks/activeBooksStatisticType"
 import { AppStoreType } from "../redux-store";
-import { ActiveBookStatisticByDayType } from "../../types/activeBooks/activeBookStatisticByDayType";
+import { ActiveBooksStatisticType } from "../types/activeBooks/activeBooksStatisticType";
+import { ActiveBookStatisticByDayType } from "../types/activeBooks/activeBookStatisticByDayType";
 
 export type InitialStateType = {
     curUserStatistic?: ActiveBooksStatisticType,

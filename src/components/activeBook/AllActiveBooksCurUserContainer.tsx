@@ -7,8 +7,8 @@ import { getActiveBooksByFilterThunkCreator, removeActiveBookThunkCreator } from
 import { getActiveBooks, getPageNumber, getTotalActiveBookCount } from '../../redux/selectors/activeBook-selectors';
 import { AppStoreType, ExtractConnectType } from '../../redux/redux-store';
 import { getIsAuthenticated } from '../../redux/selectors/user-selectors';
-import { ActiveBookOfListType } from '../../types/activeBooks/activeBookOfListType';
 import AllCurUserActiveBooks from './AllActiveBooksCurUser';
+import { ActiveBookOfListType } from '../../redux/types/activeBooks/activeBookOfListType';
 
 const AllCurUserActiveBooksContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);

@@ -1,5 +1,5 @@
-import { ActiveBookStatisticByDayType } from "../types/activeBooks/activeBookStatisticByDayType";
-import { ActiveBooksStatisticType } from "../types/activeBooks/activeBooksStatisticType";
+import { ActiveBookStatisticByDayType } from "../redux/types/activeBooks/activeBookStatisticByDayType";
+import { ActiveBooksStatisticType } from "../redux/types/activeBooks/activeBooksStatisticType";
 import instanceAxios, { ResponseType } from "./instanceAxios";
 
 export const activeBooksStatisticApi = {

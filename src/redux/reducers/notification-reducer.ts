@@ -1,8 +1,9 @@
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { isBadStatusCode } from "../../api/instanceAxios";
-import { userNotificationApi } from "../../api/userNotificationApi";
-import { NotificationType as NotificationType } from "../../types/users/notificationType"
+import { notificationApi } from "../../api/notificationApi";
+import { NotificationType } from "../types/notifications/notificationType"
+import { AddNotificationType as AddNotificationModel } from "../types/notifications/addNotificationType"
 import { AppStoreType } from "../redux-store";
 
 export type InitialStateType = {
@@ -27,7 +28,13 @@ const userNotificationReducer = (state = initialState, actions: ActionsTypes): I
         case ADD_USER_NOTIFICATION:
             return {
                 ...state,
-                notifications: state.notifications.concat(actions.notification)
+                notifications: state.notifications.concat({
+                    id: actions.notification.notificationId,
+                    description: actions.notification.messageNotification,
+                    fromUser: actions.notification.fromUser !== undefined
+                        ? { id: actions.notification.fromUser.userId, avatarDataBase64: actions.notification.fromUser.avatarImage }
+                        : undefined
+                })
             }
         case REMOVE_USER_NOTIFICATION:
             return {
@@ -47,9 +54,9 @@ export const setUserNotifications = (notifications: Array<NotificationType>): Se
 })
 
 type AddNotificationType = {
-    type: typeof ADD_USER_NOTIFICATION, notification: NotificationType
+    type: typeof ADD_USER_NOTIFICATION, notification: AddNotificationModel
 }
-export const addNotification = (notification: NotificationType): AddNotificationType => ({
+export const addNotification = (notification: AddNotificationModel): AddNotificationType => ({
     type: ADD_USER_NOTIFICATION, notification: notification
 })
 
@@ -66,17 +73,17 @@ type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const getUserNotificationsThunkCreator = (): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await userNotificationApi.getNotification();
+        const response = await notificationApi.getNotification();
 
         if (!isBadStatusCode(response.status)) {
-            dispatch(setUserNotifications(response.data))
+            dispatch(setUserNotifications(response.data.data.notifications.items))
         }
     }
 }
 
 export const removeUserNotificationsThunkCreator = (notificationId: string): ThunkType => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await userNotificationApi.removeNotification(notificationId);
+        const response = await notificationApi.removeNotification(notificationId);
 
         if (!isBadStatusCode(response.status)) {
             dispatch(removeNotification(notificationId))

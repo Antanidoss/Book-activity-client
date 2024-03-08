@@ -1,10 +1,10 @@
 import React from "react";
-import { BookOpinionForBookInfo } from "../../../../types/books/bookInfoType";
 import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
 import { connect } from "react-redux";
 import BookComments from "./BookComments";
 import { addBookOpinionDislikeThunkCreator, addBookOpinionLikeThunkCreator, removeBookOpinionDislikeThunkCreator, removeBookOpinionLikeThunkCreator } from "../../../../redux/reducers/book-reducer";
 import { getIsAuthenticated } from "../../../../redux/selectors/user-selectors";
+import { BookOpinionForBookInfo } from "../../../../redux/types/books/bookInfoType";
 
 const BookCommentsContainer: React.FC<PropsType> = (props) => {
     return <BookComments {...props} />

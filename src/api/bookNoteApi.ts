@@ -1,5 +1,5 @@
-import { BookNoteForProfileResultType } from "../types/bookNote/bookNoteForProfile";
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
+import { GetLastBookNotesType } from "./types/bookNotes/getLastBookNotesType";
 
 export const bookNoteApi = {
   addBookNote(activeBookId: string, note: string, noteColor: string, noteTextColor: string,) {
@@ -27,6 +27,6 @@ export const bookNoteApi = {
             }
           }`
 
-    return instanceAxios.post<GraphqlResponseType<BookNoteForProfileResultType>>(`/graphql`, { query }).then(res => res.data.data.bookNotes.items);
+    return instanceAxios.post<GraphqlResponseType<GetLastBookNotesType>>(`/graphql`, { query }).then(res => res.data.data.bookNotes.items);
   }
 }

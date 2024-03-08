@@ -1,8 +1,9 @@
-import { ActiveBookFilterType, SortBy } from "../types/activeBooks/activeBookFilterType";
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
 import { PaginationType } from "../types/common/paginationType";
-import { ActiveBooksFilterResultGraphqlType } from "../types/activeBooks/activeBookFilterResultType";
+import { GetActiveBooksByFilterResultType } from "./types/activeBooks/getActiveBooksByFilterResultType";
+import { GetActiveBooksByFilterType } from "./types/activeBooks/getActiveBooksByFilterType";
+import { SortBy } from "../redux/types/activeBooks/activeBookFilter";
 
 export const activeBookApi = {
   addActiveBook(totalNumberPages: number, numberPagesRead: number, bookId: string) {
@@ -16,7 +17,7 @@ export const activeBookApi = {
   removeActiveBook(activeBookId: string) {
     return instanceAxios.delete(`/activeBook/remove?activeBookId=${activeBookId}`);
   },
-  getActiveBooksByFilter(filterModel: ActiveBookFilterType, pagination: PaginationType) {
+  getActiveBooksByFilter(filterModel: GetActiveBooksByFilterType, pagination: PaginationType) {
     let order: string
 
     if (filterModel.sortBy === SortBy.CreateDate) {
@@ -53,6 +54,6 @@ export const activeBookApi = {
             }
           }`
 
-    return instanceAxios.post<GraphqlResponseType<ActiveBooksFilterResultGraphqlType>>(`/graphql`, { query }).then(res => res.data);
+    return instanceAxios.post<GraphqlResponseType<GetActiveBooksByFilterResultType>>(`/graphql`, { query }).then(res => res.data);
   }
 };

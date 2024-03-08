@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
 import { getUsersByFilterThunkCreator, updateUserFilter } from "../../../../redux/reducers/user-reducer";
 import { getUserFilter } from "../../../../redux/selectors/user-selectors";
-import { UserFilterType } from "../../../../types/users/userFilterType";
 import UserFilter from "./UserFilter";
+import { UserFilterType } from "../../../../redux/types/users/userFilterType";
 
 const UserFilterContainer: React.FC<PropsType> = (props) => {
     return <UserFilter {...props} />

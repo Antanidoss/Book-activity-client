@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getActiveBookStatisticByDayThunkCreator } from "../../../../redux/reducers/activeBooksStatistic-reducer";
-import { ActiveBookStatisticByDayType } from "../../../../types/activeBooks/activeBookStatisticByDayType";
 import { getActiveBookStatisticsByDay } from "../../../../redux/selectors/activeBooksStatistic-selectors";
 import { AppStoreType, ExtractConnectType } from "../../../../redux/redux-store";
 import { connect } from "react-redux";
 import { Spin } from "antd";
 import CustomDrawer from "../../../common/CustomDrawer";
 import StatisticsPerDay from "./StatisticsPerDay";
+import { ActiveBookStatisticByDayType } from "../../../../redux/types/activeBooks/activeBookStatisticByDayType";
 
 const StatisticsPerDayContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);

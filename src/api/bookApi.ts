@@ -1,11 +1,11 @@
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
-import { BookFilterType } from "../types/books/bookFilterType";
-import { AddBookType } from "../types/books/addBookType";
-import { BooksFilterResultType } from "../types/books/bookFilterResultType";
-import { BookInfoGraphqlType } from "../types/books/bookInfoType";
+import { AddBookType } from "./types/books/addBookType";
+import { GetBooksByFilterType } from "./types/books/getBooksByFilterType";
+import { GetBooksByFilterResultType } from "./types/books/getBooksByFilterResultType";
+import { GetBookInfoType } from "./types/books/getBookInfoType";
 
 export const bookApi = {
-  getBooksByFilter(filterModel: BookFilterType, skip: number, take: number) {
+  getBooksByFilter(filterModel: GetBooksByFilterType, skip: number, take: number) {
     const where = filterModel.bookTitle === undefined ? "" : `where: { title: { contains: ${"\"" + filterModel.bookTitle + "\""} } }`
 
     const query = `query {
@@ -30,7 +30,7 @@ export const bookApi = {
             }
           }`
 
-    return instanceAxios.post<GraphqlResponseType<BooksFilterResultType>>(`/graphql`, { query }).then(res => res.data);
+    return instanceAxios.post<GraphqlResponseType<GetBooksByFilterResultType>>(`/graphql`, { query }).then(res => res.data);
   },
   getBookInfo(bookId: string) {
     const query = `query {
@@ -72,13 +72,13 @@ export const bookApi = {
         }
       }`
 
-    return instanceAxios.post<GraphqlResponseType<BookInfoGraphqlType>>(`/graphql`, { query }).then(res => res);
+    return instanceAxios.post<GraphqlResponseType<GetBookInfoType>>(`/graphql`, { query }).then(res => res);
   },
   addBook(addBookModel: AddBookType) {
     var formData = new FormData();
     formData.append("title", addBookModel.title);
     formData.append("description", addBookModel.description);
-    formData.append("image", addBookModel.image.file.originFileObj as Blob, addBookModel.image.file.originFileObj?.name);
+    formData.append("image", addBookModel.image);
 
     addBookModel.authorIds.forEach((authorId, index) => {
       formData.append(`authorIds[${index}]`, authorId);

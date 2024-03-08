@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { BookInfoType } from "../../../types/books/bookInfoType";
 import { getBookInfoThunkCreator } from "../../../redux/reducers/book-reducer";
 import { getBookInfo } from "../../../redux/selectors/book-selectors";
 import { AppStoreType, ExtractConnectType } from "../../../redux/redux-store";
@@ -8,6 +7,7 @@ import { connect } from 'react-redux';
 import { useQuery } from "../../../hoc/useQuery";
 import BookInfo from "./BookInfo";
 import { Spin } from "antd";
+import { BookInfoType } from "../../../redux/types/books/bookInfoType";
 
 const BookInfoContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);

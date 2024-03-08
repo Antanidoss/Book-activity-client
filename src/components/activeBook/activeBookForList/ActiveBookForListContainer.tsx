@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { removeActiveBookThunkCreator } from '../../../redux/reducers/activeBook-reducer';
 import { AppStoreType, ExtractConnectType } from '../../../redux/redux-store';
-import { ActiveBookOfListType } from '../../../types/activeBooks/activeBookOfListType';
 import ActiveBookForList from './ActiveBookForList';
+import { ActiveBookOfListType } from '../../../redux/types/activeBooks/activeBookOfListType';
 
 const ActiveBookForListContainer: React.FC<PropsType> = (props) => {
     return (
