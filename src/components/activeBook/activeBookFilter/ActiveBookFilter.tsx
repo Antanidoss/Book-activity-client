@@ -1,12 +1,12 @@
 import { Affix, Badge, Button, Checkbox, Col, Form, Select } from "antd";
 import React, { useState } from "react"
-import { ActiveBookFilterType, isDefaultFilter } from "../../../types/activeBooks/activeBookFilterType";
 import CustomDrawer from "../../common/CustomDrawer";
 import { PropsType } from "./ActiveBookFilterContainer"
 import {
     FilterOutlined
 } from "@ant-design/icons";
 import Search from "antd/lib/transfer/search";
+import { ActiveBookFilterType, isDefaultFilter } from "../../../redux/types/activeBooks/activeBookFilter";
 
 
 const ActiveBookFilter: React.FC<PropsType> = (props) => {

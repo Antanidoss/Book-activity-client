@@ -2,11 +2,11 @@ import { AppStoreType } from '../redux-store';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
 import { activeBookApi } from '../../api/activeBookApi';
-import { ActiveBookOfListType } from '../../types/activeBooks/activeBookOfListType';
 import { calculateSkip, PaginationType } from '../../types/common/paginationType';
 import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookNoteApi } from '../../api/bookNoteApi';
-import { ActiveBookFilterType } from '../../types/activeBooks/activeBookFilterType';
+import { ActiveBookOfListType } from '../types/activeBooks/activeBookOfListType';
+import { ActiveBookFilterType } from '../types/activeBooks/activeBookFilter';
 
 export type ActiveBookInitialStateType = {
     allActiveBookPage: {

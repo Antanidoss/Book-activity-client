@@ -1,9 +1,9 @@
 import React from "react";
-import { BookNoteForProfileType } from "../../../../types/bookNote/bookNoteForProfile";
 import { Col, Divider, Row } from "antd";
 import { Link } from "react-router-dom";
+import { BookNoteType } from "../../../../redux/types/users/userProfile";
 
-const BookNotes: React.FC<{ bookNotes: Array<BookNoteForProfileType> }> = (props) => {
+const BookNotes: React.FC<{ bookNotes: Array<BookNoteType> }> = (props) => {
     if (props.bookNotes === undefined || props.bookNotes.length === 0) {
         return null;
     }

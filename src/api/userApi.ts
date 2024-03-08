@@ -1,15 +1,15 @@
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
-import { AuthUserResponseType } from "../types/users/authUserResponseType";
-import { CurrentUserResponseType } from "../types/users/currentUserResponseType";
-import { UserFilterResultType } from "../types/users/userFilterResultType";
-import { UserFilterType } from "../types/users/userFilterType";
 import instanceAxios, { GraphqlResponseType, setAuthorizationToken } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
-import { UserProfileType } from "../types/users/userProfileType";
+import { GetUsersByFilterResultType } from "./types/users/getUsersByFilterResultType";
+import { GetUserProfileResultType } from "./types/users/getUserProfileResultType";
+import { GetUserByFilterType } from "./types/users/getUserByFilterType";
+import { AuthUserResultType } from "./types/users/authUserResultType";
+import { GetCurrentUserResultType } from "./types/users/getCurrentUserResultType";
 
 export const userApi = {
     auth(email: string, password: string, rememberMe: boolean) {
-        return instanceAxios.post<ResponseType<AuthUserResponseType>>("/user/authentication", { email, password, rememberMe })
+        return instanceAxios.post<ResponseType<AuthUserResultType>>("/user/authentication", { email, password, rememberMe })
             .then(r => {
                 if (r.data.result != null) {
                     localStorage.setItem("Authorization", r.data.result.token);
@@ -20,7 +20,7 @@ export const userApi = {
             })
     },
     getCurrentUser() {
-        return instanceAxios.get<ResponseType<CurrentUserResponseType>>("/user/getCurrentUser")
+        return instanceAxios.get<ResponseType<GetCurrentUserResultType>>("/user/getCurrentUser")
             .then(r => {
                 if (r.data.result !== null) {
                     localStorage.setItem("Authorization", r.data.result.token);
@@ -55,24 +55,24 @@ export const userApi = {
 
         return instanceAxios.post("/user/update", formData)
     },
-    getUsersByFilter(filter: UserFilterType, skip: number, take: number) {
+    getUsersByFilter(filter: GetUserByFilterType, skip: number, take: number) {
         let where = filter.name === null ? "" : `where: { userName: { contains: ${"\"" + filter.name + "\""} } }`
         const query = `query {
             users(skip: ${skip}, take: ${take}, ${where}) {
                 items {
-                  id,
-                  userName,
-                  avatarDataBase64,
-                  isSubscribed,
-                  isSubscription,
-                  activeBookCount,
+                  id
+                  userName
+                  avatarDataBase64
+                  isSubscribed
+                  isSubscription
+                  activeBookCount
                   bookOpinionCount
-                },
+                }
                 totalCount
               }
         }`
 
-        return instanceAxios.post<GraphqlResponseType<UserFilterResultType>>(`/graphql`, { query }).then(res => res.data);
+        return instanceAxios.post<GraphqlResponseType<GetUsersByFilterResultType>>(`/graphql`, { query }).then(res => res.data);
     },
     subscribeToUser(userId: string) {
         return instanceAxios.put(`/user/subscribeUser?subscribedUserId=${userId}`);
@@ -102,6 +102,6 @@ export const userApi = {
             }
         }`
 
-        return instanceAxios.post<GraphqlResponseType<{ userById: UserProfileType }>>(`/graphql`, { query }).then(res => res.data.data.userById);
+        return instanceAxios.post<GraphqlResponseType<GetUserProfileResultType>>(`/graphql`, { query }).then(res => res.data.data.userById);
     }
 }

@@ -6,3 +6,9 @@ export type AddBookType = {
     image: UploadChangeParam<UploadFile>,
     authorIds: Array<string>
 }
+
+export type AuthorType = {
+    id: string,
+    firstName: string,
+    surname: string
+}

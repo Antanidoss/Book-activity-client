@@ -7,8 +7,8 @@ import { getActiveBooksStatisticThunkCreator } from "../../redux/reducers/active
 import { getCurUserStatistics } from "../../redux/selectors/activeBooksStatistic-selectors";
 import { AppStoreType, ExtractConnectType } from "../../redux/redux-store";
 import { getIsAuthenticated } from "../../redux/selectors/user-selectors";
-import { ActiveBooksStatisticType } from "../../types/activeBooks/activeBooksStatisticType";
 import ActiveBooksStatistic from "./ActiveBooksStatistic";
+import { ActiveBooksStatisticType } from "../../redux/types/activeBooks/activeBooksStatisticType";
 
 const ActiveBooksStatisticForCurUserContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);

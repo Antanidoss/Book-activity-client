@@ -10,7 +10,7 @@ const Notifications: React.FC<PropsType> = (props) => {
         return (
             <Row style={{ padding: "20px", borderBottom: "1px solid #d0d7de", width: "100%" }} key={n.id}>
                 <Col style={{ width: "85%" }}>
-                    <Avatar><Image preview={false} width={"32px"} src={("data:image/png;base64," + n.avatarDataBase64)} /></Avatar>
+                    <Avatar><Image preview={false} width={"32px"} src={("data:image/png;base64," + n.fromUser?.avatarDataBase64)} /></Avatar>
                 </Col>
                 <Col style={{ width: "85%" }}>
                     {n.description}

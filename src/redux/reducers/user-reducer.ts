@@ -1,17 +1,16 @@
-import { UserOfListType } from "../../types/users/userOfListType"
+import { UserOfListType } from './../types/users/userOfListType';
 import { ThunkAction } from 'redux-thunk';
 import { AppStoreType } from '../redux-store';
 import { Dispatch } from "redux";
 import { userApi } from "../../api/userApi";
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
 import { isBadStatusCode } from "../../api/instanceAxios";
-import { UserFilterType } from "../../types/users/userFilterType";
 import { calculateSkip } from "../../types/common/paginationType";
-import { UserProfileType } from "../../types/users/userProfileType";
-import { CurrentUserType } from "../../types/users/currentUserType";
+import { CurrentUserType } from "../types/users/currentUserType";
 import { ThunkResponseType } from "../../types/common/thunkResponseType";
-import { BookNoteForProfileType } from "../../types/bookNote/bookNoteForProfile";
 import { bookNoteApi } from "../../api/bookNoteApi";
+import { BookNoteType, UserProfileType } from "../types/users/userProfile";
+import { UserFilterType } from '../types/users/userFilterType';
 
 export type InitialStateType = {
     currentUser?: CurrentUserType,
@@ -25,7 +24,7 @@ export type InitialStateType = {
     },
     userProfilePage: {
         userProfile?: UserProfileType,
-        bookNotes?: Array<BookNoteForProfileType>
+        bookNotes?: Array<BookNoteType>
     }
 }
 
@@ -216,9 +215,9 @@ export const setUserProfile = (userProfile: UserProfileType): SetUserProfileType
 })
 
 type SetBookNotesProfileType = {
-    type: typeof SET_BOOK_NOTES_PROFILE, bookNotes: Array<BookNoteForProfileType>
+    type: typeof SET_BOOK_NOTES_PROFILE, bookNotes: Array<BookNoteType>
 }
-export const setBookNotesProfile = (bookNotes: Array<BookNoteForProfileType>): SetBookNotesProfileType => ({
+export const setBookNotesProfile = (bookNotes: Array<BookNoteType>): SetBookNotesProfileType => ({
     type: SET_BOOK_NOTES_PROFILE, bookNotes: bookNotes
 })
 

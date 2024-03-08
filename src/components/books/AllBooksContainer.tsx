@@ -4,9 +4,9 @@ import { getBooksByFilter } from "../../redux/reducers/book-reducer";
 import { getBooks, getPageNumber, getPageSize, getTotalBookCount } from "../../redux/selectors/book-selectors";
 import { AppStoreType, ExtractConnectType } from "../../redux/redux-store";
 import AllBooks from "./AllBooks";
-import { BookOfListType } from "../../types/books/bookOfListType";
 import { Spin } from "antd";
 import BookFilterContainer from "./bookFilter/BookFilterContainer";
+import { BookOfListType } from "../../redux/types/books/bookOfListType";
 
 const AllBooksContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);

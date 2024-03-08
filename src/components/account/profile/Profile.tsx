@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Divider, Image, Row } from "antd";
+import { Avatar, Button, Col, Image, Row } from "antd";
 import React from "react";
 import { PropsType } from "./ProfileContainer";
 import ReadingCalendarStatistic from "../../activeBooksStatistic/ReadingCalendarStatistic/ReadingCalendarStatistic";

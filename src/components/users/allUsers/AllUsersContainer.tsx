@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { AppStoreType, ExtractConnectType } from "../../../redux/redux-store";
 import { getUsersByFilterThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator } from "../../../redux/reducers/user-reducer";
 import { getUserId, getUsers } from "../../../redux/selectors/user-selectors";
-import { UserOfListType } from "../../../types/users/userOfListType";
 import AllUser from "./AllUsers";
 import UserFilterContainer from "./userFilter/UserFilterContainer";
 import { getIsAuthenticated } from "../../../redux/selectors/user-selectors";
 import { Spin } from "antd";
+import { UserOfListType } from "../../../redux/types/users/userOfListType";
 
 const AllUsersContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);

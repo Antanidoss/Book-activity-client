@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { ActiveBooksStatisticType, NumberOfPagesReadPerDay } from "../../../types/activeBooks/activeBooksStatisticType";
 import { Col, Tooltip } from "antd";
 import date from 'date-and-time';
 import "./ReadingCalendarStatistic.css"
 import StatisticsPerDayContainer from "./StatisticsPerDay/StatisticsPerDayContainer";
+import { ActiveBooksStatisticType, NumberOfPagesReadPerDay } from "../../../redux/types/activeBooks/activeBooksStatisticType";
 
 const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, userId?: string}> = (props: {statistic: ActiveBooksStatisticType, userId?: string}) => {
     const [curDaySelected, setCurDaySelected] = useState("");

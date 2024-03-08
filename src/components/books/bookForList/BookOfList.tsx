@@ -1,5 +1,4 @@
 import React from 'react';
-import { BookOfListType } from '../../../types/books/bookOfListType';
 import { Button, Col, Rate, Row, Statistic } from 'antd'
 import { Link } from 'react-router-dom';
 import { bookMain, bookTitle } from './BookForListStyles';
@@ -7,6 +6,7 @@ import AddActiveBookContainer from '../../activeBook/addActiveBook/AddActiveBook
 import {
     CheckOutlined
 } from "@ant-design/icons";
+import { BookOfListType } from '../../../redux/types/books/bookOfListType';
 
 const BookOfList: React.FC<BookOfListType> = (book) => {
     return (

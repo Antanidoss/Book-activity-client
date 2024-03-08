@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { getActiveBooksByFilterThunkCreator, updateCurrentPageNumber, updateFilter } from '../../../redux/reducers/activeBook-reducer';
 import { getFilter } from '../../../redux/selectors/activeBook-selectors';
 import { AppStoreType, ExtractConnectType } from '../../../redux/redux-store';
-import { ActiveBookFilterType } from '../../../types/activeBooks/activeBookFilterType';
 import ActiveBookFilter from './ActiveBookFilter';
+import { ActiveBookFilterType } from '../../../redux/types/activeBooks/activeBookFilter';
 
 const ActiveBookFilterContainer: React.FC<PropsType> = (props) => {
     return <ActiveBookFilter {...props}/>

@@ -1,5 +1,5 @@
-export type AuthUserResponseType = {
-    userId: string,
+export type GetCurrentUserResultType = {
+    id: string,
     userName: string,
     email: string,
     token: string,

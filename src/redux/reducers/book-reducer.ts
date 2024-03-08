@@ -1,4 +1,3 @@
-import { BookOfListType } from '../../types/books/bookOfListType';
 import { AppStoreType } from '../redux-store';
 import { ThunkAction } from 'redux-thunk';
 import { Dispatch } from "redux";
@@ -6,12 +5,12 @@ import { bookApi } from '../../api/bookApi';
 import { calculateSkip } from '../../types/common/paginationType';
 import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookOpinionApi } from '../../api/bookOpinionApi';
-import { BookFilterType, BookFilterTypeDefault } from '../../types/books/bookFilterType';
-import { AddBookType } from '../../types/books/addBookType';
-import { AuthorForAddBookType } from '../../types/books/authorForAddBookType';
 import { authorApi } from '../../api/authorApi';
-import { BookInfoType } from '../../types/books/bookInfoType';
 import { BookOpinionType } from '../../types/books/bookOpinionType';
+import { AddBookType, AuthorType } from '../types/books/addBook';
+import { BookInfoType } from '../types/books/bookInfoType';
+import { BookFilterType, BookFilterTypeDefault } from '../types/books/bookFilter';
+import { BookOfListType } from '../types/books/bookOfListType';
 
 export type InitialStateType = {
     bookOpinion?: BookOpinionType,
@@ -26,7 +25,7 @@ export type InitialStateType = {
         bookInfo?: BookInfoType
     },
     addBookPage: {
-        authors: Array<AuthorForAddBookType>
+        authors: Array<AuthorType>
     }
 }
 
@@ -35,13 +34,13 @@ const initialState: InitialStateType = {
         pageSize: 10,
         pageNumber: 1,
         totalBookCount: 0,
-        books: [] as Array<BookOfListType>,
+        books: [],
         bookFilter: BookFilterTypeDefault
     },
     bookInfoPage: {
     },
     addBookPage: {
-        authors: [] as Array<AuthorForAddBookType>
+        authors: []
     }
 }
 
@@ -274,9 +273,9 @@ export const updateBookFilter = (bookFilter: BookFilterType): UpdateBookFilterTy
 })
 
 type SetAuthorsForAddBookType = {
-    type: typeof SET_AUTHORS_FOR_ADD_BOOK, authors: Array<AuthorForAddBookType>
+    type: typeof SET_AUTHORS_FOR_ADD_BOOK, authors: Array<AuthorType>
 }
-export const setAuthorsForAddBook = (authors: Array<AuthorForAddBookType>): SetAuthorsForAddBookType => ({
+export const setAuthorsForAddBook = (authors: Array<AuthorType>): SetAuthorsForAddBookType => ({
     type: SET_AUTHORS_FOR_ADD_BOOK, authors
 })
 
@@ -339,7 +338,12 @@ export const getBooksByFilter = (): ThunkType => {
 
 export const addBookRequestThunkCreator = (addBookModel: AddBookType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        const response = await bookApi.addBook(addBookModel);
+        const response = await bookApi.addBook({
+            title: addBookModel.title,
+            image: addBookModel.image.file.originFileObj as Blob,
+            description: addBookModel.description,
+            authorIds: addBookModel.authorIds
+        });
         const success = !isBadStatusCode(response.status);
 
         return success;
@@ -358,7 +362,7 @@ export const addBookOpinionThunkCreator = (bookId: string, grade: number, descri
     }
 }
 
-export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<Promise<Array<AuthorForAddBookType>>, AppStoreType, unknown, ActionsTypes> => {
+export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<Promise<Array<AuthorType>>, AppStoreType, unknown, ActionsTypes> => {
     return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
         const response = await authorApi.getAuthorsByName(name, 5);
         if (!isBadStatusCode(response.status)) {

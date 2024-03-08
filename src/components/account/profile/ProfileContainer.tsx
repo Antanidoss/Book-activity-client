@@ -6,13 +6,12 @@ import { AppStoreType, ExtractConnectType } from "../../../redux/redux-store";
 import { getBookNotesProfileThunkCreator, getUserProfileThunkCreator, subscribeToUserThunkCreator, unsubscribeUserThunkCreator, updateUserRequestThunkCreator } from "../../../redux/reducers/user-reducer";
 import { getCurUser, getIsAuthenticated, getUserProfile, getBookNotesProfile } from "../../../redux/selectors/user-selectors";
 import Profile from "./Profile";
-import { ActiveBooksStatisticType } from "../../../types/activeBooks/activeBooksStatisticType";
 import { getCurUserStatistics } from "../../../redux/selectors/activeBooksStatistic-selectors";
 import { getActiveBooksStatisticThunkCreator } from "../../../redux/reducers/activeBooksStatistic-reducer";
 import { Spin } from "antd";
-import { UserProfileType } from "../../../types/users/userProfileType";
 import { useQuery } from "../../../hoc/useQuery";
-import { BookNoteForProfileType } from "../../../types/bookNote/bookNoteForProfile";
+import { ActiveBooksStatisticType } from "../../../redux/types/activeBooks/activeBooksStatisticType";
+import { BookNoteType, UserProfileType } from "../../../redux/types/users/userProfile";
 
 const ProfileContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);
@@ -47,7 +46,7 @@ type MapStateToPropsType = {
     statistic: ActiveBooksStatisticType,
     userProfile: UserProfileType,
     curUserId: string,
-    bookNotes: Array<BookNoteForProfileType>
+    bookNotes: Array<BookNoteType>
 }
 
 type MapDispatchToPropsType = {
@@ -73,7 +72,7 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     statistic: getCurUserStatistics(state) as ActiveBooksStatisticType,
     userProfile: getUserProfile(state) as UserProfileType,
     curUserId: getCurUser(state)?.id as string,
-    bookNotes: getBookNotesProfile(state) as Array<BookNoteForProfileType>
+    bookNotes: getBookNotesProfile(state) as Array<BookNoteType>
 })
 
 type OwnPropsType = {}

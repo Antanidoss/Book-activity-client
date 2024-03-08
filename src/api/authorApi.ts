@@ -1,6 +1,6 @@
-import { AuthorForAddBookGraphqlType } from "../types/books/authorForAddBookType";
 import instanceAxios, { GraphqlResponseType } from "./instanceAxios";
 import { ResponseType } from "./instanceAxios";
+import { GetAuthorsByNameType } from "./types/authors/getAuthorsByNameType";
 
 export const authorApi = {
     addAuthor(firstName: string, surname: string) {
@@ -18,6 +18,6 @@ export const authorApi = {
               }
           }`
 
-        return instanceAxios.post<GraphqlResponseType<AuthorForAddBookGraphqlType>>(`/graphql`, { query: query }).then(res => res);
+        return instanceAxios.post<GraphqlResponseType<GetAuthorsByNameType>>(`/graphql`, { query: query }).then(res => res);
     },
 }

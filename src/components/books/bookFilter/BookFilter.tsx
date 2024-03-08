@@ -6,8 +6,8 @@ import {
 import { Affix, Badge, Button, Col, Form, InputNumber, Row } from "antd";
 import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
-import { BookFilterType, isDefaultFilter } from "../../../types/books/bookFilterType";
 import CustomDrawer from "../../common/CustomDrawer";
+import { BookFilterType, isDefaultFilter } from "../../../redux/types/books/bookFilter";
 
 const BookFilter: React.FC<PropsType> = (props) => {
     const [open, setOpen] = useState(false);
