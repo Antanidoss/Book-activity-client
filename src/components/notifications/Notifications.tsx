@@ -3,6 +3,8 @@ import { PropsType } from "./NotificationsContainer";
 import { NotificationOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Button, Col, Row, Image } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
+import { BrowserRouter, Link } from "react-router-dom";
+import { Container, render } from "react-dom";
 
 const Notifications: React.FC<PropsType> = (props) => {
     const [isOpenNotificationsList, changeDisplayNotificationsList] = useState(false)
@@ -10,7 +12,9 @@ const Notifications: React.FC<PropsType> = (props) => {
         return (
             <Row style={{ padding: "20px", borderBottom: "1px solid #d0d7de", width: "100%" }} key={n.id}>
                 <Col style={{ width: "85%" }}>
-                    <Avatar><Image preview={false} width={"32px"} src={("data:image/png;base64," + n.fromUser?.avatarDataBase64)} /></Avatar>
+                    <Link style={{ cursor: "pointer", marginLeft: "20px" }} to={`/profile?userId=${n.fromUser?.id}`}>
+                        <Avatar><Image preview={false} width={"32px"} src={("data:image/png;base64," + n.fromUser?.avatarDataBase64)} /></Avatar>
+                    </Link>
                 </Col>
                 <Col style={{ width: "85%" }}>
                     {n.description}
@@ -23,30 +27,28 @@ const Notifications: React.FC<PropsType> = (props) => {
     })
 
     return (
-        <>
-            <Col style={{ float: "right" }}>
-                <Col>
-                    <Col style={{ float: "right" }} onMouseEnter={() => changeDisplayNotificationsList(!isOpenNotificationsList)}>
-                        <Badge color="red" count={props.notificationCount} size="small" style={{ bottom: "15px", cursor: "pointer" }}>
-                            <NotificationOutlined  style={{ color: "white" }} />
-                        </Badge>
-                    </Col>
-                </Col>
-                <Col onMouseLeave={() => changeDisplayNotificationsList(!isOpenNotificationsList)} style={{
-                    width: "450px",
-                    border: "1px solid #d0d7de",
-                    backgroundColor: "whitesmoke",
-                    zIndex: "1",
-                    maxHeight: "600px",
-                    overflowY: "scroll",
-                    overflowX: "hidden",
-                    borderRadius: "10px",
-                    display: isOpenNotificationsList ? "block" : "none"
-                }}>
-                    {items}
+        <Col style={{ float: "right" }}>
+            <Col>
+                <Col style={{ float: "right" }} onMouseEnter={() => changeDisplayNotificationsList(!isOpenNotificationsList)}>
+                    <Badge color="red" count={props.notificationCount} size="small" style={{ bottom: "15px", cursor: "pointer" }}>
+                        <NotificationOutlined style={{ color: "white" }} />
+                    </Badge>
                 </Col>
             </Col>
-        </>
+            <Col onMouseLeave={() => changeDisplayNotificationsList(!isOpenNotificationsList)} style={{
+                width: "450px",
+                border: "1px solid #d0d7de",
+                backgroundColor: "whitesmoke",
+                zIndex: "1",
+                maxHeight: "600px",
+                overflowY: "scroll",
+                overflowX: "hidden",
+                borderRadius: "10px",
+                display: isOpenNotificationsList ? "block" : "none"
+            }}>
+                {items}
+            </Col>
+        </Col>
     )
 }
 

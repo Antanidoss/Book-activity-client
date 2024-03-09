@@ -3,17 +3,20 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { AppStoreType, ExtractConnectType } from "../../redux/redux-store";
 import { addNotification, getUserNotificationsThunkCreator, removeUserNotificationsThunkCreator } from "../../redux/reducers/notification-reducer";
-import { getNotifications, getNotificationsCount } from "../../redux/selectors/userNotification-selectors";
+import { getNotifications, getNotificationsCount } from "../../redux/selectors/notification-selectors";
 import Notifications from "./Notifications";
 import { getInitialized } from "../../redux/selectors/app-selectors";
 import { getIsAuthenticated, getUserId } from "../../redux/selectors/user-selectors";
-import { notification } from "antd";
+import { Avatar, notification, Image } from "antd";
 import signalRUtil from "../../utils/signalRUtil";
 import { SignalRNotification } from "../../types/signalR/signalRNotificationType";
 import { NotificationType } from "../../redux/types/notifications/notificationType";
+import { BrowserRouter, Link, useNavigate } from "react-router-dom";
 
 const NotificationsContainer: React.FC<PropsType> = (props) => {
     let notificationsBeingListened = false;
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!props.appInitialized || !props.isAuthenticated || notificationsBeingListened) {
@@ -24,10 +27,12 @@ const NotificationsContainer: React.FC<PropsType> = (props) => {
             props.addNotification({
                 notificationId: data.NotificationId,
                 messageNotification: data.MessageNotification,
-                fromUser: data.fromUser !== undefined ? { userId: data.fromUser.UserId, avatarImage: data.fromUser.AvatarDataBase64 } : undefined
+                fromUser: data.FromUserId !== undefined ? { userId: data.FromUserId, avatarImage: data.FromUserAvatarDataBase64 } : undefined
             });
+
             notification.open({
-                message: data.MessageNotification
+                message: <Avatar><Image style={{cursor: "pointer"}} preview={false} width={"32px"} src={("data:image/png;base64," + data.FromUserAvatarDataBase64)} onClick={() => navigate(`/profile?userId=${data.FromUserId}`)} /></Avatar>,
+                description: data.MessageNotification,
             });
         }
 
