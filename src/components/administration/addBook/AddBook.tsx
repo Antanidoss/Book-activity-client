@@ -12,7 +12,8 @@ const AddBook: React.FC<PropsType> = (props) => {
         title: string,
         description: string,
         image: UploadChangeParam<UploadFile>,
-        authors: Array<DefaultOptionType>
+        authors: Array<DefaultOptionType>,
+        categories: Array<DefaultOptionType>,
     }
 
     const handleSubmit = (addBookModel: AddBookModelType) => {
@@ -20,13 +21,17 @@ const AddBook: React.FC<PropsType> = (props) => {
             return o.value as string
         })
 
-        props.addBook({ ...addBookModel, authorIds: authorIds })
+        const categoryIds = addBookModel.categories.map(o => {
+            return o.value as string
+        })
+
+        props.addBook({ ...addBookModel, authorIds: authorIds, categoryIds: categoryIds })
             .then(isSuccess => {
                 isSuccess ? message.success("Book added.", 6) : message.error("Failed to add book. Try again.", 6);
             });
     }
 
-    const selectProps: SelectProps = {
+    const selectAuthrosProps: SelectProps = {
         fetchOptions: props.getAuthors,
         debounceTimeout: 800,
         rules: [{ required: true, message: "Please select authors!" }],
@@ -37,6 +42,22 @@ const AddBook: React.FC<PropsType> = (props) => {
                 return {
                     value: a.id,
                     label: `${a.firstName} ${a.surname}`
+                };
+            })
+        }
+    }
+
+    const selectCategoryProps: SelectProps = {
+        fetchOptions: props.getCategories,
+        debounceTimeout: 800,
+        rules: [{ required: true, message: "Please select categories!" }],
+        fieldName: "categories",
+        fieldLabel: "Categories",
+        transformToOptions(items) {
+            return items.map(c => {
+                return {
+                    value: c.id,
+                    label: c.title
                 };
             })
         }
@@ -54,7 +75,7 @@ const AddBook: React.FC<PropsType> = (props) => {
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col span={11} style={{ marginLeft: "20%" }}>
+                    <Col span={11} style={{ marginLeft: "10%" }}>
                         <Form.Item
                             label="Description"
                             name="description"
@@ -65,9 +86,14 @@ const AddBook: React.FC<PropsType> = (props) => {
                 </Row>
                 <Row style={{ marginTop: "70px" }}>
                     <Col span={8}>
-                        <DebounceSelect {...selectProps} />
+                        <DebounceSelect {...selectAuthrosProps} />
                     </Col>
-                    <Col span={8} style={{ marginLeft: "20%" }}>
+                    <Col span={8} style={{marginLeft: "10%"}}>
+                        <DebounceSelect {...selectCategoryProps} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={8} style={{ marginTop: "50px" }}>
                         <UploadImage fieldLabel="Image" fieldName="image" rules={[{ required: true, message: "Please upload image!" }]} uploadListType="picture-card" />
                     </Col>
                 </Row>

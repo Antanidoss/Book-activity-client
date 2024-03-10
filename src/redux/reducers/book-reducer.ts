@@ -7,10 +7,11 @@ import { isBadStatusCode } from '../../api/instanceAxios';
 import { bookOpinionApi } from '../../api/bookOpinionApi';
 import { authorApi } from '../../api/authorApi';
 import { BookOpinionType } from '../../types/books/bookOpinionType';
-import { AddBookType, AuthorType } from '../types/books/addBook';
+import { AddBookType, AuthorType, CategoryType } from '../types/books/addBook';
 import { BookInfoType } from '../types/books/bookInfoType';
 import { BookFilterType, BookFilterTypeDefault } from '../types/books/bookFilter';
 import { BookOfListType } from '../types/books/bookOfListType';
+import { categoryApi } from '../../api/categoryApi';
 
 export type InitialStateType = {
     bookOpinion?: BookOpinionType,
@@ -25,7 +26,8 @@ export type InitialStateType = {
         bookInfo?: BookInfoType
     },
     addBookPage: {
-        authors: Array<AuthorType>
+        authors: Array<AuthorType>,
+        categories: Array<CategoryType>
     }
 }
 
@@ -40,7 +42,8 @@ const initialState: InitialStateType = {
     bookInfoPage: {
     },
     addBookPage: {
-        authors: []
+        authors: [],
+        categories: []
     }
 }
 
@@ -57,6 +60,7 @@ const ADD_BOOK_OPINION_LIKE = "ADD_BOOK_OPINION_LIKE";
 const ADD_BOOK_OPINION_DISLIKE = "ADD_BOOK_OPINION_DISLIKE";
 const REMOVE_BOOK_OPINION_LIKE = "REMOVE_BOOK_OPINION_LIKE";
 const REMOVE_BOOK_OPINION_DISLIKE = "REMOVE_BOOK_OPINION_DISLIKE";
+const SET_CATEGORIES_FOR_ADD_BOOK = "SET_CATEGORIES_FOR_ADD_BOOK";
 
 const bookReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -225,6 +229,14 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                     }
                 }
             }
+        case SET_CATEGORIES_FOR_ADD_BOOK:
+            return {
+                ...state,
+                addBookPage: {
+                    ...state.addBookPage,
+                    categories: state.addBookPage.categories.concat(action.category)
+                }
+            }
         default:
             return state;
     }
@@ -321,7 +333,28 @@ export const removeBookOpinionDislike = (userIdOpinion: string, bookId: string):
     type: REMOVE_BOOK_OPINION_DISLIKE, userIdOpinion, bookId
 })
 
-type ActionsTypes = UpdatePageNumberType | SetBooksListType | SetActiveBookStatusType | UpdateBookRatingType | UpdateTotalBookCountType | UpdateBookFilterType | SetAuthorsForAddBookType | SetBookInfoType | SetBookOpinionType | AddBookOpinionLikeType | AddBookOpinionDislikeType | RemoveBookOpinionLikeType | RemoveBookOpinionDislikeType;
+type SetCategoriesForAddBookType = {
+    type: typeof SET_CATEGORIES_FOR_ADD_BOOK, category: CategoryType
+}
+export const setCategoriesForAddBook = (category: CategoryType): SetCategoriesForAddBookType => ({
+    type: SET_CATEGORIES_FOR_ADD_BOOK, category
+})
+
+type ActionsTypes = UpdatePageNumberType
+    | SetBooksListType
+    | SetActiveBookStatusType
+    | UpdateBookRatingType
+    | UpdateTotalBookCountType
+    | UpdateBookFilterType
+    | SetAuthorsForAddBookType
+    | SetBookInfoType
+    | SetBookOpinionType
+    | AddBookOpinionLikeType
+    | AddBookOpinionDislikeType
+    | RemoveBookOpinionLikeType
+    | RemoveBookOpinionDislikeType
+    | SetCategoriesForAddBookType;
+
 type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
@@ -342,7 +375,8 @@ export const addBookRequestThunkCreator = (addBookModel: AddBookType): ThunkActi
             title: addBookModel.title,
             image: addBookModel.image.file.originFileObj as Blob,
             description: addBookModel.description,
-            authorIds: addBookModel.authorIds
+            authorIds: addBookModel.authorIds,
+            categoryIds: addBookModel.categoryIds
         });
         const success = !isBadStatusCode(response.status);
 
@@ -464,6 +498,17 @@ export const removeBookOpinionDislikeThunkCreator = (userIdOpinion: string, book
         }
 
         return success;
+    }
+}
+
+export const getCategoriesByTitleRequestThunkCreator = (title: string): ThunkAction<Promise<Array<CategoryType>>, AppStoreType, unknown, ActionsTypes> => {
+    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+        const response = await categoryApi.getCategorieByTitle(title, 5);
+        if (!isBadStatusCode(response.status)) {
+            return response.data.data.categories.items;
+        }
+
+        return [];
     }
 }
 
