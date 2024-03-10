@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addBookRequestThunkCreator, getAuthorsByNameRequestThunkCreator } from '../../../redux/reducers/book-reducer';
+import { addBookRequestThunkCreator, getAuthorsByNameRequestThunkCreator, getCategoriesByTitleRequestThunkCreator } from '../../../redux/reducers/book-reducer';
 import { AppStoreType, ExtractConnectType } from '../../../redux/redux-store';
 import AddBook from './AddBook';
 
@@ -10,12 +10,14 @@ const AddBookContainer: React.FC<PropsType> = (props) => {
 
 type MapDispatchToPropsType = {
     addBook: typeof addBookRequestThunkCreator,
-    getAuthors: typeof getAuthorsByNameRequestThunkCreator
+    getAuthors: typeof getAuthorsByNameRequestThunkCreator,
+    getCategories: typeof getCategoriesByTitleRequestThunkCreator
 }
 
 const mapDispatchToProps: MapDispatchToPropsType = {
     addBook: addBookRequestThunkCreator,
-    getAuthors: getAuthorsByNameRequestThunkCreator
+    getAuthors: getAuthorsByNameRequestThunkCreator,
+    getCategories: getCategoriesByTitleRequestThunkCreator
 }
 
 type MapStateToPropsType = {}

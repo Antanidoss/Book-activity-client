@@ -84,6 +84,10 @@ export const bookApi = {
       formData.append(`authorIds[${index}]`, authorId);
     })
 
+    addBookModel.categoryIds.forEach((categoryId, index) => {
+      formData.append(`categoryIds[${index}]`, categoryId);
+    })
+
     instanceAxios.defaults.headers.post["Content-Type"] = "multipart/form-data";
     return instanceAxios.post('/book/add', formData)
   }
