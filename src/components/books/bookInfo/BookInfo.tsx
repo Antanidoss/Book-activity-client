@@ -5,13 +5,21 @@ import AddActiveBookContainer from "../../activeBook/addActiveBook/AddActiveBook
 import { CheckOutlined } from "@ant-design/icons";
 import AddBookOpinionContainer from "../../activeBook/activeBookForList/addBookOpinion/AddBookOpinionContainer";
 import BookOpinionViewContainer from "../../activeBook/activeBookForList/bookOpinionView/BookOpinionViewContainer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BookCommentsContainer from "./bookComments/BookCommentsContainer";
 
 const BookInfo: React.FC<PropsType> = (props) => {
+    const navigate = useNavigate();
+
+    const onTagClick = (categoryId: string, categoryTitle: string) => {
+        props.updateBookFilter({ ...props.bookFilter, categories: props.bookFilter.categories.concat({ value: categoryId, label: categoryTitle }) });
+
+        navigate("/books");
+    }
+
     var tags = props.bookInfo.categories.map(c => {
         return (
-            <Tag key={c.id}>
+            <Tag key={c.id} onClick={() => onTagClick(c.id, c.title)} style={{"cursor": "pointer"}}>
                 {c.title}
             </Tag>
         )

@@ -22,9 +22,10 @@ const BookFilter: React.FC<PropsType> = (props) => {
     };
 
     const onFinish = (bookFilterModel: BookFilterType) => {
+        props.setLoading(true);
         props.updateCurrentPage(1);
         props.updateBookFilter(bookFilterModel);
-        props.getBooksByFilter();
+        props.getBooksByFilter().then(() => {props.setLoading(false)});
         onClose();
     };
 
@@ -62,7 +63,7 @@ const BookFilter: React.FC<PropsType> = (props) => {
                 onFinish={onFinish}
                 style={{ marginTop: "50px" }}
                 wrapperCol={{ span: 16, offset: 4 }}
-                initialValues={{ bookTitle: props.bookFilter.bookTitle, averageRatingFrom: props.bookFilter.averageRatingFrom, averageRatingTo: props.bookFilter.averageRatingTo }}>
+                initialValues={{ bookTitle: props.bookFilter.bookTitle, averageRatingFrom: props.bookFilter.averageRatingFrom, averageRatingTo: props.bookFilter.averageRatingTo, categories: props.bookFilter.categories }}>
                 <Form.Item wrapperCol={{ offset: 11, span: 10, }}>
                     <div style={{ fontFamily: "Pacifico, cursive", fontSize: "30px" }}>Filter</div>
                 </Form.Item>
@@ -71,7 +72,7 @@ const BookFilter: React.FC<PropsType> = (props) => {
                     <Search placeholder="Input book title" />
                 </Form.Item>
 
-                <Form.Item name="categoryIds">
+                <Form.Item name="categories">
                     <DebounceSelect {...selectCategoryProps} />
                 </Form.Item>
 
