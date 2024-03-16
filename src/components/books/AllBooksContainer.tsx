@@ -21,7 +21,7 @@ const AllBooksContainer: React.FC<PropsType> = (props) => {
 
     return (
         <>
-            <BookFilterContainer />
+            <BookFilterContainer setLoading={setLoading} />
             
             <AllBooks {...props}></AllBooks>
         </>
