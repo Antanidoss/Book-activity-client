@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getBooksByFilter, updateBookFilter, updateCurrentPage } from "../../../redux/reducers/book-reducer";
+import { getBooksByFilter, getCategoriesByTitleRequestThunkCreator, updateBookFilter, updateCurrentPage } from "../../../redux/reducers/book-reducer";
 import { getBookFilter } from "../../../redux/selectors/book-selectors";
-import { AppStoreType } from "../../../redux/redux-store";
+import { AppStoreType, ExtractConnectType } from "../../../redux/redux-store";
 import BookFilter from "./BookFilter";
 import { BookFilterType } from "../../../redux/types/books/bookFilter";
 
@@ -19,9 +19,8 @@ type MapDispatchToPropsType = {
     getBooksByFilter: typeof getBooksByFilter
     updateBookFilter: typeof updateBookFilter
     updateCurrentPage: typeof updateCurrentPage
+    getCategories: typeof getCategoriesByTitleRequestThunkCreator
 }
-
-export type PropsType = MapStateToPropsType & MapDispatchToPropsType;
 
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
    bookFilter: getBookFilter(state)
@@ -30,9 +29,11 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
 const mapDispatchToProps: MapDispatchToPropsType = {
     getBooksByFilter: getBooksByFilter,
     updateBookFilter: updateBookFilter,
-    updateCurrentPage: updateCurrentPage
+    updateCurrentPage: updateCurrentPage,
+    getCategories: getCategoriesByTitleRequestThunkCreator
 }
 
-export default compose<React.ComponentType>(
-    connect<MapStateToPropsType, MapDispatchToPropsType, null, AppStoreType>(mapStateToProps, mapDispatchToProps)
-)(BookFilterContainer);
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);
+export type PropsType = ExtractConnectType<typeof connectStore>;
+
+export default connectStore(BookFilterContainer);

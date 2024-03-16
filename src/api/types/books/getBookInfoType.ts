@@ -8,6 +8,12 @@ export type GetBookInfoType = {
         bookAuthors: Array<{ author: { firstName: string, surname: string } }>,
         hasOpinion: boolean,
         averageRating: number,
+        bookCategories: Array<{
+            category: {
+                id: string,
+                title: string
+            }
+        }>,
         bookOpinions: {
             totalCount: number,
             items: Array<{

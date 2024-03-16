@@ -6,7 +6,25 @@ import { GetBookInfoType } from "./types/books/getBookInfoType";
 
 export const bookApi = {
   getBooksByFilter(filterModel: GetBooksByFilterType, skip: number, take: number) {
-    const where = filterModel.bookTitle === undefined ? "" : `where: { title: { contains: ${"\"" + filterModel.bookTitle + "\""} } }`
+    const titleFilter = filterModel.bookTitle === undefined ? "" : `title: { contains: ${"\"" + filterModel.bookTitle + "\""} }`
+    const categoriesFilter = !filterModel.categories.length ? "" : `bookCategories: 
+    {
+      all: {
+        category: {
+          or: [${filterModel.categories.map(c => `{id: {eq: "${c.value}"}}`).join(",")}]
+        }
+      }
+    }`
+
+    let where = ""
+
+    if (titleFilter !== "" && categoriesFilter !== "") {
+      where = `where: {${titleFilter} or ${categoriesFilter}}`
+    } else if (titleFilter === "" && categoriesFilter !== "") {
+      where = `where: {${categoriesFilter}}`
+    } else if (titleFilter !== "" && categoriesFilter === "") {
+      where = `where: {${titleFilter}}`
+    }
 
     const query = `query {
             books(
@@ -48,6 +66,12 @@ export const bookApi = {
           }
           hasOpinion
           averageRating
+          bookCategories {
+            category {
+              id
+              title
+            }
+          }
           bookOpinions(take: 4) {
             totalCount
             items {

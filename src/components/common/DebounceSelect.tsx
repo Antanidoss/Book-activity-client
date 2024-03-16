@@ -35,6 +35,7 @@ const DebounceSelect: React.FC<PropsType> = (props) => {
       rules={props.rules}
       label={props.fieldLabel}>
       <Select
+        placeholder={props.placeholder}
         labelInValue
         filterOption={false}
         onSearch={debounceFetcher}
@@ -51,8 +52,9 @@ export type PropsType = {
   debounceTimeout: number,
   transformToOptions: (items: Array<any>) => Array<DefaultOptionType>,
   fieldName: string,
-  fieldLabel: string,
-  rules: Rule[]
+  fieldLabel?: string,
+  rules?: Rule[],
+  placeholder?: string
 }
 
 export default DebounceSelect;
