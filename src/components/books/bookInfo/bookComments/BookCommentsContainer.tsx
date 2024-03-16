@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import BookComments from "./BookComments";
 import { addBookOpinionDislikeThunkCreator, addBookOpinionLikeThunkCreator, removeBookOpinionDislikeThunkCreator, removeBookOpinionLikeThunkCreator } from "../../../../redux/reducers/book-reducer";
 import { getIsAuthenticated } from "../../../../redux/selectors/user-selectors";
-import { BookOpinionForBookInfo } from "../../../../redux/types/books/bookInfoType";
+import { BookOpinionBookInfo } from "../../../../redux/types/books/bookInfoType";
 
 const BookCommentsContainer: React.FC<PropsType> = (props) => {
     return <BookComments {...props} />
 }
 
 type MapStateToPropsType = {
-    bookOpinions: Array<BookOpinionForBookInfo>,
+    bookOpinions: Array<BookOpinionBookInfo>,
     bookId: string,
     isAuthenticated: boolean
 }
@@ -37,7 +37,7 @@ const mapStateToProps = (state: AppStoreType, ownProps: OwnPropsType): MapStateT
 })
 
 type OwnPropsType = {
-    bookOpinions: Array<BookOpinionForBookInfo>,
+    bookOpinions: Array<BookOpinionBookInfo>,
     bookId: string
 }
 

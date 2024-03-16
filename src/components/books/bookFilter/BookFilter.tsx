@@ -8,6 +8,7 @@ import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
 import CustomDrawer from "../../common/CustomDrawer";
 import { BookFilterType, isDefaultFilter } from "../../../redux/types/books/bookFilter";
+import DebounceSelect, { PropsType as SelectProps } from '../../../components/common/DebounceSelect';
 
 const BookFilter: React.FC<PropsType> = (props) => {
     const [open, setOpen] = useState(false);
@@ -26,6 +27,21 @@ const BookFilter: React.FC<PropsType> = (props) => {
         props.getBooksByFilter();
         onClose();
     };
+
+    const selectCategoryProps: SelectProps = {
+        fetchOptions: props.getCategories,
+        debounceTimeout: 800,
+        fieldName: "categories",
+        placeholder: "Input book categories",
+        transformToOptions(items) {
+            return items.map(c => {
+                return {
+                    value: c.id,
+                    label: c.title
+                };
+            })
+        }
+    }
 
     return <>
         <Col style={{ height: "50px" }} span={3}>
@@ -52,7 +68,11 @@ const BookFilter: React.FC<PropsType> = (props) => {
                 </Form.Item>
 
                 <Form.Item name="bookTitle">
-                    <Search placeholder="input book title" />
+                    <Search placeholder="Input book title" />
+                </Form.Item>
+
+                <Form.Item name="categoryIds">
+                    <DebounceSelect {...selectCategoryProps} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 11, span: 10, }}>

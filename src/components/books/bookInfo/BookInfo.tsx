@@ -1,6 +1,6 @@
 import React from "react";
 import { PropsType } from "./BookInfoContainer";
-import { Button, Col, Rate, Row } from "antd";
+import { Button, Col, Rate, Row, Tag } from "antd";
 import AddActiveBookContainer from "../../activeBook/addActiveBook/AddActiveBookContainer";
 import { CheckOutlined } from "@ant-design/icons";
 import AddBookOpinionContainer from "../../activeBook/activeBookForList/addBookOpinion/AddBookOpinionContainer";
@@ -9,6 +9,14 @@ import { Link } from "react-router-dom";
 import BookCommentsContainer from "./bookComments/BookCommentsContainer";
 
 const BookInfo: React.FC<PropsType> = (props) => {
+    var tags = props.bookInfo.categories.map(c => {
+        return (
+            <Tag key={c.id}>
+                {c.title}
+            </Tag>
+        )
+    })
+
     return (
         <Col>
             <Row style={{ width: "80%", margin: "0 auto", marginTop: "100px" }}>
@@ -28,6 +36,7 @@ const BookInfo: React.FC<PropsType> = (props) => {
                     </Row>
                     <Col style={{ marginTop: "10px", fontSize: "22px" }}>{props.bookInfo.title}</Col>
                     <Col style={{ marginTop: "10px", fontSize: "15px" }}>{props.bookInfo.bookAuthorNames.join(",")}</Col>
+                    <Row style={{ marginTop: "15px" }}>{tags}</Row>
                     <Row style={{ marginTop: "15px" }}>
                         <Col>
                             {

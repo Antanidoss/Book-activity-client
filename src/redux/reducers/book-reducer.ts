@@ -131,6 +131,7 @@ const bookReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                         bookTitle: action.bookFilter.bookTitle,
                         averageRatingFrom: action.bookFilter.averageRatingFrom,
                         averageRatingTo: action.bookFilter.averageRatingTo,
+                        categories: action.bookFilter.categories
                     }
                 }
             }
@@ -420,6 +421,7 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkType => {
                 isActiveBook: i.isActiveBook,
                 averageRating: i.averageRating,
                 hasOpinion: i.hasOpinion,
+                categories: i.bookCategories.map(c => ({id: c.category.id, title: c.category.title})),
                 bookAuthorNames: i.bookAuthors.map(a => a.author.firstName + " " + a.author.surname),
                 bookOpinions: i.bookOpinions.items.map(o => ({
                     description: o.description,

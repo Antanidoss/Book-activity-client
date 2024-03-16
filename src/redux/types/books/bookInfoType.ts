@@ -8,10 +8,11 @@ export type BookInfoType = {
     averageRating: number,
     hasOpinion: boolean,
     bookAuthorNames: Array<string>
-    bookOpinions: Array<BookOpinionForBookInfo>
+    bookOpinions: Array<BookOpinionBookInfo>,
+    categories: Array<CategoryBookInfo>
 }
 
-export type BookOpinionForBookInfo = {
+export type BookOpinionBookInfo = {
     description: string,
     grade: number
     user: {
@@ -23,4 +24,9 @@ export type BookOpinionForBookInfo = {
     dislikesCount: number,
     hasLike: boolean,
     hasDislike: boolean,
+}
+
+export type CategoryBookInfo = {
+    id: string,
+    title: string
 }
