@@ -11,6 +11,7 @@ import AddBookOpinionContainer from "./addBookOpinion/AddBookOpinionContainer";
 import ResizableButton from "../../common/ResizableButton";
 import AddBookNoteContainer from "./addBookNote/AddBookNoteContainer";
 import BookOpinionViewContainer from "./bookOpinionView/BookOpinionViewContainer";
+import { ROUT_PAGE_NAME } from "../../../types/constants";
 
 const ActiveBookForList: React.FC<PropsType> = (props) => {
     const [removeActiveBookButtonLoading, setRemoveActiveBookButtonLoading] = useState(false);
@@ -31,7 +32,7 @@ const ActiveBookForList: React.FC<PropsType> = (props) => {
         <div className="book-list-block-main">
             <Col span={24} style={bookMain}>
                 <Col span={24} style={bookTitle} title={props.activeBook.book.title}>
-                    <Link to={`/book?bookId=${props.activeBook.book.id}`} style={{ color: "black" }}>{props.activeBook.book.title}</Link>
+                    <Link to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${props.activeBook.book.id}`} style={{ color: "black" }}>{props.activeBook.book.title}</Link>
                 </Col>
                 <Link to={`/book?bookId=${props.activeBook.book.id}`} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>

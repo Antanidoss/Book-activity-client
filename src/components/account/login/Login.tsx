@@ -4,6 +4,7 @@ import { PropsType } from './LoginContainer';
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'antd/es/form/Form';
 import FormErrorMessage from '../../common/FormErrorMessage';
+import { ROUT_PAGE_NAME } from '../../../types/constants';
 
 const Login: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Login: React.FC<PropsType> = (props) => {
 
     useEffect(() => {
         if (props.isAuthenticated) {
-            return navigate("/books");
+            return navigate(ROUT_PAGE_NAME.ALL_BOOKS);
         }
     }, [props.isAuthenticated]);
 
@@ -28,7 +29,7 @@ const Login: React.FC<PropsType> = (props) => {
 
         props.auth(values.email, values.password, values.rememberMe).then(response => {
             if (response.isSuccess) {
-                return navigate("/books");
+                return navigate(ROUT_PAGE_NAME.ALL_BOOKS);
             }
 
             setFormError(response.errorMessage);
@@ -77,7 +78,7 @@ const Login: React.FC<PropsType> = (props) => {
             </Form.Item>
 
             <Form.Item style={{ textAlign: "center" }} wrapperCol={{ span: 24 }}>
-                <Link to="/registration">Registration</Link>
+                <Link to={ROUT_PAGE_NAME.USER_REGISTRATION}>Registration</Link>
             </Form.Item>
         </Form>
     )

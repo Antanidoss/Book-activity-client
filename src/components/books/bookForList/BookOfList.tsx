@@ -7,13 +7,14 @@ import {
     CheckOutlined
 } from "@ant-design/icons";
 import { BookOfListType } from '../../../redux/types/books/bookOfListType';
+import { ROUT_PAGE_NAME } from '../../../types/constants';
 
 const BookOfList: React.FC<BookOfListType> = (book) => {
     return (
         <div className="book-list-block-main">
             <Col span={24} style={bookMain}>
                 <Col span={24} style={bookTitle} title={book.title}>
-                    <Link to={`/book?bookId=${book.id}`} style={{ color: "black" }}>{book.title}</Link>
+                    <Link to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${book.id}`} style={{ color: "black" }}>{book.title}</Link>
                 </Col>
                 <Link to={`/book?bookId=${book.id}`} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>

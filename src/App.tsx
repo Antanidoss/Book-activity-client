@@ -19,6 +19,7 @@ import ActiveBooksStatisticForCurUserContainer from './components/activeBooksSta
 import AllUsersContainer from './components/users/allUsers/AllUsersContainer';
 import NotificationsContainer from './components/notifications/NotificationsContainer';
 import BookInfoContainer from './components/books/bookInfo/BookInfoContainer';
+import { ROUT_PAGE_NAME } from './types/constants';
 
 const App: React.FC<PropsType> = (props) => {
     const { Sider, Content, Header } = Layout;
@@ -45,15 +46,15 @@ const App: React.FC<PropsType> = (props) => {
                     </Header>
                     <Content style={{ overflow: "initial", minHeight: "95vh" }}>
                         <Routes>
-                            <Route path="/books" element={<AllBooksContainer />}></Route>
-                            <Route path="/login" element={<LoginContainer />}></Route>
-                            <Route path="/registration" element={<RegistrationContainer />}></Route>
-                            <Route path="/activeBooks" element={<AllCurUserActiveBooksContainer />}></Route>
-                            <Route path="/administration" element={<AdministartionMain />}></Route>
-                            <Route path="/profile" element={<ProfileContainer />}></Route>
-                            <Route path="/statistic" element={<ActiveBooksStatisticForCurUserContainer />}></Route>
-                            <Route path="/users" element={<AllUsersContainer />}></Route>
-                            <Route path="/book" element={<BookInfoContainer />}></Route>
+                            <Route path={ROUT_PAGE_NAME.ALL_BOOKS} element={<AllBooksContainer />}></Route>
+                            <Route path={ROUT_PAGE_NAME.USER_LOGIN} element={<LoginContainer />}></Route>
+                            <Route path={ROUT_PAGE_NAME.USER_REGISTRATION} element={<RegistrationContainer />}></Route>
+                            <Route path={ROUT_PAGE_NAME.ALL_ACTIVE_BOOKS} element={<AllCurUserActiveBooksContainer />}></Route>
+                            <Route path={ROUT_PAGE_NAME.ADMINISTRATION} element={<AdministartionMain />}></Route>
+                            <Route path={ROUT_PAGE_NAME.USER_PROFILE} element={<ProfileContainer />}></Route>
+                            <Route path={ROUT_PAGE_NAME.ACTIVE_BOOK_STATISTIC} element={<ActiveBooksStatisticForCurUserContainer />}></Route>
+                            <Route path={ROUT_PAGE_NAME.ALL_USERS} element={<AllUsersContainer />}></Route>
+                            <Route path={ROUT_PAGE_NAME.BOOK_INFO} element={<BookInfoContainer />}></Route>
                         </Routes>
                     </Content>
                 </Layout>
