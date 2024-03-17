@@ -10,6 +10,7 @@ import {
     LoginOutlined
 } from "@ant-design/icons";
 import { PropsType } from '../navbar/NavbarContainer';
+import { ROUT_PAGE_NAME } from '../../types/constants';
 
 const Navbar: React.FC<PropsType> = (props) => {
     const location = useLocation();
@@ -50,8 +51,8 @@ const Navbar: React.FC<PropsType> = (props) => {
                 : <Avatar icon={React.createElement(UserOutlined)} />;
 
             return getItem(props.userName, "/userOptions", avatarImage, undefined, { marginTop: "64px" }, [
-                getItem("PROFILE", "/profile", undefined, onClickMenuItem),
-                getItem("ADMINISTRATION", "/administration", undefined, onClickMenuItem)
+                getItem("PROFILE", ROUT_PAGE_NAME.USER_PROFILE, undefined, onClickMenuItem),
+                getItem("ADMINISTRATION", ROUT_PAGE_NAME.ADMINISTRATION, undefined, onClickMenuItem)
             ]);
         }
 
@@ -60,10 +61,10 @@ const Navbar: React.FC<PropsType> = (props) => {
 
     const items: MenuProps['items'] = [
         getProfileMenuItem(),
-        getItem("ACTIVE BOOKS", "/activeBooks", React.createElement(BookOutlined), onClickMenuItem),
-        getItem("BOOKS", "/books", React.createElement(BookOutlined), onClickMenuItem),
-        getItem("STATISTICS", "/statistic", React.createElement(BarChartOutlined), onClickMenuItem),
-        getItem("OTHER READERS", "/users", React.createElement(TeamOutlined), onClickMenuItem),
+        getItem("ACTIVE BOOKS", ROUT_PAGE_NAME.ALL_ACTIVE_BOOKS, React.createElement(BookOutlined), onClickMenuItem),
+        getItem("BOOKS", ROUT_PAGE_NAME.ALL_BOOKS, React.createElement(BookOutlined), onClickMenuItem),
+        getItem("STATISTICS", ROUT_PAGE_NAME.ACTIVE_BOOK_STATISTIC, React.createElement(BarChartOutlined), onClickMenuItem),
+        getItem("OTHER READERS", ROUT_PAGE_NAME.ALL_USERS, React.createElement(TeamOutlined), onClickMenuItem),
     ];
 
     return (

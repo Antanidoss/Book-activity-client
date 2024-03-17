@@ -7,6 +7,7 @@ import AddBookOpinionContainer from "../../activeBook/activeBookForList/addBookO
 import BookOpinionViewContainer from "../../activeBook/activeBookForList/bookOpinionView/BookOpinionViewContainer";
 import { Link, useNavigate } from "react-router-dom";
 import BookCommentsContainer from "./bookComments/BookCommentsContainer";
+import { ROUT_PAGE_NAME } from "../../../types/constants";
 
 const BookInfo: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const BookInfo: React.FC<PropsType> = (props) => {
     const onTagClick = (categoryId: string, categoryTitle: string) => {
         props.updateBookFilter({ ...props.bookFilter, categories: props.bookFilter.categories.concat({ value: categoryId, label: categoryTitle }) });
 
-        navigate("/books");
+        navigate(ROUT_PAGE_NAME.ALL_BOOKS);
     }
 
     var tags = props.bookInfo.categories.map(c => {

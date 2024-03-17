@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UploadImage from "../../common/UploadImage";
 import { PropsType } from "./RegistrationContainer";
 import FormErrorMessage from "../../common/FormErrorMessage";
+import { ROUT_PAGE_NAME } from "../../../types/constants";
 
 const Registration: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const Registration: React.FC<PropsType> = (props) => {
     const onFinish = (values: RegisterDataType) => {
         props.registration(values.userName, values.email, values.password, values.avatarImage).then(response => {
             if (response.isSuccess) {
-                return navigate("/books");
+                return navigate(ROUT_PAGE_NAME.ALL_BOOKS);
             }
 
             setFormError(response.errorMessage);
@@ -80,7 +81,7 @@ const Registration: React.FC<PropsType> = (props) => {
             </Form.Item>
 
             <Form.Item style={{ textAlign: "center" }} wrapperCol={{ span: 24 }}>
-                <Link to="/login">Login</Link>
+                <Link to={ROUT_PAGE_NAME.USER_LOGIN}>Login</Link>
             </Form.Item>
         </Form>
     )
