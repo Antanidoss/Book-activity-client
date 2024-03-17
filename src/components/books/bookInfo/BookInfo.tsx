@@ -14,6 +14,7 @@ const BookInfo: React.FC<PropsType> = (props) => {
 
     const onTagClick = (categoryId: string, categoryTitle: string) => {
         props.updateBookFilter({ ...props.bookFilter, categories: props.bookFilter.categories.concat({ value: categoryId, label: categoryTitle }) });
+        props.updateCurrentPageNumber(1);
 
         navigate(ROUT_PAGE_NAME.ALL_BOOKS);
     }
