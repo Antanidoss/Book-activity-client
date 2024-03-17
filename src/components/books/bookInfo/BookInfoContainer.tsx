@@ -9,6 +9,7 @@ import BookInfo from "./BookInfo";
 import { Spin } from "antd";
 import { BookInfoType } from "../../../redux/types/books/bookInfoType";
 import { BookFilterType } from "../../../redux/types/books/bookFilter";
+import { updateCurrentPage } from "../../../redux/reducers/book-reducer";
 
 const BookInfoContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);
@@ -33,12 +34,14 @@ type MapStateToPropsType = {
 
 type MapDispatchToPropsType = {
     getBookInfo: typeof getBookInfoThunkCreator,
-    updateBookFilter: typeof updateBookFilter
+    updateBookFilter: typeof updateBookFilter,
+    updateCurrentPageNumber: typeof updateCurrentPage
 }
 
 const mapDispatchToProps = {
     getBookInfo: getBookInfoThunkCreator,
-    updateBookFilter: updateBookFilter
+    updateBookFilter: updateBookFilter,
+    updateCurrentPageNumber: updateCurrentPage
 }
 
 const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
