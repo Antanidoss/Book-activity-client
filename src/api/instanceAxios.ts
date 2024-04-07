@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const SERVER_ADDRESS = "https://localhost:5001"
+export const SERVER_ADDRESS =  process.env.REACT_APP_SERVER_ADDRESS;
 
 const instanceAxios = axios.create({
     withCredentials: true,
