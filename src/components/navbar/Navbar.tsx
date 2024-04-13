@@ -10,7 +10,7 @@ import {
     LoginOutlined
 } from "@ant-design/icons";
 import { PropsType } from '../navbar/NavbarContainer';
-import { ROUT_PAGE_NAME } from '../../types/constants';
+import { ROLE_NAME, ROUT_PAGE_NAME } from '../../types/constants';
 
 const Navbar: React.FC<PropsType> = (props) => {
     const location = useLocation();
@@ -46,13 +46,15 @@ const Navbar: React.FC<PropsType> = (props) => {
 
     const getProfileMenuItem = () => {
         if (props.isAuthenticated) {
-            const avatarImage = props.avatarImage !== null
-                ? <Avatar><Image width={"32px"} src={("data:image/png;base64," + props.avatarImage)} /></Avatar>
+            const avatarImage = props.currentUser?.avatarImage !== null
+                ? <Avatar><Image width={"32px"} src={("data:image/png;base64," + props.currentUser?.avatarImage)} /></Avatar>
                 : <Avatar icon={React.createElement(UserOutlined)} />;
 
-            return getItem(props.userName, "/userOptions", avatarImage, undefined, { marginTop: "64px" }, [
+            return getItem(props.currentUser?.userName, "/userOptions", avatarImage, undefined, { marginTop: "64px" }, [
                 getItem("PROFILE", ROUT_PAGE_NAME.USER_PROFILE, undefined, onClickMenuItem),
-                getItem("ADMINISTRATION", ROUT_PAGE_NAME.ADMINISTRATION, undefined, onClickMenuItem)
+                props.currentUser?.roles?.includes(ROLE_NAME.ADMIN)
+                    ? getItem("ADMINISTRATION", ROUT_PAGE_NAME.ADMINISTRATION, undefined, onClickMenuItem)
+                    : null
             ]);
         }
 

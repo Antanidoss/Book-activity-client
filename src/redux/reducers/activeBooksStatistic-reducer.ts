@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { activeBooksStatisticApi } from "../../api/activeBooksStatistic";
+import { activeBooksStatisticApi } from "../../api/activeBooksStatisticApi";
 import { isBadStatusCode } from "../../api/instanceAxios";
 import { AppStoreType } from "../redux-store";
 import { ActiveBooksStatisticType } from "../types/activeBooks/activeBooksStatisticType";

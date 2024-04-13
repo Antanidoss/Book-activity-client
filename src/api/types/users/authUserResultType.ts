@@ -3,5 +3,6 @@ export type AuthUserResultType = {
     userName: string,
     email: string,
     token: string,
-    avatarImage: ArrayBuffer
+    avatarImage: ArrayBuffer,
+    roles: string[]
 }

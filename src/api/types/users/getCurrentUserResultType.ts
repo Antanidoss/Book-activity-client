@@ -3,5 +3,6 @@ export type GetCurrentUserResultType = {
     userName: string,
     email: string,
     token: string,
-    avatarImage: ArrayBuffer
+    avatarImage: ArrayBuffer,
+    roles: string[]
 }

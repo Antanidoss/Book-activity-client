@@ -1,5 +1,6 @@
 export type CurrentUserType = {
     id: string,
     avatarImage: ArrayBuffer | null,
-    userName: string
+    userName: string,
+    roles: string[]
 }
