@@ -9,3 +9,7 @@ export const ROUT_PAGE_NAME = {
     ACTIVE_BOOK_STATISTIC: "/statistic",
     ALL_USERS: "/users"
 }
+
+export const ROLE_NAME = {
+    ADMIN: "Admin"
+}

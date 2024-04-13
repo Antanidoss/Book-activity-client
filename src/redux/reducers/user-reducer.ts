@@ -61,7 +61,8 @@ const userReducer = (state = initialState, action: ActionsTypes): InitialStateTy
                 currentUser: {
                     id: action.id,
                     userName: action.userName,
-                    avatarImage: action.avatarImage
+                    avatarImage: action.avatarImage,
+                    roles: action.roles
                 }
             }
         case SET_AUTHENTICATED_STATUS:
@@ -162,63 +163,63 @@ type SetAuthenticatedStatusType = {
     type: typeof SET_AUTHENTICATED_STATUS, isAuthenticated: boolean
 }
 export const setAuthenticatedStatus = (isAuthenticated: boolean): SetAuthenticatedStatusType => ({
-    type: SET_AUTHENTICATED_STATUS, isAuthenticated: isAuthenticated
+    type: SET_AUTHENTICATED_STATUS, isAuthenticated
 })
 
 type SetCurrentUserDataType = {
-    type: typeof SET_CURRENT_USER_DATA, id: string, userName: string, avatarImage: ArrayBuffer
+    type: typeof SET_CURRENT_USER_DATA, id: string, userName: string, avatarImage: ArrayBuffer, roles: string[]
 }
-export const setCurrentUserData = (id: string, userName: string, avatarImage: ArrayBuffer): SetCurrentUserDataType => ({
-    type: SET_CURRENT_USER_DATA, id: id, userName: userName, avatarImage: avatarImage
+export const setCurrentUserData = (id: string, userName: string, avatarImage: ArrayBuffer, roles: string[]): SetCurrentUserDataType => ({
+    type: SET_CURRENT_USER_DATA, id, userName, avatarImage, roles
 })
 
 type UpdateUserType = {
     type: typeof UPDATE_USER, userName: string, avatarImage: ArrayBuffer | null
 }
 export const updateUser = (userName: string, avatarImage: ArrayBuffer): UpdateUserType => ({
-    type: UPDATE_USER, userName: userName, avatarImage: avatarImage
+    type: UPDATE_USER, userName, avatarImage
 })
 
 type SetUsersType = {
     type: typeof SET_USERS, users: Array<UserOfListType>
 }
 export const setUsers = (users: Array<UserOfListType>): SetUsersType => ({
-    type: SET_USERS, users: users
+    type: SET_USERS, users
 })
 
 type UpdateUserFilterType = {
     type: typeof UPDATE_USER_FILTER, filter: UserFilterType
 }
 export const updateUserFilter = (filter: UserFilterType): UpdateUserFilterType => ({
-    type: UPDATE_USER_FILTER, filter: filter
+    type: UPDATE_USER_FILTER, filter
 })
 
 type SetUserSubscriptionsType = {
     type: typeof SET_USER_SUBSCRIPTIONS, userId: string
 }
 export const setUserSubscriptions = (userId: string): SetUserSubscriptionsType => ({
-    type: SET_USER_SUBSCRIPTIONS, userId: userId
+    type: SET_USER_SUBSCRIPTIONS, userId
 })
 
 type RemoveUserSubscriptionsType = {
     type: typeof REMOVE_USER_SUBSCRIPTIONS, userId: string
 }
 export const removeUserSubscriptions = (userId: string): RemoveUserSubscriptionsType => ({
-    type: REMOVE_USER_SUBSCRIPTIONS, userId: userId
+    type: REMOVE_USER_SUBSCRIPTIONS, userId
 })
 
 type SetUserProfileType = {
     type: typeof SET_USER_PROFILE, userProfile: UserProfileType
 }
 export const setUserProfile = (userProfile: UserProfileType): SetUserProfileType => ({
-    type: SET_USER_PROFILE, userProfile: userProfile
+    type: SET_USER_PROFILE, userProfile
 })
 
 type SetBookNotesProfileType = {
     type: typeof SET_BOOK_NOTES_PROFILE, bookNotes: Array<BookNoteType>
 }
 export const setBookNotesProfile = (bookNotes: Array<BookNoteType>): SetBookNotesProfileType => ({
-    type: SET_BOOK_NOTES_PROFILE, bookNotes: bookNotes
+    type: SET_BOOK_NOTES_PROFILE, bookNotes
 })
 
 type ActionsTypes = SetCurrentUserDataType | SetAuthenticatedStatusType | UpdateUserType | SetUsersType | UpdateUserFilterType | SetUserSubscriptionsType | RemoveUserSubscriptionsType | SetUserProfileType | SetBookNotesProfileType;
@@ -231,7 +232,7 @@ export const authRequestThunkCreator = (email: string, password: string, remembe
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
-            dispatch(setCurrentUserData(result.userId, result.userName, result.avatarImage));
+            dispatch(setCurrentUserData(result.userId, result.userName, result.avatarImage, result.roles));
         }
 
         return { isSuccess: response.success, errorMessage: response.errorMessage };
@@ -244,7 +245,7 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
         if (response.success && response.result !== null) {
             dispatch(setAuthenticatedStatus(true));
             const result = response.result;
-            dispatch(setCurrentUserData(result.id, result.userName, result.avatarImage));
+            dispatch(setCurrentUserData(result.id, result.userName, result.avatarImage, result.roles));
         }
     }
 }
@@ -256,7 +257,7 @@ export const registrationUserRequestThunkCreator = (userName: string, email: str
         if (response.success) {
             const authResponse = await userApi.auth(email, password, true);
             dispatch(setAuthenticatedStatus(true));
-            dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.avatarImage));
+            dispatch(setCurrentUserData(authResponse.result.userId, authResponse.result.userName, authResponse.result.avatarImage, []));
         }
 
         return { isSuccess: response.success, errorMessage: response.errorMessage };
