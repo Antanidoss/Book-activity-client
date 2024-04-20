@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { AppStoreType, ExtractConnectType } from "../../redux/redux-store";
@@ -11,11 +11,10 @@ import { Avatar, notification, Image } from "antd";
 import signalRUtil from "../../utils/signalRUtil";
 import { SignalRNotification } from "../../types/signalR/signalRNotificationType";
 import { NotificationType } from "../../redux/types/notifications/notificationType";
-import { BrowserRouter, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NotificationsContainer: React.FC<PropsType> = (props) => {
-    let notificationsBeingListened = false;
-
+    const [notificationsBeingListened, setNotificationsBeingListened] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,8 +39,8 @@ const NotificationsContainer: React.FC<PropsType> = (props) => {
 
         props.getNotifications();
 
-        notificationsBeingListened = true;
-    }, [props.appInitialized, props.isAuthenticated])
+        setNotificationsBeingListened(true);
+    }, [props, notificationsBeingListened, navigate])
 
     return <Notifications {...props} />
 }
@@ -74,9 +73,7 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     isAuthenticated: getIsAuthenticated(state)
 })
 
-type OwnPropsType = {}
-
-const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 
 export default compose<React.ComponentType>(connectStore)(NotificationsContainer);

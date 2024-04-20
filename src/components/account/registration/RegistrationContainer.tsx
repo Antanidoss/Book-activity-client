@@ -26,9 +26,7 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     isAuthenticated: getIsAuthenticated(state)
 });
 
-type OwnPropsType = {};
-
-const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps);
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);
 export type PropsType = ExtractConnectType<typeof connectStore>;
 
 export default compose<React.ComponentType>(connectStore)(RegistrationContainer);

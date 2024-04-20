@@ -6,7 +6,7 @@ export const bookOpinionApi = {
         return instanceAxios.post("/bookOpinion/add", { bookId, grade, description });
     },
     getBookOpinion(bookId: string, userId: string) {
-        let query = `query {
+        const query = `query {
             bookOpinions(take: 1, where: {bookId: {eq: "${bookId}"}, and: {userId: {eq: "${userId}"} }}) {
               items {
                 id

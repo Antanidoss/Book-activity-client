@@ -3,7 +3,7 @@ import { GetCategoriesByNameType } from "./types/categories/getCategoriesByTitle
 
 export const categoryApi = {
     getCategorieByTitle(title: string, take: number) {
-        let query = `query {
+        const query = `query {
             categories(where: {title: {contains: "${title}"}}, take: ${take}) {
                 items {
                     id

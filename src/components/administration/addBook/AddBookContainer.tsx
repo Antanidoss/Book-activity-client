@@ -20,11 +20,7 @@ const mapDispatchToProps: MapDispatchToPropsType = {
     getCategories: getCategoriesByTitleRequestThunkCreator
 }
 
-type MapStateToPropsType = {}
-
-const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({})
-
-const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);
+const connectStore = connect<unknown, MapDispatchToPropsType, unknown, AppStoreType>(null, mapDispatchToProps);
 export type PropsType = ExtractConnectType<typeof connectStore>;
 
 export default connectStore(AddBookContainer);

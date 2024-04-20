@@ -36,9 +36,12 @@ const BookNotes: React.FC<{ bookNotes: Array<BookNoteType> }> = (props) => {
                                 maxHeight: "400px",
                                 color: n.noteTextColor,
                                 whiteSpace: "pre-line",
-                                borderRadius: "10px"
+                                borderRadius: "10px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center"
                             }}>
-                                {n.note}
+                                „{n.note}“
                             </Col>
                         </Col>
                     )

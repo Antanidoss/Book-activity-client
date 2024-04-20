@@ -371,7 +371,7 @@ export const getBooksByFilter = (): ThunkType => {
 }
 
 export const addBookRequestThunkCreator = (addBookModel: AddBookType): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async () => {
         const response = await bookApi.addBook({
             title: addBookModel.title,
             image: addBookModel.image.file.originFileObj as Blob,
@@ -386,7 +386,7 @@ export const addBookRequestThunkCreator = (addBookModel: AddBookType): ThunkActi
 }
 
 export const addBookOpinionThunkCreator = (bookId: string, grade: number, description: string, userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await bookOpinionApi.update(bookId, grade, description);
         const success = !isBadStatusCode(response.status);
         if (success) {
@@ -398,7 +398,7 @@ export const addBookOpinionThunkCreator = (bookId: string, grade: number, descri
 }
 
 export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<Promise<Array<AuthorType>>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await authorApi.getAuthorsByName(name, 5);
         if (!isBadStatusCode(response.status)) {
             return dispatch(setAuthorsForAddBook(response.data.data.authors.items)).authors;
@@ -409,7 +409,7 @@ export const getAuthorsByNameRequestThunkCreator = (name: string): ThunkAction<P
 }
 
 export const getBookInfoThunkCreator = (bookId: string): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await bookApi.getBookInfo(bookId);
         if (!isBadStatusCode(response.status)) {
             dispatch(setBookInfo(response.data.data.bookById.map(i => ({
@@ -421,7 +421,7 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkType => {
                 isActiveBook: i.isActiveBook,
                 averageRating: i.averageRating,
                 hasOpinion: i.hasOpinion,
-                categories: i.bookCategories.map(c => ({id: c.category.id, title: c.category.title})),
+                categories: i.bookCategories.map(c => ({ id: c.category.id, title: c.category.title })),
                 bookAuthorNames: i.bookAuthors.map(a => a.author.firstName + " " + a.author.surname),
                 bookOpinions: i.bookOpinions.items.map(o => ({
                     description: o.description,
@@ -442,7 +442,7 @@ export const getBookInfoThunkCreator = (bookId: string): ThunkType => {
 }
 
 export const getBookOpinionThunkCreator = (bookRatingId: string, userId: string): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await bookOpinionApi.getBookOpinion(bookRatingId, userId);
 
         if (!isBadStatusCode(response.status)) {
@@ -452,7 +452,7 @@ export const getBookOpinionThunkCreator = (bookRatingId: string, userId: string)
 }
 
 export const addBookOpinionLikeThunkCreator = (userIdOpinion: string, bookId: string, hasDislike: boolean): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await bookOpinionApi.addLike(bookId, userIdOpinion);
         const success = !isBadStatusCode(response.status);
 
@@ -465,7 +465,7 @@ export const addBookOpinionLikeThunkCreator = (userIdOpinion: string, bookId: st
 }
 
 export const addBookOpinionDislikeThunkCreator = (userIdOpinion: string, bookId: string, hasLike: boolean): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await bookOpinionApi.addDislike(bookId, userIdOpinion);
         const success = !isBadStatusCode(response.status);
 
@@ -478,7 +478,7 @@ export const addBookOpinionDislikeThunkCreator = (userIdOpinion: string, bookId:
 }
 
 export const removeBookOpinionLikeThunkCreator = (userIdOpinion: string, bookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await bookOpinionApi.removeLike(bookId, userIdOpinion);
         const success = !isBadStatusCode(response.status);
 
@@ -491,7 +491,7 @@ export const removeBookOpinionLikeThunkCreator = (userIdOpinion: string, bookId:
 }
 
 export const removeBookOpinionDislikeThunkCreator = (userIdOpinion: string, bookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await bookOpinionApi.removeDislike(bookId, userIdOpinion);
         const success = !isBadStatusCode(response.status);
 
@@ -504,7 +504,7 @@ export const removeBookOpinionDislikeThunkCreator = (userIdOpinion: string, book
 }
 
 export const getCategoriesByTitleRequestThunkCreator = (title: string): ThunkAction<Promise<Array<CategoryType>>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async () => {
         const response = await categoryApi.getCategorieByTitle(title, 5);
         if (!isBadStatusCode(response.status)) {
             return response.data.data.categories.items;

@@ -27,7 +27,7 @@ const DebounceSelect: React.FC<PropsType> = (props) => {
     };
 
     return debounce(loadOptions, props.debounceTimeout);
-  }, [props.fetchOptions, props.debounceTimeout]);
+  }, []);
 
   return (
     <Form.Item
@@ -48,9 +48,9 @@ const DebounceSelect: React.FC<PropsType> = (props) => {
 }
 
 export type PropsType = {
-  fetchOptions: (param: any) => Promise<Array<any>>,
+  fetchOptions: (param: unknown) => Promise<Array<unknown>>,
   debounceTimeout: number,
-  transformToOptions: (items: Array<any>) => Array<DefaultOptionType>,
+  transformToOptions: (items: Array<unknown>) => Array<DefaultOptionType>,
   fieldName: string,
   fieldLabel?: string,
   rules?: Rule[],

@@ -19,7 +19,7 @@ const BookInfo: React.FC<PropsType> = (props) => {
         navigate(ROUT_PAGE_NAME.ALL_BOOKS);
     }
 
-    var tags = props.bookInfo.categories.map(c => {
+    const tags = props.bookInfo.categories.map(c => {
         return (
             <Tag key={c.id} onClick={() => onTagClick(c.id, c.title)} style={{"cursor": "pointer"}}>
                 {c.title}

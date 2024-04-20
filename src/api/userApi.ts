@@ -31,7 +31,7 @@ export const userApi = {
             })
     },
     addUser(userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile> | undefined) {
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("name", userName);
         formData.append("email", email);
         formData.append("password", password);
@@ -45,7 +45,7 @@ export const userApi = {
             .catch(error => ({ success: false, errorMessage: error.response.data }))
     },
     updateUser(userId: string, userName: string, avatarImage: UploadChangeParam<UploadFile> | undefined) {
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("userId", userId);
         formData.append("name", userName);
 
@@ -56,7 +56,7 @@ export const userApi = {
         return instanceAxios.post("/user/update", formData)
     },
     getUsersByFilter(filter: GetUserByFilterType, skip: number, take: number) {
-        let where = filter.name === null ? "" : `where: { userName: { contains: ${"\"" + filter.name + "\""} } }`
+        const where = filter.name === null ? "" : `where: { userName: { contains: ${"\"" + filter.name + "\""} } }`
         const query = `query {
             users(skip: ${skip}, take: ${take}, ${where}) {
                 items {

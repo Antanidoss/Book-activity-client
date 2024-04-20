@@ -25,7 +25,7 @@ type PropsType = {
     children?: React.ReactNode;
     duration?: number;
     overlayOpacity?: number;
-    overlayColor?: String;
+    overlayColor?: string;
     enableOverlay?: boolean;
     style?: React.CSSProperties;
     zIndex?: number;

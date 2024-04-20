@@ -3,8 +3,7 @@ import { PropsType } from "./NotificationsContainer";
 import { NotificationOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Button, Col, Row, Image } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
-import { BrowserRouter, Link } from "react-router-dom";
-import { Container, render } from "react-dom";
+import { Link } from "react-router-dom";
 
 const Notifications: React.FC<PropsType> = (props) => {
     const [isOpenNotificationsList, changeDisplayNotificationsList] = useState(false)

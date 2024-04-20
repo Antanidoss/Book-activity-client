@@ -24,7 +24,7 @@ const AddActiveBook: React.FC<PropsType> = (props) => {
   };
 
   const handleSubmit = (addActiveBookType: AddActiveBookType) => {
-    let haveErrors = validateForm();
+    const haveErrors = validateForm();
 
     if (haveErrors) {
       return;

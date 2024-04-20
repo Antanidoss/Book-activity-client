@@ -4,7 +4,7 @@ import { ResponseType } from "./instanceAxios";
 
 export const ocrApi = {
     getTextOnImage(image: UploadChangeParam<UploadFile>) {
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("image", image.file.originFileObj as Blob, image.file.originFileObj?.name);
 
         instanceAxios.defaults.headers.post["Content-Type"] = "multipart/form-data";

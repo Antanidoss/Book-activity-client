@@ -15,7 +15,7 @@ export type ResponseType<D = {}> = {
     errorMessage: string
 }
 
-export type GraphqlResponseType<D = {}> = {
+export type GraphqlResponseType<D = unknown> = {
     data: D
 }
 
@@ -29,16 +29,6 @@ export const setConnectionId = (connectionId: string) => {
 
 export const setAuthorizationToken = (token: string) => {
     instanceAxios.defaults.headers.common["Authorization"] = token;
-}
-
-export const handleError = (error: any): ResponseType => {
-    if (error.response) {
-        return { success: false, errorMessage: error.response.data, result: {} }
-    } else if (error.request) {
-        return { success: false, errorMessage: error.request, result: {} }
-    } else {
-        return { success: false, errorMessage: error.messsage, result: {} }
-    }
 }
 
 export default instanceAxios;

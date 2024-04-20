@@ -49,12 +49,11 @@ const setActiveBookStatisticByDay = (activeBookStatisticsByDayType: Array<Active
 })
 
 type ActionsTypes = AddActiveBookStatisticsType | SetActiveBookStatisticByDayType;
-type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const getActiveBooksStatisticThunkCreator = (userId?: string): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        var response = await activeBooksStatisticApi.getActiveBooksStatistic(userId);
+    return async (dispatch: Dispatch<ActionsTypes>) => {
+        const response = await activeBooksStatisticApi.getActiveBooksStatistic(userId);
         const success = !isBadStatusCode(response.status);
 
         if (success) {
@@ -64,8 +63,8 @@ export const getActiveBooksStatisticThunkCreator = (userId?: string): ThunkType 
 }
 
 export const getActiveBookStatisticByDayThunkCreator = (day: string, userId?: string): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
-        var response = await activeBooksStatisticApi.getActiveBooksStatisticByDay(day, userId);
+    return async (dispatch: Dispatch<ActionsTypes>) => {
+        const response = await activeBooksStatisticApi.getActiveBooksStatisticByDay(day, userId);
         const success = !isBadStatusCode(response.status);
 
         if (success) {

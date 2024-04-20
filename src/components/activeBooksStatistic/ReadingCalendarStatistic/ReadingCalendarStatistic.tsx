@@ -10,10 +10,10 @@ const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, u
     const [showStatisticsPerDay, setShowStatisticsPerDay] = useState(false);
 
     const createCalendarStatiscs = () => {
-        let result: Array<JSX.Element> = [];
+        const result: Array<JSX.Element> = [];
         const rowCount = 7;
 
-        let currentDate = new Date();
+        const currentDate = new Date();
         for (let i = 0; i < rowCount; i++) {
             result.push(<tr key={i} style={{ height: "10px" }}>{createRowStatistics(new Date(currentDate))}</tr>)
 
@@ -24,7 +24,7 @@ const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, u
     }
 
     const createRowStatistics = (currentDate: Date) => {
-        let rowStatistics: Array<JSX.Element> = [];
+        const rowStatistics: Array<JSX.Element> = [];
         let numberOfPagesReadPerDay: NumberOfPagesReadPerDay | undefined;
         let formatDate: string;
 
@@ -43,7 +43,7 @@ const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, u
                 backgroundColor = "#4096ff";
             }
 
-            let formatDateForDayStatistic = date.format(currentDate, "MM.DD.YYYY");
+            const formatDateForDayStatistic = date.format(currentDate, "MM.DD.YYYY");
 
             rowStatistics.unshift(
                 <Tooltip key={formatDate} title={tooltipTitle}>
@@ -58,7 +58,7 @@ const ReadingCalendarStatistic: React.FC<{statistic: ActiveBooksStatisticType, u
     }
 
     const createMonthsLabels = () => {
-        let result: Array<JSX.Element> = [];
+        const result: Array<JSX.Element> = [];
         let colSpan: number;
         const currentDate = new Date();
         const monthsCount = 12;

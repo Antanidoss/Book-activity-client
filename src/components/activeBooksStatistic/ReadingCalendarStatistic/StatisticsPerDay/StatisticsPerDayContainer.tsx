@@ -15,7 +15,7 @@ const StatisticsPerDayContainer: React.FC<PropsType> = (props) => {
         if (props.show) {
             props.getActiveBookStatisticByDay(props.day, props.userId).then(() => setLoading(false));
         }
-    }, [props.show])
+    }, [])
 
     return (
         <CustomDrawer onClose={props.onClose} open={props.show} direction="right" size={600}>
