@@ -1,0 +1,48 @@
+﻿version: "3.9"
+networks:
+  book-activity-network:
+    driver: bridge
+services:
+   backend:
+     image: anton11/book-activity-backend
+     environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - "ConnectionStrings:EventStoreConnection=mongodb://mongo_db:27017"
+        - "ConnectionStrings:PostgresSQL=Host=postgres;Port=5432;Database=BookActivity;User id=postgres;Password=postgres"
+        - "ClientAddress=http://localhost:5001"
+     ports:
+         - 80:80
+     networks:
+        - book-activity-network
+     depends_on:
+        - postgres_db
+        - mongo_db
+   postgres_db:
+      container_name: postgres
+      image: postgres
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: BookActivity
+      networks:
+        - book-activity-network
+      volumes:
+        - postgres-data:/var/lib/postgressql/data
+   mongo_db:
+      container_name: mongo_db
+      image: mongo
+      networks:
+        - book-activity-network
+      volumes:
+        - mongodbdata:/var/lib/mongo/data
+      ports:
+        - "27017:27017"
+   client:
+      image: anton11/book-activity-client
+      ports:
+        - 5001:3000
+      environment:
+        - REACT_APP_SERVER_ADDRESS=http://localhost
+volumes:
+   postgres-data:
+   mongodbdata:
