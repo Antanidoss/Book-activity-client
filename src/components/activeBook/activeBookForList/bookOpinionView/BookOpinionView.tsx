@@ -1,4 +1,4 @@
-import { Button, Col, Form, Modal, Rate, Spin } from "antd";
+import { Button, Col, Modal, Rate, Spin } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useState } from "react";
 import { PropsType } from "./BookOpinionViewContainer";
@@ -18,7 +18,7 @@ const BookOpinionView: React.FC<PropsType> = (props) => {
     const showModal = () => {
         setIsModalVisible(true);
         if (props.bookOpinion === undefined) {
-            props.getBookOpinion(props.bookId, props.userId).then(_ => setLoading(false));
+            props.getBookOpinion(props.bookId, props.userId).then(() => setLoading(false));
         }
     };
 

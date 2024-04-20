@@ -14,13 +14,13 @@ import { updateCurrentPage } from "../../../redux/reducers/book-reducer";
 const BookInfoContainer: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(true);
     const query = useQuery();
-    let bookId = query.get("bookId");
+    const bookId = query.get("bookId");
 
     useEffect(() => {
         if (bookId != null) {
             props.getBookInfo(bookId as string).then(() => setLoading(false));
         }
-    }, [bookId])
+    }, [bookId, props])
 
     return loading
         ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
@@ -49,9 +49,7 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     bookFilter: getBookFilter(state)
 })
 
-type OwnPropsType = {}
-
-const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps);
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);
 export type PropsType = ExtractConnectType<typeof connectStore>;
 
 export default compose<React.ComponentType>(connectStore)(BookInfoContainer);

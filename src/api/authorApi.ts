@@ -8,7 +8,7 @@ export const authorApi = {
             .then(r => r.data);
     },
     getAuthorsByName(name: string, take: number) {
-        let query = `query {
+        const query = `query {
             authors(where: {firstName: {contains: "${name}"}, or: {surname: {contains: "${name}"} }}, take: ${take}) {
                 items {
                     id

@@ -68,11 +68,10 @@ export const removeNotification = (notificationId: string): RemoveNotificationTy
 })
 
 type ActionsTypes = SetUserNotificationsType | AddNotificationType | RemoveNotificationType;
-type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>;
 
 export const getUserNotificationsThunkCreator = (): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await notificationApi.getNotification();
 
         if (!isBadStatusCode(response.status)) {
@@ -82,7 +81,7 @@ export const getUserNotificationsThunkCreator = (): ThunkType => {
 }
 
 export const removeUserNotificationsThunkCreator = (notificationId: string): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await notificationApi.removeNotification(notificationId);
 
         if (!isBadStatusCode(response.status)) {

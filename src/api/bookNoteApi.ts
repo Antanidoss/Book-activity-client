@@ -6,7 +6,7 @@ export const bookNoteApi = {
     return instanceAxios.post("/bookNote/add", { activeBookId, note, noteColor, noteTextColor })
   },
   getLastBookNotes(take: number, userId?: string) {
-    let query = `query {
+    const query = `query {
             bookNotes(,
               take: ${take},
               order: { timeOfCreation: DESC },

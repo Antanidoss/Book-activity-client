@@ -36,7 +36,7 @@ const ProfileContainer: React.FC<PropsType> = (props) => {
                 setLoading(false)
             })
         })
-    }, [])
+    }, [query, props])
 
     return loading ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div> : <Profile {...props} />
 }
@@ -75,9 +75,7 @@ const mapStateToProps = (state: AppStoreType): MapStateToPropsType => ({
     bookNotes: getBookNotesProfile(state) as Array<BookNoteType>
 })
 
-type OwnPropsType = {}
-
-const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps);
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps);
 export type PropsType = ExtractConnectType<typeof connectStore>;
 
 export default compose<React.ComponentType>(connectStore, withAuthRedirect)(ProfileContainer);

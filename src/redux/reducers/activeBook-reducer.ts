@@ -155,7 +155,7 @@ type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const addActiveBookRequestThunkCreator = (numberPagesRead: number, totalNumberPages: number, bookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async () => {
         const response = await activeBookApi.addActiveBook(totalNumberPages, numberPagesRead, bookId);
         if (response.success) {
             getActiveBooksByFilterThunkCreator();
@@ -190,14 +190,14 @@ export const getActiveBooksByFilterThunkCreator = (): ThunkType => {
 }
 
 export const updateActiveBookThunkCreator = (activeBookId: string, numberPagesRead: number): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         await activeBookApi.updateActiveBook(activeBookId, numberPagesRead);
         dispatch(updateActiveBook(activeBookId, numberPagesRead));
     }
 }
 
 export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await activeBookApi.removeActiveBook(activeBookId);
         const success = !isBadStatusCode(response.status);
         if (success) {
@@ -209,7 +209,7 @@ export const removeActiveBookThunkCreator = (activeBookId: string): ThunkAction<
 }
 
 export const addBookNoteThunkCreator = (activeBookId: string, note: string, noteColor: string, noteTextColor: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await bookNoteApi.addBookNote(activeBookId, note, noteColor, noteTextColor);
         const success = !isBadStatusCode(response.status);
         if (success) {

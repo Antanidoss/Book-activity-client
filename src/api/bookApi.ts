@@ -99,7 +99,7 @@ export const bookApi = {
     return instanceAxios.post<GraphqlResponseType<GetBookInfoType>>(`/graphql`, { query }).then(res => res);
   },
   addBook(addBookModel: AddBookType) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("title", addBookModel.title);
     formData.append("description", addBookModel.description);
     formData.append("image", addBookModel.image);

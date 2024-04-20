@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getBooksByFilter } from "../../redux/reducers/book-reducer";
 import { getBooks, getPageNumber, getPageSize, getTotalBookCount } from "../../redux/selectors/book-selectors";
@@ -50,9 +50,7 @@ const mapDispatchToProps = {
     getBooks: getBooksByFilter
 }
 
-type OwnPropsType = {}
-
-const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStoreType>(mapStateToProps, mapDispatchToProps)
+const connectStore = connect<MapStateToPropsType, MapDispatchToPropsType, unknown, AppStoreType>(mapStateToProps, mapDispatchToProps)
 export type PropsType = ExtractConnectType<typeof connectStore>
 
 export default connectStore(AllBooksContainer)

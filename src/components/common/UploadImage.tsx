@@ -66,7 +66,7 @@ const UploadImage: React.FC<PropsType> = (props) => {
                     }, 0);
                 }}                    >
                 {imageUrl && (props.showUploadImage === undefined || props.showUploadImage) 
-                    ? (<img src={imageUrl} style={{width: "100%"}} />)
+                    ? <img src={imageUrl} style={{width: "100%"}} />
                     : (uploadButton)}
             </Upload>
         </Form.Item>

@@ -227,7 +227,7 @@ type GetStateType = () => AppStoreType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>
 
 export const authRequestThunkCreator = (email: string, password: string, rememberMe: boolean): ThunkAction<Promise<ThunkResponseType>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await userApi.auth(email, password, rememberMe);
         if (response.success) {
             dispatch(setAuthenticatedStatus(true));
@@ -240,7 +240,7 @@ export const authRequestThunkCreator = (email: string, password: string, remembe
 }
 
 export const getCurrentUserRequestThunkCreator = (): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await userApi.getCurrentUser();
         if (response.success && response.result !== null) {
             dispatch(setAuthenticatedStatus(true));
@@ -251,7 +251,7 @@ export const getCurrentUserRequestThunkCreator = (): ThunkType => {
 }
 
 export const registrationUserRequestThunkCreator = (userName: string, email: string, password: string, avatarImage: UploadChangeParam<UploadFile>): ThunkAction<Promise<ThunkResponseType>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await userApi.addUser(userName, email, password, avatarImage);
 
         if (response.success) {
@@ -265,7 +265,7 @@ export const registrationUserRequestThunkCreator = (userName: string, email: str
 }
 
 export const updateUserRequestThunkCreator = (userId: string, userName: string, avatarImage: UploadChangeParam<UploadFile>): ThunkType => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await userApi.updateUser(userId, userName, avatarImage);
         if (!isBadStatusCode(response.status)) {
             dispatch(updateUser(userName, await (avatarImage.file.originFileObj as Blob).arrayBuffer()));
@@ -297,7 +297,7 @@ export const getUsersByFilterThunkCreator = (): ThunkType => {
 }
 
 export const subscribeToUserThunkCreator = (userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await userApi.subscribeToUser(userId);
         const success = !isBadStatusCode(response.status);
         if (success) {
@@ -309,7 +309,7 @@ export const subscribeToUserThunkCreator = (userId: string): ThunkAction<Promise
 }
 
 export const unsubscribeUserThunkCreator = (userId: string): ThunkAction<Promise<boolean>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const response = await userApi.unsubscribeUser(userId);
         const success = !isBadStatusCode(response.status);
         if (success) {
@@ -321,7 +321,7 @@ export const unsubscribeUserThunkCreator = (userId: string): ThunkAction<Promise
 }
 
 export const getUserProfileThunkCreator = (userId: string, forCurrentUser: boolean): ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const userProfile = await userApi.getUserProfile(userId, forCurrentUser);
 
         dispatch(setUserProfile(userProfile))
@@ -329,7 +329,7 @@ export const getUserProfileThunkCreator = (userId: string, forCurrentUser: boole
 }
 
 export const getBookNotesProfileThunkCreator = (userId: string): ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes> => {
-    return async (dispatch: Dispatch<ActionsTypes>, getState: GetStateType) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         const bookNotes = await bookNoteApi.getLastBookNotes(4, userId);
 
         dispatch(setBookNotesProfile(bookNotes))

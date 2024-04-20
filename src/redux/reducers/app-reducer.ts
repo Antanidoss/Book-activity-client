@@ -35,8 +35,8 @@ type ActionsTypes = InitializedSuccessType;
 type ThunkType = ThunkAction<Promise<void>, AppStoreType, unknown, ActionsTypes>;
 
 export const initializeThunkCreator = (): ThunkType => {
-    return async (dispatch, getState) => {
-        var promise = dispatch(getCurrentUserRequestThunkCreator());
+    return async (dispatch) => {
+        const promise = dispatch(getCurrentUserRequestThunkCreator());
 
         Promise.all([promise]).then(() => {
             dispatch(initializedSuccess())
