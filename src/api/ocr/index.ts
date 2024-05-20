@@ -1,6 +1,6 @@
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
-import instanceAxios from "./instanceAxios";
-import { ResponseType } from "./instanceAxios";
+import instanceAxios from "../instanceAxios";
+import { ResponseType } from "../instanceAxios";
 
 export const ocrApi = {
     getTextOnImage(image: UploadChangeParam<UploadFile>) {

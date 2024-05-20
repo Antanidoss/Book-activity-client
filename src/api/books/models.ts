@@ -1,4 +1,4 @@
-export type AddBookType = {
+export type AddBook = {
     title: string,
     description: string,
     image: Blob,
