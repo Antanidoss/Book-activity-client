@@ -1,32 +1,18 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import thunkMiddleware from "redux-thunk"
-import activeBookReducer from "./reducers/activeBook-reducer";
-import appReducer from "./reducers/app-reducer";
-import bookReducer from './reducers/book-reducer'
-import userReducer from "./reducers/user-reducer";
-import { composeWithDevTools } from "redux-devtools-extension";
-import activeBooksStatisticReducer from "./reducers/activeBooksStatistic-reducer";
-import userNotificationReducer from "./reducers/notification-reducer";
-import { InferableComponentEnhancerWithProps } from "react-redux";
+import bookReducer from "./books/slice";
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from './users/slice';
+import activeBookReducer from './activeBooks/slice';
+import commonReducer from './common/slice';
 
-const rootReducer = combineReducers({
-    bookStore: bookReducer,
-    userStore: userReducer,
-    appStore: appReducer,
-    activeBookStore: activeBookReducer,
-    activeBooksStatisticStore: activeBooksStatisticReducer,
-    userNotificationStore: userNotificationReducer,
-});
+export const store = configureStore({
+  reducer: {
+    books: bookReducer,
+    activeBooks: activeBookReducer,
+    users: userReducer,
+    common: commonReducer
+  },
+})
 
-type RootReducer = typeof rootReducer
+export type RootState = ReturnType<typeof store.getState>
 
-export type AppStoreType = ReturnType<RootReducer>;
-
-const store = createStore(rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunkMiddleware)
-))
-
-export type ExtractConnectType<T> = T extends InferableComponentEnhancerWithProps<infer K, any> ? K : T;
-
-export default store;
+export type AppDispatch = typeof store.dispatch

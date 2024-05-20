@@ -1,10 +1,12 @@
 import React from "react";
 import { Col, Divider, Row } from "antd";
 import { Link } from "react-router-dom";
-import { BookNoteType } from "../../../../redux/types/users/userProfile";
+import { GetLastBookNotesType } from "../../../../query/bookNotes/models";
 
-const BookNotes: React.FC<{ bookNotes: Array<BookNoteType> }> = (props) => {
-    if (props.bookNotes === undefined || props.bookNotes.length === 0) {
+const BookNotes: React.FC<{ getLastBookNotes: GetLastBookNotesType }> = (props) => {
+    const bookNotes = props.getLastBookNotes.bookNotes.items;
+
+    if (bookNotes === undefined || bookNotes.length === 0) {
         return null;
     }
 
@@ -12,7 +14,7 @@ const BookNotes: React.FC<{ bookNotes: Array<BookNoteType> }> = (props) => {
         <Col style={{ marginTop: "50px" }}>
             <Divider orientation="center">Last notes</Divider>
             <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: "0px", flexGrow: 2 }}>
-                {props.bookNotes.map(n => {
+                {bookNotes.map(n => {
                     return (
                         <Col key={n.id} style={{
                             border: "3px solid rgb(8 68 124)",

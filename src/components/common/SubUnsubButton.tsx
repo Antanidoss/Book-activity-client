@@ -1,15 +1,18 @@
 import { Button, message } from 'antd';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getIsAuthenticated } from '../../redux/users/selectors';
 
 const SubUnsubButton: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
     const [subUnsubButtonLoadin, setSubUnsubButtonLoadin] = useState(false)
+    const isAuthenticated = useSelector(getIsAuthenticated);
 
     const subscribeToUser = (userId: string) => {
         setSubUnsubButtonLoadin(true);
 
-        if (!props.isAuthenticated) {
+        if (!isAuthenticated) {
             return navigate("/login");
         }
 
@@ -22,7 +25,7 @@ const SubUnsubButton: React.FC<PropsType> = (props) => {
     const unsubscribeUser = (userId: string) => {
         setSubUnsubButtonLoadin(true);
 
-        if (!props.isAuthenticated) {
+        if (!isAuthenticated) {
             return navigate("/login");
         }
 
@@ -41,7 +44,6 @@ type PropsType = {
     style?: React.CSSProperties,
     isSubscribed: boolean,
     userId: string,
-    isAuthenticated: boolean,
     unsubscribeUser: (userId: string) => Promise<boolean>,
     subscribeToUser: (userId: string) => Promise<boolean>,
 }

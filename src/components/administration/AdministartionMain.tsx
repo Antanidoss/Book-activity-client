@@ -1,19 +1,19 @@
 import { Col, Tabs } from 'antd';
 import React from 'react';
-import AddAuthorContainer from './addAuthor/AddAuthorContainer';
-import AddBookContainer from './addBook/AddBookContainer';
+import AddBook from './addBook';
+import AddAuthor from './addAuthor';
 
 const AdministartionMain: React.FC = () => {
     return (
         <Col style={{marginLeft: "24px"}} span={24}>
             <Tabs size='large'>
                 <Tabs.TabPane style={{fontSize: "25px"}} tab="ADD BOOK" key="1">
-                    <AddBookContainer />
+                    <AddBook />
                 </Tabs.TabPane>
                 <Tabs.TabPane style={{fontSize: "25px"}} tab="EDIT BOOK" key="2">
                 </Tabs.TabPane>
                 <Tabs.TabPane style={{fontSize: "25px"}} tab="ADD AUTHOR" key="3">
-                    <AddAuthorContainer />
+                    <AddAuthor />
                 </Tabs.TabPane>
             </Tabs>
         </Col>
