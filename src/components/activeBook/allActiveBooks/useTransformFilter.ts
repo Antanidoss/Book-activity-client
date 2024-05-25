@@ -23,12 +23,10 @@ export const useTransformFilter = () => {
         take: pageSize,
         withFullRead: activeBookFilter.withFullRead,
         order,
-        filter: {
+        filter: activeBookFilter.bookTitle === undefined ? undefined : {
             and: [
                 {
-                    book: activeBookFilter.bookTitle === undefined
-                        ? { title: { contains: activeBookFilter.bookTitle } }
-                        : undefined,
+                    book: { title: { contains: activeBookFilter.bookTitle } },
                 },
             ]
         }
