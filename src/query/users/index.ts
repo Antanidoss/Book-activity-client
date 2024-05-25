@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_USERS = gql`
-    query ($skip: Int!, $take: Int!, $filter: AppUserFilterInput) {
+    query ($skip: Int, $take: Int, $filter: AppUserFilterInput) {
         users(skip: $skip, take: $take, where: $filter) {
             items {
             id

@@ -1,43 +1,128 @@
-import React from "react";
-import { Col, List, Image, Rate, Row, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { Col, List, Image, Rate, Row, Button, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
+import { useLazyQuery } from "@apollo/client";
+import { GetBookOpinions, GetBookOpinionsItem } from "../../../../query/bookOpinions/models";
+import { GET_BOOK_OPINIONS } from "../../../../query/bookOpinions";
+import { useSelector } from "react-redux";
+import { getIsAuthenticated } from "../../../../redux/users/selectors";
+import { bookOpinionApi } from "../../../../api/bookOpinions";
+import { isBadStatusCode } from "../../../../api/instanceAxios";
 
-const BookComments: React.FC = () => {
+const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
     const navigate = useNavigate();
 
-    if (!props.bookOpinions.length) {
-        return <></>;
-    }
+    const isAuthenticated = useSelector(getIsAuthenticated);
+
+    const [bookOpinions, setBookOpinions] = useState<GetBookOpinionsItem[]>();
+    const [loading, setLoading] = useState(true);
+
+    const [getBookOpinions] = useLazyQuery<GetBookOpinions>(GET_BOOK_OPINIONS);
+
+    useEffect(() => {
+        getBookOpinions({
+            variables: {
+                bookId: bookId,
+                skip: 0,
+                take: 8
+            }
+        }).then(res => {
+            setBookOpinions(res.data?.bookOpinions.items);
+            setLoading(false);
+        })
+    }, []);
+
+    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+
+    if (!bookOpinions?.length) return <></>;
 
     const checkIsAuthenticated = () => {
-        if (!props.isAuthenticated) {
+        if (!isAuthenticated) {
             navigate("/login");
         }
     }
 
     const removeBookOpinionLike = (userId: string) => {
-        props.removeBookOpinionLike(userId, props.bookId)
+        bookOpinionApi.removeDislike(bookId, userId).then(res => {
+            if (isBadStatusCode(res.status)) return;
+
+            setBookOpinions([...bookOpinions].map(o => {
+                const opinion = {...o};
+                if (opinion.user.id === userId) {
+                    opinion.dislikesCount--;
+                    opinion.hasDislike = false;
+                }
+
+                return opinion;
+            }));
+        })
     }
 
     const addBookOpinionLike = (userId: string, hasDislike: boolean) => {
         checkIsAuthenticated();
 
-        props.addBookOpinionLike(userId, props.bookId, hasDislike)
+        bookOpinionApi.addLike(bookId, userId).then(res => {
+            if (isBadStatusCode(res.status)) return;
+
+            setBookOpinions(bookOpinions.map(o => {
+                const opinion = {...o};
+                if (opinion.user.id === userId) {
+                    if (hasDislike) {
+                        opinion.dislikesCount--;
+                        opinion.hasDislike = false;
+                    }
+
+                    opinion.hasLike = true;
+                    opinion.likesCount++;
+                }
+
+                return opinion;
+            }));
+        });
     }
 
     const removeBookOpinionDislike = (userId: string) => {
-        props.removeBookOpinionDislike(userId, props.bookId)
+        bookOpinionApi.removeDislike(bookId, userId).then(res => {
+            if (isBadStatusCode(res.status)) return;
+
+            setBookOpinions([...bookOpinions].map(o => {
+                const opinion = {...o};
+                if (opinion.user.id === userId) {
+                    opinion.likesCount--;
+                    opinion.hasLike = false;
+                }
+
+                return opinion;
+            }));
+        })
     }
 
     const addBookOpinionDislike = (userId: string, hasLike: boolean) => {
         checkIsAuthenticated();
 
-        props.addBookOpinionDislike(userId, props.bookId, hasLike);
+        bookOpinionApi.addDislike(bookId, userId).then(res => {
+            if (isBadStatusCode(res.status)) return;
+
+            setBookOpinions([...bookOpinions].map(o => {
+                const opinion = {...o};
+                if (opinion.user.id === userId) {
+                    if (hasLike) {
+                        opinion.likesCount--;
+                        opinion.hasLike = false;
+                    }
+
+                    opinion.hasDislike = true;
+                    opinion.dislikesCount++;
+                }
+
+                return opinion;
+            }));
+        });
     }
 
 
-    const data = props.bookOpinions.map(o => ({
+    const data = bookOpinions.map(o => ({
         title: <Link to={`/profile?userId=${o.user.id}`}>{o.user.userName}</Link>,
         avatar: <Link to={`/profile?userId=${o.user.id}`}><Image preview={false} style={{ width: "40px", maxHeight: "40px", borderRadius: "10px" }} src={("data:image/png;base64," + o.user.avatarDataBase64)} /></Link>,
         description: o.description,
@@ -57,15 +142,15 @@ const BookComments: React.FC = () => {
             bordered
                 itemLayout="vertical"
                 dataSource={data}
-                renderItem={(item) => (
+                renderItem={(opinion) => (
                     <List.Item key={Math.random().toString(16).slice(2)}>
-                        <List.Item.Meta avatar={item.avatar} title={item.title}>
+                        <List.Item.Meta avatar={opinion.avatar} title={opinion.title}>
                         </List.Item.Meta>
-                            {item.description}
+                            {opinion.description}
                             <Row>
-                                <Col>{item.grade}</Col>
-                                <Col style={{marginLeft: "10px"}}>{item.likes}</Col>
-                                <Col>{item.dislikes}</Col>
+                                <Col>{opinion.grade}</Col>
+                                <Col style={{marginLeft: "10px"}}>{opinion.likes}</Col>
+                                <Col>{opinion.dislikes}</Col>
                             </Row>
                     </List.Item>
                 )}>

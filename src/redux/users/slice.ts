@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { CurrentUserType, UserFilterType } from "../../common/models/users"
 
 export type InitialStateType = {
-    currentUser?: CurrentUserType,
+    currentUser: CurrentUserType | null,
     isAuthenticated: boolean,
     allUsersPage: {
         pageNumber: number,
@@ -13,7 +13,7 @@ export type InitialStateType = {
 }
 
 const initialState: InitialStateType = {
-    currentUser: undefined,
+    currentUser: null,
     isAuthenticated: false,
     allUsersPage: {
         pageNumber: 1,
@@ -37,6 +37,7 @@ export const userSlice = createSlice({
         },
         setCurrentUser: (state, action: PayloadAction<CurrentUserType>) => {
             state.currentUser = action.payload;
+            state.isAuthenticated = state.currentUser !== null;
         }
     }
 })
