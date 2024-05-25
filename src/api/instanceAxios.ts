@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apolloClient } from "../query/apolloClient";
 
 export const SERVER_ADDRESS =  process.env.REACT_APP_SERVER_ADDRESS;
 
@@ -29,6 +30,9 @@ export const setConnectionId = (connectionId: string) => {
 
 export const setAuthorizationToken = (token: string) => {
     instanceAxios.defaults.headers.common["Authorization"] = token;
+    apolloClient.defaultContext.headers = {
+        Authorization: token
+    };
 }
 
 export default instanceAxios;

@@ -14,6 +14,7 @@ import { updateBookFilter } from "../../../redux/books/slice";
 import AddActiveBook from "../../activeBook/addActiveBook";
 import BookOpinionView from "../../bookOpinion/bookOpinionView";
 import AddBookOpinion from "../../bookOpinion/addBookOpinion";
+import BookComments from "./bookComments";
 
 const BookInfo: React.FC = () => {
     const navigate = useNavigate();
@@ -30,9 +31,7 @@ const BookInfo: React.FC = () => {
         }
     })
 
-    if (loading) {
-        return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
-    }
+    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
 
     const bookInfo = data?.bookById[0];
 
@@ -102,7 +101,7 @@ const BookInfo: React.FC = () => {
                 </Col>
                 <Col style={{ paddingTop: "50px", margin: "0 auto", width: "50%", fontSize: "15px" }}>
                     {bookInfo.description}
-                    {bookInfo.bookOpinions !== undefined ? <BookComments bookOpinions={bookInfo.bookOpinions} bookId={bookInfo.id} /> : null }
+                    <BookComments bookId={bookInfo.id} />
                 </Col>
             </Row>
         </Col>

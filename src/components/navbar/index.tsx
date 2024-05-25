@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
     }
 
     const getProfileMenuItem = () => {
-        if (currentUser !== undefined) {
+        if (currentUser !== null) {
             const avatarImage = currentUser.avatarImage !== null
                 ? <Avatar><Image width={"32px"} src={("data:image/png;base64," + currentUser.avatarImage)} /></Avatar>
                 : <Avatar icon={React.createElement(UserOutlined)} />;
