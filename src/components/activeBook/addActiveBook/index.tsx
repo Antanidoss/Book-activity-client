@@ -5,7 +5,7 @@ import { activeBookApi } from '../../../api/activeBooks';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticated } from '../../../redux/users/selectors';
 
-const AddActiveBook: React.FC<{bookId: string} > = ({bookId}) => {
+const AddActiveBook: React.FC<{bookId: string, onAddActiveBookSuccess?: () => void} > = ({bookId, onAddActiveBookSuccess}) => {
   type AddActiveBookType = {
     totalNumberPages: number,
     numberPagesRead: number
@@ -35,11 +35,14 @@ const AddActiveBook: React.FC<{bookId: string} > = ({bookId}) => {
 
     setAddActiveBookButtonLoading(true);
 
-    activeBookApi.addActiveBook(addActiveBookType.numberPagesRead, addActiveBookType.totalNumberPages, bookId).then(result => {
+    activeBookApi.addActiveBook(addActiveBookType.totalNumberPages, addActiveBookType.numberPagesRead, bookId).then(result => {
       if (result.success) {
         message.success("The book has been successfully added to active", 6);
+        setIsModalVisible(false);
+        onAddActiveBookSuccess?.();
       } else {
         message.error("Failed to make the book active", 6);
+        setAddActiveBookButtonLoading(false);
       }
     });
   };
