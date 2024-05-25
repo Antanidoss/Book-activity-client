@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_ACTIVE_BOOKS = gql`
-    query ($skip: Int!, $take: Int!, $withFullRead: Boolean!, $averageRatingTo: Int, $filter: ActiveBookFilterInput, $order: [ActiveBookSortInput!]) {
+    query ($skip: Int!, $take: Int!, $withFullRead: Boolean!, $filter: ActiveBookFilterInput, $order: [ActiveBookSortInput!]) {
         activeBooks(
             skip: $skip,
             take: $take,

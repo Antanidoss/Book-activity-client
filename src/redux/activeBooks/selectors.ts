@@ -17,5 +17,7 @@ export const getFilter = (state: RootState) => {
 }
 
 export const getPaginationSkip = (state: RootState) => {
-    return state.books.allBooksPage.pageNumber * state.books.allBooksPage.pageSize;
+    return state.activeBooks.allBooksPage.pageNumber === 1
+        ? 0
+        : state.activeBooks.allBooksPage.pageNumber * state.activeBooks.allBooksPage.pageSize;
 }
