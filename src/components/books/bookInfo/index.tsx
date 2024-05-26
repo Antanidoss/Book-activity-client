@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Col, Rate, Row, Spin, Tag } from "antd";
+import { Button, Col, Rate, Row, Tag } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUT_PAGE_NAME } from "../../../types/constants";
@@ -15,6 +15,7 @@ import AddActiveBook from "../../activeBook/addActiveBook";
 import BookOpinionView from "../../bookOpinion/bookOpinionView";
 import AddBookOpinion from "../../bookOpinion/addBookOpinion";
 import BookComments from "./bookComments";
+import CustomSpin from "../../common/CustomSpin";
 
 const BookInfo: React.FC = () => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const BookInfo: React.FC = () => {
         }
     })
 
-    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+    if (loading) return <CustomSpin loading={loading} /> 
 
     const bookInfo = data?.bookById[0];
 

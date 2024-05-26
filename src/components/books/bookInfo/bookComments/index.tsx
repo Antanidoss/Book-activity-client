@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { getIsAuthenticated } from "../../../../redux/users/selectors";
 import { bookOpinionApi } from "../../../../api/bookOpinions";
 import { isBadStatusCode } from "../../../../api/instanceAxios";
+import CustomSpin from "../../../common/CustomSpin";
 
 const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
         })
     }, []);
 
-    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+    if (loading) return <CustomSpin loading={loading} />
 
     if (!bookOpinions?.length) return <></>;
 

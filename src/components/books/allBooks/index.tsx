@@ -1,4 +1,4 @@
-import { Empty, Row, Spin } from "antd";
+import { Empty, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import BookOfList from "./item";
 import BookPagination from "./pagination";
@@ -6,32 +6,58 @@ import { FrownOutlined } from "@ant-design/icons";
 import { useLazyQuery } from "@apollo/client";
 import { GetBooks, GetBooksItem } from "../../../query/books/models";
 import { GET_BOOKS } from "../../../query";
-import { useTransformFilter } from "./useTransformFilter";
 import BookFilter from "./filter";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateTotalCount } from "../../../redux/books/slice";
+import CustomSpin from "../../common/CustomSpin";
+import { getBookFilter, getPageSize, getPaginationSkip } from "../../../redux/books/selectors";
 
 const AllBooks: React.FC = () => {
-    const variables = useTransformFilter();
+    const bookFilter = useSelector(getBookFilter);
+    const pageSize = useSelector(getPageSize);
+    const paginationSkip = useSelector(getPaginationSkip);
+
     const [loading, setLoading] = useState(true);
     const [books, setBooks] = useState<GetBooksItem[]>();
 
     const dispatch = useDispatch();
 
     const [getBooks] = useLazyQuery<GetBooks>(GET_BOOKS, {
-        fetchPolicy: "cache-first",
-        variables
+        fetchPolicy: "network-only",
     });
-
+    
     useEffect(() => {
-        getBooks().then(res => {
+        const variables = {
+            skip: paginationSkip,
+            take: pageSize,
+            averageRatingFrom: bookFilter.averageRatingFrom,
+            averageRatingTo: bookFilter.averageRatingTo,
+            filter: {
+                and: [
+                    {
+                        title: bookFilter.bookTitle === undefined ? undefined : { contains: bookFilter.bookTitle },
+                    },
+                    {
+                        bookCategories: !bookFilter.categories.length ? undefined : {
+                            all: {
+                                category: {
+                                    or: bookFilter.categories.map(c => ({ id: { eq: c.value } }))
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+
+        getBooks({variables}).then(res => {
             setBooks(res.data?.books.items);
             setLoading(false);
             dispatch(updateTotalCount(res.data?.books.totalCount ?? 0));
         })
-    }, [getBooks, dispatch])
+    }, [getBooks, dispatch, bookFilter, pageSize, paginationSkip])
 
-    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+    if (loading) return <CustomSpin loading={loading} />
 
     if (!books?.length) return <Empty description="Can't find books" image={React.createElement(FrownOutlined)} imageStyle={{fontSize: "30px", display: "inline"}} />
 
