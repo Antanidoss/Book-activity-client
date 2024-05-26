@@ -12,7 +12,7 @@ const ActiveBookPagination: React.FC = () => {
 
     const onPaginationChange: PaginationProps['onChange'] = page => {
         dispatch(updatePageNumber(page));
-      };
+    };
 
     return (
         <Pagination style={{display: "flex", justifyContent: "center", marginTop: "80px", marginBottom: "20px"}}

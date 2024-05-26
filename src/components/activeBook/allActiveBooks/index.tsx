@@ -1,32 +1,70 @@
-import { Empty, Row, Spin } from 'antd';
-import React from 'react'
+import { Empty, Row } from 'antd';
+import React, { useEffect, useState } from 'react'
 import { FrownOutlined } from '@ant-design/icons';
-import { useTransformFilter } from './useTransformFilter';
-import { GetActiveBooks } from '../../../query/activeBooks/models';
+import { GetActiveBooks, GetActiveBooksItem } from '../../../query/activeBooks/models';
 import { GET_ACTIVE_BOOKS } from '../../../query';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import ActiveBookPagination from './pagination';
 import ActiveBookFilter from './filter';
 import ActiveBookForList from './item';
+import CustomSpin from '../../common/CustomSpin';
+import { useSelector } from 'react-redux';
+import { getFilter, getPageSize, getPaginationSkip } from '../../../redux/activeBooks/selectors';
+import { SortBy } from '../../../common/models/activeBooks';
+import { Order } from '../../../query/apolloClient';
+import { useDispatch } from 'react-redux';
+import { updateTotalCount } from '../../../redux/activeBooks/slice';
 
 const AllCurUserActiveBooks: React.FC = () => {
-    const variables = useTransformFilter();
+    const activeBookFilter = useSelector(getFilter);
+    const pageSize = useSelector(getPageSize);
+    const paginationSkip = useSelector(getPaginationSkip);
 
-    const {data: activeBooks, loading} = useQuery<GetActiveBooks>(GET_ACTIVE_BOOKS, {
+    const [loading, setLoading] = useState(true);
+    const [activeBooks, setActiveBooks] = useState<GetActiveBooksItem[]>();
+
+    const dispatch = useDispatch();
+
+    const [getActiveBooks] = useLazyQuery<GetActiveBooks>(GET_ACTIVE_BOOKS, {
         fetchPolicy: "cache-first",
-        variables
     });
 
-    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+    useEffect(() => {
+        let order = activeBookFilter.sortBy === SortBy.CreateDate
+            ? { timeOfCreation: Order.ASC }
+            : { timeOfCreation: Order.DESC };
 
-    if (!activeBooks?.activeBooks.items.length) return <Empty description="You don't have any active books" image={React.createElement(FrownOutlined)} imageStyle={{fontSize: "30px", display: "inline"}} />
-    
+        const variables = {
+            skip: paginationSkip,
+            take: pageSize,
+            withFullRead: activeBookFilter.withFullRead,
+            order,
+            filter: activeBookFilter.bookTitle === undefined ? undefined : {
+                and: [
+                    {
+                        book: { title: { contains: activeBookFilter.bookTitle } },
+                    },
+                ]
+            }
+        }
+
+        getActiveBooks({ variables }).then(res => {
+            setLoading(false);
+            setActiveBooks(res.data?.activeBooks.items);
+            dispatch(updateTotalCount(res.data?.activeBooks.totalCount ?? 0));
+        })
+    }, [activeBookFilter, pageSize, paginationSkip, getActiveBooks, dispatch]);
+
+    if (loading) return <CustomSpin loading={loading} />
+
+    if (!activeBooks?.length) return <Empty description="You don't have any active books" image={React.createElement(FrownOutlined)} imageStyle={{ fontSize: "30px", display: "inline" }} />
+
     return (
         <>
             <ActiveBookFilter />
 
-            <Row justify="space-around" gutter={[24, 16]} style={{marginRight: "0px"}}>
-                { activeBooks.activeBooks.items.map(a => <ActiveBookForList key={a.id} {...a} />) }
+            <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: "0px" }}>
+                {activeBooks.map(a => <ActiveBookForList key={a.id} {...a} />)}
             </Row>
 
             <ActiveBookPagination />

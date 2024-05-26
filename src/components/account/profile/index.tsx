@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Image, Row, Spin } from "antd";
+import { Avatar, Button, Col, Image, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TeamOutlined } from "@ant-design/icons";
@@ -16,6 +16,7 @@ import { GetUserProfile } from "../../../query/users/models";
 import { GetLastBookNotesType } from "../../../query/bookNotes/models";
 import { isBadStatusCode } from "../../../api/instanceAxios";
 import ReadingCalendarStatistic from "../../activeBooksStatistic/ReadingCalendarStatistic";
+import CustomSpin from "../../common/CustomSpin";
 
 const Profile: React.FC = () => {
     const query = useQuery();
@@ -63,7 +64,7 @@ const Profile: React.FC = () => {
         return userApi.subscribeToUser(userId).then(res => !isBadStatusCode(res.status));
     }
 
-    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+    if (loading) return <CustomSpin loading={loading} />
 
     return (
         <Col span={24} style={{ textAlign: "center" }}>

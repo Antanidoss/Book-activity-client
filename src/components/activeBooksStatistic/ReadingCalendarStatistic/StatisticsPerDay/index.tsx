@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Col, Divider, Spin } from "antd";
+import { Col, Divider } from "antd";
 import { Link } from "react-router-dom";
 import { activeBooksStatisticApi } from "../../../../api";
 import { ActiveBookStatisticByDay } from "../../../../api/activeBooksStatistics/models";
 import CustomDrawer from "../../../common/CustomDrawer";
+import CustomSpin from "../../../common/CustomSpin";
 
 const StatisticsPerDay: React.FC<{day: string, userId?: string, show: boolean, onClose: () => void}> = (props) => {
     const [loading, setLoading] = useState(true);
@@ -32,7 +33,7 @@ const StatisticsPerDay: React.FC<{day: string, userId?: string, show: boolean, o
         <CustomDrawer onClose={props.onClose} open={props.show} direction="right" size={600}>
             {
                 loading
-                    ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+                    ? <CustomSpin loading={loading} />
                     : <Col style={{fontSize: "15px"}}>
                         <Divider>{new Date(props.day).toDateString()}</Divider>
                         {statistics}

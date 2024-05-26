@@ -1,4 +1,4 @@
-import { List, Image, Row, Col, Spin } from "antd";
+import { List, Image, Row, Col } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -14,12 +14,13 @@ import { getUserId } from "../../../redux/users/selectors";
 import { userApi } from "../../../api/users";
 import { isBadStatusCode } from "../../../api/instanceAxios";
 import { ROUT_PAGE_NAME } from "../../../types/constants";
+import CustomSpin from "../../common/CustomSpin";
 
 const AllUser: React.FC = () => {
     const { loading, data } = useQuery<GetUsers>(GET_USERS);
     const currentUserId = useSelector(getUserId);
 
-    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+    if (loading) return <CustomSpin loading={loading} />
 
     return (
         <List
