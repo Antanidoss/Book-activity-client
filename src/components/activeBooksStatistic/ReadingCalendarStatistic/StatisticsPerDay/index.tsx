@@ -3,21 +3,20 @@ import { Col, Divider, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { activeBooksStatisticApi } from "../../../../api";
 import { ActiveBookStatisticByDay } from "../../../../api/activeBooksStatistics/models";
+import CustomDrawer from "../../../common/CustomDrawer";
 
 const StatisticsPerDay: React.FC<{day: string, userId?: string, show: boolean, onClose: () => void}> = (props) => {
     const [loading, setLoading] = useState(true);
     const [activeBookStatisticsByDay, setActiveBookStatisticByDay] = useState<ActiveBookStatisticByDay[]>();
 
     useEffect(() => {
-        if (props.show) {
+        if (props.show && activeBookStatisticsByDay === undefined) {
             activeBooksStatisticApi.getActiveBooksStatisticByDay(props.day, props.userId).then(res => {
                 setActiveBookStatisticByDay(res.data.result);
-                setLoading(false)
+                setLoading(false);
             });
         }
-    }, [])
-
-    if (loading) return <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+    }, [props.show, props.day, props.userId])
 
     const statistics = activeBookStatisticsByDay !== undefined && activeBookStatisticsByDay.length !== 0
         ? activeBookStatisticsByDay.map(statistics => {
@@ -30,10 +29,16 @@ const StatisticsPerDay: React.FC<{day: string, userId?: string, show: boolean, o
         : "On this day you have not read"
 
     return (
-        <Col style={{fontSize: "15px"}}>
-            <Divider>{new Date(props.day).toDateString()}</Divider>
-            {statistics}
-        </Col>
+        <CustomDrawer onClose={props.onClose} open={props.show} direction="right" size={600}>
+            {
+                loading
+                    ? <div style={{ textAlign: "center", marginTop: "20%" }}><Spin size="large" spinning={loading} /></div>
+                    : <Col style={{fontSize: "15px"}}>
+                        <Divider>{new Date(props.day).toDateString()}</Divider>
+                        {statistics}
+                    </Col>
+            }
+        </CustomDrawer>
     )
 }
 
