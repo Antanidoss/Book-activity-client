@@ -38,10 +38,13 @@ export const bookSlice = createSlice({
         },
         clearFilter: (state) => {
             state.allBooksPage.bookFilter = defaultFilter;
+        },
+        updateTotalCount: (state, action: PayloadAction<number>) => {
+            state.allBooksPage.totalBookCount = action.payload;
         }
     }
 })
 
-export const { updatePageNumber, updateBookFilter, clearFilter } = bookSlice.actions;
+export const { updatePageNumber, updateBookFilter, clearFilter, updateTotalCount } = bookSlice.actions;
 
 export default bookSlice.reducer

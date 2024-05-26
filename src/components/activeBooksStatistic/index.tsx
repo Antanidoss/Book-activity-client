@@ -15,7 +15,7 @@ const ActiveBooksStatistic: React.FC = () => {
         });
     }, [])
 
-    if (loading) return <div style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div>
+    if (loading) return <div id="1233122" style={{textAlign: "center", marginTop: "20%"}}><Spin size="large" spinning={loading} /></div>
 
     return (
         <>

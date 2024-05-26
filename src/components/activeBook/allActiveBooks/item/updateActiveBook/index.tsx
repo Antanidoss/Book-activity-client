@@ -5,14 +5,15 @@ import {
 } from "@ant-design/icons";
 import ResizableButton from "../../../../common/ResizableButton";
 import { activeBookApi } from "../../../../../api";
+import { GetActiveBooksItem } from "../../../../../query/activeBooks/models";
 
-const UpdateActiveBook: React.FC<{ totalNumberPages: number, numberPagesRead: number, activeBookId: string, progressPercent: number }> = (props) => {
+const UpdateActiveBook: React.FC<{ activeBook: GetActiveBooksItem, progressPercent: number, setActiveBook: (activeBook: GetActiveBooksItem) => void }> = (props) => {
     type UpdateActiveBookType = {
         numberPagesRead: number
     }
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [numberPagesRead, setNumberPagesRead] = useState(props.numberPagesRead);
+    const [numberPagesRead, setNumberPagesRead] = useState(props.activeBook.numberPagesRead);
     const [form] = Form.useForm();
     const [disabled, setDisabled] = useState(false);
 
@@ -23,11 +24,19 @@ const UpdateActiveBook: React.FC<{ totalNumberPages: number, numberPagesRead: nu
     const handleSubmit = (updateActiveBook: UpdateActiveBookType) => {
         if (!validateForm()) return;
 
-        activeBookApi.updateActiveBook(props.activeBookId, updateActiveBook.numberPagesRead)
-            .then(message.success("The active book has been successfully updated", 6));
+        activeBookApi.updateActiveBook(props.activeBook.id, updateActiveBook.numberPagesRead)
+            .then(res => {
+                if (res.success) {
+                    message.success("The active book has been successfully updated", 6)
+                    setIsModalVisible(false);
+                    setNumberPagesRead(updateActiveBook.numberPagesRead);
+                    props.setActiveBook({...props.activeBook, numberPagesRead: updateActiveBook.numberPagesRead})
+                }
+                else {
+                    message.error("The active book could not be changed", 6)
+                }
+            });
 
-        setNumberPagesRead(updateActiveBook.numberPagesRead);
-        setIsModalVisible(false);
     };
 
     const handleCancel = () => {
@@ -38,7 +47,7 @@ const UpdateActiveBook: React.FC<{ totalNumberPages: number, numberPagesRead: nu
         const numberPagesRead = form.getFieldValue("numberPagesRead") ?? 0;
         let success = true
     
-        if (numberPagesRead < props.numberPagesRead) {
+        if (numberPagesRead < props.activeBook.numberPagesRead) {
           form.setFields([{ name: "numberPagesRead", errors: ["Can't reduce the number of pages read"] }]);
           setDisabled(true);
           success = false;
@@ -81,7 +90,7 @@ const UpdateActiveBook: React.FC<{ totalNumberPages: number, numberPagesRead: nu
                     label="Number of pages read"
                     name="numberPagesRead"
                     rules={[{ required: true, message: "Please input number pages read!" }]}>
-                    <Input size="small" type="number" min={0} max={props.totalNumberPages} suffix={"from " + props.totalNumberPages} />
+                    <Input size="small" type="number" min={0} max={props.activeBook.totalNumberPages} suffix={"from " + props.activeBook.totalNumberPages} />
                 </Form.Item>
             </Form>
         </Modal>
