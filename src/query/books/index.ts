@@ -29,14 +29,15 @@ export const GET_BOOK_INFO = gql`
       description,
       isActiveBook,
       imageDataBase64
+      hasOpinion
+      averageRating
+      bookOpinionsCount
       bookAuthors {
         author {
           surname
           firstName
         }
       }
-      hasOpinion
-      averageRating
       bookCategories {
         category {
           id

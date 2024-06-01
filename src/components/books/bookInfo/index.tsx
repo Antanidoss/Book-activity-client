@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Rate, Row, Tag } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUT_PAGE_NAME } from "../../../types/constants";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useQuery as useLinkQuery } from "../../../hoc/useQuery";
-import { GetBookInfo } from "../../../query/books/models";
+import { GetBookInfo, GetBookInfoItem } from "../../../query/books/models";
 import { GET_BOOK_INFO } from "../../../query";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -23,27 +23,39 @@ const BookInfo: React.FC = () => {
     const bookFilter = useSelector(getBookFilter);
     const query = useLinkQuery();
 
+    const [bookInfo, setBookInfo] = useState<GetBookInfoItem>();
+    const [loading, setLoading] = useState(true);
+
     const bookId = query.get("bookId");
 
-    const { data, loading } = useQuery<GetBookInfo>(GET_BOOK_INFO, {
+    const [getBookInfo] = useLazyQuery<GetBookInfo>(GET_BOOK_INFO, {
         fetchPolicy: "cache-first",
         variables: {
             bookId
         }
     })
 
-    if (loading) return <CustomSpin loading={loading} /> 
+    useEffect(() => {
+        getBookInfo().then(res => {
+            setLoading(false);
+            setBookInfo(res.data?.bookById[0]);
+        })
+    }, [getBookInfo])
 
-    const bookInfo = data?.bookById[0];
+    if (loading) return <CustomSpin loading={loading} /> 
 
     if (bookInfo === undefined) {
         return <></>
     }
 
     const onTagClick = (categoryId: string, categoryTitle: string) => {
-        dispatch(updateBookFilter({ ...bookFilter, categories: bookFilter.categories.concat({ value: categoryId, label: categoryTitle }) }));
+        dispatch(updateBookFilter({ ...bookFilter, categories: [{ value: categoryId, label: categoryTitle }] }));
 
         navigate(ROUT_PAGE_NAME.ALL_BOOKS);
+    }
+
+    const onAddActiveBookSuccess = () => {
+        setBookInfo({...bookInfo, isActiveBook: true});
     }
 
     const tags = bookInfo.bookCategories?.map(c => {
@@ -68,7 +80,7 @@ const BookInfo: React.FC = () => {
                         </Col>
                         <Col style={{ marginLeft: "20px", alignSelf: "self-end" }}>
                             <Link to="#">
-                                {bookInfo.bookOpinionCount} users rated
+                                {bookInfo.bookOpinionsCount} users rated
                             </Link>
                         </Col>
                     </Row>
@@ -84,7 +96,7 @@ const BookInfo: React.FC = () => {
                             {
                                 bookInfo.isActiveBook
                                     ? <Button shape="round" type="primary" icon={React.createElement(CheckOutlined)}>Is active</Button>
-                                    : <AddActiveBook bookId={bookInfo.id} />
+                                    : <AddActiveBook bookId={bookInfo.id} onAddActiveBookSuccess={onAddActiveBookSuccess} />
                             }
                         </Col>
                         <Col>
