@@ -16,21 +16,23 @@ export type GetBooksItem = {
 }
 
 export type GetBookInfo = {
-    bookById: Array<{
-        id: string,
-        title: string,
-        description: string,
-        imageDataBase64: string,
-        isActiveBook: boolean,
-        bookAuthors: Array<{ author: { firstName: string, surname: string } }>,
-        hasOpinion: boolean,
-        averageRating: number,
-        bookOpinionCount: number,
-        bookCategories: Array<{
-            category: {
-                id: string,
-                title: string
-            }
-        }>,
-    }>
+    bookById: GetBookInfoItem[]
+}
+
+export type GetBookInfoItem = {
+    id: string,
+    title: string,
+    description: string,
+    imageDataBase64: string,
+    isActiveBook: boolean,
+    bookOpinionsCount: number,
+    bookAuthors: Array<{ author: { firstName: string, surname: string } }>,
+    hasOpinion: boolean,
+    averageRating: number,
+    bookCategories: Array<{
+        category: {
+            id: string,
+            title: string
+        }
+    }>,
 }

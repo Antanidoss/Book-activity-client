@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { GetLastBookNotesType } from "../../../../query/bookNotes/models";
 
 const BookNotes: React.FC<{ getLastBookNotes: GetLastBookNotesType }> = (props) => {
-    const bookNotes = props.getLastBookNotes.bookNotes.items;
+    const bookNotes = props.getLastBookNotes?.bookNotes?.items;
 
     if (bookNotes === undefined || bookNotes.length === 0) {
         return null;

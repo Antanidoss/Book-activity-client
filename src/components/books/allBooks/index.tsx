@@ -39,7 +39,7 @@ const AllBooks: React.FC = () => {
                     },
                     {
                         bookCategories: !bookFilter.categories.length ? undefined : {
-                            all: {
+                            some: {
                                 category: {
                                     or: bookFilter.categories.map(c => ({ id: { eq: c.value } }))
                                 }
