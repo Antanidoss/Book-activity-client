@@ -12,14 +12,16 @@ export type GetUserProfile = {
 export type GetUsers = {
     users: {
         totalCount: number,
-        items: Array<{
-            id: string,
-            userName: string,
-            avatarDataBase64: string,
-            isSubscriber: boolean,
-            isSubscription: boolean,
-            activeBookCount: number,
-            bookOpinionCount: number
-        }>
+        items: GetUsersItem[],
     }
+}
+
+export type GetUsersItem = {
+    id: string,
+    userName: string,
+    avatarDataBase64: string,
+    isSubscriber: boolean,
+    isSubscription: boolean,
+    activeBookCount: number,
+    bookOpinionCount: number
 }

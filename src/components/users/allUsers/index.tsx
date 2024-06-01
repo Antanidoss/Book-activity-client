@@ -1,13 +1,13 @@
-import { List, Image, Row, Col } from "antd";
-import React from "react";
+import { List, Image, Row, Col, Tooltip } from "antd";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
     BookOutlined,
     CommentOutlined
 } from "@ant-design/icons";
 import SubUnsubButton from "../../common/SubUnsubButton";
-import { useQuery } from "@apollo/client";
-import { GetUsers } from "../../../query/users/models";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { GetUsers, GetUsersItem } from "../../../query/users/models";
 import { GET_USERS } from "../../../query/users";
 import { useSelector } from "react-redux";
 import { getUserId } from "../../../redux/users/selectors";
@@ -17,38 +17,73 @@ import { ROUT_PAGE_NAME } from "../../../types/constants";
 import CustomSpin from "../../common/CustomSpin";
 
 const AllUser: React.FC = () => {
-    const { loading, data } = useQuery<GetUsers>(GET_USERS);
+    const [users, setUsers] = useState<GetUsersItem[]>();
+    const [loading, setLoading] = useState(true);
+
     const currentUserId = useSelector(getUserId);
 
+    const [getUsers] = useLazyQuery<GetUsers>(GET_USERS, {
+        fetchPolicy: "network-only"
+    });
+
+    useEffect(() => {
+        getUsers().then(res => {
+            setUsers(res.data?.users.items);
+            setLoading(false);
+        })   
+    }, [getUsers])
+
     if (loading) return <CustomSpin loading={loading} />
+
+    const subUnsubUser = (userId: string, isSubscription: boolean) => {
+        return (isSubscription ? userApi.subscribeToUser(userId) : userApi.unsubscribeUser(userId)).then(res => {
+            const success = !isBadStatusCode(res.status);
+
+            if (success) {
+                setUsers(users?.map(u => {
+                    if (u.id === userId) {
+                        return {...u, isSubscription};
+                    }
+
+                    return u
+                }))
+            }
+
+            return success;
+        });
+    }
 
     return (
         <List
             style={{ padding: "50px 150px 150px 150px", alignItems: "center" }}
-            dataSource={currentUserId !== undefined ? data?.users.items.filter(u => u.id !== currentUserId) : data?.users.items}
+            dataSource={currentUserId !== undefined ? users?.filter(u => u.id !== currentUserId) : users}
             renderItem={(user) => (
                 <List.Item style={{ border: "1px solid rgb(8 68 124)", borderRadius: "10px", marginTop: "50px", backgroundColor: "white" }}>
                     <List.Item.Meta
                         style={{ alignItems: "center" }}
                         avatar={
-                            <Link style={{ cursor: "pointer", marginLeft: "20px" }} to={`/${ROUT_PAGE_NAME.USER_PROFILE}?userId=${user.id}`}>
+                            <Link style={{ cursor: "pointer", marginLeft: "20px" }} to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${user.id}`}>
                                 <Image preview={false} style={{ width: "50px", maxHeight: "60px", borderRadius: "15px" }} src={("data:image/png;base64," + user.avatarDataBase64)} />
                             </Link>}
-                        title={<Link style={{ cursor: "pointer" }} to={`/${ROUT_PAGE_NAME.USER_PROFILE}?userId=${user.id}`}>{user.userName}</Link>}
+                        title={<Link style={{ cursor: "pointer" }} to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${user.id}`}>{user.userName}</Link>}
                         description=
                         {
                             <Row>
-                                <Col>{React.createElement(BookOutlined)}: {user.activeBookCount}</Col>
-                                <Col style={{ marginLeft: "10px" }}>{React.createElement(CommentOutlined)}: {user.bookOpinionCount}</Col>
+                                <Tooltip title="Active books count">
+                                    <Col>{React.createElement(BookOutlined)}: {user.activeBookCount}</Col>
+                                </Tooltip>
+                                <Tooltip title="Book opinions count">
+                                    <Col style={{ marginLeft: "10px" }}>{React.createElement(CommentOutlined)}: {user.bookOpinionCount}</Col>
+                                </Tooltip>
                             </Row>
                         } />
                     {
                         <SubUnsubButton
                             userId={user.id}
                             style={{"marginRight": "20px"}}
-                            unsubscribeUser={(userId) => userApi.unsubscribeUser(userId).then(res => !isBadStatusCode(res.status))}
-                            subscribeToUser={(userId) => userApi.subscribeToUser(userId).then(res => !isBadStatusCode(res.status))}
-                            isSubscribed={user.isSubscriber} />
+                            unsubscribeUser={(userId) => subUnsubUser(userId, false)}
+                            subscribeToUser={(userId) => subUnsubUser(userId, true)}
+                            isSubscription={user.isSubscription} />
                     }
                 </List.Item>
             )} />

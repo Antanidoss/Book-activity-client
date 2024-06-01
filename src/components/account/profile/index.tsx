@@ -54,7 +54,7 @@ const Profile: React.FC = () => {
         ]).then(() => {
             setLoading(false);
         })
-    }, [query, props])
+    }, [query])
 
     const unsubscribeUser = (userId: string) => {
         return userApi.unsubscribeUser(userId).then(res => !isBadStatusCode(res.status));
@@ -91,7 +91,7 @@ const Profile: React.FC = () => {
                                         style={{ "marginRight": "20px" }}
                                         unsubscribeUser={unsubscribeUser}
                                         subscribeToUser={subscribeToUser}
-                                        isSubscribed={userProfile!.userById.isSubscribed} />
+                                        isSubscription={userProfile!.userById.isSubscribed} />
                             }
                         </Col>
                     </Col>

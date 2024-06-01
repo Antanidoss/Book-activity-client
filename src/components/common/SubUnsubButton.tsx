@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getIsAuthenticated } from '../../redux/users/selectors';
+import { ROUT_PAGE_NAME } from '../../types/constants';
 
 const SubUnsubButton: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const SubUnsubButton: React.FC<PropsType> = (props) => {
         setSubUnsubButtonLoadin(true);
 
         if (!isAuthenticated) {
-            return navigate("/login");
+            return navigate(ROUT_PAGE_NAME.USER_LOGIN);
         }
 
         props.subscribeToUser(userId).then(isSuccess => {
@@ -26,7 +27,7 @@ const SubUnsubButton: React.FC<PropsType> = (props) => {
         setSubUnsubButtonLoadin(true);
 
         if (!isAuthenticated) {
-            return navigate("/login");
+            return navigate(ROUT_PAGE_NAME.USER_LOGIN);
         }
 
         props.unsubscribeUser(userId).then(isSuccess => {
@@ -35,14 +36,14 @@ const SubUnsubButton: React.FC<PropsType> = (props) => {
         });
     }
 
-    return props.isSubscribed
+    return props.isSubscription
         ? <Button shape="round" onClick={() => unsubscribeUser(props.userId)} type="primary" style={props.style} loading={subUnsubButtonLoadin}>Unsubscribe</Button>
         : <Button shape="round" onClick={() => subscribeToUser(props.userId)} type="primary" style={props.style} loading={subUnsubButtonLoadin}>Subscribe</Button>
 }
 
 type PropsType = {
     style?: React.CSSProperties,
-    isSubscribed: boolean,
+    isSubscription: boolean,
     userId: string,
     unsubscribeUser: (userId: string) => Promise<boolean>,
     subscribeToUser: (userId: string) => Promise<boolean>,

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_LAST_BOOK_NOTES = gql`
-    query ($take: Int!, $userId: String!) {
+    query ($take: Int!, $userId: UUID!) {
         bookNotes(,
             take: $take,
             order: { timeOfCreation: DESC },
