@@ -18,7 +18,7 @@ export const GET_USERS = gql`
 `
 
 export const GET_USER_PROFILE = gql`
-    query ($userId: String!) {
+    query ($userId: UUID!) {
         userById(userId: $userId) {
             id
             userName

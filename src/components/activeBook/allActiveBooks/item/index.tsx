@@ -1,4 +1,4 @@
-import { Col, Progress, Row } from "antd";
+import { Col, Progress, Row, message } from "antd";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -13,16 +13,23 @@ import UpdateActiveBook from "./updateActiveBook";
 import AddBookOpinion from "../../../bookOpinion/addBookOpinion";
 import BookOpinionView from "../../../bookOpinion/bookOpinionView";
 import AddBookNote from "./addBookNote";
+import { isBadStatusCode } from "../../../../api/instanceAxios";
 
-const ActiveBookForList: React.FC<GetActiveBooksItem> = (activeBook) => {
+const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActiveBook: (activeBook: GetActiveBooksItem) => void }> = ({ activeBook, onRemoveActiveBook }) => {
     const [removeActiveBookButtonLoading, setRemoveActiveBookButtonLoading] = useState(false);
     const [activeBookState, setActiveBook] = useState(activeBook);
 
     const onClickRemoveActiveBook = () => {
         setRemoveActiveBookButtonLoading(true);
 
-        activeBookApi.removeActiveBook(activeBook.id).then(_ => {
-            //TODO
+        activeBookApi.removeActiveBook(activeBook.id).then(res => {
+            if (isBadStatusCode(res.status)){
+                setRemoveActiveBookButtonLoading(false);
+                message.error("The active book could not be deleted, please try again", 6);
+            } else {
+                onRemoveActiveBook(activeBook);
+                message.success("Active book has been successfully deleted", 6);
+            }
         });
     }
 

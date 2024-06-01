@@ -26,7 +26,7 @@ const AllCurUserActiveBooks: React.FC = () => {
     const dispatch = useDispatch();
 
     const [getActiveBooks] = useLazyQuery<GetActiveBooks>(GET_ACTIVE_BOOKS, {
-        fetchPolicy: "cache-first",
+        fetchPolicy: "network-only",
     });
 
     useEffect(() => {
@@ -59,12 +59,16 @@ const AllCurUserActiveBooks: React.FC = () => {
 
     if (!activeBooks?.length) return <Empty description="You don't have any active books" image={React.createElement(FrownOutlined)} imageStyle={{ fontSize: "30px", display: "inline" }} />
 
+    const onRemoveActiveBook = (activeBook: GetActiveBooksItem) => {
+        setActiveBooks(activeBooks.filter(a => a.id !== activeBook.id));
+    }
+
     return (
         <>
             <ActiveBookFilter />
 
             <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: "0px" }}>
-                {activeBooks.map(a => <ActiveBookForList key={a.id} {...a} />)}
+                {activeBooks.map(a => <ActiveBookForList key={a.id} activeBook={a} onRemoveActiveBook={onRemoveActiveBook} />)}
             </Row>
 
             <ActiveBookPagination />
