@@ -20,3 +20,24 @@ query ($bookId: UUID!, $skip: Int!, $take: Int!) {
   }
 }
 `
+
+export const GET_BOOK_OPINION_BY_USER_ID = gql`
+query ($bookId: UUID!, $userId: UUID!) {
+    bookOpinions(where: {and: [
+                {bookId: {eq: $bookId}},
+                {userId: {eq: $userId}}
+            ]}) 
+        {
+        items {
+            bookId
+            likesCount
+            dislikesCount
+            grade
+            description
+            user {
+                id
+            }
+        }
+      }
+}
+`
