@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Rate, Row, Tag } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { ROUT_PAGE_NAME } from "../../../types/constants";
+import { ROUT_PAGE_NAME } from "../../../common/constants";
 import { useLazyQuery } from "@apollo/client";
 import { useQuery as useLinkQuery } from "../../../hoc/useQuery";
 import { GetBookInfo, GetBookInfoItem } from "../../../query/books/models";

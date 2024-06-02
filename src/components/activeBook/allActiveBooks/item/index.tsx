@@ -6,7 +6,6 @@ import {
 } from "@ant-design/icons";
 import { GetActiveBooksItem } from "../../../../query/activeBooks/models";
 import { bookMain, bookTitle } from "../../../books/allBooks/item/styles";
-import { ROUT_PAGE_NAME } from "../../../../types/constants";
 import ResizableButton from "../../../common/ResizableButton";
 import { activeBookApi } from "../../../../api";
 import UpdateActiveBook from "./updateActiveBook";
@@ -14,6 +13,7 @@ import AddBookOpinion from "../../../bookOpinion/addBookOpinion";
 import BookOpinionView from "../../../bookOpinion/bookOpinionView";
 import AddBookNote from "./addBookNote";
 import { isBadStatusCode } from "../../../../api/instanceAxios";
+import { ROUT_PAGE_NAME } from "../../../../common/constants";
 
 const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActiveBook: (activeBook: GetActiveBooksItem) => void }> = ({ activeBook, onRemoveActiveBook }) => {
     const [removeActiveBookButtonLoading, setRemoveActiveBookButtonLoading] = useState(false);

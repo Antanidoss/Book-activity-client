@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'antd/es/form/Form';
 import FormErrorMessage from '../../common/FormErrorMessage';
-import { ROUT_PAGE_NAME } from '../../../types/constants';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticated } from '../../../redux/users/selectors';
 import { userApi } from '../../../api/users';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../../../redux/users/slice';
+import { ROUT_PAGE_NAME } from '../../../common/constants';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();

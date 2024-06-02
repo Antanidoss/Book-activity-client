@@ -6,15 +6,15 @@ import {
     CommentOutlined
 } from "@ant-design/icons";
 import SubUnsubButton from "../../common/SubUnsubButton";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { GetUsers, GetUsersItem } from "../../../query/users/models";
 import { GET_USERS } from "../../../query/users";
 import { useSelector } from "react-redux";
 import { getUserId } from "../../../redux/users/selectors";
 import { userApi } from "../../../api/users";
 import { isBadStatusCode } from "../../../api/instanceAxios";
-import { ROUT_PAGE_NAME } from "../../../types/constants";
 import CustomSpin from "../../common/CustomSpin";
+import { ROUT_PAGE_NAME } from "../../../common";
 
 const AllUser: React.FC = () => {
     const [users, setUsers] = useState<GetUsersItem[]>();

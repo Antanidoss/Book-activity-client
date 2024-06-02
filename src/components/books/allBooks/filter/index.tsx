@@ -6,7 +6,7 @@ import { Affix, Badge, Button, Col, Form, InputNumber, Row } from "antd";
 import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
 import CustomDrawer from "../../../common/CustomDrawer";
-import { BookFilterType, isDefaultFilter } from "../../../../common/models/books";
+import { BookFilterType, isBookDefaultFilter } from "../../../../common/models/books";
 import DebounceSelect, { PropsType as SelectProps } from '../../../common/DebounceSelect';
 import { useDispatch } from "react-redux";
 import { clearFilter, updateBookFilter } from "../../../../redux/books/slice";
@@ -72,7 +72,7 @@ const BookFilter: React.FC = () => {
     return <>
         <Col style={{ height: "50px" }} span={3}>
             <Affix offsetTop={1}>
-                <Badge dot={!isDefaultFilter(bookFilter)} style={{ marginLeft: "50px", marginTop: "20px" }}>
+                <Badge dot={!isBookDefaultFilter(bookFilter)} style={{ marginLeft: "50px", marginTop: "20px" }}>
                     <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>Filter</Button>
                 </Badge>
             </Affix>

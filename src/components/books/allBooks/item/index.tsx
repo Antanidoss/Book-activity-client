@@ -5,7 +5,7 @@ import { bookMain, bookTitle } from './styles';
 import {
     CheckOutlined
 } from "@ant-design/icons";
-import { ROUT_PAGE_NAME } from '../../../../types/constants';
+import { ROUT_PAGE_NAME } from '../../../../common/constants';
 import { GetBooksItem } from '../../../../query/books/models';
 import AddActiveBook from '../../../activeBook/addActiveBook';
 

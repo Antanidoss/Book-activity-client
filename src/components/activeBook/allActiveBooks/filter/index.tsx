@@ -7,7 +7,7 @@ import Search from "antd/lib/transfer/search";
 import { useDispatch, useSelector } from "react-redux";
 import { clearFilter, updateFilter } from "../../../../redux/activeBooks/slice";
 import { getFilter } from "../../../../redux/activeBooks/selectors";
-import { ActiveBookFilterType, isDefaultFilter } from "../../../../common/models/activeBooks";
+import { ActiveBookFilterType, isActiveBookDefaultFilter } from "../../../../common/models/activeBooks";
 import CustomDrawer from "../../../common/CustomDrawer";
 
 const ActiveBookFilter: React.FC = () => {
@@ -52,7 +52,7 @@ const ActiveBookFilter: React.FC = () => {
         <>
             <Col style={{ height: "50px" }} span={3}>
                 <Affix offsetTop={1}>
-                    <Badge dot={!isDefaultFilter(activeBookFilter)} style={{ marginLeft: "50px", marginTop: "20px" }}>
+                    <Badge dot={!isActiveBookDefaultFilter(activeBookFilter)} style={{ marginLeft: "50px", marginTop: "20px" }}>
                         <Button onClick={showDrawer} shape="round" type="primary" style={{ marginLeft: "50px", marginTop: "20px", width: "150px" }} icon={React.createElement(FilterOutlined)}>
                             Filter
                         </Button>

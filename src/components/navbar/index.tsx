@@ -9,9 +9,9 @@ import {
     BookOutlined,
     LoginOutlined
 } from "@ant-design/icons";
-import { ROLE_NAME, ROUT_PAGE_NAME } from '../../types/constants';
 import { useSelector } from 'react-redux';
 import { getCurUser } from '../../redux/users/selectors';
+import { ROLE_NAME, ROUT_PAGE_NAME } from '../../common/constants';
 
 const Navbar: React.FC = () => {
     const location = useLocation();
