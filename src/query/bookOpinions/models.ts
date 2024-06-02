@@ -18,3 +18,16 @@ export type GetBookOpinionsItem = {
     dislikesCount: number,
     description: string,
 }
+
+export type GetBookOpinionByUserId = {
+    bookOpinions: {
+        items: GetBookOpinionByUserIdItem[],
+    }
+}
+
+export type GetBookOpinionByUserIdItem = {
+    likesCount: number,
+    dislikesCount: number,
+    grade: number,
+    description: string,
+}
