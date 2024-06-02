@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getIsAuthenticated } from '../../redux/users/selectors';
-import { ROUT_PAGE_NAME } from '../../types/constants';
+import { ROUT_PAGE_NAME } from '../../common';
 
 const SubUnsubButton: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();

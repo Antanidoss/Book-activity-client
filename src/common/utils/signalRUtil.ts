@@ -1,9 +1,9 @@
 import * as signalR from "@microsoft/signalr";
-import { SERVER_ADDRESS, setConnectionId } from "../api/instanceAxios";
-import { hubsApiConstants } from "../types/common/hubsApiConstants";
-import { SignalRNotification } from "../types/signalR/signalRNotificationType";
+import { SERVER_ADDRESS, setConnectionId } from "../../api/instanceAxios";
+import { hubsApiConstants } from "../constants";
+import { SignalRNotification } from "../models";
 
-const signalRUtil = {
+export const signalRUtil = {
     connectToUserNotificationHub: (currentUserId: string, onNotificationReceived: (notificationInfo: SignalRNotification) => void) => {
         const connection = new signalR.HubConnectionBuilder()
             .withUrl(`${SERVER_ADDRESS}/${hubsApiConstants.NOTIFICATION_HUB_NAME}`)
@@ -17,5 +17,3 @@ const signalRUtil = {
         });
     }
 }
-
-export default signalRUtil;

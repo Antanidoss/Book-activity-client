@@ -6,7 +6,6 @@ import { siderStyles, bookActivityFontStyles } from './MainStyles';
 import Navbar from './components/navbar';
 import { getInitialized } from './redux/common/selectors';
 import AdministartionMain from './components/administration/AdministartionMain';
-import { ROUT_PAGE_NAME } from './types/constants';
 import Login from './components/account/login';
 import Registration from './components/account/registration';
 import AllBooks from './components/books/allBooks';
@@ -21,6 +20,7 @@ import { userApi } from './api';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from './redux/users/slice';
 import { updateAppInitialized } from './redux/common/slice';
+import { ROUT_PAGE_NAME } from './common';
 
 const App: React.FC = () => {
     const { Sider, Content, Header } = Layout;

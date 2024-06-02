@@ -3,8 +3,6 @@ import { NotificationOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Button, Col, Row, Image, notification } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { SignalRNotification } from "../../types/signalR/signalRNotificationType";
-import signalRUtil from "../../utils/signalRUtil";
 import { notificationApi } from "../../api";
 import { GetNotifications, GetNotificationsItem } from "../../query/notifications/models";
 import { useLazyQuery } from "@apollo/client";
@@ -13,6 +11,7 @@ import { useSelector } from "react-redux";
 import { getIsAuthenticated, getUserId } from "../../redux/users/selectors";
 import { getInitialized } from "../../redux/common/selectors";
 import { isBadStatusCode } from "../../api/instanceAxios";
+import { SignalRNotification, signalRUtil } from "../../common";
 
 const Notifications: React.FC = () => {
     const [isOpenNotificationsList, changeDisplayNotificationsList] = useState(false)

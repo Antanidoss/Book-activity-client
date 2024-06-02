@@ -5,7 +5,7 @@ export type BookFilterType = {
     categories: Array<{label: string, value: string}>
 }
 
-export const isDefaultFilter = (filter: BookFilterType) => {
+export const isBookDefaultFilter = (filter: BookFilterType) => {
     return (filter.bookTitle === undefined || filter.bookTitle === "")
         && filter.averageRatingFrom === 0
         && filter.averageRatingTo === 5

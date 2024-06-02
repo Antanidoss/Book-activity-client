@@ -13,3 +13,9 @@ export const ROUT_PAGE_NAME = {
 export const ROLE_NAME = {
     ADMIN: "Admin"
 }
+
+export const hubsApiConstants = {
+    NOTIFICATION_HUB_NAME: "notificationsHub",
+    SET_USER_INFO: "SetUserInfo",
+    GET_NOTIFICATION: "GetNotification",
+}
