@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Rate, Spin } from "antd";
+import { Button, Col, Modal, Rate } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useEffect, useState } from "react";
 import {
@@ -6,7 +6,6 @@ import {
     DislikeTwoTone,
     LikeTwoTone
 } from "@ant-design/icons";
-import ResizableButton from "../../common/ResizableButton";
 import { GetBookOpinionByUserId, GetBookOpinionByUserIdItem } from "../../../query/bookOpinions/models";
 import { useLazyQuery } from "@apollo/client";
 import { GET_BOOK_OPINION_BY_USER_ID } from "../../../query/bookOpinions";
@@ -14,7 +13,7 @@ import { useSelector } from "react-redux";
 import { getUserId } from "../../../redux/users/selectors";
 import CustomSpin from "../../common/CustomSpin";
 
-const BookOpinionView: React.FC<{ bookId: string, resizableButton?: boolean }> = ({ bookId, resizableButton }) => {
+const BookOpinionView: React.FC<{ bookId: string }> = ({ bookId }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [bookOpinion, setBookOpinion] = useState<GetBookOpinionByUserIdItem>()
     const [loading, setLoading] = useState(bookOpinion === undefined);
@@ -48,12 +47,7 @@ const BookOpinionView: React.FC<{ bookId: string, resizableButton?: boolean }> =
 
     return (
         <>
-            {
-                resizableButton || resizableButton === undefined
-                    ? <ResizableButton style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize="Look review" />
-                    : <Button style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal}>Look review</Button>
-
-            }
+            <Col onClick={showModal}><CommentOutlined /> Look review</Col>
             <Modal title="Book opinion" open={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="back" onClick={handleCancel}>

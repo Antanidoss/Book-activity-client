@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, List, Image, Rate, Row, Button, Spin } from "antd";
+import { Col, List, Image, Rate, Row, Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 import { useLazyQuery } from "@apollo/client";
@@ -10,6 +10,7 @@ import { getIsAuthenticated } from "../../../../redux/users/selectors";
 import { bookOpinionApi } from "../../../../api/bookOpinions";
 import { isBadStatusCode } from "../../../../api/instanceAxios";
 import CustomSpin from "../../../common/CustomSpin";
+import { ROUT_PAGE_NAME } from "../../../../common/constants";
 
 const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
             setBookOpinions(res.data?.bookOpinions.items);
             setLoading(false);
         })
-    }, []);
+    }, [getBookOpinions, bookId]);
 
     if (loading) return <CustomSpin loading={loading} />
 
@@ -40,7 +41,7 @@ const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
 
     const checkIsAuthenticated = () => {
         if (!isAuthenticated) {
-            navigate("/login");
+            navigate(ROUT_PAGE_NAME.USER_LOGIN);
         }
     }
 
@@ -124,8 +125,10 @@ const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
 
 
     const data = bookOpinions.map(o => ({
-        title: <Link to={`/profile?userId=${o.user.id}`}>{o.user.userName}</Link>,
-        avatar: <Link to={`/profile?userId=${o.user.id}`}><Image preview={false} style={{ width: "40px", maxHeight: "40px", borderRadius: "10px" }} src={("data:image/png;base64," + o.user.avatarDataBase64)} /></Link>,
+        title: <Link to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${o.user.id}`}>{o.user.userName}</Link>,
+        avatar: <Link to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${o.user.id}`}>
+            <Image preview={false} style={{ width: "40px", maxHeight: "40px", borderRadius: "10px" }} src={("data:image/png;base64," + o.user.avatarDataBase64)} />
+        </Link>,
         description: o.description,
         grade: <Rate value={o.grade} disabled />,
         likes: o.hasLike

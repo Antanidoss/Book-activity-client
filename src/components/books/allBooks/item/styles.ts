@@ -15,3 +15,7 @@ export const bookTitle: CSSProperties = {
     paddingTop: "10px",
     overflow: "hidden"
 }
+
+export const action: CSSProperties = {
+    paddingTop: "13px",
+}
