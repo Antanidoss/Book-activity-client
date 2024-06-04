@@ -16,12 +16,16 @@ import BookOpinionView from "../../bookOpinion/bookOpinionView";
 import AddBookOpinion from "../../bookOpinion/addBookOpinion";
 import BookComments from "./bookComments";
 import CustomSpin from "../../common/CustomSpin";
+import { getCurUser } from "../../../redux/users/selectors";
 
 const BookInfo: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const bookFilter = useSelector(getBookFilter);
     const query = useLinkQuery();
+
+    const currentUser = useSelector(getCurUser);
+    const bookFilter = useSelector(getBookFilter);
+    
 
     const [bookInfo, setBookInfo] = useState<GetBookInfoItem>();
     const [loading, setLoading] = useState(true);
@@ -34,6 +38,10 @@ const BookInfo: React.FC = () => {
             bookId
         }
     })
+
+    const onAddBookOpinion = (grade: number, description: string) => {
+        //TODO: 
+    }
 
     useEffect(() => {
         getBookInfo().then(res => {

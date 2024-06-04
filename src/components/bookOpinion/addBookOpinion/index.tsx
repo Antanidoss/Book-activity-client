@@ -1,16 +1,22 @@
-import { Button, Form, Modal, Rate } from "antd";
+import { Button, Col, Form, Modal, Rate } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useState } from "react";
 import {
     CommentOutlined
 } from "@ant-design/icons";
-import ResizableButton from "../../common/ResizableButton";
 import { useNavigate } from "react-router-dom";
 import { bookOpinionApi } from "../../../api/bookOpinions";
 import { useSelector } from "react-redux";
 import { getIsAuthenticated } from "../../../redux/users/selectors";
+import { ROUT_PAGE_NAME } from "../../../common/constants";
+import { isBadStatusCode } from "../../../api/instanceAxios";
 
-const AddBookOpinion: React.FC<{ bookId: string, resizableButton?: boolean }> = ({ bookId, resizableButton }) => {
+type Props = {
+    bookId: string,
+    onAddBookOpinion?: (grade: number, description: string) => void
+}
+
+const AddBookOpinion: React.FC<Props> = ({ bookId, onAddBookOpinion }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -22,11 +28,13 @@ const AddBookOpinion: React.FC<{ bookId: string, resizableButton?: boolean }> = 
     }
 
     const handleSubmit = (addOpinion: AddOpinionType) => {
-        bookOpinionApi.update(bookId, addOpinion.grade, addOpinion.description).then(result => {
-            //TODO:
+        bookOpinionApi.update(bookId, addOpinion.grade, addOpinion.description).then(res => {
+            if (!isBadStatusCode(res.status)) {
+                onAddBookOpinion?.(addOpinion.grade, addOpinion.description);
+                setIsModalVisible(false);
+            }
         })
 
-        setIsModalVisible(false);
     };
 
     const handleCancel = () => {
@@ -35,7 +43,7 @@ const AddBookOpinion: React.FC<{ bookId: string, resizableButton?: boolean }> = 
 
     const showModal = () => {
         if (!isAuthenticated) {
-            navigate("/login");
+            navigate(ROUT_PAGE_NAME.USER_LOGIN);
         }
 
         setIsModalVisible(true);
@@ -43,11 +51,8 @@ const AddBookOpinion: React.FC<{ bookId: string, resizableButton?: boolean }> = 
 
     return (
         <>
-            {
-                resizableButton || resizableButton === undefined
-                    ? <ResizableButton style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal} titleOnResize="Add review" />
-                    : <Button style={{ marginLeft: "50px" }} icon={React.createElement(CommentOutlined)} shape="round" type="primary" onClick={showModal}>Add review</Button>
-            }
+            <Col onClick={showModal}><CommentOutlined /> Add review</Col>
+            
             <Modal title="Add book opinion" open={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="submit" type="primary" htmlType="submit" onClick={() => {

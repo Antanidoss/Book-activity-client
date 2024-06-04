@@ -8,7 +8,7 @@ export const activeBookApi = {
   },
   updateActiveBook(activeBookId: string, numberPagesRead: number) {
     return instanceAxios.put<ResponseType>("activeBook/updateNumberPagesRead", { activeBookId, numberPagesRead })
-      .then(res => res.data)
+      .then(res => res)
   },
   removeActiveBook(activeBookId: string) {
     return instanceAxios.delete(`/activeBook/remove?activeBookId=${activeBookId}`);

@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import {
     PushpinOutlined
 } from "@ant-design/icons";
-import { Button, Form, message, Modal, ColorPicker, Row, UploadFile } from 'antd';
+import { Button, Form, message, Modal, ColorPicker, Row, UploadFile, Col } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { Color } from 'antd/es/color-picker';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { bookNoteApi, ocrApi } from '../../../../../api';
-import ResizableButton from '../../../../common/ResizableButton';
 import UploadImage from '../../../../common/UploadImage';
 
 const AddBookNote: React.FC<{ activeBookId: string }> = ({ activeBookId }) => {
@@ -62,7 +61,8 @@ const AddBookNote: React.FC<{ activeBookId: string }> = ({ activeBookId }) => {
 
     return (
         <>
-            <ResizableButton icon={React.createElement(PushpinOutlined)} onClick={showModal} shape="round" titleOnResize="Add note" type="primary" />
+            <Col onClick={showModal}><PushpinOutlined /> Add note</Col>
+
             <Modal title="Add book note" open={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="submit" type="primary" htmlType="submit" loading={addNoteButtonLoading} onClick={() => {
