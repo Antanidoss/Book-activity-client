@@ -6,7 +6,7 @@ import UploadImage from "../../common/UploadImage";
 import FormErrorMessage from "../../common/FormErrorMessage";
 import { userApi } from "api";
 import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../../../redux/users/slice";
+import { setCurrentUser } from "reduxStore";
 import { ROUT_PAGE_NAME } from "../../../common";
 
 const Registration: React.FC = () => {

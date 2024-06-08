@@ -1,21 +1,19 @@
 import { RootState } from "../redux-store";
 
-export const getPageNumber = (state: RootState) => {
-    return state.activeBooks.allBooksPage.pageNumber;
-}
-
-export const getTotalActiveBookCount = (state: RootState) => {
-    return state.activeBooks.allBooksPage.totalCount;
-}
-
-export const getPageSize = (state: RootState) => {
-    return state.activeBooks.allBooksPage.pageSize;
-}
-
-export const getFilter = (state: RootState) => {
-    return state.activeBooks.allBooksPage.activeBookFilter;
-}
-
-export const getPaginationSkip = (state: RootState) => {
-    return (state.activeBooks.allBooksPage.pageNumber - 1) * state.activeBooks.allBooksPage.pageSize;
+export const activeBookSelectors = {
+    pageNumber: (state: RootState) => {
+        return state.activeBooks.allActiveBooksPage.pageNumber;
+    },
+    totalCount: (state: RootState) => {
+        return state.activeBooks.allActiveBooksPage.totalCount;
+    },
+    pageSize: (state: RootState) => {
+        return state.activeBooks.allActiveBooksPage.pageSize;
+    },
+    filter: (state: RootState) => {
+        return state.activeBooks.allActiveBooksPage.activeBookFilter;
+    },
+    paginationSkip: (state: RootState) => {
+        return (state.activeBooks.allActiveBooksPage.pageNumber - 1) * state.activeBooks.allActiveBooksPage.pageSize;
+    }
 }

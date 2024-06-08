@@ -7,7 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { bookOpinionApi, isBadStatusCode } from "api";
 import { useSelector } from "react-redux";
-import { getIsAuthenticated } from "../../../redux/users/selectors";
+import { userSelectors } from "reduxStore";
 import { ROUT_PAGE_NAME } from "../../../common/constants";
 
 type Props = {
@@ -19,7 +19,7 @@ const AddBookOpinion: React.FC<Props> = ({ bookId, onAddBookOpinion }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
-    const isAuthenticated = useSelector(getIsAuthenticated)
+    const isAuthenticated = useSelector(userSelectors.isAuthenticated)
 
     type AddOpinionType = {
         grade: number,

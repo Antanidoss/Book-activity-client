@@ -5,14 +5,13 @@ import {
 } from "@ant-design/icons";
 import Search from "antd/lib/transfer/search";
 import { useDispatch, useSelector } from "react-redux";
-import { clearFilter, updateFilter } from "../../../../redux/activeBooks/slice";
-import { getFilter } from "../../../../redux/activeBooks/selectors";
+import { clearActiveBookFilter, updateActiveBookFilter, activeBookSelectors } from "reduxStore";
 import { ActiveBookFilterType, isActiveBookDefaultFilter } from "../../../../common/models/activeBooks";
 import CustomDrawer from "../../../common/CustomDrawer";
 
 const ActiveBookFilter: React.FC = () => {
     const dispatch = useDispatch();
-    const activeBookFilter = useSelector(getFilter);
+    const activeBookFilter = useSelector(activeBookSelectors.filter);
     const [open, setOpen] = useState(false);
 
     const showDrawer = () => {
@@ -24,12 +23,12 @@ const ActiveBookFilter: React.FC = () => {
     };
 
     const onFinish = (activeBookFilterModel: ActiveBookFilterType) => {
-        dispatch(updateFilter(activeBookFilterModel));
+        dispatch(updateActiveBookFilter(activeBookFilterModel));
         onClose();
     };
 
     const onClearFilter = () => {
-        dispatch(clearFilter())
+        dispatch(clearActiveBookFilter())
         onClose();
     }
 

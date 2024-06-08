@@ -7,8 +7,7 @@ import { notificationApi, isBadStatusCode } from "api";
 import { GetNotifications, GetNotificationsItem, GET_NOTIFICATIONS } from "query";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
-import { getIsAuthenticated, getUserId } from "../../redux/users/selectors";
-import { getInitialized } from "../../redux/common/selectors";
+import { userSelectors, commonSelectors } from "reduxStore";
 import { SignalRNotification, signalRUtil } from "../../common";
 
 const Notifications: React.FC = () => {
@@ -16,9 +15,9 @@ const Notifications: React.FC = () => {
     const [notificationsBeingListened, setNotificationsBeingListened] = useState(false);
     const [notifications, setNotifications] = useState<GetNotificationsItem[]>();
 
-    const currentUserId = useSelector(getUserId);
-    const appInitialized = useSelector(getInitialized);
-    const isAuthenticated = useSelector(getIsAuthenticated);
+    const currentUserId = useSelector(userSelectors.userId);
+    const appInitialized = useSelector(commonSelectors.initialized);
+    const isAuthenticated = useSelector(userSelectors.isAuthenticated);
 
     const [getNotifications] = useLazyQuery<GetNotifications>(GET_NOTIFICATIONS);
     const navigate = useNavigate();

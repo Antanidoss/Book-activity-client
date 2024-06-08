@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
-export type InitialStateType = {
+type InitialCommonStateType = {
     appInitialized: boolean,
 }
 
-const initialState: InitialStateType = {
+const initialState: InitialCommonStateType = {
     appInitialized: false
 }
 

@@ -8,22 +8,20 @@ import { useQuery as useLinkQuery } from "../../../hoc/useQuery";
 import { GetBookInfo, GetBookInfoItem, GET_BOOK_INFO } from "query";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { getBookFilter } from "../../../redux/books/selectors";
-import { updateBookFilter } from "../../../redux/books/slice";
+import { updateBookFilter, bookSelectors, userSelectors } from "reduxStore";
 import AddActiveBook from "../../activeBook/addActiveBook";
 import BookOpinionView from "../../bookOpinion/bookOpinionView";
 import AddBookOpinion from "../../bookOpinion/addBookOpinion";
 import BookComments from "./bookComments";
 import CustomSpin from "../../common/CustomSpin";
-import { getCurUser } from "../../../redux/users/selectors";
 
 const BookInfo: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const query = useLinkQuery();
 
-    const currentUser = useSelector(getCurUser);
-    const bookFilter = useSelector(getBookFilter);
+    const currentUser = useSelector(userSelectors.curUser);
+    const bookFilter = useSelector(bookSelectors.filter);
     
 
     const [bookInfo, setBookInfo] = useState<GetBookInfoItem>();

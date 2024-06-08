@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router-dom'
 import { Layout } from 'antd';
 import { siderStyles, bookActivityFontStyles } from './MainStyles';
 import Navbar from './components/navbar';
-import { getInitialized } from './redux/common/selectors';
 import AdministartionMain from './components/administration/AdministartionMain';
 import Login from './components/account/login';
 import Registration from './components/account/registration';
@@ -18,13 +17,12 @@ import Notifications from './components/notifications';
 import { useSelector } from 'react-redux';
 import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from './redux/users/slice';
-import { updateAppInitialized } from './redux/common/slice';
+import { setCurrentUser, updateAppInitialized, commonSelectors } from './redux';
 import { ROUT_PAGE_NAME } from './common';
 
 const App: React.FC = () => {
     const { Sider, Content, Header } = Layout;
-    const initialize = useSelector(getInitialized);
+    const initialize = useSelector(commonSelectors.initialized);
     const dispatch = useDispatch();
 
     useEffect(() => {

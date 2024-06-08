@@ -1,23 +1,20 @@
 import { Empty, Row } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { FrownOutlined } from '@ant-design/icons';
-import { GetActiveBooks, GetActiveBooksItem, GET_ACTIVE_BOOKS } from 'query';
+import { GetActiveBooks, GetActiveBooksItem, GET_ACTIVE_BOOKS, Order } from 'query';
 import { useLazyQuery } from '@apollo/client';
 import ActiveBookPagination from './pagination';
 import ActiveBookFilter from './filter';
 import ActiveBookForList from './item';
 import CustomSpin from '../../common/CustomSpin';
-import { useSelector } from 'react-redux';
-import { getFilter, getPageSize, getPaginationSkip } from '../../../redux/activeBooks/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { activeBookSelectors, updateActiveBookTotalCount } from 'reduxStore';
 import { SortBy } from '../../../common/models/activeBooks';
-import { Order } from 'query/apolloClient';
-import { useDispatch } from 'react-redux';
-import { updateTotalCount } from '../../../redux/activeBooks/slice';
 
 const AllCurUserActiveBooks: React.FC = () => {
-    const activeBookFilter = useSelector(getFilter);
-    const pageSize = useSelector(getPageSize);
-    const paginationSkip = useSelector(getPaginationSkip);
+    const activeBookFilter = useSelector(activeBookSelectors.filter);
+    const pageSize = useSelector(activeBookSelectors.pageSize);
+    const paginationSkip = useSelector(activeBookSelectors.paginationSkip);
 
     const [loading, setLoading] = useState(true);
     const [activeBooks, setActiveBooks] = useState<GetActiveBooksItem[]>();
@@ -50,7 +47,7 @@ const AllCurUserActiveBooks: React.FC = () => {
         getActiveBooks({ variables }).then(res => {
             setLoading(false);
             setActiveBooks(res.data?.activeBooks.items);
-            dispatch(updateTotalCount(res.data?.activeBooks.totalCount ?? 0));
+            dispatch(updateActiveBookTotalCount(res.data?.activeBooks.totalCount ?? 0));
         })
     }, [activeBookFilter, pageSize, paginationSkip, getActiveBooks, dispatch]);
 

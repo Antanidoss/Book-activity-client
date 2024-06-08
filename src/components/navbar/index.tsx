@@ -10,14 +10,14 @@ import {
     LoginOutlined
 } from "@ant-design/icons";
 import { useSelector } from 'react-redux';
-import { getCurUser } from '../../redux/users/selectors';
+import { userSelectors } from 'reduxStore';
 import { ROLE_NAME, ROUT_PAGE_NAME } from '../../common/constants';
 
 const Navbar: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const currentUser = useSelector(getCurUser);
+    const currentUser = useSelector(userSelectors.curUser);
 
     type MenuItem = Required<MenuProps>['items'][number];
 

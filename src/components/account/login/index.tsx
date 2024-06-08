@@ -4,10 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'antd/es/form/Form';
 import FormErrorMessage from '../../common/FormErrorMessage';
 import { useSelector } from 'react-redux';
-import { getIsAuthenticated } from '../../../redux/users/selectors';
 import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from '../../../redux/users/slice';
+import { setCurrentUser, userSelectors } from 'reduxStore';
 import { ROUT_PAGE_NAME } from '../../../common/constants';
 
 const Login: React.FC = () => {
@@ -20,7 +19,7 @@ const Login: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [formError, setFormError] = useState("");
 
-    const isAuthenticated = useSelector(getIsAuthenticated);
+    const isAuthenticated = useSelector(userSelectors.isAuthenticated);
 
 
     useEffect(() => {

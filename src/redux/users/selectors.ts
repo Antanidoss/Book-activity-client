@@ -1,21 +1,19 @@
 import { RootState } from "../redux-store";
 
-export const getUserName = (state: RootState) => {
-    return state.users.currentUser?.userName;
-}
-
-export const getIsAuthenticated = (state: RootState) => {
-    return state.users.isAuthenticated;
-}
-
-export const getUserId = (state: RootState) => {
-    return state.users.currentUser?.id;
-}
-
-export const getCurUser = (state: RootState) => {
-    return state.users.currentUser;
-}
-
-export const getUserFilter = (state: RootState) => {
-    return state.users.allUsersPage.userFilter;
+export const userSelectors = {
+    userName: (state: RootState) => {
+        return state.users.currentUser?.userName;
+    },
+    isAuthenticated: (state: RootState) => {
+        return state.users.isAuthenticated;
+    },
+    userId: (state: RootState) => {
+        return state.users.currentUser?.id;
+    },
+    curUser: (state: RootState) => {
+        return state.users.currentUser;
+    },
+    userFilter: (state: RootState) => {
+        return state.users.allUsersPage.userFilter;
+    }
 }

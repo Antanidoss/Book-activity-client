@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { CurrentUserType, UserFilterType } from "../../common/models/users"
 
-export type InitialStateType = {
+export type InitialUserStateType = {
     currentUser: CurrentUserType | null,
     isAuthenticated: boolean,
     allUsersPage: {
@@ -12,7 +12,7 @@ export type InitialStateType = {
     },
 }
 
-const initialState: InitialStateType = {
+const initialState: InitialUserStateType = {
     currentUser: null,
     isAuthenticated: false,
     allUsersPage: {
@@ -29,7 +29,7 @@ export const userSlice = createSlice({
     name: 'activeBook',
     initialState,
     reducers: {
-        updatePageNumber: (state, action: PayloadAction<number>) => {
+        updateUserPageNumber: (state, action: PayloadAction<number>) => {
             state.allUsersPage.pageSize = action.payload;
         },
         updateUserFilter: (state, action: PayloadAction<UserFilterType>) => {
@@ -42,6 +42,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const { updatePageNumber, updateUserFilter, setCurrentUser } = userSlice.actions;
+export const { updateUserPageNumber, updateUserFilter, setCurrentUser } = userSlice.actions;
 
 export default userSlice.reducer

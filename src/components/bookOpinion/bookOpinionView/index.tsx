@@ -9,7 +9,7 @@ import {
 import { GetBookOpinionByUserId, GetBookOpinionByUserIdItem, GET_BOOK_OPINION_BY_USER_ID } from "query";
 import { useLazyQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
-import { getUserId } from "../../../redux/users/selectors";
+import { userSelectors } from "reduxStore";
 import CustomSpin from "../../common/CustomSpin";
 
 const BookOpinionView: React.FC<{ bookId: string }> = ({ bookId }) => {
@@ -17,7 +17,7 @@ const BookOpinionView: React.FC<{ bookId: string }> = ({ bookId }) => {
     const [bookOpinion, setBookOpinion] = useState<GetBookOpinionByUserIdItem>()
     const [loading, setLoading] = useState(bookOpinion === undefined);
 
-    const userId = useSelector(getUserId);
+    const userId = useSelector(userSelectors.userId);
 
     const [getBookOpinion] = useLazyQuery<GetBookOpinionByUserId>(GET_BOOK_OPINION_BY_USER_ID, {
         variables: {

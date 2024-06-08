@@ -3,7 +3,7 @@ import { Button, Form, Modal, message, InputNumber } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { activeBookApi } from 'api';
 import { useSelector } from 'react-redux';
-import { getIsAuthenticated } from '../../../redux/users/selectors';
+import { userSelectors } from 'reduxStore';
 
 const AddActiveBook: React.FC<{bookId: string, onAddActiveBookSuccess?: () => void} > = ({bookId, onAddActiveBookSuccess}) => {
   type AddActiveBookType = {
@@ -16,7 +16,7 @@ const AddActiveBook: React.FC<{bookId: string, onAddActiveBookSuccess?: () => vo
   const [disabled, setDisabled] = useState(false);
   const [addActiveBookButtonLoading, setAddActiveBookButtonLoading] = useState(false);
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(getIsAuthenticated);
+  const isAuthenticated = useSelector(userSelectors.isAuthenticated);
 
   const showModal = () => {
     if (!isAuthenticated) {

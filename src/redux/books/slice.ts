@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { BookFilterType } from "../../common/models/books"
 
-export type InitialStateType = {
+export type InitialBookStateType = {
     allBooksPage: {
         pageSize: number
         pageNumber: number
@@ -16,7 +16,7 @@ const defaultFilter: BookFilterType = {
     categories: []
 }
 
-const initialState: InitialStateType = {
+const initialState: InitialBookStateType = {
     allBooksPage: {
         pageSize: 10,
         pageNumber: 1,
@@ -29,22 +29,22 @@ export const bookSlice = createSlice({
     name: 'book',
     initialState,
     reducers: {
-        updatePageNumber: (state, action: PayloadAction<number>) => {
+        updateBookPageNumber: (state, action: PayloadAction<number>) => {
             state.allBooksPage.pageNumber = action.payload;
         },
         updateBookFilter: (state, action: PayloadAction<BookFilterType>) => {
             state.allBooksPage.bookFilter = action.payload;
             state.allBooksPage.pageNumber = 1;
         },
-        clearFilter: (state) => {
+        clearBookFilter: (state) => {
             state.allBooksPage.bookFilter = defaultFilter;
         },
-        updateTotalCount: (state, action: PayloadAction<number>) => {
+        updateBookTotalCount: (state, action: PayloadAction<number>) => {
             state.allBooksPage.totalBookCount = action.payload;
         }
     }
 })
 
-export const { updatePageNumber, updateBookFilter, clearFilter, updateTotalCount } = bookSlice.actions;
+export const { updateBookFilter, updateBookPageNumber, updateBookTotalCount, clearBookFilter } = bookSlice.actions;
 
 export default bookSlice.reducer
