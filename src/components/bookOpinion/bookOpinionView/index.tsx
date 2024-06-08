@@ -6,9 +6,8 @@ import {
     DislikeTwoTone,
     LikeTwoTone
 } from "@ant-design/icons";
-import { GetBookOpinionByUserId, GetBookOpinionByUserIdItem } from "../../../query/bookOpinions/models";
+import { GetBookOpinionByUserId, GetBookOpinionByUserIdItem, GET_BOOK_OPINION_BY_USER_ID } from "query";
 import { useLazyQuery } from "@apollo/client";
-import { GET_BOOK_OPINION_BY_USER_ID } from "../../../query/bookOpinions";
 import { useSelector } from "react-redux";
 import { getUserId } from "../../../redux/users/selectors";
 import CustomSpin from "../../common/CustomSpin";

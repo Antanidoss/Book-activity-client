@@ -48,3 +48,4 @@ export const GET_BOOK_INFO = gql`
   }
 `
 
+export * from "./models";

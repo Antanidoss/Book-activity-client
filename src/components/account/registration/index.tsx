@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UploadImage from "../../common/UploadImage";
 import FormErrorMessage from "../../common/FormErrorMessage";
-import { userApi } from "../../../api/users";
+import { userApi } from "api";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../../redux/users/slice";
 import { ROUT_PAGE_NAME } from "../../../common";

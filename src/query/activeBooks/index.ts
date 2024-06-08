@@ -24,3 +24,5 @@ export const GET_ACTIVE_BOOKS = gql`
         }
     }
 `
+
+export * from "./models";

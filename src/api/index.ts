@@ -7,3 +7,4 @@ export * from "./books";
 export * from "./notifications";
 export * from "./ocr";
 export * from "./users";
+export * from "./instanceAxios";

@@ -3,12 +3,10 @@ import { Col, List, Image, Rate, Row, Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 import { useLazyQuery } from "@apollo/client";
-import { GetBookOpinions, GetBookOpinionsItem } from "../../../../query/bookOpinions/models";
-import { GET_BOOK_OPINIONS } from "../../../../query/bookOpinions";
+import { GetBookOpinions, GetBookOpinionsItem, GET_BOOK_OPINIONS } from "query";
 import { useSelector } from "react-redux";
 import { getIsAuthenticated } from "../../../../redux/users/selectors";
-import { bookOpinionApi } from "../../../../api/bookOpinions";
-import { isBadStatusCode } from "../../../../api/instanceAxios";
+import { bookOpinionApi, isBadStatusCode } from "api";
 import CustomSpin from "../../../common/CustomSpin";
 import { ROUT_PAGE_NAME } from "../../../../common/constants";
 

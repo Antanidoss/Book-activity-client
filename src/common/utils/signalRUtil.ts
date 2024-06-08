@@ -1,5 +1,5 @@
 import * as signalR from "@microsoft/signalr";
-import { SERVER_ADDRESS, setConnectionId } from "../../api/instanceAxios";
+import { SERVER_ADDRESS, setConnectionId } from "api";
 import { hubsApiConstants } from "../constants";
 import { SignalRNotification } from "../models";
 

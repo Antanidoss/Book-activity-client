@@ -3,14 +3,12 @@ import { NotificationOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Button, Col, Row, Image, notification } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { notificationApi } from "../../api";
-import { GetNotifications, GetNotificationsItem } from "../../query/notifications/models";
+import { notificationApi, isBadStatusCode } from "api";
+import { GetNotifications, GetNotificationsItem, GET_NOTIFICATIONS } from "query";
 import { useLazyQuery } from "@apollo/client";
-import { GET_NOTIFICATIONS } from "../../query";
 import { useSelector } from "react-redux";
 import { getIsAuthenticated, getUserId } from "../../redux/users/selectors";
 import { getInitialized } from "../../redux/common/selectors";
-import { isBadStatusCode } from "../../api/instanceAxios";
 import { SignalRNotification, signalRUtil } from "../../common";
 
 const Notifications: React.FC = () => {

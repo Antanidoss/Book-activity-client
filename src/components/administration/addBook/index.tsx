@@ -5,16 +5,14 @@ import { UploadChangeParam, UploadFile } from 'antd/lib/upload';
 import DebounceSelect, { PropsType as SelectProps } from '../../common/DebounceSelect';
 import { DefaultOptionType } from 'antd/lib/select';
 import UploadImage from '../../common/UploadImage';
-import { bookApi } from '../../../api';
+import { bookApi } from 'api';
 import { useLazyQuery } from '@apollo/client';
-import { GET_AUTHORS_BY_NAME, GET_CATEGORIES_BY_TITLE } from '../../../query';
-import { GetAuthorsByName, GetAuthorsByNameItem } from '../../../query/bookAuthors/models';
-import { GetCategoriesByTitle, GetCategoriesByTitleItem } from '../../../query/bookCategories/models';
+import { GET_AUTHORS_BY_NAME, GET_CATEGORIES_BY_TITLE, GetAuthorsByName, GetAuthorsByNameItem, GetCategoriesByTitle, GetCategoriesByTitleItem } from 'query';
 
 const AddBook: React.FC = () => {
     const [getAuthorsByName] = useLazyQuery<GetAuthorsByName>(GET_AUTHORS_BY_NAME);
     const [getCategoriesByTitle] = useLazyQuery<GetCategoriesByTitle>(GET_CATEGORIES_BY_TITLE);
-    
+
     const getAuthors = (authorName: string) => {
         return getAuthorsByName({
             variables: {
@@ -24,7 +22,7 @@ const AddBook: React.FC = () => {
         }).then(res => res.data?.authors.items ?? [])
     }
 
-    const getCategories = (categoryTitle) => {
+    const getCategories = (categoryTitle: string) => {
         return getCategoriesByTitle({
             variables: {
                 take: 4,
@@ -113,7 +111,7 @@ const AddBook: React.FC = () => {
                     <Col span={8}>
                         <DebounceSelect {...selectAuthrosProps} />
                     </Col>
-                    <Col span={8} style={{marginLeft: "10%"}}>
+                    <Col span={8} style={{ marginLeft: "10%" }}>
                         <DebounceSelect {...selectCategoryProps} />
                     </Col>
                 </Row>

@@ -6,7 +6,7 @@ import {
     CheckOutlined
 } from "@ant-design/icons";
 import { ROUT_PAGE_NAME } from '../../../../common/constants';
-import { GetBooksItem } from '../../../../query/books/models';
+import { GetBooksItem } from 'query';
 import AddActiveBook from '../../../activeBook/addActiveBook';
 
 const BookOfList: React.FC<GetBooksItem> = (book) => {

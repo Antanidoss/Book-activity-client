@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Divider, Row } from "antd";
 import { Link } from "react-router-dom";
-import { GetLastBookNotesType } from "../../../../query/bookNotes/models";
+import { GetLastBookNotesType } from "query";
 
 const BookNotes: React.FC<{ getLastBookNotes: GetLastBookNotesType }> = (props) => {
     const bookNotes = props.getLastBookNotes?.bookNotes?.items;

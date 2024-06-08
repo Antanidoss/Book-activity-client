@@ -6,7 +6,7 @@ import { Button, Form, message, Modal, ColorPicker, Row, UploadFile, Col } from 
 import TextArea from 'antd/lib/input/TextArea';
 import { Color } from 'antd/es/color-picker';
 import { UploadChangeParam } from 'antd/lib/upload';
-import { bookNoteApi, ocrApi } from '../../../../../api';
+import { bookNoteApi, ocrApi } from 'api';
 import UploadImage from '../../../../common/UploadImage';
 
 const AddBookNote: React.FC<{ activeBookId: string }> = ({ activeBookId }) => {

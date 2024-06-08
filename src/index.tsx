@@ -1,6 +1,5 @@
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'
@@ -8,7 +7,7 @@ import { Provider } from 'react-redux'
 import { store } from './redux/redux-store'
 import { notification } from 'antd';
 import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from './query/apolloClient';
+import { apolloClient } from 'query';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

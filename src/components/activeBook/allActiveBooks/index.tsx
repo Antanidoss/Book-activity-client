@@ -1,8 +1,7 @@
 import { Empty, Row } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { FrownOutlined } from '@ant-design/icons';
-import { GetActiveBooks, GetActiveBooksItem } from '../../../query/activeBooks/models';
-import { GET_ACTIVE_BOOKS } from '../../../query';
+import { GetActiveBooks, GetActiveBooksItem, GET_ACTIVE_BOOKS } from 'query';
 import { useLazyQuery } from '@apollo/client';
 import ActiveBookPagination from './pagination';
 import ActiveBookFilter from './filter';
@@ -11,7 +10,7 @@ import CustomSpin from '../../common/CustomSpin';
 import { useSelector } from 'react-redux';
 import { getFilter, getPageSize, getPaginationSkip } from '../../../redux/activeBooks/selectors';
 import { SortBy } from '../../../common/models/activeBooks';
-import { Order } from '../../../query/apolloClient';
+import { Order } from 'query/apolloClient';
 import { useDispatch } from 'react-redux';
 import { updateTotalCount } from '../../../redux/activeBooks/slice';
 

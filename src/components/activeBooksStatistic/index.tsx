@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Divider, Spin } from 'antd';
 import ReadingCalendarStatistic from "./ReadingCalendarStatistic";
-import { activeBooksStatisticApi } from "../../api";
-import { ActiveBooksStatistic as ActiveBooksStatisticModel } from "../../api/activeBooksStatistics/models";
+import { activeBooksStatisticApi, ActiveBooksStatistic as ActiveBooksStatisticModel } from "api";
 
 const ActiveBooksStatistic: React.FC = () => {
     const [loading, setLoading] = useState(true);

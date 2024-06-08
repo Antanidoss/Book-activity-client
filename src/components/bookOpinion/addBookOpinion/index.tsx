@@ -5,11 +5,10 @@ import {
     CommentOutlined
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { bookOpinionApi } from "../../../api/bookOpinions";
+import { bookOpinionApi, isBadStatusCode } from "api";
 import { useSelector } from "react-redux";
 import { getIsAuthenticated } from "../../../redux/users/selectors";
 import { ROUT_PAGE_NAME } from "../../../common/constants";
-import { isBadStatusCode } from "../../../api/instanceAxios";
 
 type Props = {
     bookId: string,

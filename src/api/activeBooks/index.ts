@@ -1,5 +1,4 @@
-import instanceAxios from "../instanceAxios";
-import { ResponseType } from "../instanceAxios";
+import { instanceAxios, ResponseType } from "api";
 
 export const activeBookApi = {
   addActiveBook(totalNumberPages: number, numberPagesRead: number, bookId: string) {

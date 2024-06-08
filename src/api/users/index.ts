@@ -1,6 +1,5 @@
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
-import instanceAxios, { setAuthorizationToken } from "../instanceAxios";
-import { ResponseType } from "../instanceAxios";
+import { instanceAxios, setAuthorizationToken, ResponseType } from "api";
 import { AuthUser, GetCurrentUser } from "./models";
 
 export const userApi = {
@@ -58,3 +57,5 @@ export const userApi = {
         return instanceAxios.delete(`/user/unsubscribe?unsubscribedUserId=${userId}`);
     },
 }
+
+export * from "./models";

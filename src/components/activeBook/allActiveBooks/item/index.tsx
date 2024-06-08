@@ -5,14 +5,13 @@ import {
     DeleteOutlined,
     EllipsisOutlined
 } from "@ant-design/icons";
-import { GetActiveBooksItem } from "../../../../query/activeBooks/models";
-import { action, bookMain, bookTitle } from "../../../books/allBooks/item/styles";
-import { activeBookApi } from "../../../../api";
+import { GetActiveBooksItem } from "query";
+import { bookMain, bookTitle } from "../../../books/allBooks/item/styles";
+import { activeBookApi, isBadStatusCode } from "api";
 import UpdateActiveBook from "./updateActiveBook";
 import AddBookOpinion from "../../../bookOpinion/addBookOpinion";
 import BookOpinionView from "../../../bookOpinion/bookOpinionView";
 import AddBookNote from "./addBookNote";
-import { isBadStatusCode } from "../../../../api/instanceAxios";
 import { ROUT_PAGE_NAME } from "../../../../common/constants";
 
 const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActiveBook: (activeBook: GetActiveBooksItem) => void }> = ({ activeBook, onRemoveActiveBook }) => {
@@ -67,7 +66,7 @@ const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActi
 
                 </Row>
 
-                <Link to={`/${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${activeBookState.book.id}`} style={{ textAlign: "center" }}>
+                <Link to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${activeBookState.book.id}`} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ paddingBottom: "15px" }}>
                         <img height={250} style={{ width: "60%" }} src={"data:image/png;base64," + activeBookState.book.imageDataBase64} />
                     </Col>

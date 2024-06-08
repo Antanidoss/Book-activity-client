@@ -1,4 +1,4 @@
-import instanceAxios from "../instanceAxios";
+import { instanceAxios } from "../instanceAxios";
 import { ResponseType } from "../instanceAxios";
 
 export const authorApi = {

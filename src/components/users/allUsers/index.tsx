@@ -7,12 +7,10 @@ import {
 } from "@ant-design/icons";
 import SubUnsubButton from "../../common/SubUnsubButton";
 import { useLazyQuery } from "@apollo/client";
-import { GetUsers, GetUsersItem } from "../../../query/users/models";
-import { GET_USERS } from "../../../query/users";
+import { GetUsers, GetUsersItem, GET_USERS } from "query";
 import { useSelector } from "react-redux";
 import { getUserId } from "../../../redux/users/selectors";
-import { userApi } from "../../../api/users";
-import { isBadStatusCode } from "../../../api/instanceAxios";
+import { userApi, isBadStatusCode } from "api";
 import CustomSpin from "../../common/CustomSpin";
 import { ROUT_PAGE_NAME } from "../../../common";
 

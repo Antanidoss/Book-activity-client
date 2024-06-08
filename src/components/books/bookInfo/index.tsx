@@ -5,8 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUT_PAGE_NAME } from "../../../common/constants";
 import { useLazyQuery } from "@apollo/client";
 import { useQuery as useLinkQuery } from "../../../hoc/useQuery";
-import { GetBookInfo, GetBookInfoItem } from "../../../query/books/models";
-import { GET_BOOK_INFO } from "../../../query";
+import { GetBookInfo, GetBookInfoItem, GET_BOOK_INFO } from "query";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getBookFilter } from "../../../redux/books/selectors";
@@ -111,11 +110,9 @@ const BookInfo: React.FC = () => {
                             {
                                 bookInfo.hasOpinion
                                     ? <BookOpinionView
-                                        bookId={bookInfo.id}
-                                        resizableButton={false} />
+                                        bookId={bookInfo.id} />
                                     : <AddBookOpinion
-                                        bookId={bookInfo.id}
-                                        resizableButton={false} />
+                                        bookId={bookInfo.id} />
                             }
                         </Col>
                     </Row>

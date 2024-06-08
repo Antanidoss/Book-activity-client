@@ -13,8 +13,7 @@ import { clearFilter, updateBookFilter } from "../../../../redux/books/slice";
 import { useSelector } from "react-redux";
 import { getBookFilter } from "../../../../redux/books/selectors";
 import { useLazyQuery } from "@apollo/client";
-import { GetCategoriesByTitle } from "../../../../query/bookCategories/models";
-import { GET_CATEGORIES_BY_TITLE } from "../../../../query";
+import { GetCategoriesByTitle, GET_CATEGORIES_BY_TITLE, GetCategoriesByTitleItem } from "query";
 
 const BookFilter: React.FC = () => {
     const dispatch = useDispatch();
@@ -54,12 +53,12 @@ const BookFilter: React.FC = () => {
         onClose();
     }
 
-    const selectCategoryProps: SelectProps = {
+    const selectCategoryProps: SelectProps<GetCategoriesByTitleItem> = {
         fetchOptions: getBookCategories,
         debounceTimeout: 800,
         fieldName: "categories",
         placeholder: "Input book categories",
-        transformToOptions(items: any) {
+        transformToOptions(items) {
             return items.map(c => {
                 return {
                     value: c.id,
