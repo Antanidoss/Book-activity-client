@@ -5,9 +5,9 @@ import {
 import { Affix, Badge, Button, Col, Form, InputNumber, Row } from "antd";
 import 'react-modern-drawer/dist/index.css'
 import Search from "antd/lib/transfer/search";
-import CustomDrawer from "../../../common/CustomDrawer";
-import { BookFilterType, isBookDefaultFilter } from "../../../../common/models/books";
-import DebounceSelect, { PropsType as SelectProps } from '../../../common/DebounceSelect';
+import { CustomDrawer } from "commonComponents";
+import { BookFilterType, isBookDefaultFilter } from "common";
+import { DebounceSelect, PropsType as SelectProps } from 'commonComponents/DebounceSelect';
 import { useDispatch, useSelector } from "react-redux";
 import { bookSelectors, clearBookFilter, updateBookFilter } from "reduxStore";
 import { useLazyQuery } from "@apollo/client";

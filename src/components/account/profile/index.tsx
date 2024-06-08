@@ -2,7 +2,6 @@ import { Avatar, Button, Col, Image, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TeamOutlined } from "@ant-design/icons";
-import SubUnsubButton from "../../common/SubUnsubButton";
 import BookNotes from "./bookNotes/BookNotes";
 import { useQuery } from "../../../hoc/useQuery";
 import { activeBooksStatisticApi, userApi, ActiveBooksStatistic, isBadStatusCode } from "api";
@@ -12,7 +11,7 @@ import { useLazyQuery } from "@apollo/client";
 import { GetUserProfile } from "query/users/models";
 import { GetLastBookNotesType, GET_USER_PROFILE, GET_LAST_BOOK_NOTES } from "query";
 import ReadingCalendarStatistic from "../../activeBooksStatistic/ReadingCalendarStatistic";
-import CustomSpin from "../../common/CustomSpin";
+import { CustomSpin, SubUnsubButton } from "commonComponents";
 
 const Profile: React.FC = () => {
     const query = useQuery();

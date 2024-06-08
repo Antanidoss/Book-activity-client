@@ -5,7 +5,7 @@ import {
 } from "@ant-design/icons";
 import { Button } from 'antd';
 
-const CustomDrawer: React.FC<PropsType> = (props) => {
+export const CustomDrawer: React.FC<PropsType> = (props) => {
     document.body.style.overflow = props.open ? 'hidden' : '';
 
     return (
@@ -33,5 +33,3 @@ type PropsType = {
     className?: string | undefined;
     customIdSuffix?: string | undefined;
 }
-
-export default CustomDrawer;

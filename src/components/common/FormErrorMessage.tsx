@@ -1,6 +1,6 @@
 import React from "react";
 
-const FormErrorMessage: React.FC<PropsType> = (props) => {
+export const FormErrorMessage: React.FC<PropsType> = (props) => {
 
     const style = {...props.style, whiteSpace: "pre-wrap", textAlign: "center", color: "red"} as React.CSSProperties
     return (
@@ -12,5 +12,3 @@ export type PropsType = {
     errorMessage?: string,
     style?: React.CSSProperties
 }
-
-export default FormErrorMessage;

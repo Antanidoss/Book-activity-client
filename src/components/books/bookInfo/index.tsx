@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Rate, Row, Tag } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { ROUT_PAGE_NAME } from "../../../common/constants";
+import { ROUT_PAGE_NAME } from "common";
 import { useLazyQuery } from "@apollo/client";
 import { useQuery as useLinkQuery } from "../../../hoc/useQuery";
 import { GetBookInfo, GetBookInfoItem, GET_BOOK_INFO } from "query";
@@ -13,7 +13,7 @@ import AddActiveBook from "../../activeBook/addActiveBook";
 import BookOpinionView from "../../bookOpinion/bookOpinionView";
 import AddBookOpinion from "../../bookOpinion/addBookOpinion";
 import BookComments from "./bookComments";
-import CustomSpin from "../../common/CustomSpin";
+import { CustomSpin } from "commonComponents";
 
 const BookInfo: React.FC = () => {
     const navigate = useNavigate();

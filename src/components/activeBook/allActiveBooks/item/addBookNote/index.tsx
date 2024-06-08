@@ -7,7 +7,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import { Color } from 'antd/es/color-picker';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { bookNoteApi, ocrApi } from 'api';
-import UploadImage from '../../../../common/UploadImage';
+import { UploadImage } from 'commonComponents';
 
 const AddBookNote: React.FC<{ activeBookId: string }> = ({ activeBookId }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);

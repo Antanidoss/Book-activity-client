@@ -1,7 +1,7 @@
 import { Col } from "antd";
 import Search from "antd/lib/input/Search";
 import React from "react";
-import { UserFilterType } from "../../../../common";
+import { UserFilterType } from "common";
 
 const UserFilter: React.FC<UserFilterType> = (props) => {
     // const onUserSerach = (searchValue: string) => {

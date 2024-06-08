@@ -6,10 +6,10 @@ import { useLazyQuery } from '@apollo/client';
 import ActiveBookPagination from './pagination';
 import ActiveBookFilter from './filter';
 import ActiveBookForList from './item';
-import CustomSpin from '../../common/CustomSpin';
+import { CustomSpin } from 'commonComponents';
 import { useSelector, useDispatch } from 'react-redux';
 import { activeBookSelectors, updateActiveBookTotalCount } from 'reduxStore';
-import { SortBy } from '../../../common/models/activeBooks';
+import { SortBy } from 'common';
 
 const AllCurUserActiveBooks: React.FC = () => {
     const activeBookFilter = useSelector(activeBookSelectors.filter);

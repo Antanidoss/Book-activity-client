@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { userSelectors } from 'reduxStore';
-import { ROUT_PAGE_NAME } from '../../common';
+import { ROUT_PAGE_NAME } from 'common';
 
-const SubUnsubButton: React.FC<PropsType> = (props) => {
+export const SubUnsubButton: React.FC<PropsType> = (props) => {
     const navigate = useNavigate();
     const [subUnsubButtonLoadin, setSubUnsubButtonLoadin] = useState(false)
     const isAuthenticated = useSelector(userSelectors.isAuthenticated);
@@ -48,5 +48,3 @@ type PropsType = {
     unsubscribeUser: (userId: string) => Promise<boolean>,
     subscribeToUser: (userId: string) => Promise<boolean>,
 }
-
-export default SubUnsubButton;

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Divider } from "antd";
 import { Link } from "react-router-dom";
 import { activeBooksStatisticApi, ActiveBookStatisticByDay } from "api";
-import CustomDrawer from "../../../common/CustomDrawer";
-import CustomSpin from "../../../common/CustomSpin";
+import { CustomDrawer, CustomSpin } from "commonComponents";
 
 const StatisticsPerDay: React.FC<{day: string, userId?: string, show: boolean, onClose: () => void}> = (props) => {
     const [loading, setLoading] = useState(true);
