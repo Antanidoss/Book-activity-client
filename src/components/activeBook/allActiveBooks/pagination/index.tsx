@@ -1,17 +1,16 @@
 import { Pagination, PaginationProps } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPageNumber, getPageSize, getTotalActiveBookCount } from "../../../../redux/activeBooks/selectors";
-import { updatePageNumber } from "../../../../redux/activeBooks/slice";
+import { updateActiveBookPageNumber, activeBookSelectors } from "reduxStore";
 
 const ActiveBookPagination: React.FC = () => {
     const dispatch = useDispatch();
-    const totalBookCount = useSelector(getTotalActiveBookCount);
-    const currentPage = useSelector(getPageNumber);
-    const pageSize = useSelector(getPageSize);
+    const totalBookCount = useSelector(activeBookSelectors.totalCount);
+    const currentPage = useSelector(activeBookSelectors.pageNumber);
+    const pageSize = useSelector(activeBookSelectors.pageSize);
 
     const onPaginationChange: PaginationProps['onChange'] = page => {
-        dispatch(updatePageNumber(page));
+        dispatch(updateActiveBookPageNumber(page));
     };
 
     return (

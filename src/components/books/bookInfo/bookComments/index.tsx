@@ -5,7 +5,7 @@ import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant
 import { useLazyQuery } from "@apollo/client";
 import { GetBookOpinions, GetBookOpinionsItem, GET_BOOK_OPINIONS } from "query";
 import { useSelector } from "react-redux";
-import { getIsAuthenticated } from "../../../../redux/users/selectors";
+import { userSelectors } from "reduxStore";
 import { bookOpinionApi, isBadStatusCode } from "api";
 import CustomSpin from "../../../common/CustomSpin";
 import { ROUT_PAGE_NAME } from "../../../../common/constants";
@@ -13,7 +13,7 @@ import { ROUT_PAGE_NAME } from "../../../../common/constants";
 const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
     const navigate = useNavigate();
 
-    const isAuthenticated = useSelector(getIsAuthenticated);
+    const isAuthenticated = useSelector(userSelectors.isAuthenticated);
 
     const [bookOpinions, setBookOpinions] = useState<GetBookOpinionsItem[]>();
     const [loading, setLoading] = useState(true);

@@ -7,7 +7,7 @@ import BookNotes from "./bookNotes/BookNotes";
 import { useQuery } from "../../../hoc/useQuery";
 import { activeBooksStatisticApi, userApi, ActiveBooksStatistic, isBadStatusCode } from "api";
 import { useSelector } from "react-redux";
-import { getCurUser } from "../../../redux/users/selectors";
+import { userSelectors } from "reduxStore";
 import { useLazyQuery } from "@apollo/client";
 import { GetUserProfile } from "query/users/models";
 import { GetLastBookNotesType, GET_USER_PROFILE, GET_LAST_BOOK_NOTES } from "query";
@@ -17,7 +17,7 @@ import CustomSpin from "../../common/CustomSpin";
 const Profile: React.FC = () => {
     const query = useQuery();
 
-    const currentUser = useSelector(getCurUser);
+    const currentUser = useSelector(userSelectors.curUser);
     
     const [loading, setLoading] = useState(true);
     const [activeBooksStatistic, setActiveBooksStatistic] = useState<ActiveBooksStatistic>();

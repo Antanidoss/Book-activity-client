@@ -9,7 +9,7 @@ import SubUnsubButton from "../../common/SubUnsubButton";
 import { useLazyQuery } from "@apollo/client";
 import { GetUsers, GetUsersItem, GET_USERS } from "query";
 import { useSelector } from "react-redux";
-import { getUserId } from "../../../redux/users/selectors";
+import { userSelectors } from "reduxStore";
 import { userApi, isBadStatusCode } from "api";
 import CustomSpin from "../../common/CustomSpin";
 import { ROUT_PAGE_NAME } from "../../../common";
@@ -18,7 +18,7 @@ const AllUser: React.FC = () => {
     const [users, setUsers] = useState<GetUsersItem[]>();
     const [loading, setLoading] = useState(true);
 
-    const currentUserId = useSelector(getUserId);
+    const currentUserId = useSelector(userSelectors.userId);
 
     const [getUsers] = useLazyQuery<GetUsers>(GET_USERS, {
         fetchPolicy: "network-only"

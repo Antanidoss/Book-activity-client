@@ -7,14 +7,13 @@ import { useLazyQuery } from "@apollo/client";
 import { GetBooks, GetBooksItem, GET_BOOKS } from "query";
 import BookFilter from "./filter";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTotalCount } from "../../../redux/books/slice";
+import { updateBookTotalCount, bookSelectors } from "reduxStore";
 import CustomSpin from "../../common/CustomSpin";
-import { getBookFilter, getPageSize, getPaginationSkip } from "../../../redux/books/selectors";
 
 const AllBooks: React.FC = () => {
-    const bookFilter = useSelector(getBookFilter);
-    const pageSize = useSelector(getPageSize);
-    const paginationSkip = useSelector(getPaginationSkip);
+    const bookFilter = useSelector(bookSelectors.filter);
+    const pageSize = useSelector(bookSelectors.pageSize);
+    const paginationSkip = useSelector(bookSelectors.paginationSkip);
 
     const [loading, setLoading] = useState(true);
     const [books, setBooks] = useState<GetBooksItem[]>();
@@ -52,7 +51,7 @@ const AllBooks: React.FC = () => {
         getBooks({variables}).then(res => {
             setBooks(res.data?.books.items);
             setLoading(false);
-            dispatch(updateTotalCount(res.data?.books.totalCount ?? 0));
+            dispatch(updateBookTotalCount(res.data?.books.totalCount ?? 0));
         })
     }, [getBooks, dispatch, bookFilter, pageSize, paginationSkip])
 

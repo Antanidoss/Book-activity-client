@@ -7,4 +7,4 @@ export * from "./notifications";
 export * from "./users";
 export * from "./bookOpinions";
 
-export { apolloClient } from "./apolloClient";
+export * from "./apolloClient";

@@ -8,16 +8,14 @@ import Search from "antd/lib/transfer/search";
 import CustomDrawer from "../../../common/CustomDrawer";
 import { BookFilterType, isBookDefaultFilter } from "../../../../common/models/books";
 import DebounceSelect, { PropsType as SelectProps } from '../../../common/DebounceSelect';
-import { useDispatch } from "react-redux";
-import { clearFilter, updateBookFilter } from "../../../../redux/books/slice";
-import { useSelector } from "react-redux";
-import { getBookFilter } from "../../../../redux/books/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { bookSelectors, clearBookFilter, updateBookFilter } from "reduxStore";
 import { useLazyQuery } from "@apollo/client";
 import { GetCategoriesByTitle, GET_CATEGORIES_BY_TITLE, GetCategoriesByTitleItem } from "query";
 
 const BookFilter: React.FC = () => {
     const dispatch = useDispatch();
-    const bookFilter = useSelector(getBookFilter);
+    const bookFilter = useSelector(bookSelectors.filter);
     const [open, setOpen] = useState(false);
 
     const [getCategories] = useLazyQuery<GetCategoriesByTitle>(GET_CATEGORIES_BY_TITLE, {
@@ -49,7 +47,7 @@ const BookFilter: React.FC = () => {
     };
 
     const onClearFilter = () => {
-        dispatch(clearFilter());
+        dispatch(clearBookFilter());
         onClose();
     }
 

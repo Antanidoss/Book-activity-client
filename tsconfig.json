@@ -25,7 +25,9 @@
 			"query": ["./query"],
       "query/*": ["./query/*"],
       "api": ["./api"],
-      "api/*": ["./api/*"]
+      "api/*": ["./api/*"],
+      "reduxStore": ["./redux"],
+      "reduxStore/*": ["./redux/*"]
 		}
   },
   "include": [

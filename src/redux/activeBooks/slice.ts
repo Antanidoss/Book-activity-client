@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { ActiveBookFilterType, SortBy } from "../../common/models/activeBooks"
 
-export type InitialStateType = {
-    allBooksPage: {
+type InitialActiveBookStateType = {
+    allActiveBooksPage: {
         pageSize: number
         pageNumber: number
         totalCount: number
@@ -15,8 +15,8 @@ const defaultFiler: ActiveBookFilterType = {
     sortBy: SortBy.CreateDateDescending
 }
 
-const initialState: InitialStateType = {
-    allBooksPage: {
+const initialState: InitialActiveBookStateType = {
+    allActiveBooksPage: {
         pageSize: 10,
         pageNumber: 1,
         totalCount: 0,
@@ -28,21 +28,21 @@ export const activeBookSlice = createSlice({
     name: 'activeBook',
     initialState,
     reducers: {
-        updatePageNumber: (state, action: PayloadAction<number>) => {
-            state.allBooksPage.pageNumber = action.payload;
+        updateActiveBookPageNumber: (state, action: PayloadAction<number>) => {
+            state.allActiveBooksPage.pageNumber = action.payload;
         },
-        updateFilter: (state, action: PayloadAction<ActiveBookFilterType>) => {
-            state.allBooksPage.activeBookFilter = action.payload;
+        updateActiveBookFilter: (state, action: PayloadAction<ActiveBookFilterType>) => {
+            state.allActiveBooksPage.activeBookFilter = action.payload;
         },
-        clearFilter: (state) => {
-            state.allBooksPage.activeBookFilter = defaultFiler;
+        clearActiveBookFilter: (state) => {
+            state.allActiveBooksPage.activeBookFilter = defaultFiler;
         },
-        updateTotalCount: (state, action: PayloadAction<number>) => {
-            state.allBooksPage.totalCount = action.payload;
+        updateActiveBookTotalCount: (state, action: PayloadAction<number>) => {
+            state.allActiveBooksPage.totalCount = action.payload;
         }
     }
 })
 
-export const { updatePageNumber, updateFilter, clearFilter, updateTotalCount } = activeBookSlice.actions;
+export const { updateActiveBookPageNumber, updateActiveBookFilter, clearActiveBookFilter, updateActiveBookTotalCount } = activeBookSlice.actions;
 
 export default activeBookSlice.reducer
