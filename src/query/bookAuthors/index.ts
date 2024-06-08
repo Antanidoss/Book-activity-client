@@ -11,3 +11,5 @@ export const GET_AUTHORS_BY_NAME = gql`
         }
     }
 `
+
+export * from "./models";

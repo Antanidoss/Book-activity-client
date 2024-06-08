@@ -41,3 +41,5 @@ query ($bookId: UUID!, $userId: UUID!) {
       }
 }
 `
+
+export * from "./models";

@@ -14,3 +14,5 @@ export const GET_NOTIFICATIONS = gql`
         }
     }
 `
+
+export * from "./models";

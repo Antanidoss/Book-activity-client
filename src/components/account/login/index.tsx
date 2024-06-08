@@ -5,7 +5,7 @@ import { useForm } from 'antd/es/form/Form';
 import FormErrorMessage from '../../common/FormErrorMessage';
 import { useSelector } from 'react-redux';
 import { getIsAuthenticated } from '../../../redux/users/selectors';
-import { userApi } from '../../../api/users';
+import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../../../redux/users/slice';
 import { ROUT_PAGE_NAME } from '../../../common/constants';

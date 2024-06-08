@@ -22,3 +22,5 @@ export const GET_LAST_BOOK_NOTES = gql`
         }
     }
 `
+
+export * from "./models";

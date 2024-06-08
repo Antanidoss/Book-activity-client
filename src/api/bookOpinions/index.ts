@@ -1,4 +1,4 @@
-import instanceAxios from "../instanceAxios";
+import { instanceAxios } from "../instanceAxios";
 
 export const bookOpinionApi = {
     update(bookId: string, grade: number, description: string) {

@@ -39,3 +39,5 @@ export const GET_USER_PROFILE = gql`
         }
     }
 `
+
+export * from "./models";

@@ -10,3 +10,5 @@ export const GET_CATEGORIES_BY_TITLE = gql`
         }
     }
 `
+
+export * from "./models";

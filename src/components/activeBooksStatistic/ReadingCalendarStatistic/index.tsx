@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Col, Tooltip } from "antd";
 import date from 'date-and-time';
 import "./styles.css";
-import { ActiveBooksStatistic, NumberOfPagesReadPerDay } from "../../../api/activeBooksStatistics/models";
+import { ActiveBooksStatistic, NumberOfPagesReadPerDay } from "api";
 import StatisticsPerDay from "./StatisticsPerDay";
 
 const ReadingCalendarStatistic: React.FC<{ statistic: ActiveBooksStatistic, userId?: string }> = ({ statistic, userId }) => {

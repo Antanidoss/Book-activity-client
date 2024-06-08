@@ -5,3 +5,6 @@ export * from "./bookNotes";
 export * from "./books";
 export * from "./notifications";
 export * from "./users";
+export * from "./bookOpinions";
+
+export { apolloClient } from "./apolloClient";

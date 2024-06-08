@@ -1,6 +1,6 @@
 import { Button, Col, Form, Input, message } from 'antd';
 import React from 'react';
-import { authorApi } from '../../../api';
+import { authorApi } from 'api';
 
 const AddAuthor: React.FC = () => {
     type AddAuthorType = {

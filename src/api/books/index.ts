@@ -1,4 +1,4 @@
-import instanceAxios from "../instanceAxios";
+import { instanceAxios } from "../instanceAxios";
 import { AddBook } from "./models";
 
 export const bookApi = {
@@ -20,3 +20,5 @@ export const bookApi = {
     return instanceAxios.post('/book/add', formData)
   }
 };
+
+export * from "./models";

@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import {
     EditOutlined
 } from "@ant-design/icons";
-import { activeBookApi } from "../../../../../api";
-import { GetActiveBooksItem } from "../../../../../query/activeBooks/models";
-import { isBadStatusCode } from "../../../../../api/instanceAxios";
+import { GetActiveBooksItem } from "query";
+import { isBadStatusCode, activeBookApi } from "api";
 
 const UpdateActiveBook: React.FC<{ activeBook: GetActiveBooksItem, progressPercent: number, setActiveBook: (activeBook: GetActiveBooksItem) => void }> = (props) => {
     type UpdateActiveBookType = {

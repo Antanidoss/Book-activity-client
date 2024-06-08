@@ -1,4 +1,4 @@
-import instanceAxios, { ResponseType } from "../instanceAxios";
+import { instanceAxios, ResponseType } from "../instanceAxios";
 import { ActiveBookStatisticByDay, ActiveBooksStatistic } from "./models";
 
 export const activeBooksStatisticApi = {
@@ -9,3 +9,5 @@ export const activeBooksStatisticApi = {
         return instanceAxios.get<ResponseType<Array<ActiveBookStatisticByDay>>>(`/activeBookStatistic/getActiveBooksStatisticByDay?day=${day}&userId=${userId}`);
     }
 };
+
+export * from "./models";

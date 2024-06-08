@@ -1,9 +1,9 @@
 import axios from "axios";
-import { apolloClient } from "../query/apolloClient";
+import { apolloClient } from "query";
 
 export const SERVER_ADDRESS =  process.env.REACT_APP_SERVER_ADDRESS;
 
-const instanceAxios = axios.create({
+export const instanceAxios = axios.create({
     withCredentials: true,
     baseURL: SERVER_ADDRESS,
 })
@@ -14,10 +14,6 @@ export type ResponseType<D = {}> = {
     result: D,
     success: boolean,
     errorMessage: string
-}
-
-export type GraphqlResponseType<D = unknown> = {
-    data: D
 }
 
 export const isBadStatusCode = (status: number) => {
@@ -34,5 +30,3 @@ export const setAuthorizationToken = (token: string) => {
         Authorization: token
     };
 }
-
-export default instanceAxios;

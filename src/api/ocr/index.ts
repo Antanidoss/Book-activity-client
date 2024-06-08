@@ -1,5 +1,5 @@
 import { UploadChangeParam, UploadFile } from "antd/lib/upload";
-import instanceAxios from "../instanceAxios";
+import { instanceAxios } from "../instanceAxios";
 import { ResponseType } from "../instanceAxios";
 
 export const ocrApi = {

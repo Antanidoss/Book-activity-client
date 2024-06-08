@@ -16,7 +16,7 @@ import AllUsers from './components/users/allUsers';
 import BookInfo from './components/books/bookInfo';
 import Notifications from './components/notifications';
 import { useSelector } from 'react-redux';
-import { userApi } from './api';
+import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from './redux/users/slice';
 import { updateAppInitialized } from './redux/common/slice';
