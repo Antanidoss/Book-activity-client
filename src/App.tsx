@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser, updateAppInitialized, commonSelectors } from './redux';
-import { ROUT_PAGE_NAME } from './common';
+import { ROUT_PAGE_NAME } from 'common';
 
 const App: React.FC = () => {
     const { Sider, Content, Header } = Layout;

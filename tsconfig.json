@@ -27,7 +27,11 @@
       "api": ["./api"],
       "api/*": ["./api/*"],
       "reduxStore": ["./redux"],
-      "reduxStore/*": ["./redux/*"]
+      "reduxStore/*": ["./redux/*"],
+      "common": ["./common"],
+      "common/*": ["./common/*"],
+      "commonComponents": ["./components/common"],
+      "commonComponents/*": ["./components/common/*"]
 		}
   },
   "include": [

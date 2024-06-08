@@ -2,12 +2,11 @@ import { Button, Col, Form, Input, Row, UploadFile } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import UploadImage from "../../common/UploadImage";
-import FormErrorMessage from "../../common/FormErrorMessage";
+import { UploadImage, FormErrorMessage } from "commonComponents";
 import { userApi } from "api";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "reduxStore";
-import { ROUT_PAGE_NAME } from "../../../common";
+import { ROUT_PAGE_NAME } from "common";
 
 const Registration: React.FC = () => {
     const navigate = useNavigate();

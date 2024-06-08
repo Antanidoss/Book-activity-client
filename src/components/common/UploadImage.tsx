@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import Form, { Rule } from "antd/lib/form";
 
-const UploadImage: React.FC<PropsType> = (props) => {
+export const UploadImage: React.FC<PropsType> = (props) => {
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
 
@@ -84,5 +84,3 @@ export type PropsType = {
     style?: React.CSSProperties,
     onChange?: (info: UploadChangeParam<UploadFile>) => void
 }
-
-export default UploadImage;

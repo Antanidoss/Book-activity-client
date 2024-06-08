@@ -12,7 +12,7 @@ import UpdateActiveBook from "./updateActiveBook";
 import AddBookOpinion from "../../../bookOpinion/addBookOpinion";
 import BookOpinionView from "../../../bookOpinion/bookOpinionView";
 import AddBookNote from "./addBookNote";
-import { ROUT_PAGE_NAME } from "../../../../common/constants";
+import { ROUT_PAGE_NAME } from "common";
 
 const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActiveBook: (activeBook: GetActiveBooksItem) => void }> = ({ activeBook, onRemoveActiveBook }) => {
     const [activeBookState, setActiveBook] = useState(activeBook);

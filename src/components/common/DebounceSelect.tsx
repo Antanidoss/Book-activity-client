@@ -14,7 +14,7 @@ export type PropsType<T> = {
   placeholder?: string
 }
 
-const DebounceSelect: React.FC<PropsType<any>> = (props) => {
+export const DebounceSelect: React.FC<PropsType<any>> = (props) => {
   const [fetching, setFetching] = useState(false);
   const [options, setOptions] = useState(Array<DefaultOptionType>);
   const fetchRef = useRef(0);
@@ -56,5 +56,3 @@ const DebounceSelect: React.FC<PropsType<any>> = (props) => {
     </Form.Item>
   );
 }
-
-export default DebounceSelect;

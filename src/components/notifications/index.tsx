@@ -8,7 +8,7 @@ import { GetNotifications, GetNotificationsItem, GET_NOTIFICATIONS } from "query
 import { useLazyQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { userSelectors, commonSelectors } from "reduxStore";
-import { SignalRNotification, signalRUtil } from "../../common";
+import { SignalRNotification, signalRUtil } from "common";
 
 const Notifications: React.FC = () => {
     const [isOpenNotificationsList, changeDisplayNotificationsList] = useState(false)

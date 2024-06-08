@@ -5,14 +5,13 @@ import {
     BookOutlined,
     CommentOutlined
 } from "@ant-design/icons";
-import SubUnsubButton from "../../common/SubUnsubButton";
 import { useLazyQuery } from "@apollo/client";
 import { GetUsers, GetUsersItem, GET_USERS } from "query";
 import { useSelector } from "react-redux";
 import { userSelectors } from "reduxStore";
 import { userApi, isBadStatusCode } from "api";
-import CustomSpin from "../../common/CustomSpin";
-import { ROUT_PAGE_NAME } from "../../../common";
+import { CustomSpin, SubUnsubButton } from "commonComponents";
+import { ROUT_PAGE_NAME } from "common";
 
 const AllUser: React.FC = () => {
     const [users, setUsers] = useState<GetUsersItem[]>();

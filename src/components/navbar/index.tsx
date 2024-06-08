@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 import { useSelector } from 'react-redux';
 import { userSelectors } from 'reduxStore';
-import { ROLE_NAME, ROUT_PAGE_NAME } from '../../common/constants';
+import { ROLE_NAME, ROUT_PAGE_NAME } from 'common';
 
 const Navbar: React.FC = () => {
     const location = useLocation();

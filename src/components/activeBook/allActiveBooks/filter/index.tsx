@@ -6,8 +6,8 @@ import {
 import Search from "antd/lib/transfer/search";
 import { useDispatch, useSelector } from "react-redux";
 import { clearActiveBookFilter, updateActiveBookFilter, activeBookSelectors } from "reduxStore";
-import { ActiveBookFilterType, isActiveBookDefaultFilter } from "../../../../common/models/activeBooks";
-import CustomDrawer from "../../../common/CustomDrawer";
+import { ActiveBookFilterType, isActiveBookDefaultFilter } from "common";
+import { CustomDrawer } from "commonComponents";
 
 const ActiveBookFilter: React.FC = () => {
     const dispatch = useDispatch();

@@ -10,7 +10,7 @@ import { GetBookOpinionByUserId, GetBookOpinionByUserIdItem, GET_BOOK_OPINION_BY
 import { useLazyQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
 import { userSelectors } from "reduxStore";
-import CustomSpin from "../../common/CustomSpin";
+import { CustomSpin } from "commonComponents";
 
 const BookOpinionView: React.FC<{ bookId: string }> = ({ bookId }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);

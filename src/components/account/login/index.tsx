@@ -2,12 +2,12 @@ import { Form, Input, Checkbox, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'antd/es/form/Form';
-import FormErrorMessage from '../../common/FormErrorMessage';
+import { ROUT_PAGE_NAME } from 'common';
 import { useSelector } from 'react-redux';
 import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser, userSelectors } from 'reduxStore';
-import { ROUT_PAGE_NAME } from '../../../common/constants';
+import { FormErrorMessage } from 'commonComponents';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();

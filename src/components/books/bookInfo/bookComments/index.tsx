@@ -7,8 +7,8 @@ import { GetBookOpinions, GetBookOpinionsItem, GET_BOOK_OPINIONS } from "query";
 import { useSelector } from "react-redux";
 import { userSelectors } from "reduxStore";
 import { bookOpinionApi, isBadStatusCode } from "api";
-import CustomSpin from "../../../common/CustomSpin";
-import { ROUT_PAGE_NAME } from "../../../../common/constants";
+import { CustomSpin } from "commonComponents";
+import { ROUT_PAGE_NAME } from "common";
 
 const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
     const navigate = useNavigate();

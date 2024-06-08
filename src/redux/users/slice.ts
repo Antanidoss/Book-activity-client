@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { CurrentUserType, UserFilterType } from "../../common/models/users"
+import { CurrentUserType, UserFilterType } from "common"
 
 export type InitialUserStateType = {
     currentUser: CurrentUserType | null,

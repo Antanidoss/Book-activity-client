@@ -8,7 +8,7 @@ import { GetBooks, GetBooksItem, GET_BOOKS } from "query";
 import BookFilter from "./filter";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBookTotalCount, bookSelectors } from "reduxStore";
-import CustomSpin from "../../common/CustomSpin";
+import { CustomSpin } from "commonComponents";
 
 const AllBooks: React.FC = () => {
     const bookFilter = useSelector(bookSelectors.filter);

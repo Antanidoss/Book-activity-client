@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { BookFilterType } from "../../common/models/books"
+import { BookFilterType } from "common"
 
 export type InitialBookStateType = {
     allBooksPage: {

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { ActiveBookFilterType, SortBy } from "../../common/models/activeBooks"
+import { ActiveBookFilterType, SortBy } from "common"
 
 type InitialActiveBookStateType = {
     allActiveBooksPage: {
