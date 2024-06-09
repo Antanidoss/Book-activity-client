@@ -3,22 +3,12 @@ import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Layout } from 'antd';
 import { siderStyles, bookActivityFontStyles } from './MainStyles';
-import Navbar from './components/navbar';
-import AdministartionMain from './components/administration/AdministartionMain';
-import Login from './components/account/login';
-import Registration from './components/account/registration';
-import AllBooks from './components/books/allBooks';
-import AllCurUserActiveBooks from './components/activeBook/allActiveBooks';
-import Profile from './components/account/profile';
-import ActiveBooksStatistic from './components/activeBooksStatistic';
-import AllUsers from './components/users/allUsers';
-import BookInfo from './components/books/bookInfo';
-import Notifications from './components/notifications';
 import { useSelector } from 'react-redux';
 import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser, updateAppInitialized, commonSelectors } from './redux';
 import { ROUT_PAGE_NAME } from 'common';
+import loadable from '@loadable/component'
 
 const App: React.FC = () => {
     const { Sider, Content, Header } = Layout;
@@ -32,9 +22,21 @@ const App: React.FC = () => {
                 dispatch(updateAppInitialized(true));
             })
         }
-    }, []);
+    }, [dispatch]);
 
     if (!initialize) return <></>;
+
+    const Navbar = loadable(() => import("components/navbar"));
+    const Notifications = loadable(() => import("components/notifications"));
+    const AllBooks = loadable(() => import("components/books/allBooks"));
+    const Login = loadable(() => import("components/account/login"));
+    const Registration = loadable(() => import("components/account/registration"));
+    const AllCurUserActiveBooks = loadable(() => import("components/activeBook/allActiveBooks"));
+    const AdministartionMain = loadable(() => import("components/administration"));
+    const Profile = loadable(() => import("components/account/profile"));
+    const ActiveBooksStatistic = loadable(() => import("components/activeBooksStatistic"));
+    const AllUsers = loadable(() => import("components/users/allUsers"));
+    const BookInfo = loadable(() => import("components/books/bookInfo"));
 
     return (
         <>
