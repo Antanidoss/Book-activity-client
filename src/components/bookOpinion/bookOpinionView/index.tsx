@@ -1,8 +1,7 @@
 import { Button, Col, Modal, Rate } from "antd";
 import TextArea from "antd/lib/input/TextArea";
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
-    CommentOutlined,
     DislikeTwoTone,
     LikeTwoTone
 } from "@ant-design/icons";
@@ -12,7 +11,7 @@ import { useSelector } from "react-redux";
 import { userSelectors } from "reduxStore";
 import { CustomSpin } from "commonComponents";
 
-const BookOpinionView: React.FC<{ bookId: string }> = ({ bookId }) => {
+const BookOpinionView: React.FC<{ bookId: string, trigger: ReactNode }> = ({ bookId, trigger }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [bookOpinion, setBookOpinion] = useState<GetBookOpinionByUserIdItem>()
     const [loading, setLoading] = useState(bookOpinion === undefined);
@@ -46,7 +45,7 @@ const BookOpinionView: React.FC<{ bookId: string }> = ({ bookId }) => {
 
     return (
         <>
-            <Col onClick={showModal}><CommentOutlined /> Look review</Col>
+            <Col onClick={showModal}>{trigger}</Col>
             <Modal title="Book opinion" open={isModalVisible} onCancel={handleCancel}
                 footer={[
                     <Button key="back" onClick={handleCancel}>

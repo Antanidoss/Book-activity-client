@@ -1,9 +1,6 @@
-import { Button, Col, Form, Modal, Rate } from "antd";
+import { Button, Col, Form, Modal, Rate, message } from "antd";
 import TextArea from "antd/lib/input/TextArea";
-import React, { useState } from "react";
-import {
-    CommentOutlined
-} from "@ant-design/icons";
+import React, { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { bookOpinionApi, isBadStatusCode } from "api";
 import { useSelector } from "react-redux";
@@ -12,10 +9,11 @@ import { ROUT_PAGE_NAME } from "common";
 
 type Props = {
     bookId: string,
+    trigger: ReactNode,
     onAddBookOpinion?: (grade: number, description: string) => void
 }
 
-const AddBookOpinion: React.FC<Props> = ({ bookId, onAddBookOpinion }) => {
+const AddBookOpinion: React.FC<Props> = ({ bookId, trigger, onAddBookOpinion }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -29,8 +27,11 @@ const AddBookOpinion: React.FC<Props> = ({ bookId, onAddBookOpinion }) => {
     const handleSubmit = (addOpinion: AddOpinionType) => {
         bookOpinionApi.update(bookId, addOpinion.grade, addOpinion.description).then(res => {
             if (!isBadStatusCode(res.status)) {
+                message.success("The review was added successfully");
                 onAddBookOpinion?.(addOpinion.grade, addOpinion.description);
                 setIsModalVisible(false);
+            } else {
+                message.error("Couldn't add a review, try again");
             }
         })
 
@@ -50,7 +51,7 @@ const AddBookOpinion: React.FC<Props> = ({ bookId, onAddBookOpinion }) => {
 
     return (
         <>
-            <Col onClick={showModal}><CommentOutlined /> Add review</Col>
+            <Col onClick={showModal}>{trigger}</Col>
             
             <Modal title="Add book opinion" open={isModalVisible} onCancel={handleCancel}
                 footer={[

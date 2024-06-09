@@ -1,12 +1,19 @@
 import { Button, Col, Form, Input, message, Modal } from "antd";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
     EditOutlined
 } from "@ant-design/icons";
 import { GetActiveBooksItem } from "query";
 import { isBadStatusCode, activeBookApi } from "api";
 
-const UpdateActiveBook: React.FC<{ activeBook: GetActiveBooksItem, progressPercent: number, setActiveBook: (activeBook: GetActiveBooksItem) => void }> = (props) => {
+type Props = {
+    activeBook: GetActiveBooksItem,
+    progressPercent: number,
+    setActiveBook: (activeBook: GetActiveBooksItem) => void,
+    trigger: ReactNode
+}
+
+const UpdateActiveBook: React.FC<Props> = (props) => {
     type UpdateActiveBookType = {
         numberPagesRead: number
     }
@@ -60,9 +67,7 @@ const UpdateActiveBook: React.FC<{ activeBook: GetActiveBooksItem, progressPerce
     }
 
     return <>
-        <Col onClick={showModal}>
-            <EditOutlined /> Edit
-        </Col>
+        <Col onClick={showModal}>{props.trigger}</Col>
 
         <Modal title="Add active book" open={isModalVisible} onCancel={handleCancel}
             footer={[
