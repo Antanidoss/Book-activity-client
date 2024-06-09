@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import {
-    PushpinOutlined
-} from "@ant-design/icons";
+import React, { ReactNode, useState } from 'react';
 import { Button, Form, message, Modal, ColorPicker, Row, UploadFile, Col } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { Color } from 'antd/es/color-picker';
@@ -9,7 +6,7 @@ import { UploadChangeParam } from 'antd/lib/upload';
 import { bookNoteApi, ocrApi } from 'api';
 import { UploadImage } from 'commonComponents';
 
-const AddBookNote: React.FC<{ activeBookId: string }> = ({ activeBookId }) => {
+const AddBookNote: React.FC<{ activeBookId: string, triger: ReactNode }> = ({ activeBookId, triger }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedColor, setSelectedColor] = useState("#FFFFFF");
     const [selectedTextColor, setSelectedTextColor] = useState("#000000");
@@ -61,7 +58,7 @@ const AddBookNote: React.FC<{ activeBookId: string }> = ({ activeBookId }) => {
 
     return (
         <>
-            <Col onClick={showModal}><PushpinOutlined /> Add note</Col>
+            <Col onClick={showModal}>{triger}</Col>
 
             <Modal title="Add book note" open={isModalVisible} onCancel={handleCancel}
                 footer={[

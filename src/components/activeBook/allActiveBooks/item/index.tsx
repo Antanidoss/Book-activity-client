@@ -2,8 +2,11 @@ import { Button, Col, Dropdown, Progress, Row, message } from "antd";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
+    CommentOutlined,
     DeleteOutlined,
-    EllipsisOutlined
+    EditOutlined,
+    EllipsisOutlined,
+    PushpinOutlined
 } from "@ant-design/icons";
 import { GetActiveBooksItem } from "query";
 import { bookMain, bookTitle } from "../../../books/allBooks/item/styles";
@@ -28,12 +31,26 @@ const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActi
         });
     }
 
+    const onAddBookOpinion = () => {
+        setActiveBook({
+            ...activeBookState,
+            book: {
+                ...activeBookState.book,
+                hasOpinion: true
+            }
+        })
+    }
+
     const progressPercent: number = Math.round(activeBookState.numberPagesRead / activeBookState.totalNumberPages * 100);
 
     const actionItems = [
         {
             key: "1",
-            label: <UpdateActiveBook activeBook={activeBookState} setActiveBook={setActiveBook} progressPercent={progressPercent} />,
+            label: <UpdateActiveBook
+                trigger={<><EditOutlined /> Edit</>}
+                activeBook={activeBookState}
+                setActiveBook={setActiveBook}
+                progressPercent={progressPercent} />,
         },
         {
             key: "2",
@@ -42,14 +59,21 @@ const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActi
         activeBookState.book.hasOpinion ?
             {
                 key: "3",
-                label: <BookOpinionView bookId={activeBook.book.id} />,
+                label: <BookOpinionView
+                    trigger={<><CommentOutlined /> Look review</>}
+                    bookId={activeBook.book.id} />,
             } : {
                 key: "4",
-                label: <AddBookOpinion bookId={activeBook.book.id} />,
+                label: <AddBookOpinion
+                    onAddBookOpinion={onAddBookOpinion}
+                    trigger={<><CommentOutlined /> Add review</>}
+                    bookId={activeBook.book.id} />,
             },
         {
             key: "5",
-            label: <AddBookNote activeBookId={activeBookState.id} />,
+            label: <AddBookNote
+                triger={<><PushpinOutlined /> Add note</>}
+                activeBookId={activeBookState.id} />,
         },
     ];
     const actionMenuProps = {

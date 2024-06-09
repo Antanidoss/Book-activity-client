@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Rate, Row, Tag } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, CommentOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUT_PAGE_NAME } from "common";
 import { useLazyQuery } from "@apollo/client";
@@ -104,12 +104,14 @@ const BookInfo: React.FC = () => {
                                     : <AddActiveBook bookId={bookInfo.id} onAddActiveBookSuccess={onAddActiveBookSuccess} />
                             }
                         </Col>
-                        <Col>
+                        <Col style={{marginLeft: "10px"}}>
                             {
                                 bookInfo.hasOpinion
                                     ? <BookOpinionView
+                                        trigger={<Button shape="round" type="primary" icon={<CommentOutlined />}>Look review</Button>}
                                         bookId={bookInfo.id} />
                                     : <AddBookOpinion
+                                        trigger={<Button shape="round" type="primary" icon={<CommentOutlined />}>Add review</Button>}
                                         bookId={bookInfo.id} />
                             }
                         </Col>
