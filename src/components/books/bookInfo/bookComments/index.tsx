@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Col, List, Image, Rate, Row, Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
@@ -33,39 +33,35 @@ const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
         })
     }, [getBookOpinions, bookId]);
 
-    if (loading) return <CustomSpin loading={loading} />
-
-    if (!bookOpinions?.length) return <></>;
-
     const checkIsAuthenticated = () => {
         if (!isAuthenticated) {
             navigate(ROUT_PAGE_NAME.USER_LOGIN);
         }
     }
 
-    const removeBookOpinionLike = (userId: string) => {
-        bookOpinionApi.removeDislike(bookId, userId).then(res => {
+    const removeBookOpinionLike = useCallback((userId: string) => {
+        bookOpinionApi.removeLike(bookId, userId).then(res => {
             if (isBadStatusCode(res.status)) return;
 
-            setBookOpinions([...bookOpinions].map(o => {
+            setBookOpinions([...bookOpinions ?? []].map(o => {
                 const opinion = {...o};
                 if (opinion.user.id === userId) {
-                    opinion.dislikesCount--;
-                    opinion.hasDislike = false;
+                    opinion.likesCount--;
+                    opinion.hasLike = false;
                 }
 
                 return opinion;
             }));
         })
-    }
+    }, [bookOpinions, bookId])
 
-    const addBookOpinionLike = (userId: string, hasDislike: boolean) => {
+    const addBookOpinionLike = useCallback((userId: string, hasDislike: boolean) => {
         checkIsAuthenticated();
 
         bookOpinionApi.addLike(bookId, userId).then(res => {
             if (isBadStatusCode(res.status)) return;
 
-            setBookOpinions(bookOpinions.map(o => {
+            setBookOpinions(bookOpinions?.map(o => {
                 const opinion = {...o};
                 if (opinion.user.id === userId) {
                     if (hasDislike) {
@@ -79,32 +75,32 @@ const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
 
                 return opinion;
             }));
-        });
-    }
+        })
+    }, [bookOpinions, bookId, checkIsAuthenticated])
 
-    const removeBookOpinionDislike = (userId: string) => {
+    const removeBookOpinionDislike = useCallback((userId: string) => {
         bookOpinionApi.removeDislike(bookId, userId).then(res => {
             if (isBadStatusCode(res.status)) return;
 
-            setBookOpinions([...bookOpinions].map(o => {
+            setBookOpinions([...bookOpinions ?? []].map(o => {
                 const opinion = {...o};
                 if (opinion.user.id === userId) {
-                    opinion.likesCount--;
-                    opinion.hasLike = false;
+                    opinion.dislikesCount--;
+                    opinion.hasDislike = false;
                 }
 
                 return opinion;
             }));
         })
-    }
+    }, [bookOpinions, bookId])
 
-    const addBookOpinionDislike = (userId: string, hasLike: boolean) => {
+    const addBookOpinionDislike = useCallback((userId: string, hasLike: boolean) => {
         checkIsAuthenticated();
 
         bookOpinionApi.addDislike(bookId, userId).then(res => {
             if (isBadStatusCode(res.status)) return;
 
-            setBookOpinions([...bookOpinions].map(o => {
+            setBookOpinions([...bookOpinions ?? []].map(o => {
                 const opinion = {...o};
                 if (opinion.user.id === userId) {
                     if (hasLike) {
@@ -119,8 +115,11 @@ const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
                 return opinion;
             }));
         });
-    }
+    }, [bookOpinions, bookId, checkIsAuthenticated])
 
+    if (loading) return <CustomSpin loading={loading} />
+
+    if (!bookOpinions?.length) return <></>;
 
     const data = bookOpinions.map(o => ({
         title: <Link to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${o.user.id}`}>{o.user.userName}</Link>,
@@ -136,6 +135,8 @@ const BookComments: React.FC<{bookId: string}> = ({bookId}) => {
             ? <Button onClick={() => removeBookOpinionDislike(o.user.id)}><DislikeTwoTone /> {o.dislikesCount}</Button>
             : <Button onClick={() => addBookOpinionDislike(o.user.id, o.hasLike)}><DislikeOutlined /> {o.dislikesCount}</Button>
     }));
+
+    console.log(bookOpinions);
 
     return (
         <Col style={{marginTop: "50px", alignItems: "center"}}>
