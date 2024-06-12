@@ -1,5 +1,5 @@
 import { Button, Col, Dropdown, Progress, Row, message } from "antd";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import {
     CommentOutlined,
@@ -17,19 +17,19 @@ import BookOpinionView from "../../../bookOpinion/bookOpinionView";
 import AddBookNote from "./addBookNote";
 import { ROUT_PAGE_NAME } from "common";
 
-const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActiveBook: (activeBook: GetActiveBooksItem) => void }> = ({ activeBook, onRemoveActiveBook }) => {
+const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActiveBook: (activeBookId: string) => void }> = ({ activeBook, onRemoveActiveBook }) => {
     const [activeBookState, setActiveBook] = useState(activeBook);
 
-    const onClickRemoveActiveBook = () => {
-        activeBookApi.removeActiveBook(activeBook.id).then(res => {
+    const onClickRemoveActiveBook = useCallback(() => {
+        activeBookApi.removeActiveBook(activeBookState.id).then(res => {
             if (isBadStatusCode(res.status)) {
                 message.error("The active book could not be deleted, please try again", 6);
             } else {
-                onRemoveActiveBook(activeBook);
+                onRemoveActiveBook(activeBookState.id);
                 message.success("Active book has been successfully deleted", 6);
             }
         });
-    }
+    }, [activeBookState.id, onRemoveActiveBook]);
 
     const onAddBookOpinion = () => {
         setActiveBook({
@@ -41,6 +41,10 @@ const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActi
         })
     }
 
+    const onUpdatenNumberPagesRead = (numberPagesRead: number) => {
+        setActiveBook({...activeBookState, numberPagesRead})
+    }
+
     const progressPercent: number = Math.round(activeBookState.numberPagesRead / activeBookState.totalNumberPages * 100);
 
     const actionItems = [
@@ -49,8 +53,7 @@ const ActiveBookForList: React.FC<{ activeBook: GetActiveBooksItem, onRemoveActi
             label: <UpdateActiveBook
                 trigger={<><EditOutlined /> Edit</>}
                 activeBook={activeBookState}
-                setActiveBook={setActiveBook}
-                progressPercent={progressPercent} />,
+                onUpdate={onUpdatenNumberPagesRead} />,
         },
         {
             key: "2",

@@ -1,5 +1,5 @@
 import { Empty, Row } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import BookOfList from "./item";
 import BookPagination from "./pagination";
 import { FrownOutlined } from "@ant-design/icons";
@@ -23,47 +23,47 @@ const AllBooks: React.FC = () => {
     const [getBooks] = useLazyQuery<GetBooks>(GET_BOOKS, {
         fetchPolicy: "network-only",
     });
-    
-    useEffect(() => {
-        const variables = {
-            skip: paginationSkip,
-            take: pageSize,
-            averageRatingFrom: bookFilter.averageRatingFrom,
-            averageRatingTo: bookFilter.averageRatingTo,
-            filter: {
-                and: [
-                    {
-                        title: bookFilter.bookTitle === undefined ? undefined : { contains: bookFilter.bookTitle },
-                    },
-                    {
-                        bookCategories: !bookFilter.categories.length ? undefined : {
-                            some: {
-                                category: {
-                                    or: bookFilter.categories.map(c => ({ id: { eq: c.value } }))
-                                }
+
+    const variables = useMemo(() => ({
+        skip: paginationSkip,
+        take: pageSize,
+        averageRatingFrom: bookFilter.averageRatingFrom,
+        averageRatingTo: bookFilter.averageRatingTo,
+        filter: {
+            and: [
+                {
+                    title: bookFilter.bookTitle === undefined ? undefined : { contains: bookFilter.bookTitle },
+                },
+                {
+                    bookCategories: !bookFilter.categories.length ? undefined : {
+                        some: {
+                            category: {
+                                or: bookFilter.categories.map(c => ({ id: { eq: c.value } }))
                             }
                         }
                     }
-                ]
-            }
+                }
+            ]
         }
+    }), [paginationSkip, pageSize, bookFilter])
 
-        getBooks({variables}).then(res => {
+    useEffect(() => {
+        getBooks({ variables }).then(res => {
             setBooks(res.data?.books.items);
             setLoading(false);
             dispatch(updateBookTotalCount(res.data?.books.totalCount ?? 0));
         })
-    }, [getBooks, dispatch, bookFilter, pageSize, paginationSkip])
+    }, [getBooks, dispatch, variables])
 
     if (loading) return <CustomSpin loading={loading} />
 
-    if (!books?.length) return <Empty description="Can't find books" image={React.createElement(FrownOutlined)} imageStyle={{fontSize: "30px", display: "inline"}} />
+    if (!books?.length) return <Empty description="Can't find books" image={React.createElement(FrownOutlined)} imageStyle={{ fontSize: "30px", display: "inline" }} />
 
     return (
         <>
             <BookFilter />
 
-            <Row justify="space-around" gutter={[24, 16]} style={{marginRight: "0px"}} wrap={true}>
+            <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: "0px" }} wrap={true}>
                 {books?.map(b => <BookOfList key={b.id} {...b}></BookOfList>)}
             </Row>
 

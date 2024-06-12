@@ -1,15 +1,11 @@
 import { Button, Col, Form, Input, message, Modal } from "antd";
 import React, { ReactNode, useState } from "react";
-import {
-    EditOutlined
-} from "@ant-design/icons";
 import { GetActiveBooksItem } from "query";
 import { isBadStatusCode, activeBookApi } from "api";
 
 type Props = {
     activeBook: GetActiveBooksItem,
-    progressPercent: number,
-    setActiveBook: (activeBook: GetActiveBooksItem) => void,
+    onUpdate: (numberPagesRead: number) => void,
     trigger: ReactNode
 }
 
@@ -19,7 +15,6 @@ const UpdateActiveBook: React.FC<Props> = (props) => {
     }
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [numberPagesRead, setNumberPagesRead] = useState(props.activeBook.numberPagesRead);
     const [form] = Form.useForm();
     const [disabled, setDisabled] = useState(false);
 
@@ -33,10 +28,11 @@ const UpdateActiveBook: React.FC<Props> = (props) => {
         activeBookApi.updateActiveBook(props.activeBook.id, updateActiveBook.numberPagesRead)
             .then(res => {
                 if (!isBadStatusCode(res.status)) {
-                    message.success("The active book has been successfully updated", 6)
+                    message.success("The active book has been successfully updated", 6);
+                    props.onUpdate(updateActiveBook.numberPagesRead);
                     setIsModalVisible(false);
-                    setNumberPagesRead(updateActiveBook.numberPagesRead);
-                    props.setActiveBook({ ...props.activeBook, numberPagesRead: updateActiveBook.numberPagesRead })
+                    
+                    form.setFieldValue("numberPagesRead", updateActiveBook.numberPagesRead);
                 }
                 else {
                     message.error("The active book could not be changed", 6)
@@ -84,7 +80,7 @@ const UpdateActiveBook: React.FC<Props> = (props) => {
                     Cancel
                 </Button>
             ]}>
-            <Form id="updateActiveBookForm" form={form} initialValues={{ numberPagesRead: numberPagesRead }} onFieldsChange={validateForm}>
+            <Form id="updateActiveBookForm" form={form} initialValues={{ numberPagesRead: props.activeBook.numberPagesRead }} onFieldsChange={validateForm}>
                 <Form.Item
                     label="Number of pages read"
                     name="numberPagesRead"

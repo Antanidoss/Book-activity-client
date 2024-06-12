@@ -1,5 +1,5 @@
 import { Empty, Row } from 'antd';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { FrownOutlined } from '@ant-design/icons';
 import { GetActiveBooks, GetActiveBooksItem, GET_ACTIVE_BOOKS, Order } from 'query';
 import { useLazyQuery } from '@apollo/client';
@@ -25,12 +25,12 @@ const AllCurUserActiveBooks: React.FC = () => {
         fetchPolicy: "network-only",
     });
 
-    useEffect(() => {
+    const variables = useMemo(() => {
         let order = activeBookFilter.sortBy === SortBy.CreateDate
             ? { timeOfCreation: Order.ASC }
             : { timeOfCreation: Order.DESC };
 
-        const variables = {
+        return {
             skip: paginationSkip,
             take: pageSize,
             withFullRead: activeBookFilter.withFullRead,
@@ -43,31 +43,37 @@ const AllCurUserActiveBooks: React.FC = () => {
                 ]
             }
         }
+    }, [activeBookFilter, pageSize, paginationSkip])
 
+    useEffect(() => {
         getActiveBooks({ variables }).then(res => {
             setLoading(false);
             setActiveBooks(res.data?.activeBooks.items);
             dispatch(updateActiveBookTotalCount(res.data?.activeBooks.totalCount ?? 0));
         })
-    }, [activeBookFilter, pageSize, paginationSkip, getActiveBooks, dispatch]);
+    }, [variables, getActiveBooks, dispatch]);
+
+    const onRemoveActiveBook = useCallback((activeBookId: string) => {
+        setActiveBooks(activeBooks?.filter(a => a.id !== activeBookId));
+    }, [activeBooks]);
 
     if (loading) return <CustomSpin loading={loading} />
-
-    if (!activeBooks?.length) return <Empty description="You don't have any active books" image={React.createElement(FrownOutlined)} imageStyle={{ fontSize: "30px", display: "inline" }} />
-
-    const onRemoveActiveBook = (activeBook: GetActiveBooksItem) => {
-        setActiveBooks(activeBooks.filter(a => a.id !== activeBook.id));
-    }
 
     return (
         <>
             <ActiveBookFilter />
 
-            <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: "0px" }}>
-                {activeBooks.map(a => <ActiveBookForList key={a.id} activeBook={a} onRemoveActiveBook={onRemoveActiveBook} />)}
-            </Row>
+            {
+                activeBooks?.length
+                    ? <>
+                        <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: "0px" }}>
+                            {activeBooks.map(a => <ActiveBookForList key={a.id} activeBook={a} onRemoveActiveBook={onRemoveActiveBook} />)}
+                        </Row>
 
-            <ActiveBookPagination />
+                        <ActiveBookPagination />
+                    </>
+                    : <Empty description="You don't have any active books" image={React.createElement(FrownOutlined)} imageStyle={{ fontSize: "30px", display: "inline" }} />
+            }
         </>
     )
 }
