@@ -1,5 +1,5 @@
-import bookReducer from "./books/slice";
-import { configureStore } from "@reduxjs/toolkit";
+import bookReducer from './books/slice';
+import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './users/slice';
 import activeBookReducer from './activeBooks/slice';
 import commonReducer from './common/slice';
@@ -9,10 +9,10 @@ export const store = configureStore({
     books: bookReducer,
     activeBooks: activeBookReducer,
     users: userReducer,
-    common: commonReducer
+    common: commonReducer,
   },
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;

@@ -1,11 +1,11 @@
 export type GetAuthorsByName = {
-    authors: {
-        items: GetAuthorsByNameItem[]
-    }
-}
+  authors: {
+    items: GetAuthorsByNameItem[];
+  };
+};
 
 export type GetAuthorsByNameItem = {
-    id: string,
-    firstName: string,
-    surname: string,
-}
+  id: string;
+  firstName: string;
+  surname: string;
+};

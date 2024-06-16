@@ -1,15 +1,19 @@
 export enum SortBy {
-    CreateDate,
-    CreateDateDescending,
-    UpdateDateDescending,
+  CreateDate,
+  CreateDateDescending,
+  UpdateDateDescending,
 }
 
 export type ActiveBookFilterType = {
-    bookTitle?: string,
-    withFullRead: boolean,
-    sortBy: SortBy
-}
+  bookTitle?: string;
+  withFullRead: boolean;
+  sortBy: SortBy;
+};
 
 export const isActiveBookDefaultFilter = (filter: ActiveBookFilterType) => {
-    return (filter.bookTitle === undefined || filter.bookTitle === "") && filter.sortBy === SortBy.CreateDateDescending && filter.withFullRead;
-}
+  return (
+    (filter.bookTitle === undefined || filter.bookTitle === '') &&
+    filter.sortBy === SortBy.CreateDateDescending &&
+    filter.withFullRead
+  );
+};
