@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,7 +18,7 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-			"query": ["./query"],
+      "query": ["./query"],
       "query/*": ["./query/*"],
       "api": ["./api"],
       "api/*": ["./api/*"],
@@ -32,9 +28,7 @@
       "common/*": ["./common/*"],
       "commonComponents": ["./components/common"],
       "commonComponents/*": ["./components/common/*"]
-		}
+    }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

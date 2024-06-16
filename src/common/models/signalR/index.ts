@@ -1,6 +1,6 @@
 export interface SignalRNotification {
-    NotificationId: string,
-    MessageNotification: string,
-    FromUserId?: string,
-    FromUserAvatarDataBase64?: string
+  NotificationId: string;
+  MessageNotification: string;
+  FromUserId?: string;
+  FromUserAvatarDataBase64?: string;
 }

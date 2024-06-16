@@ -1,21 +1,21 @@
 export const ROUT_PAGE_NAME = {
-    BOOK_INFO: "/book",
-    ALL_BOOKS: "/books",
-    USER_LOGIN: "/login",
-    USER_REGISTRATION: "/registration",
-    ALL_ACTIVE_BOOKS: "/activeBooks",
-    ADMINISTRATION: "/administration",
-    USER_PROFILE: "/profile",
-    ACTIVE_BOOK_STATISTIC: "/statistic",
-    ALL_USERS: "/users"
-}
+  BOOK_INFO: '/book',
+  ALL_BOOKS: '/books',
+  USER_LOGIN: '/login',
+  USER_REGISTRATION: '/registration',
+  ALL_ACTIVE_BOOKS: '/activeBooks',
+  ADMINISTRATION: '/administration',
+  USER_PROFILE: '/profile',
+  ACTIVE_BOOK_STATISTIC: '/statistic',
+  ALL_USERS: '/users',
+};
 
 export const ROLE_NAME = {
-    ADMIN: "Admin"
-}
+  ADMIN: 'Admin',
+};
 
 export const hubsApiConstants = {
-    NOTIFICATION_HUB_NAME: "notificationsHub",
-    SET_USER_INFO: "SetUserInfo",
-    GET_NOTIFICATION: "GetNotification",
-}
+  NOTIFICATION_HUB_NAME: 'notificationsHub',
+  SET_USER_INFO: 'SetUserInfo',
+  GET_NOTIFICATION: 'GetNotification',
+};

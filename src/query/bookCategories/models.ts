@@ -1,9 +1,9 @@
 export type GetCategoriesByTitle = {
-    categories: {
-        items: GetCategoriesByTitleItem[]
-    }
-}
+  categories: {
+    items: GetCategoriesByTitleItem[];
+  };
+};
 export type GetCategoriesByTitleItem = {
-    id: string,
-    title: string
-}
+  id: string;
+  title: string;
+};
