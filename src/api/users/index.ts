@@ -45,26 +45,18 @@ export const userApi = {
       .then(() => ({ success: true, errorMessage: '' }))
       .catch((error) => ({ success: false, errorMessage: error.response.data }));
   },
-  updateUser(
-    userId: string,
-    userName: string,
-    avatarImage: UploadChangeParam<UploadFile> | undefined,
-  ) {
-    const formData = new FormData();
-    formData.append('userId', userId);
-    formData.append('name', userName);
-
-    if (avatarImage !== undefined) {
-      formData.append('avatarImage', avatarImage.file.originFileObj as Blob);
-    }
-
-    return instanceAxios.post('/user/update', formData);
-  },
   subscribeToUser(userId: string) {
     return instanceAxios.put(`/user/subscribeUser?subscribedUserId=${userId}`);
   },
   unsubscribeUser(userId: string) {
     return instanceAxios.delete(`/user/unsubscribe?unsubscribedUserId=${userId}`);
+  },
+  updateUser(userName: string, description: string) {
+    const formData = new FormData();
+    formData.append('name', userName);
+    formData.append('description', description);
+
+    return instanceAxios.post<ResponseType>('/user/update', formData);
   },
 };
 

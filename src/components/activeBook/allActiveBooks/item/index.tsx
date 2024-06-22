@@ -1,5 +1,5 @@
 import { Button, Col, Dropdown, Progress, Row, message } from 'antd';
-import React, { useCallback, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   CommentOutlined,
@@ -44,26 +44,33 @@ const ActiveBookForList: React.FC<{
     });
   };
 
-  const onUpdatenNumberPagesRead = (numberPagesRead: number) => {
-    setActiveBook({ ...activeBookState, numberPagesRead });
-  };
+  const onUpdateNumberPagesRead = useCallback(
+    (numberPagesRead: number) => {
+      setActiveBook({ ...activeBookState, numberPagesRead });
+    },
+    [activeBookState],
+  );
 
   const progressPercent: number = Math.round(
     (activeBookState.numberPagesRead / activeBookState.totalNumberPages) * 100,
   );
+
+  const updateActiveBookTrigger = useMemo(() => {
+    return (
+      <>
+        <EditOutlined /> Edit
+      </>
+    );
+  }, []);
 
   const actionItems = [
     {
       key: '1',
       label: (
         <UpdateActiveBook
-          trigger={
-            <>
-              <EditOutlined /> Edit
-            </>
-          }
+          trigger={updateActiveBookTrigger}
           activeBook={activeBookState}
-          onUpdate={onUpdatenNumberPagesRead}
+          onUpdate={onUpdateNumberPagesRead}
         />
       ),
     },
