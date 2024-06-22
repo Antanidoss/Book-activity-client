@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, message, Modal } from 'antd';
-import React, { ReactNode, useState } from 'react';
+import React, { memo, ReactNode, useState } from 'react';
 import { GetActiveBooksItem } from 'query';
 import { isBadStatusCode, activeBookApi } from 'api';
 
@@ -9,11 +9,11 @@ type Props = {
   trigger: ReactNode;
 };
 
-const UpdateActiveBook: React.FC<Props> = (props) => {
-  type UpdateActiveBookType = {
-    numberPagesRead: number;
-  };
+type UpdateActiveBookType = {
+  numberPagesRead: number;
+};
 
+const UpdateActiveBook: React.FC<Props> = memo((props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(false);
@@ -114,6 +114,6 @@ const UpdateActiveBook: React.FC<Props> = (props) => {
       </Modal>
     </>
   );
-};
+});
 
 export default UpdateActiveBook;
