@@ -4,13 +4,21 @@ import { useState } from 'react';
 import { useForm } from 'antd/es/form/Form';
 import { isBadStatusCode, userApi } from 'api';
 import TextArea from 'antd/es/input/TextArea';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser, userSelectors } from 'reduxStore';
+import { useSelector } from 'react-redux';
 
-const EditProfile: React.FC<{ userName: string; description?: string }> = ({
-  userName,
-  description,
-}) => {
+const EditProfile: React.FC<{
+  userName: string;
+  description?: string;
+  onEditProfile: (userName: string, description: string) => void;
+}> = ({ userName, description, onEditProfile }) => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const currentUser = useSelector(userSelectors.curUser);
+
+  const dispatch = useDispatch();
 
   const [form] = useForm();
 
@@ -29,9 +37,14 @@ const EditProfile: React.FC<{ userName: string; description?: string }> = ({
   };
 
   const onFinish = (values: EditProfileValues) => {
+    setLoading(true);
+
     userApi.updateUser(values.userName, values.description).then((res) => {
       if (!isBadStatusCode(res.status)) {
         message.success('Profile changes have been saved successfully', 6);
+        setShowForm(false);
+        onEditProfile(values.userName, values.description);
+        dispatch(setCurrentUser({ ...currentUser, userName: values.userName }));
       } else {
         message.error('The profile could not be changed', 6);
       }
@@ -86,7 +99,7 @@ const EditProfile: React.FC<{ userName: string; description?: string }> = ({
           <Form.Item wrapperCol={{ offset: 2, span: 12 }}>
             <Button
               type="primary"
-              htmlType="submit"
+              htmlType="button"
               shape="round"
               onClick={() => setShowForm(false)}
             >

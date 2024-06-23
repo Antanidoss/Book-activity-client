@@ -2,6 +2,7 @@ export type GetUserProfile = {
   userById: {
     id: string;
     userName: string;
+    description: string;
     avatarDataBase64: string;
     subscriptionsCount: number;
     subscribersCount: number;

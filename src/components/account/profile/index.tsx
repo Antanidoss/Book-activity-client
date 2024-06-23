@@ -1,5 +1,5 @@
 import { Avatar, Col, Image, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TeamOutlined } from '@ant-design/icons';
 import BookNotes from './bookNotes/BookNotes';
@@ -62,6 +62,20 @@ const Profile: React.FC = () => {
     return userApi.subscribeToUser(userId).then((res) => !isBadStatusCode(res.status));
   };
 
+  const onEditProfile = useCallback(
+    (userName: string, description: string) => {
+      setUserProfile({
+        ...userProfile,
+        userById: {
+          ...userProfile!.userById,
+          userName: userName,
+          description: description,
+        },
+      });
+    },
+    [userProfile],
+  );
+
   if (loading) return <CustomSpin loading={loading} />;
 
   return (
@@ -94,7 +108,11 @@ const Profile: React.FC = () => {
           </Col>
           <Col style={{ marginTop: '20px' }}>
             {currentUser?.id === userProfile?.userById.id ? (
-              <EditProfile userName={userProfile!.userById.userName} description={undefined} />
+              <EditProfile
+                userName={userProfile!.userById.userName}
+                description={undefined}
+                onEditProfile={onEditProfile}
+              />
             ) : (
               <SubUnsubButton
                 userId={userProfile!.userById.id}
