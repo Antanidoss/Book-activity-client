@@ -26,6 +26,7 @@ export const GET_USER_PROFILE = gql`
       subscriptionsCount
       subscribersCount
       isSubscribed
+      description
       activeBooks {
         id
         totalNumberPages

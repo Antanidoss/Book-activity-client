@@ -56,7 +56,7 @@ export const userApi = {
     formData.append('name', userName);
     formData.append('description', description);
 
-    return instanceAxios.post<ResponseType>('/user/update', formData);
+    return instanceAxios.put<ResponseType>('/user/update', formData);
   },
 };
 
