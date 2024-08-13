@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UploadImage, FormErrorMessage } from 'commonComponents';
 import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from 'reduxStore';
+import { setCurrentUser } from 'store';
 import { ROUT_PAGE_NAME } from 'common';
 
 const Registration: React.FC = () => {

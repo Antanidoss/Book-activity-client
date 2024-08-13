@@ -9,7 +9,7 @@ import {
 } from 'query';
 import { useLazyQuery } from '@apollo/client';
 import { useSelector } from 'react-redux';
-import { userSelectors } from 'reduxStore';
+import { userSelectors } from 'store';
 import { CustomSpin } from 'commonComponents';
 
 const BookOpinionView: React.FC<{ bookId: string; trigger: ReactNode }> = ({ bookId, trigger }) => {

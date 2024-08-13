@@ -8,7 +8,7 @@ import { useQuery as useLinkQuery } from '../../../hoc/useQuery';
 import { GetBookInfo, GetBookInfoItem, GET_BOOK_INFO } from 'query';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { updateBookFilter, bookSelectors, userSelectors } from 'reduxStore';
+import { updateBookFilter, bookSelectors, userSelectors } from 'store';
 import AddActiveBook from '../../activeBook/addActiveBook';
 import BookOpinionView from '../../bookOpinion/bookOpinionView';
 import AddBookOpinion from '../../bookOpinion/addBookOpinion';

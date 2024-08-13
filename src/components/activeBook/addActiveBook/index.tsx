@@ -3,7 +3,7 @@ import { Button, Form, Modal, message, InputNumber } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { activeBookApi } from 'api';
 import { useSelector } from 'react-redux';
-import { userSelectors } from 'reduxStore';
+import { userSelectors } from 'store';
 
 const AddActiveBook: React.FC<{ bookId: string; onAddActiveBookSuccess?: () => void }> = ({
   bookId,

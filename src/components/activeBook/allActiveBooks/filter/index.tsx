@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FilterOutlined } from '@ant-design/icons';
 import Search from 'antd/lib/transfer/search';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearActiveBookFilter, updateActiveBookFilter, activeBookSelectors } from 'reduxStore';
+import { clearActiveBookFilter, updateActiveBookFilter, activeBookSelectors } from 'store';
 import { ActiveBookFilterType, isActiveBookDefaultFilter } from 'common';
 import { CustomDrawer } from 'commonComponents';
 

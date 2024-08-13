@@ -7,7 +7,7 @@ import { notificationApi, isBadStatusCode } from 'api';
 import { GetNotifications, GetNotificationsItem, GET_NOTIFICATIONS } from 'query';
 import { useLazyQuery } from '@apollo/client';
 import { useSelector } from 'react-redux';
-import { userSelectors, commonSelectors } from 'reduxStore';
+import { userSelectors, commonSelectors } from 'store';
 import { SignalRNotification, signalRUtil } from 'common';
 
 const Notifications: React.FC = () => {
