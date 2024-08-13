@@ -4,7 +4,7 @@ import React, { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bookOpinionApi, isBadStatusCode } from 'api';
 import { useSelector } from 'react-redux';
-import { userSelectors } from 'reduxStore';
+import { userSelectors } from 'store';
 import { ROUT_PAGE_NAME } from 'common';
 
 type Props = {

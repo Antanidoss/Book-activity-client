@@ -2,7 +2,7 @@ import { Button, message } from 'antd';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userSelectors } from 'reduxStore';
+import { userSelectors } from 'store';
 import { ROUT_PAGE_NAME } from 'common';
 
 export const SubUnsubButton: React.FC<PropsType> = (props) => {

@@ -6,7 +6,7 @@ import { siderStyles, bookActivityFontStyles } from './MainStyles';
 import { useSelector } from 'react-redux';
 import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser, updateAppInitialized, commonSelectors } from './redux';
+import { setCurrentUser, updateAppInitialized, commonSelectors } from './store';
 import { ROUT_PAGE_NAME } from 'common';
 import loadable from '@loadable/component';
 

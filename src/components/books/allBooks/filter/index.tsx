@@ -7,7 +7,7 @@ import { CustomDrawer } from 'commonComponents';
 import { BookFilterType, isBookDefaultFilter } from 'common';
 import { DebounceSelect, PropsType as SelectProps } from 'commonComponents/DebounceSelect';
 import { useDispatch, useSelector } from 'react-redux';
-import { bookSelectors, clearBookFilter, updateBookFilter } from 'reduxStore';
+import { bookSelectors, clearBookFilter, updateBookFilter } from 'store';
 import { useLazyQuery } from '@apollo/client';
 import { GetCategoriesByTitle, GET_CATEGORIES_BY_TITLE, GetCategoriesByTitleItem } from 'query';
 

@@ -6,7 +6,7 @@ import BookNotes from './bookNotes/BookNotes';
 import { useQuery } from '../../../hoc/useQuery';
 import { activeBooksStatisticApi, userApi, ActiveBooksStatistic, isBadStatusCode } from 'api';
 import { useSelector } from 'react-redux';
-import { userSelectors } from 'reduxStore';
+import { userSelectors } from 'store';
 import { useLazyQuery } from '@apollo/client';
 import { GetUserProfile } from 'query/users/models';
 import { GetLastBookNotesType, GET_USER_PROFILE, GET_LAST_BOOK_NOTES } from 'query';

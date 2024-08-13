@@ -5,7 +5,7 @@ import { BookOutlined, CommentOutlined } from '@ant-design/icons';
 import { useLazyQuery } from '@apollo/client';
 import { GetUsers, GetUsersItem, GET_USERS } from 'query';
 import { useSelector } from 'react-redux';
-import { userSelectors } from 'reduxStore';
+import { userSelectors } from 'store';
 import { userApi, isBadStatusCode } from 'api';
 import { CustomSpin, SubUnsubButton } from 'commonComponents';
 import { ROUT_PAGE_NAME } from 'common';

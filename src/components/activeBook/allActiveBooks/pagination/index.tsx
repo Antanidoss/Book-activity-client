@@ -1,7 +1,7 @@
 import { Pagination, PaginationProps } from 'antd';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateActiveBookPageNumber, activeBookSelectors } from 'reduxStore';
+import { updateActiveBookPageNumber, activeBookSelectors } from 'store';
 
 const ActiveBookPagination: React.FC = () => {
   const dispatch = useDispatch();

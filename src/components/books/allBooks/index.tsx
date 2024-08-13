@@ -7,7 +7,7 @@ import { useLazyQuery } from '@apollo/client';
 import { GetBooks, GetBooksItem, GET_BOOKS } from 'query';
 import BookFilter from './filter';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateBookTotalCount, bookSelectors } from 'reduxStore';
+import { updateBookTotalCount, bookSelectors } from 'store';
 import { CustomSpin } from 'commonComponents';
 
 const AllBooks: React.FC = () => {
@@ -42,7 +42,7 @@ const AllBooks: React.FC = () => {
               : {
                   some: {
                     category: {
-                      or: bookFilter.categories.map((c) => ({ id: { eq: c.value } })),
+                      or: bookFilter.categories.map((c: any) => ({ id: { eq: c.value } })),
                     },
                   },
                 },

@@ -10,7 +10,7 @@ import {
   LoginOutlined,
 } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { userSelectors } from 'reduxStore';
+import { userSelectors } from 'store';
 import { ROLE_NAME, ROUT_PAGE_NAME } from 'common';
 
 const Navbar: React.FC = () => {

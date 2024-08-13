@@ -5,8 +5,9 @@ import { useForm } from 'antd/es/form/Form';
 import { isBadStatusCode, userApi } from 'api';
 import TextArea from 'antd/es/input/TextArea';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser, userSelectors } from 'reduxStore';
+import { setCurrentUser, userSelectors } from 'store';
 import { useSelector } from 'react-redux';
+import { CurrentUserType } from 'common';
 
 const EditProfile: React.FC<{
   userName: string;
@@ -44,7 +45,7 @@ const EditProfile: React.FC<{
         message.success('Profile changes have been saved successfully', 6);
         setShowForm(false);
         onEditProfile(values.userName, values.description);
-        dispatch(setCurrentUser({ ...currentUser, userName: values.userName }));
+        dispatch(setCurrentUser({ ...currentUser, userName: values.userName } as CurrentUserType));
       } else {
         message.error('The profile could not be changed', 6);
       }

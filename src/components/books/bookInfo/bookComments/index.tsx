@@ -5,7 +5,7 @@ import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant
 import { useLazyQuery } from '@apollo/client';
 import { GetBookOpinions, GetBookOpinionsItem, GET_BOOK_OPINIONS } from 'query';
 import { useSelector } from 'react-redux';
-import { userSelectors } from 'reduxStore';
+import { userSelectors } from 'store';
 import { bookOpinionApi, isBadStatusCode } from 'api';
 import { CustomSpin } from 'commonComponents';
 import { ROUT_PAGE_NAME } from 'common';

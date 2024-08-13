@@ -6,7 +6,7 @@ import { ROUT_PAGE_NAME } from 'common';
 import { useSelector } from 'react-redux';
 import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser, userSelectors } from 'reduxStore';
+import { setCurrentUser, userSelectors } from 'store';
 import { FormErrorMessage } from 'commonComponents';
 
 const Login: React.FC = () => {

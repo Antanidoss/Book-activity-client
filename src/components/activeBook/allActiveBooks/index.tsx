@@ -8,7 +8,7 @@ import ActiveBookFilter from './filter';
 import ActiveBookForList from './item';
 import { CustomSpin } from 'commonComponents';
 import { useSelector, useDispatch } from 'react-redux';
-import { activeBookSelectors, updateActiveBookTotalCount } from 'reduxStore';
+import { activeBookSelectors, updateActiveBookTotalCount } from 'store';
 import { SortBy } from 'common';
 
 const AllCurUserActiveBooks: React.FC = () => {
