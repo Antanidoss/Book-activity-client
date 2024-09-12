@@ -16,21 +16,16 @@ const EditProfile: React.FC<{
 }> = ({ userName, description, onEditProfile }) => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const currentUser = useSelector(userSelectors.curUser);
 
   const dispatch = useDispatch();
 
   const [form] = useForm();
 
-  const initialValues = [
-    {
-      [EDIT_PROFILE_FIELD_NAMES.USER_NAME]: userName,
-    },
-    {
-      [EDIT_PROFILE_FIELD_NAMES.DESCRIPTION]: description,
-    },
-  ];
+  const initialValues = {
+    [EDIT_PROFILE_FIELD_NAMES.USER_NAME]: userName,
+    [EDIT_PROFILE_FIELD_NAMES.DESCRIPTION]: description,
+  };
 
   type EditProfileValues = {
     userName: string;
@@ -68,7 +63,7 @@ const EditProfile: React.FC<{
       </Col>
 
       <Form
-        initialValues={{ initialValues }}
+        initialValues={initialValues}
         labelCol={{ span: 5 }}
         hidden={!showForm}
         onFinish={onFinish}

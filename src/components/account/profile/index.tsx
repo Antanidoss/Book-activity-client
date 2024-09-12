@@ -13,6 +13,7 @@ import { GetLastBookNotesType, GET_USER_PROFILE, GET_LAST_BOOK_NOTES } from 'que
 import ReadingCalendarStatistic from '../../activeBooksStatistic/ReadingCalendarStatistic';
 import { CustomSpin, SubUnsubButton } from 'commonComponents';
 import EditProfile from './editProfile/EditProfile';
+import AboutMe from './aboutMe/AboutMe';
 
 const Profile: React.FC = () => {
   const query = useQuery();
@@ -110,7 +111,7 @@ const Profile: React.FC = () => {
             {currentUser?.id === userProfile?.userById.id ? (
               <EditProfile
                 userName={userProfile!.userById.userName}
-                description={undefined}
+                description={userProfile!.userById.description}
                 onEditProfile={onEditProfile}
               />
             ) : (
@@ -131,6 +132,7 @@ const Profile: React.FC = () => {
           />
         </Col>
       </Row>
+      <AboutMe aboutMe={userProfile?.userById.description} />
       <BookNotes getLastBookNotes={bookNotes as GetLastBookNotesType} />
     </Col>
   );

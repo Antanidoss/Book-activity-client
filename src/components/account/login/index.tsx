@@ -8,6 +8,7 @@ import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser, userSelectors } from 'store';
 import { FormErrorMessage } from 'commonComponents';
+import { LOGIN_FIELD_NAMES } from './constants';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const Login: React.FC = () => {
 
   return (
     <Form
-      initialValues={{ rememberMe: true }}
+      initialValues={{ [LOGIN_FIELD_NAMES.REMEMBER_ME]: true }}
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 8 }}
       style={{ marginTop: '15%' }}

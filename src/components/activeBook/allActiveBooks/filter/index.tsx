@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearActiveBookFilter, updateActiveBookFilter, activeBookSelectors } from 'store';
 import { ActiveBookFilterType, isActiveBookDefaultFilter } from 'common';
 import { CustomDrawer } from 'commonComponents';
+import { ACTIVE_BOOK_FILTER_FIELD_NAMES } from './constants';
 
 const ActiveBookFilter: React.FC = () => {
   const dispatch = useDispatch();
@@ -77,9 +78,9 @@ const ActiveBookFilter: React.FC = () => {
           onFinish={onFinish}
           style={{ marginTop: '50px' }}
           initialValues={{
-            bookTitle: activeBookFilter.bookTitle,
-            sortBy: activeBookFilter.sortBy,
-            withFullRead: activeBookFilter.withFullRead,
+            [ACTIVE_BOOK_FILTER_FIELD_NAMES.BOOK_TITLE]: activeBookFilter.bookTitle,
+            [ACTIVE_BOOK_FILTER_FIELD_NAMES.SORT_BY]: activeBookFilter.sortBy,
+            [ACTIVE_BOOK_FILTER_FIELD_NAMES.WITH_FULL_READ]: activeBookFilter.withFullRead,
           }}
         >
           <Form.Item wrapperCol={{ offset: 11, span: 10 }}>
