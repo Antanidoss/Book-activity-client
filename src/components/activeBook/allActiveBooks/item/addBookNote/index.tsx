@@ -5,6 +5,7 @@ import { Color } from 'antd/es/color-picker';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { bookNoteApi, ocrApi } from 'api';
 import { UploadImage } from 'commonComponents';
+import { ADD_BOOK_NOTE_FIELD_NAMES } from './constants';
 
 const AddBookNote: React.FC<{ activeBookId: string; trigger: ReactNode }> = ({
   activeBookId,
@@ -92,7 +93,10 @@ const AddBookNote: React.FC<{ activeBookId: string; trigger: ReactNode }> = ({
         <Form
           id="addBookNoteForm"
           form={form}
-          initialValues={{ color: selectedColor, textColor: selectedTextColor }}
+          initialValues={{ 
+            [ADD_BOOK_NOTE_FIELD_NAMES.COLOR]: selectedColor, 
+            [ADD_BOOK_NOTE_FIELD_NAMES.TEXT_COLOR]: selectedTextColor 
+          }}
         >
           <Row>
             <Form.Item label="Note color" name="color">

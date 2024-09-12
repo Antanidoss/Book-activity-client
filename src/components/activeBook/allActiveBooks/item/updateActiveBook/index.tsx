@@ -2,6 +2,7 @@ import { Button, Col, Form, Input, message, Modal } from 'antd';
 import React, { memo, ReactNode, useState } from 'react';
 import { GetActiveBooksItem } from 'query';
 import { isBadStatusCode, activeBookApi } from 'api';
+import { UPDATE_ACTIVE_BOOK_FIELD_NAMES } from './constants';
 
 type Props = {
   activeBook: GetActiveBooksItem;
@@ -94,7 +95,7 @@ const UpdateActiveBook: React.FC<Props> = memo((props) => {
         <Form
           id="updateActiveBookForm"
           form={form}
-          initialValues={{ numberPagesRead: props.activeBook.numberPagesRead }}
+          initialValues={{ [UPDATE_ACTIVE_BOOK_FIELD_NAMES.NUMBER_PAGES_READ]: props.activeBook.numberPagesRead }}
           onFieldsChange={validateForm}
         >
           <Form.Item

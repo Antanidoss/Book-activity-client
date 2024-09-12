@@ -2,10 +2,11 @@ import React from 'react';
 import Drawer from 'react-modern-drawer';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import 'react-modern-drawer/dist/index.css'
 
 export const CustomDrawer: React.FC<PropsType> = (props) => {
   document.body.style.overflow = props.open ? 'hidden' : '';
-
+  console.log(props.open)
   return (
     <Drawer {...props}>
       <div

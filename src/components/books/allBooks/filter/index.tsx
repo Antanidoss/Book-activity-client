@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FilterOutlined } from '@ant-design/icons';
 import { Affix, Badge, Button, Col, Form, InputNumber, Row } from 'antd';
-import 'react-modern-drawer/dist/index.css';
 import Search from 'antd/lib/transfer/search';
 import { CustomDrawer } from 'commonComponents';
 import { BookFilterType, isBookDefaultFilter } from 'common';
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { bookSelectors, clearBookFilter, updateBookFilter } from 'store';
 import { useLazyQuery } from '@apollo/client';
 import { GetCategoriesByTitle, GET_CATEGORIES_BY_TITLE, GetCategoriesByTitleItem } from 'query';
+import { BOOK_FILTER_FIELD_NAMES } from './constants';
 
 const BookFilter: React.FC = () => {
   const dispatch = useDispatch();
@@ -97,10 +97,10 @@ const BookFilter: React.FC = () => {
           style={{ marginTop: '50px' }}
           wrapperCol={{ span: 16, offset: 4 }}
           initialValues={{
-            bookTitle: bookFilter.bookTitle,
-            averageRatingFrom: bookFilter.averageRatingFrom,
-            averageRatingTo: bookFilter.averageRatingTo,
-            categories: bookFilter.categories,
+            [BOOK_FILTER_FIELD_NAMES.BOOK_TITLE]: bookFilter.bookTitle,
+            [BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_FROM]: bookFilter.averageRatingFrom,
+            [BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_TO]: bookFilter.averageRatingTo,
+            [BOOK_FILTER_FIELD_NAMES.CATEGORIES]: bookFilter.categories,
           }}
         >
           <Form.Item wrapperCol={{ offset: 11, span: 10 }}>

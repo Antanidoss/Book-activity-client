@@ -40,11 +40,11 @@ const App: React.FC = () => {
 
   return (
     <>
-      <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
         href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
         rel="stylesheet"
-      ></link>
+      />
 
       <Layout hasSider style={{ minHeight: '100%' }}>
         <Sider style={siderStyles}>
