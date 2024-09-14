@@ -174,8 +174,6 @@ const BookComments: React.FC<{ bookId: string }> = ({ bookId }) => {
     ),
   }));
 
-  console.log(bookOpinions);
-
   return (
     <Col style={{ marginTop: '50px', alignItems: 'center' }}>
       <List

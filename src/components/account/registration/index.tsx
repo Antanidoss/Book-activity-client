@@ -7,7 +7,6 @@ import { userApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from 'store';
 import { ROUT_PAGE_NAME } from 'common';
-import { REGISTRATION_FIELD_NAMES } from './constants';
 
 const Registration: React.FC = () => {
   const navigate = useNavigate();
@@ -45,7 +44,6 @@ const Registration: React.FC = () => {
 
   return (
     <Form
-      initialValues={{ [REGISTRATION_FIELD_NAMES.REMEMBER_ME]: true }}
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 9 }}
       style={{ marginTop: '15%' }}

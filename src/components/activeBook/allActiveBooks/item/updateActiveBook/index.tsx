@@ -100,7 +100,7 @@ const UpdateActiveBook: React.FC<Props> = memo((props) => {
         >
           <Form.Item
             label="Number of pages read"
-            name="numberPagesRead"
+            name={UPDATE_ACTIVE_BOOK_FIELD_NAMES.NUMBER_PAGES_READ}
             rules={[{ required: true, message: 'Please input number pages read!' }]}
           >
             <Input

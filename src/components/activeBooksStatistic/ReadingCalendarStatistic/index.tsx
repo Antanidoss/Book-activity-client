@@ -83,7 +83,7 @@ const ReadingCalendarStatistic: React.FC<{ statistic: ActiveBooksStatistic; user
       result.push(
         <td key={i} colSpan={colSpan} style={{ position: 'relative' }}>
           <span>{getMonthStrByNumber(date.addMonths(currentDate, -i).getMonth())}</span>
-          <span aria-hidden={true} style={{ position: 'absolute', top: '0' }} />
+          <span aria-hidden style={{ position: 'absolute', top: '0' }} />
         </td>,
       );
     }

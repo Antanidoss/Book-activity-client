@@ -107,11 +107,11 @@ const BookFilter: React.FC = () => {
             <div style={{ fontFamily: 'Pacifico, cursive', fontSize: '30px' }}>Filter</div>
           </Form.Item>
 
-          <Form.Item name="bookTitle">
+          <Form.Item name={BOOK_FILTER_FIELD_NAMES.BOOK_TITLE}>
             <Search placeholder="Input book title" />
           </Form.Item>
 
-          <Form.Item name="categories">
+          <Form.Item name={BOOK_FILTER_FIELD_NAMES.CATEGORIES}>
             <DebounceSelect {...selectCategoryProps} />
           </Form.Item>
 
@@ -121,12 +121,12 @@ const BookFilter: React.FC = () => {
 
           <Row>
             <Col sm={8} offset={5}>
-              <Form.Item label="from" name="averageRatingFrom">
+              <Form.Item label="from" name={BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_FROM}>
                 <InputNumber min={0} max={5} required />
               </Form.Item>
             </Col>
             <Col>
-              <Form.Item label="to" name="averageRatingTo">
+              <Form.Item label="to" name={BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_TO}>
                 <InputNumber min={0} max={5} required />
               </Form.Item>
             </Col>

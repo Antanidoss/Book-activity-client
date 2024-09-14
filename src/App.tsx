@@ -32,7 +32,7 @@ const App: React.FC = () => {
   const Login = loadable(() => import('components/account/login'));
   const Registration = loadable(() => import('components/account/registration'));
   const AllCurUserActiveBooks = loadable(() => import('components/activeBook/allActiveBooks'));
-  const AdministartionMain = loadable(() => import('components/administration'));
+  const AdministrationMain = loadable(() => import('components/administration'));
   const Profile = loadable(() => import('components/account/profile'));
   const ActiveBooksStatistic = loadable(() => import('components/activeBooksStatistic'));
   const AllUsers = loadable(() => import('components/users/allUsers'));
@@ -58,21 +58,21 @@ const App: React.FC = () => {
           </Header>
           <Content style={{ overflow: 'initial', minHeight: '95vh' }}>
             <Routes>
-              <Route path={ROUT_PAGE_NAME.ALL_BOOKS} element={<AllBooks />}></Route>
-              <Route path={ROUT_PAGE_NAME.USER_LOGIN} element={<Login />}></Route>
-              <Route path={ROUT_PAGE_NAME.USER_REGISTRATION} element={<Registration />}></Route>
+              <Route path={ROUT_PAGE_NAME.ALL_BOOKS} element={<AllBooks />} />
+              <Route path={ROUT_PAGE_NAME.USER_LOGIN} element={<Login />} />
+              <Route path={ROUT_PAGE_NAME.USER_REGISTRATION} element={<Registration />} />
               <Route
                 path={ROUT_PAGE_NAME.ALL_ACTIVE_BOOKS}
                 element={<AllCurUserActiveBooks />}
-              ></Route>
-              <Route path={ROUT_PAGE_NAME.ADMINISTRATION} element={<AdministartionMain />}></Route>
-              <Route path={ROUT_PAGE_NAME.USER_PROFILE} element={<Profile />}></Route>
+              />
+              <Route path={ROUT_PAGE_NAME.ADMINISTRATION} element={<AdministrationMain />} />
+              <Route path={ROUT_PAGE_NAME.USER_PROFILE} element={<Profile />} />
               <Route
                 path={ROUT_PAGE_NAME.ACTIVE_BOOK_STATISTIC}
                 element={<ActiveBooksStatistic />}
-              ></Route>
-              <Route path={ROUT_PAGE_NAME.ALL_USERS} element={<AllUsers />}></Route>
-              <Route path={ROUT_PAGE_NAME.BOOK_INFO} element={<BookInfo />}></Route>
+              />
+              <Route path={ROUT_PAGE_NAME.ALL_USERS} element={<AllUsers />} />
+              <Route path={ROUT_PAGE_NAME.BOOK_INFO} element={<BookInfo />} />
             </Routes>
           </Content>
         </Layout>
