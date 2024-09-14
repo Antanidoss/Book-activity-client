@@ -87,7 +87,7 @@ const ActiveBookFilter: React.FC = () => {
             <div style={{ fontFamily: 'Pacifico, cursive', fontSize: '30px' }}>Filter</div>
           </Form.Item>
 
-          <Form.Item name="bookTitle" wrapperCol={{ span: 16, offset: 5 }}>
+          <Form.Item name={ACTIVE_BOOK_FILTER_FIELD_NAMES.BOOK_TITLE} wrapperCol={{ span: 16, offset: 5 }}>
             <Search placeholder="Input book title" />
           </Form.Item>
 
@@ -96,7 +96,7 @@ const ActiveBookFilter: React.FC = () => {
             wrapperCol={{ span: 10 }}
             style={{ marginTop: '50px' }}
             label="Sort by"
-            name="sortBy"
+            name={ACTIVE_BOOK_FILTER_FIELD_NAMES.SORT_BY}
           >
             <Select options={sortByOptions} />
           </Form.Item>
@@ -105,7 +105,7 @@ const ActiveBookFilter: React.FC = () => {
             labelCol={{ offset: 10 }}
             label="With full read"
             valuePropName="checked"
-            name="withFullRead"
+            name={ACTIVE_BOOK_FILTER_FIELD_NAMES.WITH_FULL_READ}
           >
             <Checkbox />
           </Form.Item>

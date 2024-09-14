@@ -6,7 +6,6 @@ import 'react-modern-drawer/dist/index.css'
 
 export const CustomDrawer: React.FC<PropsType> = (props) => {
   document.body.style.overflow = props.open ? 'hidden' : '';
-  console.log(props.open)
   return (
     <Drawer {...props}>
       <div

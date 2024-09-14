@@ -93,7 +93,7 @@ const Login: React.FC = () => {
       </Form.Item>
 
       <Form.Item
-        name="rememberMe"
+        name={LOGIN_FIELD_NAMES.REMEMBER_ME}
         valuePropName="checked"
         label="Remember me"
         labelCol={{ sm: { offset: 11 } }}
