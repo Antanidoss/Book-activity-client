@@ -95,7 +95,7 @@ const AddBookNote: React.FC<{ activeBookId: string; trigger: ReactNode }> = ({
           form={form}
           initialValues={{ 
             [ADD_BOOK_NOTE_FIELD_NAMES.COLOR]: selectedColor, 
-            [ADD_BOOK_NOTE_FIELD_NAMES.TEXT_COLOR]: selectedTextColor 
+            [ADD_BOOK_NOTE_FIELD_NAMES.TEXT_COLOR]: selectedTextColor
           }}
         >
           <Row>
@@ -112,7 +112,7 @@ const AddBookNote: React.FC<{ activeBookId: string; trigger: ReactNode }> = ({
               onChange={onSelectImage}
             />
           </Row>
-          <Form.Item label="Note" name={ADD_BOOK_NOTE_FIELD_NAMES.TEXT_COLOR}>
+          <Form.Item label="Note" name={ADD_BOOK_NOTE_FIELD_NAMES.NOTE}>
             <TextArea
               style={{
                 backgroundColor: selectedColor,
