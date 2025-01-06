@@ -29,28 +29,16 @@ const Profile: React.FC = () => {
   const [getBookNotes] = useLazyQuery<GetLastBookNotesType>(GET_LAST_BOOK_NOTES);
 
   useEffect(() => {
-    let userId = query.get('userId') ?? '';
-
-    if (userId === '') {
-      userId = currentUser!.id;
-    }
+    const userId = query.get('userId') ?? currentUser!.id;
 
     Promise.all([
-      activeBooksStatisticApi
-        .getActiveBooksStatistic(userId)
-        .then((res) => setActiveBooksStatistic(res.data)),
-      getUserProfile({
-        variables: {
-          userId: userId,
-        },
-      }).then((res) => setUserProfile(res.data)),
-      getBookNotes({
-        variables: {
-          userId: userId,
-          take: 4,
-        },
-      }).then((res) => setBookNotes(res.data)),
-    ]).then(() => {
+      activeBooksStatisticApi.getActiveBooksStatistic(userId),
+      getUserProfile({ variables: { userId }, fetchPolicy: 'network-only'}),
+      getBookNotes({ variables: { userId, take: 4 }, fetchPolicy: 'network-only'}),
+    ]).then(([resGetActiveBooksStatistic, resGetUserProfile, resGetBookNotes]) => {
+      setActiveBooksStatistic(resGetActiveBooksStatistic.data);
+      setUserProfile(resGetUserProfile.data)
+      setBookNotes(resGetBookNotes.data);
       setLoading(false);
     });
   }, [query]);
