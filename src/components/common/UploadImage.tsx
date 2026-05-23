@@ -1,8 +1,8 @@
-import { ColProps, message, Upload } from 'antd';
-import { RcFile, UploadChangeParam, UploadFile, UploadListType } from 'antd/lib/upload/interface';
+import { ColProps, Form, message, Upload } from 'antd';
+import type { Rule } from 'antd/es/form';
+import type { RcFile, UploadChangeParam, UploadFile, UploadListType } from 'antd/es/upload/interface';
 import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import Form, { Rule } from 'antd/lib/form';
 
 export const UploadImage: React.FC<PropsType> = (props) => {
   const [loading, setLoading] = useState(false);
@@ -68,7 +68,7 @@ export const UploadImage: React.FC<PropsType> = (props) => {
         }}
       >
         {imageUrl && (props.showUploadImage === undefined || props.showUploadImage) ? (
-          <img src={imageUrl} style={{ width: '100%' }} />
+          <img src={imageUrl} style={{ width: '100%' }} alt="Uploaded preview" />
         ) : (
           uploadButton
         )}

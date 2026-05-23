@@ -1,5 +1,5 @@
-import { Button, Col, Modal, Rate } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
+import { Button, Modal, Rate, Space, Typography } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { DislikeTwoTone, LikeTwoTone } from '@ant-design/icons';
 import {
@@ -8,16 +8,17 @@ import {
   GET_BOOK_OPINION_BY_USER_ID,
 } from 'query';
 import { useLazyQuery } from '@apollo/client';
-import { useSelector } from 'react-redux';
-import { userSelectors } from 'store';
+import { userSelectors, useAppSelector } from 'store';
 import { CustomSpin } from 'commonComponents';
+
+const { Paragraph } = Typography;
 
 const BookOpinionView: React.FC<{ bookId: string; trigger: ReactNode }> = ({ bookId, trigger }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [bookOpinion, setBookOpinion] = useState<GetBookOpinionByUserIdItem>();
   const [loading, setLoading] = useState(bookOpinion === undefined);
 
-  const userId = useSelector(userSelectors.userId);
+  const userId = useAppSelector(userSelectors.userId);
 
   const [getBookOpinion] = useLazyQuery<GetBookOpinionByUserId>(GET_BOOK_OPINION_BY_USER_ID, {
     variables: {
@@ -45,7 +46,7 @@ const BookOpinionView: React.FC<{ bookId: string; trigger: ReactNode }> = ({ boo
 
   return (
     <>
-      <Col onClick={showModal}>{trigger}</Col>
+      <span onClick={showModal}>{trigger}</span>
       <Modal
         title="Book opinion"
         open={isModalVisible}
@@ -59,7 +60,10 @@ const BookOpinionView: React.FC<{ bookId: string; trigger: ReactNode }> = ({ boo
         {loading ? (
           <CustomSpin loading={loading} />
         ) : (
-          <Col>
+          <Space direction="vertical" size={16} style={{ width: '100%' }}>
+            <Paragraph style={{ marginBottom: 0 }}>
+              Review details for your current reading account.
+            </Paragraph>
             <TextArea
               value={bookOpinion?.description}
               rows={10}
@@ -67,7 +71,7 @@ const BookOpinionView: React.FC<{ bookId: string; trigger: ReactNode }> = ({ boo
               autoSize
               style={{ maxHeight: '700px' }}
             />
-            <Col style={{ marginTop: '20px' }}>
+            <div>
               <Rate value={bookOpinion?.grade} allowHalf disabled={true} />
               <Button style={{ marginLeft: '20px' }} disabled>
                 <LikeTwoTone /> {bookOpinion?.likesCount}
@@ -75,8 +79,8 @@ const BookOpinionView: React.FC<{ bookId: string; trigger: ReactNode }> = ({ boo
               <Button disabled>
                 <DislikeTwoTone /> {bookOpinion?.dislikesCount}
               </Button>
-            </Col>
-          </Col>
+            </div>
+          </Space>
         )}
       </Modal>
     </>

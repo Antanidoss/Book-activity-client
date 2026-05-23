@@ -1,12 +1,9 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from './store/redux-store';
+import './styles/global.css';
 import { notification } from 'antd';
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from 'query';
+import { AppProviders } from './app/providers/AppProviders';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -18,12 +15,8 @@ notification.config({
 
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <ApolloProvider client={apolloClient}>
-          <App />
-        </ApolloProvider>
-      </Provider>
-    </BrowserRouter>
+    <AppProviders>
+      <App />
+    </AppProviders>
   </StrictMode>,
 );

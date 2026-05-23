@@ -8,16 +8,22 @@ import {
   TeamOutlined,
   BookOutlined,
   LoginOutlined,
+  HomeOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import { userSelectors } from 'store';
+import { userSelectors, useAppSelector } from 'store';
 import { ROLE_NAME, ROUT_PAGE_NAME } from 'common';
+import styles from './index.module.css';
 
-const Navbar: React.FC = () => {
+type Props = {
+  onNavigate?: () => void;
+};
+
+const Navbar: React.FC<Props> = ({ onNavigate }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const currentUser = useSelector(userSelectors.curUser);
+  const currentUser = useAppSelector(userSelectors.curUser);
 
   type MenuItem = Required<MenuProps>['items'][number];
 
@@ -42,73 +48,90 @@ const Navbar: React.FC = () => {
   }
 
   const onClickMenuItem = (info: MenuInfo) => {
-    if (info.key !== location.key) {
-      return navigate(info.key);
+    if (info.key !== location.pathname) {
+      navigate(info.key);
+      onNavigate?.();
     }
-  };
-
-  const getProfileMenuItem = () => {
-    if (currentUser !== null) {
-      const avatarImage =
-        currentUser.avatarImage !== null ? (
-          <Avatar>
-            <Image width={'32px'} src={'data:image/png;base64,' + currentUser.avatarImage} />
-          </Avatar>
-        ) : (
-          <Avatar icon={React.createElement(UserOutlined)} />
-        );
-
-      return getItem(
-        currentUser?.userName,
-        '/userOptions',
-        avatarImage,
-        undefined,
-        { marginTop: '64px' },
-        [
-          getItem('PROFILE', ROUT_PAGE_NAME.USER_PROFILE, undefined, onClickMenuItem),
-          currentUser?.roles?.includes(ROLE_NAME.ADMIN)
-            ? getItem('ADMINISTRATION', ROUT_PAGE_NAME.ADMINISTRATION, undefined, onClickMenuItem)
-            : null,
-        ],
-      );
-    }
-
-    return getItem('LOGIN', '/login', React.createElement(LoginOutlined), onClickMenuItem, {
-      marginTop: '64px',
-    });
   };
 
   const items: MenuProps['items'] = [
-    getProfileMenuItem(),
+    currentUser !== null
+      ? getItem('Profile', ROUT_PAGE_NAME.USER_PROFILE, React.createElement(UserOutlined), onClickMenuItem)
+      : getItem('Login', ROUT_PAGE_NAME.USER_LOGIN, React.createElement(LoginOutlined), onClickMenuItem),
+    getItem('Library', ROUT_PAGE_NAME.ALL_BOOKS, React.createElement(HomeOutlined), onClickMenuItem),
     getItem(
-      'ACTIVE BOOKS',
+      'Active Books',
       ROUT_PAGE_NAME.ALL_ACTIVE_BOOKS,
       React.createElement(BookOutlined),
       onClickMenuItem,
     ),
-    getItem('BOOKS', ROUT_PAGE_NAME.ALL_BOOKS, React.createElement(BookOutlined), onClickMenuItem),
     getItem(
-      'STATISTICS',
+      'Statistics',
       ROUT_PAGE_NAME.ACTIVE_BOOK_STATISTIC,
       React.createElement(BarChartOutlined),
       onClickMenuItem,
     ),
     getItem(
-      'OTHER READERS',
+      'Readers',
       ROUT_PAGE_NAME.ALL_USERS,
       React.createElement(TeamOutlined),
       onClickMenuItem,
     ),
+    currentUser?.roles?.includes(ROLE_NAME.ADMIN)
+      ? getItem(
+          'Administration',
+          ROUT_PAGE_NAME.ADMINISTRATION,
+          React.createElement(SettingOutlined),
+          onClickMenuItem,
+        )
+      : null,
   ];
 
   return (
-    <Menu
-      theme="dark"
-      mode="inline"
-      style={{ alignContent: 'center' }}
-      selectedKeys={[location.pathname]}
-      items={items}
-    />
+    <div className={styles.nav}>
+      <div className={styles.hero}>
+        <p className={styles.eyebrow}>Reading Hub</p>
+        <h2 className={styles.title}>Shape a better reading routine.</h2>
+        <p className={styles.description}>
+          Browse books, keep your progress moving, and see what the community is reading.
+        </p>
+      </div>
+
+      <div className={styles.profileCard}>
+        {currentUser?.avatarImage ? (
+          <Avatar size={52} className={styles.avatar}>
+            <Image
+              preview={false}
+              width={52}
+              height={52}
+              className={styles.avatarImage}
+              src={`data:image/png;base64,${currentUser.avatarImage}`}
+            />
+          </Avatar>
+        ) : (
+          <Avatar size={52} icon={<UserOutlined />} className={styles.avatar} />
+        )}
+
+        <div>
+          <p className={styles.profileName}>{currentUser?.userName ?? 'Guest Reader'}</p>
+          <p className={styles.profileMeta}>
+            {currentUser ? 'Personal shelves, notes, and stats' : 'Sign in to save progress'}
+          </p>
+        </div>
+      </div>
+
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={[location.pathname]}
+        items={items}
+        className={styles.menu}
+      />
+
+      <div className={styles.footer}>
+        A calmer, cleaner frontend shell with faster navigation and stronger visual hierarchy.
+      </div>
+    </div>
   );
 };
 

@@ -1,12 +1,10 @@
-import { Button, Col, Form, Input, Row, message } from 'antd';
+import { Button, Form, Input, Space, message } from 'antd';
 import { EDIT_PROFILE_FIELD_NAMES } from './constants';
 import { useState } from 'react';
 import { useForm } from 'antd/es/form/Form';
 import { isBadStatusCode, userApi } from 'api';
 import TextArea from 'antd/es/input/TextArea';
-import { useDispatch } from 'react-redux';
-import { setCurrentUser, userSelectors } from 'store';
-import { useSelector } from 'react-redux';
+import { setCurrentUser, userSelectors, useAppDispatch, useAppSelector } from 'store';
 import { CurrentUserType } from 'common';
 
 const EditProfile: React.FC<{
@@ -16,9 +14,9 @@ const EditProfile: React.FC<{
 }> = ({ userName, description, onEditProfile }) => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const currentUser = useSelector(userSelectors.curUser);
+  const currentUser = useAppSelector(userSelectors.curUser);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [form] = useForm();
 
@@ -51,58 +49,55 @@ const EditProfile: React.FC<{
 
   return (
     <>
-      <Col hidden={showForm}>
+      <div hidden={showForm}>
         <Button
-          style={{ width: '150px' }}
           shape="round"
           type="primary"
+          size="large"
           onClick={() => setShowForm(true)}
         >
           Edit profile
         </Button>
-      </Col>
+      </div>
 
       <Form
         initialValues={initialValues}
-        labelCol={{ span: 5 }}
         hidden={!showForm}
         onFinish={onFinish}
         form={form}
+        layout="vertical"
+        style={{ textAlign: 'left', marginTop: 16 }}
       >
         <Form.Item
           label="Name"
           name={EDIT_PROFILE_FIELD_NAMES.USER_NAME}
           rules={[{ required: true, message: 'Please input your name!' }]}
-          wrapperCol={{ span: 20 }}
         >
-          <Input type="text" />
+          <Input type="text" size="large" />
         </Form.Item>
-        <Form.Item
-          label="About me"
-          name={EDIT_PROFILE_FIELD_NAMES.DESCRIPTION}
-          wrapperCol={{ span: 20 }}
-        >
-          <TextArea maxLength={100} />
+        <Form.Item label="About me" name={EDIT_PROFILE_FIELD_NAMES.DESCRIPTION}>
+          <TextArea maxLength={100} rows={4} />
         </Form.Item>
 
-        <Row>
-          <Form.Item wrapperCol={{ span: 12 }}>
-            <Button type="primary" htmlType="submit" shape="round" loading={loading}>
+        <Space>
+          <Form.Item style={{ marginBottom: 0 }}>
+            <Button type="primary" htmlType="submit" shape="round" loading={loading} size="large">
               Save
             </Button>
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 2, span: 12 }}>
+          <Form.Item style={{ marginBottom: 0 }}>
             <Button
-              type="primary"
+              type="default"
               htmlType="button"
               shape="round"
+              size="large"
               onClick={() => setShowForm(false)}
             >
               Cancel
             </Button>
           </Form.Item>
-        </Row>
+        </Space>
       </Form>
     </>
   );

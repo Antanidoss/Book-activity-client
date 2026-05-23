@@ -1,0 +1,53 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 24px;
+}
+
+.profileCard {
+  padding: 28px;
+  text-align: center;
+}
+
+.avatar {
+  margin-bottom: 18px;
+  border: 4px solid rgba(31, 111, 235, 0.12);
+  box-shadow: 0 18px 36px rgba(16, 37, 66, 0.12);
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.statChip {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(31, 111, 235, 0.08);
+  color: #1f6feb;
+  font-weight: 600;
+}
+
+.calendarCard {
+  padding: 24px;
+}
+
+.aboutCard,
+.notesCard {
+  padding: 28px;
+}
+
+@media (max-width: 991px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}

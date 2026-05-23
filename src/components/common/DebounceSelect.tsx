@@ -1,8 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
-import debounce from 'lodash/debounce';
 import { Form, Select, Spin } from 'antd';
-import { DefaultOptionType } from 'antd/lib/select';
-import { Rule } from 'antd/lib/form';
+import type { Rule } from 'antd/es/form';
+import type { DefaultOptionType } from 'antd/es/select';
 
 export type PropsType<T> = {
   fetchOptions: (param: string) => Promise<Array<T>>;
@@ -20,6 +19,8 @@ export const DebounceSelect: React.FC<PropsType<any>> = (props) => {
   const fetchRef = useRef(0);
 
   const debounceFetcher = useMemo(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
     const loadOptions = (value: string) => {
       fetchRef.current += 1;
       const fetchId = fetchRef.current;
@@ -36,8 +37,14 @@ export const DebounceSelect: React.FC<PropsType<any>> = (props) => {
       });
     };
 
-    return debounce(loadOptions, props.debounceTimeout);
-  }, []);
+    return (value: string) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      timeoutId = setTimeout(() => loadOptions(value), props.debounceTimeout);
+    };
+  }, [props]);
 
   return (
     <Form.Item name={props.fieldName} rules={props.rules} label={props.fieldLabel}>

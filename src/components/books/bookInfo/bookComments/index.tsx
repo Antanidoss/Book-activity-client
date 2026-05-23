@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Col, List, Image, Rate, Row, Button } from 'antd';
+import { Button, Image, List, Rate, Space, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { LikeTwoTone, DislikeTwoTone, LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 import { useLazyQuery } from '@apollo/client';
 import { GetBookOpinions, GetBookOpinionsItem, GET_BOOK_OPINIONS } from 'query';
-import { useSelector } from 'react-redux';
-import { userSelectors } from 'store';
+import { userSelectors, useAppSelector } from 'store';
 import { bookOpinionApi, isBadStatusCode } from 'api';
 import { CustomSpin } from 'commonComponents';
 import { ROUT_PAGE_NAME } from 'common';
 
+const { Title } = Typography;
+
 const BookComments: React.FC<{ bookId: string }> = ({ bookId }) => {
   const navigate = useNavigate();
 
-  const isAuthenticated = useSelector(userSelectors.isAuthenticated);
+  const isAuthenticated = useAppSelector(userSelectors.isAuthenticated);
 
   const [bookOpinions, setBookOpinions] = useState<GetBookOpinionsItem[]>();
   const [loading, setLoading] = useState(true);
@@ -139,9 +140,10 @@ const BookComments: React.FC<{ bookId: string }> = ({ bookId }) => {
 
   if (loading) return <CustomSpin loading={loading} />;
 
-  if (!bookOpinions?.length) return <></>;
+  if (!bookOpinions?.length) return null;
 
   const data = bookOpinions.map((o) => ({
+    key: o.user.id,
     title: <Link to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${o.user.id}`}>{o.user.userName}</Link>,
     avatar: (
       <Link to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${o.user.id}`}>
@@ -175,25 +177,25 @@ const BookComments: React.FC<{ bookId: string }> = ({ bookId }) => {
   }));
 
   return (
-    <Col style={{ marginTop: '50px', alignItems: 'center' }}>
+    <div style={{ marginTop: '32px', alignItems: 'center' }}>
+      <Title level={4}>Comments</Title>
       <List
-        header={'Comments'}
         bordered
         itemLayout="vertical"
         dataSource={data}
         renderItem={(opinion) => (
-          <List.Item key={Math.random().toString(16).slice(2)}>
-            <List.Item.Meta avatar={opinion.avatar} title={opinion.title}></List.Item.Meta>
+          <List.Item key={opinion.key}>
+            <List.Item.Meta avatar={opinion.avatar} title={opinion.title} />
             {opinion.description}
-            <Row>
-              <Col>{opinion.grade}</Col>
-              <Col style={{ marginLeft: '10px' }}>{opinion.likes}</Col>
-              <Col>{opinion.dislikes}</Col>
-            </Row>
+            <Space style={{ marginTop: 12 }} wrap>
+              {opinion.grade}
+              {opinion.likes}
+              {opinion.dislikes}
+            </Space>
           </List.Item>
         )}
-      ></List>
-    </Col>
+      />
+    </div>
   );
 };
 

@@ -1,16 +1,17 @@
-import { Affix, Badge, Button, Checkbox, Col, Form, Row, Select } from 'antd';
+import { Badge, Button, Checkbox, Col, Form, Input, Row, Select, Space, Typography } from 'antd';
 import React, { useState } from 'react';
 import { FilterOutlined } from '@ant-design/icons';
-import Search from 'antd/lib/transfer/search';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearActiveBookFilter, updateActiveBookFilter, activeBookSelectors } from 'store';
+import { clearActiveBookFilter, updateActiveBookFilter, activeBookSelectors, useAppDispatch, useAppSelector } from 'store';
 import { ActiveBookFilterType, isActiveBookDefaultFilter } from 'common';
 import { CustomDrawer } from 'commonComponents';
 import { ACTIVE_BOOK_FILTER_FIELD_NAMES } from './constants';
 
+const { Search } = Input;
+const { Paragraph, Title } = Typography;
+
 const ActiveBookFilter: React.FC = () => {
-  const dispatch = useDispatch();
-  const activeBookFilter = useSelector(activeBookSelectors.filter);
+  const dispatch = useAppDispatch();
+  const activeBookFilter = useAppSelector(activeBookSelectors.filter);
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -48,86 +49,62 @@ const ActiveBookFilter: React.FC = () => {
 
   return (
     <>
-      <Col style={{ height: '50px' }} span={3}>
-        <Affix offsetTop={1}>
-          <Badge
-            dot={!isActiveBookDefaultFilter(activeBookFilter)}
-            style={{ marginLeft: '50px', marginTop: '20px' }}
-          >
-            <Button
-              onClick={showDrawer}
-              shape="round"
-              type="primary"
-              style={{ marginLeft: '50px', marginTop: '20px', width: '150px' }}
-              icon={React.createElement(FilterOutlined)}
-            >
-              Filter
-            </Button>
-          </Badge>
-        </Affix>
-      </Col>
+      <Badge dot={!isActiveBookDefaultFilter(activeBookFilter)}>
+        <Button onClick={showDrawer} shape="round" type="primary" size="large" icon={<FilterOutlined />}>
+          Filter active books
+        </Button>
+      </Badge>
 
       <CustomDrawer
         open={open}
         direction="right"
         onClose={onClose}
         size={600}
-        style={{ height: '98%', top: '64px' }}
+        title="Active book filters"
       >
         <Form
           onFinish={onFinish}
-          style={{ marginTop: '50px' }}
           initialValues={{
             [ACTIVE_BOOK_FILTER_FIELD_NAMES.BOOK_TITLE]: activeBookFilter.bookTitle,
             [ACTIVE_BOOK_FILTER_FIELD_NAMES.SORT_BY]: activeBookFilter.sortBy,
             [ACTIVE_BOOK_FILTER_FIELD_NAMES.WITH_FULL_READ]: activeBookFilter.withFullRead,
           }}
         >
-          <Form.Item wrapperCol={{ offset: 11, span: 10 }}>
-            <div style={{ fontFamily: 'Pacifico, cursive', fontSize: '30px' }}>Filter</div>
-          </Form.Item>
+          <Space direction="vertical" size={20} style={{ width: '100%' }}>
+            <div>
+              <Title level={3} style={{ marginTop: 0 }}>
+                Focus your current reads
+              </Title>
+              <Paragraph>
+                Sort recent activity, filter by title, and include fully finished reads only when needed.
+              </Paragraph>
+            </div>
 
-          <Form.Item name={ACTIVE_BOOK_FILTER_FIELD_NAMES.BOOK_TITLE} wrapperCol={{ span: 16, offset: 5 }}>
-            <Search placeholder="Input book title" />
-          </Form.Item>
+            <Form.Item name={ACTIVE_BOOK_FILTER_FIELD_NAMES.BOOK_TITLE} style={{ marginBottom: 0 }}>
+              <Search placeholder="Input book title" />
+            </Form.Item>
 
-          <Form.Item
-            labelCol={{ offset: 6 }}
-            wrapperCol={{ span: 10 }}
-            style={{ marginTop: '50px' }}
-            label="Sort by"
-            name={ACTIVE_BOOK_FILTER_FIELD_NAMES.SORT_BY}
-          >
-            <Select options={sortByOptions} />
-          </Form.Item>
+            <Form.Item label="Sort by" name={ACTIVE_BOOK_FILTER_FIELD_NAMES.SORT_BY} style={{ marginBottom: 0 }}>
+              <Select options={sortByOptions} />
+            </Form.Item>
 
-          <Form.Item
-            labelCol={{ offset: 10 }}
-            label="With full read"
-            valuePropName="checked"
-            name={ACTIVE_BOOK_FILTER_FIELD_NAMES.WITH_FULL_READ}
-          >
-            <Checkbox />
-          </Form.Item>
+            <Form.Item label="With full read" valuePropName="checked" name={ACTIVE_BOOK_FILTER_FIELD_NAMES.WITH_FULL_READ} style={{ marginBottom: 0 }}>
+              <Checkbox />
+            </Form.Item>
 
-          <Row style={{ marginTop: '50px' }}>
-            <Col sm={4} offset={8}>
-              <Button type="primary" htmlType="submit" shape="round" block>
-                Search
-              </Button>
-            </Col>
-            <Col sm={4} offset={1}>
-              <Button
-                type="primary"
-                shape="round"
-                htmlType="button"
-                onClick={() => onClearFilter()}
-                block
-              >
-                Clear
-              </Button>
-            </Col>
-          </Row>
+            <Row gutter={12}>
+              <Col xs={12}>
+                <Button type="primary" htmlType="submit" shape="round" block size="large">
+                  Search
+                </Button>
+              </Col>
+              <Col xs={12}>
+                <Button type="default" shape="round" htmlType="button" onClick={onClearFilter} block size="large">
+                  Clear
+                </Button>
+              </Col>
+            </Row>
+          </Space>
         </Form>
       </CustomDrawer>
     </>

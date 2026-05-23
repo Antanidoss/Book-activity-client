@@ -1,20 +1,21 @@
-import { List, Image, Row, Col, Tooltip } from 'antd';
+import { Empty, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOutlined, CommentOutlined } from '@ant-design/icons';
 import { useLazyQuery } from '@apollo/client';
 import { GetUsers, GetUsersItem, GET_USERS } from 'query';
-import { useSelector } from 'react-redux';
-import { userSelectors } from 'store';
+import { userSelectors, useAppSelector } from 'store';
 import { userApi, isBadStatusCode } from 'api';
 import { CustomSpin, SubUnsubButton } from 'commonComponents';
 import { ROUT_PAGE_NAME } from 'common';
+import styles from './index.module.css';
+
+const { Paragraph, Title } = Typography;
 
 const AllUser: React.FC = () => {
   const [users, setUsers] = useState<GetUsersItem[]>();
   const [loading, setLoading] = useState(true);
-
-  const currentUserId = useSelector(userSelectors.userId);
+  const currentUserId = useAppSelector(userSelectors.userId);
 
   const [getUsers] = useLazyQuery<GetUsers>(GET_USERS, {
     fetchPolicy: 'network-only',
@@ -28,6 +29,9 @@ const AllUser: React.FC = () => {
   }, [getUsers]);
 
   if (loading) return <CustomSpin loading={loading} />;
+
+  const visibleUsers =
+    currentUserId !== undefined ? users?.filter((u) => u.id !== currentUserId) : users;
 
   const subUnsubUser = (userId: string, isSubscription: boolean) => {
     return (
@@ -52,69 +56,61 @@ const AllUser: React.FC = () => {
   };
 
   return (
-    <List
-      style={{ padding: '50px 150px 150px 150px', alignItems: 'center' }}
-      dataSource={
-        currentUserId !== undefined ? users?.filter((u) => u.id !== currentUserId) : users
-      }
-      renderItem={(user) => (
-        <List.Item
-          style={{
-            border: '1px solid rgb(8 68 124)',
-            borderRadius: '10px',
-            marginTop: '50px',
-            backgroundColor: 'white',
-          }}
-        >
-          <List.Item.Meta
-            style={{ alignItems: 'center' }}
-            avatar={
-              <Link
-                style={{ cursor: 'pointer', marginLeft: '20px' }}
-                to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${user.id}`}
-              >
-                <Image
-                  preview={false}
-                  style={{ width: '50px', maxHeight: '60px', borderRadius: '15px' }}
-                  src={'data:image/png;base64,' + user.avatarDataBase64}
-                />
-              </Link>
-            }
-            title={
-              <Link
-                style={{ cursor: 'pointer' }}
-                to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${user.id}`}
-              >
-                {user.userName}
-              </Link>
-            }
-            description={
-              <Row>
-                <Tooltip title="Active books count">
-                  <Col>
-                    {React.createElement(BookOutlined)}: {user.activeBookCount}
-                  </Col>
-                </Tooltip>
-                <Tooltip title="Book opinions count">
-                  <Col style={{ marginLeft: '10px' }}>
-                    {React.createElement(CommentOutlined)}: {user.bookOpinionCount}
-                  </Col>
-                </Tooltip>
-              </Row>
-            }
-          />
-          {
-            <SubUnsubButton
-              userId={user.id}
-              style={{ marginRight: '20px' }}
-              unsubscribeUser={(userId) => subUnsubUser(userId, false)}
-              subscribeToUser={(userId) => subUnsubUser(userId, true)}
-              isSubscription={user.isSubscription}
-            />
-          }
-        </List.Item>
+    <div className={styles.page}>
+      <div className={`page-card ${styles.hero}`}>
+        <Title level={2} style={{ marginTop: 0, marginBottom: 8 }}>
+          Meet other readers
+        </Title>
+        <Paragraph style={{ marginBottom: 0 }}>
+          Browse the community, jump into profiles, and follow readers whose activity you want to keep up with.
+        </Paragraph>
+      </div>
+
+      {visibleUsers?.length ? (
+        <div className={styles.list}>
+          {visibleUsers.map((user) => (
+            <div className={styles.card} key={user.id}>
+              <div className={styles.meta}>
+                <Link to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${user.id}`}>
+                  <img
+                    className={styles.avatar}
+                    src={`data:image/png;base64,${user.avatarDataBase64}`}
+                    alt={user.userName}
+                  />
+                </Link>
+
+                <div>
+                  <Link to={`${ROUT_PAGE_NAME.USER_PROFILE}?userId=${user.id}`}>
+                    <Title level={4} style={{ margin: 0 }}>
+                      {user.userName}
+                    </Title>
+                  </Link>
+                  <div className={styles.chips}>
+                    <span className={styles.chip}>
+                      <BookOutlined /> {user.activeBookCount} active books
+                    </span>
+                    <span className={styles.chip}>
+                      <CommentOutlined /> {user.bookOpinionCount} reviews
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <SubUnsubButton
+                userId={user.id}
+                unsubscribeUser={(userId) => subUnsubUser(userId, false)}
+                subscribeToUser={(userId) => subUnsubUser(userId, true)}
+                isSubscription={user.isSubscription}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="page-card" style={{ padding: 32 }}>
+          <Empty description="No readers found" />
+        </div>
       )}
-    />
+    </div>
   );
 };
 

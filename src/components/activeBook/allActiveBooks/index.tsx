@@ -1,4 +1,4 @@
-import { Empty, Row } from 'antd';
+import { Empty, Row, Space, Typography } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FrownOutlined } from '@ant-design/icons';
 import { GetActiveBooks, GetActiveBooksItem, GET_ACTIVE_BOOKS, Order } from 'query';
@@ -7,19 +7,20 @@ import ActiveBookPagination from './pagination';
 import ActiveBookFilter from './filter';
 import ActiveBookForList from './item';
 import { CustomSpin } from 'commonComponents';
-import { useSelector, useDispatch } from 'react-redux';
-import { activeBookSelectors, updateActiveBookTotalCount } from 'store';
+import { activeBookSelectors, updateActiveBookTotalCount, useAppDispatch, useAppSelector } from 'store';
 import { SortBy } from 'common';
 
+const { Paragraph, Title } = Typography;
+
 const AllCurUserActiveBooks: React.FC = () => {
-  const activeBookFilter = useSelector(activeBookSelectors.filter);
-  const pageSize = useSelector(activeBookSelectors.pageSize);
-  const paginationSkip = useSelector(activeBookSelectors.paginationSkip);
+  const activeBookFilter = useAppSelector(activeBookSelectors.filter);
+  const pageSize = useAppSelector(activeBookSelectors.pageSize);
+  const paginationSkip = useAppSelector(activeBookSelectors.paginationSkip);
 
   const [loading, setLoading] = useState(true);
   const [activeBooks, setActiveBooks] = useState<GetActiveBooksItem[]>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [getActiveBooks] = useLazyQuery<GetActiveBooks>(GET_ACTIVE_BOOKS, {
     fetchPolicy: 'network-only',
@@ -67,12 +68,21 @@ const AllCurUserActiveBooks: React.FC = () => {
   if (loading) return <CustomSpin loading={loading} />;
 
   return (
-    <>
+    <Space direction="vertical" size={24} style={{ width: '100%' }}>
+      <div className="page-card" style={{ padding: 28 }}>
+        <Title level={2} style={{ marginTop: 0, marginBottom: 8 }}>
+          Active reading flow
+        </Title>
+        <Paragraph style={{ marginBottom: 0 }}>
+          Stay close to what you are reading now, adjust filters quickly, and manage ongoing progress.
+        </Paragraph>
+      </div>
+
       <ActiveBookFilter />
 
       {activeBooks?.length ? (
         <>
-          <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: '0px' }}>
+          <Row gutter={[24, 24]}>
             {activeBooks.map((a) => (
               <ActiveBookForList
                 key={a.id}
@@ -88,9 +98,9 @@ const AllCurUserActiveBooks: React.FC = () => {
           description="You don't have any active books"
           image={React.createElement(FrownOutlined)}
           imageStyle={{ fontSize: '30px', display: 'inline' }}
-        />
+          />
       )}
-    </>
+    </Space>
   );
 };
 

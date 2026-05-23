@@ -1,4 +1,4 @@
-import { Empty, Row } from 'antd';
+import { Empty, Row, Space, Typography } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
 import BookOfList from './item';
 import BookPagination from './pagination';
@@ -6,19 +6,20 @@ import { FrownOutlined } from '@ant-design/icons';
 import { useLazyQuery } from '@apollo/client';
 import { GetBooks, GetBooksItem, GET_BOOKS } from 'query';
 import BookFilter from './filter';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateBookTotalCount, bookSelectors } from 'store';
+import { updateBookTotalCount, bookSelectors, useAppDispatch, useAppSelector } from 'store';
 import { CustomSpin } from 'commonComponents';
 
+const { Paragraph, Title } = Typography;
+
 const AllBooks: React.FC = () => {
-  const bookFilter = useSelector(bookSelectors.filter);
-  const pageSize = useSelector(bookSelectors.pageSize);
-  const paginationSkip = useSelector(bookSelectors.paginationSkip);
+  const bookFilter = useAppSelector(bookSelectors.filter);
+  const pageSize = useAppSelector(bookSelectors.pageSize);
+  const paginationSkip = useAppSelector(bookSelectors.paginationSkip);
 
   const [loading, setLoading] = useState(true);
   const [books, setBooks] = useState<GetBooksItem[]>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [getBooks] = useLazyQuery<GetBooks>(GET_BOOKS, {
     fetchPolicy: 'network-only',
@@ -73,15 +74,24 @@ const AllBooks: React.FC = () => {
     );
 
   return (
-    <>
+    <Space direction="vertical" size={24} style={{ width: '100%' }}>
+      <div className="page-card" style={{ padding: 28 }}>
+        <Title level={2} style={{ marginTop: 0, marginBottom: 8 }}>
+          Explore the library
+        </Title>
+        <Paragraph style={{ marginBottom: 0 }}>
+          Find your next book, narrow the catalogue with filters, and jump straight into details.
+        </Paragraph>
+      </div>
+
       <BookFilter />
 
-      <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: '0px' }} wrap={true}>
-        {books?.map((b) => <BookOfList key={b.id} {...b}></BookOfList>)}
+      <Row gutter={[24, 24]} align="stretch">
+        {books?.map((b) => <BookOfList key={b.id} {...b} />)}
       </Row>
 
       <BookPagination />
-    </>
+    </Space>
   );
 };
 

@@ -39,9 +39,14 @@ export const userSlice = createSlice({
       state.currentUser = action.payload;
       state.isAuthenticated = state.currentUser !== null;
     },
+    clearCurrentUser: (state) => {
+      state.currentUser = null;
+      state.isAuthenticated = false;
+    },
   },
 });
 
-export const { updateUserPageNumber, updateUserFilter, setCurrentUser } = userSlice.actions;
+export const { updateUserPageNumber, updateUserFilter, setCurrentUser, clearCurrentUser } =
+  userSlice.actions;
 
 export default userSlice.reducer;

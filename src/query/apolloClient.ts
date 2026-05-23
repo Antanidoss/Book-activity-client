@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 
 export const Order = {
   ASC: 'ASC',
@@ -6,6 +6,9 @@ export const Order = {
 };
 
 export const apolloClient = new ApolloClient({
-  uri: `${process.env.REACT_APP_SERVER_ADDRESS}/graphql`,
+  link: new HttpLink({
+    uri: `${import.meta.env.VITE_SERVER_ADDRESS}/graphql`,
+    credentials: 'include',
+  }),
   cache: new InMemoryCache(),
 });

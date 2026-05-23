@@ -1,21 +1,19 @@
 import { CSSProperties } from 'react';
 
 export const bookMain: CSSProperties = {
-  border: '3px solid rgb(8 68 124)',
-  borderRadius: '15px',
-  height: '500px',
-  backgroundColor: 'white',
+  border: '1px solid rgba(16, 37, 66, 0.08)',
+  borderRadius: '24px',
+  padding: '20px',
+  backgroundColor: 'rgba(255, 253, 248, 0.96)',
+  boxShadow: '0 18px 34px rgba(16, 37, 66, 0.08)',
 };
 
 export const bookTitle: CSSProperties = {
   textAlign: 'center',
-  paddingBottom: '20px',
+  paddingBottom: '18px',
   fontSize: '18px',
-  height: '85px',
-  paddingTop: '10px',
+  minHeight: '76px',
+  paddingTop: '6px',
   overflow: 'hidden',
-};
-
-export const action: CSSProperties = {
-  paddingTop: '13px',
+  fontWeight: 700,
 };

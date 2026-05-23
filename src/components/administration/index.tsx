@@ -1,21 +1,33 @@
-import { Col, Tabs } from 'antd';
+import { Card, Tabs, Typography } from 'antd';
 import React from 'react';
 import AddBook from './addBook';
 import AddAuthor from './addAuthor';
 
+const { Paragraph, Title } = Typography;
+
 const AdministrationMain: React.FC = () => {
   return (
-    <Col style={{ marginLeft: '24px' }} span={24}>
-      <Tabs size="large">
-        <Tabs.TabPane style={{ fontSize: '25px' }} tab="ADD BOOK" key="1">
-          <AddBook />
-        </Tabs.TabPane>
-        <Tabs.TabPane style={{ fontSize: '25px' }} tab="EDIT BOOK" key="2" />
-        <Tabs.TabPane style={{ fontSize: '25px' }} tab="ADD AUTHOR" key="3">
-          <AddAuthor />
-        </Tabs.TabPane>
-      </Tabs>
-    </Col>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card className="page-card" style={{ padding: 16 }}>
+        <Title level={2} style={{ marginTop: 0, marginBottom: 8 }}>
+          Administration
+        </Title>
+        <Paragraph style={{ marginBottom: 0 }}>
+          Manage catalog data from a cleaner workspace for books and authors.
+        </Paragraph>
+      </Card>
+
+      <Card className="page-card">
+        <Tabs
+          size="large"
+          items={[
+            { key: '1', label: 'Add Book', children: <AddBook /> },
+            { key: '2', label: 'Edit Book', children: <Paragraph>Book editing is not implemented yet.</Paragraph> },
+            { key: '3', label: 'Add Author', children: <AddAuthor /> },
+          ]}
+        />
+      </Card>
+    </div>
   );
 };
 

@@ -1,45 +1,53 @@
 import React, { useState } from 'react';
-import { Button, Col, Rate, Row, Statistic } from 'antd';
+import { Button, Card, Col, Rate, Space, Typography } from 'antd';
 import { Link } from 'react-router-dom';
-import { bookMain, bookTitle } from './styles';
 import { CheckOutlined } from '@ant-design/icons';
 import { ROUT_PAGE_NAME } from 'common';
 import { GetBooksItem } from 'query';
 import AddActiveBook from '../../../activeBook/addActiveBook';
+import styles from './index.module.css';
+
+const { Paragraph, Text, Title } = Typography;
 
 const BookOfList: React.FC<GetBooksItem> = (book) => {
   const [bookState, setBook] = useState(book);
 
   return (
-    <div className="book-list-block-main">
-      <Col span={24} style={bookMain}>
-        <Col span={24} style={bookTitle} title={bookState.title}>
+    <Col xs={24} sm={12} xl={8}>
+      <Card
+        className={styles.card}
+        cover={
           <Link
             to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${bookState.id}`}
-            style={{ color: 'black' }}
+            className={styles.coverLink}
           >
-            {bookState.title}
-          </Link>
-        </Col>
-        <Link to={`/book?bookId=${bookState.id}`} style={{ textAlign: 'center' }}>
-          <Col span={24} style={{ paddingBottom: '15px' }}>
             <img
-              height={250}
-              style={{ width: '60%' }}
-              src={'data:image/png;base64,' + bookState.imageDataBase64}
+              className={styles.cover}
+              src={`data:image/png;base64,${bookState.imageDataBase64}`}
+              alt={bookState.title}
             />
-          </Col>
-        </Link>
-        <Col span={24} style={{ top: '40px' }}>
-          <Statistic
-            prefix="Users rated:"
-            style={{ float: 'right', marginRight: '12px' }}
-            valueStyle={{ fontSize: '11px' }}
-            value={bookState.bookOpinionsCount ?? 0}
-          />
-        </Col>
-        <Row style={{ marginTop: '55px' }}>
-          <Col span={12} style={{ left: '10px' }}>
+          </Link>
+        }
+      >
+        <Space direction="vertical" size={18} style={{ width: '100%' }}>
+          <Link
+            to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${bookState.id}`}
+            className={styles.titleLink}
+          >
+            <Title level={4} ellipsis={{ rows: 2 }} className={styles.title}>
+              {bookState.title}
+            </Title>
+          </Link>
+
+          <div className={styles.metaRow}>
+            <div>
+              <Text strong>{bookState.bookOpinionsCount ?? 0}</Text>
+              <Paragraph className={styles.statLabel}>community ratings</Paragraph>
+            </div>
+            <Rate value={bookState.averageRating} disabled allowHalf />
+          </div>
+
+          <div className={styles.footer}>
             {bookState.isActiveBook ? (
               <Button shape="round" type="primary" icon={React.createElement(CheckOutlined)}>
                 Is active
@@ -50,18 +58,11 @@ const BookOfList: React.FC<GetBooksItem> = (book) => {
                 onAddActiveBookSuccess={() => setBook({ ...bookState, isActiveBook: true })}
               />
             )}
-          </Col>
-          <Col span={12}>
-            <Rate
-              style={{ float: 'right', marginRight: '15px' }}
-              value={bookState.averageRating}
-              disabled
-              allowHalf
-            />
-          </Col>
-        </Row>
-      </Col>
-    </div>
+            <Text type="secondary">Avg. {bookState.averageRating?.toFixed(1) ?? '0.0'}</Text>
+          </div>
+        </Space>
+      </Card>
+    </Col>
   );
 };
 

@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { FilterOutlined } from '@ant-design/icons';
-import { Affix, Badge, Button, Col, Form, InputNumber, Row } from 'antd';
-import Search from 'antd/lib/transfer/search';
+import { Badge, Button, Col, Form, Input, InputNumber, Row, Space, Typography } from 'antd';
 import { CustomDrawer } from 'commonComponents';
 import { BookFilterType, isBookDefaultFilter } from 'common';
 import { DebounceSelect, PropsType as SelectProps } from 'commonComponents/DebounceSelect';
-import { useDispatch, useSelector } from 'react-redux';
-import { bookSelectors, clearBookFilter, updateBookFilter } from 'store';
+import { bookSelectors, clearBookFilter, updateBookFilter, useAppDispatch, useAppSelector } from 'store';
 import { useLazyQuery } from '@apollo/client';
 import { GetCategoriesByTitle, GET_CATEGORIES_BY_TITLE, GetCategoriesByTitleItem } from 'query';
 import { BOOK_FILTER_FIELD_NAMES } from './constants';
 
+const { Search } = Input;
+const { Paragraph, Title } = Typography;
+
 const BookFilter: React.FC = () => {
-  const dispatch = useDispatch();
-  const bookFilter = useSelector(bookSelectors.filter);
+  const dispatch = useAppDispatch();
+  const bookFilter = useAppSelector(bookSelectors.filter);
   const [open, setOpen] = useState(false);
 
   const [getCategories] = useLazyQuery<GetCategoriesByTitle>(GET_CATEGORIES_BY_TITLE, {
@@ -66,36 +67,21 @@ const BookFilter: React.FC = () => {
 
   return (
     <>
-      <Col style={{ height: '50px' }} span={3}>
-        <Affix offsetTop={1}>
-          <Badge
-            dot={!isBookDefaultFilter(bookFilter)}
-            style={{ marginLeft: '50px', marginTop: '20px' }}
-          >
-            <Button
-              onClick={showDrawer}
-              shape="round"
-              type="primary"
-              style={{ marginLeft: '50px', marginTop: '20px', width: '150px' }}
-              icon={React.createElement(FilterOutlined)}
-            >
-              Filter
-            </Button>
-          </Badge>
-        </Affix>
-      </Col>
+      <Badge dot={!isBookDefaultFilter(bookFilter)}>
+        <Button onClick={showDrawer} shape="round" type="primary" size="large" icon={<FilterOutlined />}>
+          Filter books
+        </Button>
+      </Badge>
 
       <CustomDrawer
         open={open}
         direction="right"
         onClose={onClose}
         size={600}
-        style={{ height: '98%', top: '64px' }}
+        title="Book filters"
       >
         <Form
           onFinish={onFinish}
-          style={{ marginTop: '50px' }}
-          wrapperCol={{ span: 16, offset: 4 }}
           initialValues={{
             [BOOK_FILTER_FIELD_NAMES.BOOK_TITLE]: bookFilter.bookTitle,
             [BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_FROM]: bookFilter.averageRatingFrom,
@@ -103,53 +89,54 @@ const BookFilter: React.FC = () => {
             [BOOK_FILTER_FIELD_NAMES.CATEGORIES]: bookFilter.categories,
           }}
         >
-          <Form.Item wrapperCol={{ offset: 11, span: 10 }}>
-            <div style={{ fontFamily: 'Pacifico, cursive', fontSize: '30px' }}>Filter</div>
-          </Form.Item>
+          <Space direction="vertical" size={20} style={{ width: '100%' }}>
+            <div>
+              <Title level={3} style={{ marginTop: 0 }}>
+                Tune the catalogue
+              </Title>
+              <Paragraph>
+                Search by title, category, or rating range to zero in on the books you want.
+              </Paragraph>
+            </div>
 
-          <Form.Item name={BOOK_FILTER_FIELD_NAMES.BOOK_TITLE}>
-            <Search placeholder="Input book title" />
-          </Form.Item>
+            <Form.Item name={BOOK_FILTER_FIELD_NAMES.BOOK_TITLE} style={{ marginBottom: 0 }}>
+              <Search placeholder="Input book title" />
+            </Form.Item>
 
-          <Form.Item name={BOOK_FILTER_FIELD_NAMES.CATEGORIES}>
-            <DebounceSelect {...selectCategoryProps} />
-          </Form.Item>
+            <Form.Item name={BOOK_FILTER_FIELD_NAMES.CATEGORIES} style={{ marginBottom: 0 }}>
+              <DebounceSelect {...selectCategoryProps} />
+            </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 11, span: 10 }}>
-            <div style={{ fontSize: '20px' }}>Rating</div>
-          </Form.Item>
+            <div>
+              <Title level={5}>Rating</Title>
+            </div>
 
-          <Row>
-            <Col sm={8} offset={5}>
-              <Form.Item label="from" name={BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_FROM}>
-                <InputNumber min={0} max={5} required />
-              </Form.Item>
-            </Col>
-            <Col>
-              <Form.Item label="to" name={BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_TO}>
-                <InputNumber min={0} max={5} required />
-              </Form.Item>
-            </Col>
-          </Row>
+            <Row gutter={16}>
+              <Col xs={12}>
+                <Form.Item label="From" name={BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_FROM}>
+                  <InputNumber min={0} max={5} style={{ width: '100%' }} />
+                </Form.Item>
+              </Col>
+              <Col xs={12}>
+                <Form.Item label="To" name={BOOK_FILTER_FIELD_NAMES.AVERAGE_RATING_TO}>
+                  <InputNumber min={0} max={5} style={{ width: '100%' }} />
+                </Form.Item>
+              </Col>
+            </Row>
 
-          <Row style={{ marginTop: '50px' }}>
-            <Col sm={4} offset={8}>
-              <Button type="primary" htmlType="submit" shape="round" block>
-                Search
-              </Button>
-            </Col>
-            <Col sm={4} offset={1}>
-              <Button
-                type="primary"
-                shape="round"
-                htmlType="button"
-                onClick={() => onClearFilter()}
-                block
-              >
-                Clear
-              </Button>
-            </Col>
-          </Row>
+            <Row gutter={12}>
+              <Col xs={12}>
+                <Button type="primary" htmlType="submit" shape="round" block size="large">
+                  Search
+                </Button>
+              </Col>
+              <Col xs={12}>
+                <Button type="default" shape="round" htmlType="button" onClick={onClearFilter} block size="large">
+                  Clear
+                </Button>
+              </Col>
+            </Row>
+          </Space>
         </Form>
       </CustomDrawer>
     </>

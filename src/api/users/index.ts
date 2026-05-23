@@ -1,4 +1,4 @@
-import { UploadChangeParam, UploadFile } from 'antd/lib/upload';
+import type { UploadChangeParam, UploadFile } from 'antd/es/upload';
 import { instanceAxios, setAuthorizationToken, ResponseType } from 'api';
 import { AuthUser, GetCurrentUser } from './models';
 

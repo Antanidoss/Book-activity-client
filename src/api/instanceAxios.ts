@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { apolloClient } from 'query';
 
-export const SERVER_ADDRESS = process.env.REACT_APP_SERVER_ADDRESS;
-
+export const SERVER_ADDRESS = import.meta.env.VITE_SERVER_ADDRESS;
 export const instanceAxios = axios.create({
   withCredentials: true,
   baseURL: SERVER_ADDRESS,

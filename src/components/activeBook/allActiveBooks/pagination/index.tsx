@@ -1,13 +1,12 @@
 import { Pagination, PaginationProps } from 'antd';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateActiveBookPageNumber, activeBookSelectors } from 'store';
+import { updateActiveBookPageNumber, activeBookSelectors, useAppDispatch, useAppSelector } from 'store';
 
 const ActiveBookPagination: React.FC = () => {
-  const dispatch = useDispatch();
-  const totalBookCount = useSelector(activeBookSelectors.totalCount);
-  const currentPage = useSelector(activeBookSelectors.pageNumber);
-  const pageSize = useSelector(activeBookSelectors.pageSize);
+  const dispatch = useAppDispatch();
+  const totalBookCount = useAppSelector(activeBookSelectors.totalCount);
+  const currentPage = useAppSelector(activeBookSelectors.pageNumber);
+  const pageSize = useAppSelector(activeBookSelectors.pageSize);
 
   const onPaginationChange: PaginationProps['onChange'] = (page) => {
     dispatch(updateActiveBookPageNumber(page));
@@ -15,7 +14,7 @@ const ActiveBookPagination: React.FC = () => {
 
   return (
     <Pagination
-      style={{ display: 'flex', justifyContent: 'center', marginTop: '80px', marginBottom: '20px' }}
+      style={{ display: 'flex', justifyContent: 'center', marginTop: '8px', marginBottom: '12px' }}
       current={currentPage}
       total={totalBookCount}
       defaultPageSize={pageSize}

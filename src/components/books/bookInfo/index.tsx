@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Rate, Row, Tag } from 'antd';
+import { Button, Card, Rate, Space, Tag, Typography } from 'antd';
 import { CheckOutlined, CommentOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUT_PAGE_NAME } from 'common';
 import { useLazyQuery } from '@apollo/client';
 import { useQuery as useLinkQuery } from '../../../hoc/useQuery';
 import { GetBookInfo, GetBookInfoItem, GET_BOOK_INFO } from 'query';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { updateBookFilter, bookSelectors, userSelectors } from 'store';
+import { updateBookFilter, bookSelectors, useAppDispatch, useAppSelector } from 'store';
 import AddActiveBook from '../../activeBook/addActiveBook';
 import BookOpinionView from '../../bookOpinion/bookOpinionView';
 import AddBookOpinion from '../../bookOpinion/addBookOpinion';
 import BookComments from './bookComments';
 import { CustomSpin } from 'commonComponents';
+import styles from './index.module.css';
+
+const { Paragraph, Text, Title } = Typography;
 
 const BookInfo: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const query = useLinkQuery();
 
-  const currentUser = useSelector(userSelectors.curUser);
-  const bookFilter = useSelector(bookSelectors.filter);
+  const bookFilter = useAppSelector(bookSelectors.filter);
 
   const [bookInfo, setBookInfo] = useState<GetBookInfoItem>();
   const [loading, setLoading] = useState(true);
@@ -35,10 +35,6 @@ const BookInfo: React.FC = () => {
     },
   });
 
-  const onAddBookOpinion = (grade: number, description: string) => {
-    //TODO:
-  };
-
   useEffect(() => {
     getBookInfo().then((res) => {
       setLoading(false);
@@ -47,10 +43,7 @@ const BookInfo: React.FC = () => {
   }, [getBookInfo]);
 
   if (loading) return <CustomSpin loading={loading} />;
-
-  if (bookInfo === undefined) {
-    return <></>;
-  }
+  if (bookInfo === undefined) return null;
 
   const onTagClick = (categoryId: string, categoryTitle: string) => {
     dispatch(
@@ -67,48 +60,48 @@ const BookInfo: React.FC = () => {
     setBookInfo({ ...bookInfo, isActiveBook: true });
   };
 
-  const tags = bookInfo.bookCategories?.map((c) => {
-    const category = c.category;
-    return (
-      <Tag
-        key={category.id}
-        onClick={() => onTagClick(category.id, category.title)}
-        style={{ cursor: 'pointer' }}
-      >
-        {category.title}
-      </Tag>
-    );
-  });
-
   return (
-    <Col>
-      <Row style={{ width: '80%', margin: '0 auto', marginTop: '100px' }}>
-        <Col style={{ width: '50%' }}>
+    <div className={styles.page}>
+      <Card className={`page-card ${styles.hero}`}>
+        <div className={styles.coverWrap}>
           <img
-            height={350}
-            width={250}
-            style={{ float: 'right', marginRight: '100px' }}
-            src={'data:image/png;base64,' + bookInfo?.imageDataBase64}
+            className={styles.cover}
+            src={`data:image/png;base64,${bookInfo.imageDataBase64}`}
+            alt={bookInfo.title}
           />
-        </Col>
-        <Col style={{ fontFamily: 'Inter,sans-serif' }}>
-          <Row>
-            <Col>
-              <Rate value={bookInfo.averageRating} disabled allowHalf></Rate>
-            </Col>
-            <Col style={{ marginLeft: '20px', alignSelf: 'self-end' }}>
-              <Link to="#">{bookInfo.bookOpinionsCount} users rated</Link>
-            </Col>
-          </Row>
-          <Col style={{ marginTop: '10px', fontSize: '22px' }}>{bookInfo.title}</Col>
-          <Col style={{ marginTop: '10px', fontSize: '15px' }}>
-            {bookInfo.bookAuthors.map((a) => `${a.author.firstName} ${a.author.surname}`).join(',')}
-          </Col>
-          <Row style={{ marginTop: '15px' }}>{tags}</Row>
-          <Row style={{ marginTop: '15px' }}>
-            <Col>
+        </div>
+
+        <div>
+          <Space direction="vertical" size={14} style={{ width: '100%' }}>
+            <div className={styles.metaTop}>
+              <Rate value={bookInfo.averageRating} disabled allowHalf />
+              <Link to="#">{bookInfo.bookOpinionsCount} community ratings</Link>
+            </div>
+
+            <div>
+              <Title level={2} style={{ marginTop: 0, marginBottom: 8 }}>
+                {bookInfo.title}
+              </Title>
+              <Text className={styles.authors}>
+                {bookInfo.bookAuthors.map((a) => `${a.author.firstName} ${a.author.surname}`).join(', ')}
+              </Text>
+            </div>
+
+            <Space size={[8, 8]} wrap>
+              {bookInfo.bookCategories?.map((c) => (
+                <Tag
+                  key={c.category.id}
+                  onClick={() => onTagClick(c.category.id, c.category.title)}
+                  style={{ cursor: 'pointer', padding: '8px 12px', borderRadius: 999 }}
+                >
+                  {c.category.title}
+                </Tag>
+              ))}
+            </Space>
+
+            <div className={styles.actions}>
               {bookInfo.isActiveBook ? (
-                <Button shape="round" type="primary" icon={React.createElement(CheckOutlined)}>
+                <Button shape="round" type="primary" icon={<CheckOutlined />}>
                   Is active
                 </Button>
               ) : (
@@ -117,8 +110,7 @@ const BookInfo: React.FC = () => {
                   onAddActiveBookSuccess={onAddActiveBookSuccess}
                 />
               )}
-            </Col>
-            <Col style={{ marginLeft: '10px' }}>
+
               {bookInfo.hasOpinion ? (
                 <BookOpinionView
                   trigger={
@@ -138,15 +130,19 @@ const BookInfo: React.FC = () => {
                   bookId={bookInfo.id}
                 />
               )}
-            </Col>
-          </Row>
-        </Col>
-        <Col style={{ paddingTop: '50px', margin: '0 auto', width: '50%', fontSize: '15px' }}>
-          {bookInfo.description}
-          <BookComments bookId={bookInfo.id} />
-        </Col>
-      </Row>
-    </Col>
+            </div>
+          </Space>
+        </div>
+      </Card>
+
+      <Card className={`page-card ${styles.description}`}>
+        <Title level={3} style={{ marginTop: 0 }}>
+          Description
+        </Title>
+        <Paragraph style={{ whiteSpace: 'pre-line' }}>{bookInfo.description}</Paragraph>
+        <BookComments bookId={bookInfo.id} />
+      </Card>
+    </div>
   );
 };
 

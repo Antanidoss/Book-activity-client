@@ -1,5 +1,5 @@
-import { Button, Col, Dropdown, Progress, Row, message } from 'antd';
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import { Button, Card, Col, Dropdown, Progress, Space, Typography, message } from 'antd';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   CommentOutlined,
@@ -9,13 +9,15 @@ import {
   PushpinOutlined,
 } from '@ant-design/icons';
 import { GetActiveBooksItem } from 'query';
-import { bookMain, bookTitle } from '../../../books/allBooks/item/styles';
 import { activeBookApi, isBadStatusCode } from 'api';
 import UpdateActiveBook from './updateActiveBook';
 import AddBookOpinion from '../../../bookOpinion/addBookOpinion';
 import BookOpinionView from '../../../bookOpinion/bookOpinionView';
 import AddBookNote from './addBookNote';
 import { ROUT_PAGE_NAME } from 'common';
+import styles from './index.module.css';
+
+const { Text, Title } = Typography;
 
 const ActiveBookForList: React.FC<{
   activeBook: GetActiveBooksItem;
@@ -51,17 +53,18 @@ const ActiveBookForList: React.FC<{
     [activeBookState],
   );
 
-  const progressPercent: number = Math.round(
+  const progressPercent = Math.round(
     (activeBookState.numberPagesRead / activeBookState.totalNumberPages) * 100,
   );
 
-  const updateActiveBookTrigger = useMemo(() => {
-    return (
+  const updateActiveBookTrigger = useMemo(
+    () => (
       <>
         <EditOutlined /> Edit
       </>
-    );
-  }, []);
+    ),
+    [],
+  );
 
   const actionItems = [
     {
@@ -124,52 +127,44 @@ const ActiveBookForList: React.FC<{
       ),
     },
   ];
-  const actionMenuProps = {
-    items: actionItems,
-  };
 
   return (
-    <div className="book-list-block-main">
-      <Col span={24} style={bookMain}>
-        <Row>
-          <Col span={24} style={bookTitle} title={activeBookState.book.title}>
-            <Link
-              to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${activeBookState.book.id}`}
-              style={{ color: 'black' }}
-            >
-              {activeBookState.book.title}
-            </Link>
-          </Col>
-        </Row>
-
-        <Link
-          to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${activeBookState.book.id}`}
-          style={{ textAlign: 'center' }}
-        >
-          <Col span={24} style={{ paddingBottom: '15px' }}>
+    <Col xs={24} sm={12} xl={8}>
+      <Card
+        className={styles.card}
+        cover={
+          <Link
+            to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${activeBookState.book.id}`}
+            className={styles.coverLink}
+          >
             <img
-              height={250}
-              style={{ width: '60%' }}
-              src={'data:image/png;base64,' + activeBookState.book.imageDataBase64}
+              className={styles.cover}
+              src={`data:image/png;base64,${activeBookState.book.imageDataBase64}`}
+              alt={activeBookState.book.title}
             />
-          </Col>
-        </Link>
-        <Row>
-          <Col span={21}>
-            <Progress percent={progressPercent} />
-          </Col>
-          <Col>
-            <Dropdown menu={actionMenuProps}>
-              <Button
-                icon={React.createElement(EllipsisOutlined)}
-                style={{ marginLeft: '5px' }}
-                type="primary"
-              />
+          </Link>
+        }
+      >
+        <Space direction="vertical" size={18} style={{ width: '100%' }}>
+          <Link to={`${ROUT_PAGE_NAME.BOOK_INFO}?bookId=${activeBookState.book.id}`}>
+            <Title level={4} ellipsis={{ rows: 2 }} className={styles.title}>
+              {activeBookState.book.title}
+            </Title>
+          </Link>
+
+          <div className={styles.progressRow}>
+            <Progress percent={progressPercent} style={{ flex: 1, marginBottom: 0 }} />
+            <Dropdown menu={{ items: actionItems }} trigger={['click']}>
+              <Button icon={<EllipsisOutlined />} type="primary" />
             </Dropdown>
-          </Col>
-        </Row>
-      </Col>
-    </div>
+          </div>
+
+          <Text type="secondary">
+            {activeBookState.numberPagesRead} of {activeBookState.totalNumberPages} pages read
+          </Text>
+        </Space>
+      </Card>
+    </Col>
   );
 };
 

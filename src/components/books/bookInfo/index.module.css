@@ -1,0 +1,56 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: 28px;
+  padding: 28px;
+}
+
+.coverWrap {
+  padding: 18px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(31, 111, 235, 0.08), rgba(255, 253, 248, 0));
+}
+
+.cover {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  border-radius: 22px;
+  object-fit: cover;
+  box-shadow: 0 20px 38px rgba(16, 37, 66, 0.16);
+}
+
+.metaTop {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.authors {
+  color: #5b6b81;
+  font-size: 1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.description {
+  padding: 28px;
+}
+
+@media (max-width: 991px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}

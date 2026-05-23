@@ -1,23 +1,24 @@
-# Book activity client
+# Book Activity Client
 
-This project is a client written in react. The project itself is a social network for book lovers.
+Frontend for a social reading app where users can browse books, track active reading, write notes, and follow other readers.
 
----
+## Stack
 
-# **How it looks**
+- React 18
+- TypeScript
+- Vite
+- Ant Design
+- Redux Toolkit
+- Apollo Client
 
-Let's see the main features of the project. I will try to update this file as new features become available.
+## Development
 
-## Add and edit active book.
+1. Install dependencies with `npm install`
+2. Set `VITE_SERVER_ADDRESS` in `.env`
+3. Start the app with `npm run start`
+4. Build production assets with `npm run build`
 
-https://user-images.githubusercontent.com/60518611/215314118-d9760e2a-545c-4590-8e9b-12ed83595dc8.mp4
+## Notes
 
-## You can filter books by title and rating
-
-https://user-images.githubusercontent.com/60518611/215315709-1cd31ea6-93da-43af-a82b-26a7df70ef23.mp4
-
-## Follow another user and track their activities (will be added later)
-
-https://user-images.githubusercontent.com/60518611/215316003-ba62619a-7fc3-4f32-8305-e0d04eda3b97.mp4
-
-These are just the most basic features.
+- The project was migrated away from Create React App / CRACO to Vite.
+- Path aliases are resolved through `tsconfig.json` and `vite-tsconfig-paths`.

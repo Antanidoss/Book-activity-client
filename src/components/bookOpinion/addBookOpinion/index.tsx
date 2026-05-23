@@ -1,11 +1,12 @@
-import { Button, Col, Form, Modal, Rate, message } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
+import { Button, Form, Modal, Rate, Typography, message } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 import React, { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bookOpinionApi, isBadStatusCode } from 'api';
-import { useSelector } from 'react-redux';
-import { userSelectors } from 'store';
+import { userSelectors, useAppSelector } from 'store';
 import { ROUT_PAGE_NAME } from 'common';
+
+const { Paragraph } = Typography;
 
 type Props = {
   bookId: string;
@@ -17,7 +18,7 @@ const AddBookOpinion: React.FC<Props> = ({ bookId, trigger, onAddBookOpinion }) 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(userSelectors.isAuthenticated);
+  const isAuthenticated = useAppSelector(userSelectors.isAuthenticated);
 
   type AddOpinionType = {
     grade: number;
@@ -43,6 +44,7 @@ const AddBookOpinion: React.FC<Props> = ({ bookId, trigger, onAddBookOpinion }) 
   const showModal = () => {
     if (!isAuthenticated) {
       navigate(ROUT_PAGE_NAME.USER_LOGIN);
+      return;
     }
 
     setIsModalVisible(true);
@@ -50,7 +52,7 @@ const AddBookOpinion: React.FC<Props> = ({ bookId, trigger, onAddBookOpinion }) 
 
   return (
     <>
-      <Col onClick={showModal}>{trigger}</Col>
+      <span onClick={showModal}>{trigger}</span>
 
       <Modal
         title="Add book opinion"
@@ -76,6 +78,9 @@ const AddBookOpinion: React.FC<Props> = ({ bookId, trigger, onAddBookOpinion }) 
         ]}
       >
         <Form id="addBookOpinionForm" form={form}>
+          <Paragraph>
+            Leave a short review so other readers can quickly understand what you thought about the book.
+          </Paragraph>
           <Form.Item
             name="description"
             rules={[{ required: true, message: 'Please input number pages read!' }]}

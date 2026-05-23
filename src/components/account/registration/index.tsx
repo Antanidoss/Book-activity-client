@@ -1,17 +1,17 @@
-import { Button, Col, Form, Input, Row, UploadFile } from 'antd';
-import { UploadChangeParam } from 'antd/lib/upload';
+import { Button, Card, Form, Input, Typography } from 'antd';
+import type { UploadChangeParam, UploadFile } from 'antd/es/upload';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UploadImage, FormErrorMessage } from 'commonComponents';
 import { userApi } from 'api';
-import { useDispatch } from 'react-redux';
-import { setCurrentUser } from 'store';
 import { ROUT_PAGE_NAME } from 'common';
+import { setCurrentUser, useAppDispatch } from 'store';
+
+const { Paragraph, Title } = Typography;
 
 const Registration: React.FC = () => {
   const navigate = useNavigate();
-
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState('');
@@ -24,6 +24,8 @@ const Registration: React.FC = () => {
   };
 
   const onFinish = (values: RegisterDataType) => {
+    setLoading(true);
+
     userApi
       .addUser(values.userName, values.email, values.password, values.avatarImage)
       .then((response) => {
@@ -32,74 +34,84 @@ const Registration: React.FC = () => {
             dispatch(setCurrentUser(res.result));
           });
 
-          return navigate(ROUT_PAGE_NAME.ALL_BOOKS);
+          navigate(ROUT_PAGE_NAME.ALL_BOOKS);
+          return;
         }
 
         setFormError(response.errorMessage);
         setLoading(false);
       });
-
-    setLoading(true);
   };
 
   return (
-    <Form
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 9 }}
-      style={{ marginTop: '15%' }}
-      onFinish={onFinish}
-    >
-      <Form.Item wrapperCol={{ offset: 11, span: 10 }}>
-        <div style={{ fontFamily: 'Pacifico, cursive', fontSize: '30px' }}>Registration</div>
-      </Form.Item>
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
+      <Card className="page-card" style={{ width: '100%', maxWidth: 720, padding: 12 }}>
+        <Title level={2} style={{ marginTop: 0, marginBottom: 8 }}>
+          Create your reader profile
+        </Title>
+        <Paragraph style={{ marginBottom: 28 }}>
+          Join the app to track books, write notes, rate titles, and connect with other readers.
+        </Paragraph>
 
-      <FormErrorMessage errorMessage={formError} />
+        <Form layout="vertical" onFinish={onFinish}>
+          <FormErrorMessage errorMessage={formError} />
 
-      <Form.Item
-        label="Name"
-        name="userName"
-        rules={[{ required: true, message: 'Please input your name!' }]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Row>
-        <Col sm={12} offset={4}>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'minmax(0, 1.4fr) minmax(220px, 0.8fr)',
+              gap: 24,
+              alignItems: 'start',
+            }}
           >
-            <Input type="email" style={{ width: '170%' }} />
-          </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password style={{ width: '170%' }} />
-          </Form.Item>
-        </Col>
-        <Col span={2}>
-          <UploadImage
-            wrapperCol={{ offset: 10, span: 4 }}
-            fieldName="avatarImage"
-            uploadButtonTitle="Upload avatar"
-            uploadListType="picture-card"
-          />
-        </Col>
-      </Row>
+            <div>
+              <Form.Item
+                label="Name"
+                name="userName"
+                rules={[{ required: true, message: 'Please input your name!' }]}
+              >
+                <Input size="large" />
+              </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 10, span: 4 }}>
-        <Button type="primary" htmlType="submit" shape="round" loading={loading} block>
-          Register
-        </Button>
-      </Form.Item>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[{ required: true, message: 'Please input your email!' }]}
+              >
+                <Input type="email" size="large" />
+              </Form.Item>
 
-      <Form.Item style={{ textAlign: 'center' }} wrapperCol={{ span: 24 }}>
-        <Link to={ROUT_PAGE_NAME.USER_LOGIN}>Login</Link>
-      </Form.Item>
-    </Form>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password size="large" />
+              </Form.Item>
+            </div>
+
+            <div>
+              <UploadImage
+                fieldName="avatarImage"
+                fieldLabel="Avatar"
+                uploadButtonTitle="Upload avatar"
+                uploadListType="picture-card"
+              />
+            </div>
+          </div>
+
+          <Form.Item style={{ marginBottom: 12 }}>
+            <Button type="primary" htmlType="submit" shape="round" loading={loading} block size="large">
+              Register
+            </Button>
+          </Form.Item>
+
+          <Form.Item style={{ textAlign: 'center', marginBottom: 0 }}>
+            <Link to={ROUT_PAGE_NAME.USER_LOGIN}>I already have an account</Link>
+          </Form.Item>
+        </Form>
+      </Card>
+    </div>
   );
 };
 

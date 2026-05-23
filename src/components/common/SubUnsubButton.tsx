@@ -1,14 +1,13 @@
 import { Button, message } from 'antd';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userSelectors } from 'store';
+import { userSelectors, useAppSelector } from 'store';
 import { ROUT_PAGE_NAME } from 'common';
 
 export const SubUnsubButton: React.FC<PropsType> = (props) => {
   const navigate = useNavigate();
   const [subUnsubButtonLoadin, setSubUnsubButtonLoading] = useState(false);
-  const isAuthenticated = useSelector(userSelectors.isAuthenticated);
+  const isAuthenticated = useAppSelector(userSelectors.isAuthenticated);
 
   const subscribeToUser = (userId: string) => {
     setSubUnsubButtonLoading(true);

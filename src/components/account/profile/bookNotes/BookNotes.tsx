@@ -1,58 +1,59 @@
 import React from 'react';
-import { Col, Divider, Row } from 'antd';
+import { Card, Col, Empty, Row, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { GetLastBookNotesType } from 'query';
+
+const { Paragraph, Title } = Typography;
 
 const BookNotes: React.FC<{ getLastBookNotes: GetLastBookNotesType }> = (props) => {
   const bookNotes = props.getLastBookNotes?.bookNotes?.items;
 
   if (bookNotes === undefined || bookNotes.length === 0) {
-    return null;
+    return (
+      <>
+        <Title level={3} style={{ marginTop: 0 }}>
+          Latest notes
+        </Title>
+        <Empty description="No notes yet" />
+      </>
+    );
   }
 
   return (
-    <Col style={{ marginTop: '50px' }}>
-      <Divider orientation="center">Last notes</Divider>
-      <Row justify="space-around" gutter={[24, 16]} style={{ marginRight: '0px', flexGrow: 2 }}>
-        {bookNotes.map((n) => {
-          return (
-            <Col
-              key={n.id}
+    <>
+      <Title level={3} style={{ marginTop: 0 }}>
+        Latest notes
+      </Title>
+      <Row gutter={[20, 20]}>
+        {bookNotes.map((n) => (
+          <Col xs={24} md={12} key={n.id}>
+            <Card
               style={{
-                border: '3px solid rgb(8 68 124)',
-                borderRadius: '15px',
-                height: '500px',
-                width: '450px',
-                marginLeft: '20px',
+                height: '100%',
+                borderRadius: 22,
+                borderColor: 'rgba(16, 37, 66, 0.08)',
               }}
+              title={<Link to={`/book?bookId=${n.activeBook.book.id}`}>{n.activeBook.book.title}</Link>}
             >
-              <Col>
-                <Divider orientation="center">
-                  <Link to={`/book?bookId=${n.activeBook.book.id}`}>{n.activeBook.book.title}</Link>
-                </Divider>
-              </Col>
-              <Col
+              <Paragraph
                 style={{
-                  overflowY: 'scroll',
+                  marginBottom: 0,
+                  minHeight: 180,
+                  padding: 18,
+                  borderRadius: 18,
                   backgroundColor: n.noteColor,
-                  height: '400px',
-                  fontSize: '17px',
-                  maxHeight: '400px',
                   color: n.noteTextColor,
                   whiteSpace: 'pre-line',
-                  borderRadius: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  fontSize: '1rem',
                 }}
               >
-                „{n.note}“
-              </Col>
-            </Col>
-          );
-        })}
+                "{n.note}"
+              </Paragraph>
+            </Card>
+          </Col>
+        ))}
       </Row>
-    </Col>
+    </>
   );
 };
 

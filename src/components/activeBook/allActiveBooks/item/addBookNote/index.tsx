@@ -1,11 +1,13 @@
 import React, { ReactNode, useState } from 'react';
-import { Button, Form, message, Modal, ColorPicker, Row, UploadFile, Col } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
+import { Button, ColorPicker, Form, Modal, Row, Typography, UploadFile, message } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 import { Color } from 'antd/es/color-picker';
-import { UploadChangeParam } from 'antd/lib/upload';
+import type { UploadChangeParam } from 'antd/es/upload';
 import { bookNoteApi, ocrApi } from 'api';
 import { UploadImage } from 'commonComponents';
 import { ADD_BOOK_NOTE_FIELD_NAMES } from './constants';
+
+const { Paragraph } = Typography;
 
 const AddBookNote: React.FC<{ activeBookId: string; trigger: ReactNode }> = ({
   activeBookId,
@@ -64,7 +66,7 @@ const AddBookNote: React.FC<{ activeBookId: string; trigger: ReactNode }> = ({
 
   return (
     <>
-      <Col onClick={showModal}>{trigger}</Col>
+      <span onClick={showModal}>{trigger}</span>
 
       <Modal
         title="Add book note"
@@ -98,6 +100,9 @@ const AddBookNote: React.FC<{ activeBookId: string; trigger: ReactNode }> = ({
             [ADD_BOOK_NOTE_FIELD_NAMES.TEXT_COLOR]: selectedTextColor
           }}
         >
+          <Paragraph>
+            Capture a quick note, tune the colors, or extract text from an uploaded image using OCR.
+          </Paragraph>
           <Row>
             <Form.Item label="Note color" name={ADD_BOOK_NOTE_FIELD_NAMES.COLOR}>
               <ColorPicker onChangeComplete={onSelectColor} />
